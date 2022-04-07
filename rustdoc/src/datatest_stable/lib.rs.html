@@ -1,0 +1,146 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../datatest_stable/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
+        </a><h2 class="location"></h2>
+    </nav>
+    <nav class="sidebar"><a class="sidebar-logo" href="../../datatest_stable/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
+        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../datatest_stable/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><div class="theme-picker hidden"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="22" height="22" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1"> 1</span>
+<span id="2"> 2</span>
+<span id="3"> 3</span>
+<span id="4"> 4</span>
+<span id="5"> 5</span>
+<span id="6"> 6</span>
+<span id="7"> 7</span>
+<span id="8"> 8</span>
+<span id="9"> 9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+</pre><pre class="rust"><code><span class="comment">// Copyright (c) The Diem Core Contributors</span>
+<span class="comment">// SPDX-License-Identifier: MIT OR Apache-2.0</span>
+
+<span class="attribute">#![<span class="ident">forbid</span>(<span class="ident">unsafe_code</span>)]</span>
+
+<span class="doccomment">//! `datatest-stable` is a very simple test harness intended to write data-driven tests, where</span>
+<span class="doccomment">//! individual test cases are specified as data and not as code. Given:</span>
+<span class="doccomment">//! * a test `my_test` that accepts a path as input</span>
+<span class="doccomment">//! * a directory to look for files in</span>
+<span class="doccomment">//! * a pattern to match files on</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! `datatest_stable` will call the `my_test` function once per matching file in the directory.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! This meets some of the needs provided by the `datatest` crate when using a stable rust compiler</span>
+<span class="doccomment">//! without using the `RUSTC_BOOTSTRAP` hack to use nightly features on the stable compiler.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! In order to setup data-driven tests for a particular test target you must do the following:</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! 1. Configure the test target by setting the following in the `Cargo.toml`</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```toml</span>
+<span class="doccomment">//! [[test]]</span>
+<span class="doccomment">//! name = &quot;&lt;test target name&gt;&quot;</span>
+<span class="doccomment">//! harness = false</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! 2. Call the `datatest_stable::harness!(testfn, root, pattern)` macro with the following</span>
+<span class="doccomment">//! parameters:</span>
+<span class="doccomment">//! * `testfn` - The test function to be executed on each matching input. This function must have</span>
+<span class="doccomment">//!   the type `fn(&amp;Path) -&gt; datatest_stable::Result&lt;()&gt;`</span>
+<span class="doccomment">//! * `root` - The path to the root directory where the input files (fixtures) live. This path is</span>
+<span class="doccomment">//!   relative to the root of the crate.</span>
+<span class="doccomment">//! * `pattern` - the regex used to match against and select each file to be tested.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! The three parameters can be repeated if you have multiple sets of data-driven tests to be run:</span>
+<span class="doccomment">//! `datatest_stable::harness!(testfn1, root1, pattern1, testfn2, root2, pattern2)`</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! # Examples</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! This is an example test. Use it with `harness = false`.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//! use std::path::Path;</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! fn my_test(path: &amp;Path) -&gt; datatest_stable::Result&lt;()&gt; {</span>
+<span class="doccomment">//!     // ... write test here</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//!     Ok(())</span>
+<span class="doccomment">//! }</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! datatest_stable::harness!(my_test, &quot;path/to/fixtures&quot;, r&quot;^.*/*&quot;);</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! # See also</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! * [`datatest`](https://crates.io/crates/datatest): the original inspiration for this crate,</span>
+<span class="doccomment">//!   with a better UI and more features but targeting nightly Rust</span>
+<span class="doccomment">//! * [Data-driven testing](https://en.wikipedia.org/wiki/Data-driven_testing)</span>
+
+<span class="attribute">#![<span class="ident">warn</span>(<span class="ident">missing_docs</span>)]</span>
+
+<span class="kw">mod</span> <span class="ident">macros</span>;
+<span class="kw">mod</span> <span class="ident">runner</span>;
+<span class="kw">mod</span> <span class="ident">utils</span>;
+
+<span class="doccomment">/// The result type for `datatest-stable` tests.</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">std::result::Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">std::error::Error</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::runner</span>::{<span class="ident">runner</span>, <span class="ident">Requirements</span>};
+</code></pre></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="datatest_stable" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.60.0 (7737e0b5c 2022-04-04)" ></div>
+</body></html>
