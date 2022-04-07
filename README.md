@@ -1,6 +1,10 @@
 # datatest-stable
 
-[![datatest-stable on crates.io](https://img.shields.io/crates/v/datatest-stable)](https://crates.io/crates/datatest-stable) [![Documentation (latest release)](https://docs.rs/datatest-stable/badge.svg)](https://docs.rs/datatest-stable/) [![Documentation (main)](https://img.shields.io/badge/docs-main-brightgreen)](https://diem.github.io/diem-devtools/rustdoc/datatest_stable/) [![License](https://img.shields.io/badge/license-Apache-green.svg)](../LICENSE-APACHE) [![License](https://img.shields.io/badge/license-MIT-green.svg)](../LICENSE-MIT)
+[![datatest-stable on crates.io](https://img.shields.io/crates/v/datatest-stable)](https://crates.io/crates/datatest-stable)
+[![Documentation (latest release)](https://img.shields.io/badge/docs-latest-brightgreen)](https://docs.rs/datatest-stable/)
+[![Documentation (main)](https://img.shields.io/badge/docs-main-purple)](https://nextest-rs.github.io/datatest-stable/rustdoc/datatest_stable/)
+[![License](https://img.shields.io/badge/license-Apache-green.svg)](../LICENSE-APACHE)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](../LICENSE-MIT)
 
 `datatest-stable` is a very simple test harness intended to write data-driven tests, where
 individual test cases are specified as data and not as code. Given:
