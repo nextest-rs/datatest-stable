@@ -4,19 +4,19 @@
 #![forbid(unsafe_code)]
 
 //! `datatest-stable` is a very simple test harness intended to write data-driven tests, where
-//! individual test cases are specified as data and not as code. Given:
+//! individual test cases are specified as files and not as code. Given:
 //! * a test `my_test` that accepts a path as input
 //! * a directory to look for files in
 //! * a pattern to match files on
 //!
-//! `datatest_stable` will call the `my_test` function once per matching file in the directory.
+//! `datatest-stable` will call the `my_test` function once per matching file in the directory.
 //!
-//! This meets some of the needs provided by the `datatest` crate when using a stable rust compiler
-//! without using the `RUSTC_BOOTSTRAP` hack to use nightly features on the stable compiler.
+//! `datatest-stable` works with [cargo nextest](https://nexte.st/), and is part of the [nextest-rs
+//! organization](https://github.com/nextest-rs/) on GitHub.
 //!
-//! In order to setup data-driven tests for a particular test target you must do the following:
+//! # Usage
 //!
-//! 1. Configure the test target by setting the following in the `Cargo.toml`
+//! 1. Configure the test target by setting `harness = false` in `Cargo.toml`:
 //!
 //! ```toml
 //! [[test]]
@@ -39,7 +39,7 @@
 //!
 //! This is an example test. Use it with `harness = false`.
 //!
-//! ```
+//! ```rust
 //! use std::path::Path;
 //!
 //! fn my_test(path: &Path) -> datatest_stable::Result<()> {

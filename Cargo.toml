@@ -11,10 +11,9 @@ categories = ["development-tools::testing"]
 keywords = ["datatest", "data-driven-tests", "test-harness"]
 
 [dependencies]
+libtest-mimic = "0.4.0"
 regex = "1.5.4"
 walkdir = "2.3.2"
-structopt = "0.3.26"
-termcolor = "1.1.2"
 
 [[test]]
 name = "example"

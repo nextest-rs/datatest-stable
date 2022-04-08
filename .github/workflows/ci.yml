@@ -16,9 +16,6 @@ jobs:
       RUSTFLAGS: -D warnings
     steps:
       - uses: actions/checkout@v2
-        with:
-          # Checkout the code as-is from the pull request, rather than a merge commit.
-          ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
@@ -46,8 +43,6 @@ jobs:
       RUSTFLAGS: -D warnings
     steps:
       - uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
