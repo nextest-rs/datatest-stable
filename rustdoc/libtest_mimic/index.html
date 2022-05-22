@@ -1,0 +1,54 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Write your own test scripts that look and behave like built-in tests!"><meta name="keywords" content="rust, rustlang, rust-lang, libtest_mimic"><title>libtest_mimic - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../dark.css" disabled><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script src="../crates.js"></script><script defer src="../main.js"></script>
+    <noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../libtest_mimic/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div>
+        </a><h2 class="location"></h2>
+    </nav>
+    <nav class="sidebar"><a class="sidebar-logo" href="../libtest_mimic/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div>
+        </a><h2 class="location"><a href="#">Crate libtest_mimic</a></h2><div class="sidebar-elems"><div class="block"><ul><li class="version">Version 0.4.0</li><li><a id="all-types" href="all.html">All Items</a></li></div></ul><section><div class="block"><ul><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#functions">Functions</a></li></ul></div></section><div id="sidebar-vars" data-name="libtest_mimic" data-ty="mod" data-relpath=""></div><script defer src="sidebar-items.js"></script></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../libtest_mimic/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><div class="theme-picker hidden"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="22" height="22" alt="Pick another theme!" src="../brush.svg"></button><div id="theme-choices" role="menu"></div></div><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></form></nav></div><section id="main-content" class="content"><div class="main-heading">
+    <h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">libtest_mimic</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/libtest_mimic/lib.rs.html#1-403">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Write your own test scripts that look and behave like built-in tests!</p>
+<p>This is a simple and small testing framework that mimics the original
+<code>libtest</code> (used by <code>cargo test</code>/<code>rustc --test</code>). That means: all output
+looks pretty much like <code>cargo test</code> and most CLI arguments are understood
+and used. With that plumbing work out of the way, your test runner can
+concentrate on the actual testing.</p>
+<p>The central function of this crate is <a href="fn.run_tests.html" title="run_tests"><code>run_tests</code></a>.</p>
+<h2 id="example"><a href="#example">Example</a></h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libtest_mimic</span>;
+
+<span class="kw">use</span> <span class="ident">libtest_mimic</span>::{<span class="ident">Arguments</span>, <span class="ident">Test</span>, <span class="ident">Outcome</span>, <span class="ident">run_tests</span>};
+
+
+<span class="comment">// Parse command line arguments</span>
+<span class="kw">let</span> <span class="ident">args</span> <span class="op">=</span> <span class="ident">Arguments::from_args</span>();
+
+<span class="comment">// Create a list of tests (in this case: three dummy tests)</span>
+<span class="kw">let</span> <span class="ident">tests</span> <span class="op">=</span> <span class="macro">vec!</span>[
+    <span class="ident">Test::test</span>(<span class="string">&quot;toph&quot;</span>),
+    <span class="ident">Test::test</span>(<span class="string">&quot;sokka&quot;</span>),
+    <span class="ident">Test</span> {
+        <span class="ident">name</span>: <span class="string">&quot;long_computation&quot;</span>.<span class="ident">into</span>(),
+        <span class="ident">kind</span>: <span class="string">&quot;&quot;</span>.<span class="ident">into</span>(),
+        <span class="ident">is_ignored</span>: <span class="bool-val">true</span>,
+        <span class="ident">is_bench</span>: <span class="bool-val">false</span>,
+        <span class="ident">data</span>: (),
+    },
+];
+
+<span class="comment">// Run all tests and exit the application appropriatly (in this case, the</span>
+<span class="comment">// test runner is a dummy runner which does nothing and says that all tests</span>
+<span class="comment">// passed).</span>
+<span class="ident">run_tests</span>(<span class="kw-2">&amp;</span><span class="ident">args</span>, <span class="ident">tests</span>, <span class="op">|</span><span class="ident">test</span><span class="op">|</span> <span class="ident">Outcome::Passed</span>).<span class="ident">exit</span>();</code></pre></div>
+<p>For more examples, see <a href="https://github.com/LukasKalbertodt/libtest-mimic/tree/master/examples"><code>examples/</code> in the repository</a>.</p>
+</div></details><h2 id="structs" class="small-section-header"><a href="#structs">Structs</a></h2>
+<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Arguments.html" title="libtest_mimic::Arguments struct">Arguments</a></div><div class="item-right docblock-short"><p>Command line arguments.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Conclusion.html" title="libtest_mimic::Conclusion struct">Conclusion</a></div><div class="item-right docblock-short"><p>Contains information about the entire test run. Is returned by
+<a href="fn.run_tests.html" title="run_tests"><code>run_tests</code></a>.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Test.html" title="libtest_mimic::Test struct">Test</a></div><div class="item-right docblock-short"><p>Description of a single test.</p>
+</div></div></div><h2 id="enums" class="small-section-header"><a href="#enums">Enums</a></h2>
+<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.ColorSetting.html" title="libtest_mimic::ColorSetting enum">ColorSetting</a></div><div class="item-right docblock-short"><p>Possible values for the <code>--color</code> option.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.FormatSetting.html" title="libtest_mimic::FormatSetting enum">FormatSetting</a></div><div class="item-right docblock-short"><p>Possible values for the <code>--format</code> option.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.Outcome.html" title="libtest_mimic::Outcome enum">Outcome</a></div><div class="item-right docblock-short"><p>The outcome of performing a test.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.RunnerEvent.html" title="libtest_mimic::RunnerEvent enum">RunnerEvent</a></div><div class="item-right docblock-short"><p>Event indicating that a given test has started running or has completed.</p>
+</div></div></div><h2 id="functions" class="small-section-header"><a href="#functions">Functions</a></h2>
+<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.run_tests.html" title="libtest_mimic::run_tests fn">run_tests</a></div><div class="item-right docblock-short"><p>Runs all given tests with the given test runner.</p>
+</div></div></div></section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="libtest_mimic" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0 (fe5b13d68 2022-05-18)" ></div>
+</body></html>
