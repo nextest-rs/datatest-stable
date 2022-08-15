@@ -12,7 +12,7 @@ pub fn runner(requirements: &[Requirements]) {
     let args = Arguments::from_args();
 
     let mut tests: Vec<_> = requirements.iter().flat_map(|req| req.expand()).collect();
-    tests.sort_unstable_by(|a, b| a.name().cmp(&b.name()));
+    tests.sort_unstable_by(|a, b| a.name().cmp(b.name()));
 
     libtest_mimic::run(&args, tests).exit()
 }
