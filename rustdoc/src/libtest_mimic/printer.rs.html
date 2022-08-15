@@ -1,9 +1,10 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/libtest-mimic-0.4.0/src/printer.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>printer.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
-    <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../libtest_mimic/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/libtest-mimic-0.5.2/src/printer.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>printer.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../libtest_mimic/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
         </a><h2 class="location"></h2>
     </nav>
     <nav class="sidebar"><a class="sidebar-logo" href="../../libtest_mimic/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../libtest_mimic/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><div class="theme-picker hidden"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="22" height="22" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../libtest_mimic/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><div id="settings-menu" tabindex="-1">
+                                <a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div>
+                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -295,65 +296,6 @@
 <span id="290">290</span>
 <span id="291">291</span>
 <span id="292">292</span>
-<span id="293">293</span>
-<span id="294">294</span>
-<span id="295">295</span>
-<span id="296">296</span>
-<span id="297">297</span>
-<span id="298">298</span>
-<span id="299">299</span>
-<span id="300">300</span>
-<span id="301">301</span>
-<span id="302">302</span>
-<span id="303">303</span>
-<span id="304">304</span>
-<span id="305">305</span>
-<span id="306">306</span>
-<span id="307">307</span>
-<span id="308">308</span>
-<span id="309">309</span>
-<span id="310">310</span>
-<span id="311">311</span>
-<span id="312">312</span>
-<span id="313">313</span>
-<span id="314">314</span>
-<span id="315">315</span>
-<span id="316">316</span>
-<span id="317">317</span>
-<span id="318">318</span>
-<span id="319">319</span>
-<span id="320">320</span>
-<span id="321">321</span>
-<span id="322">322</span>
-<span id="323">323</span>
-<span id="324">324</span>
-<span id="325">325</span>
-<span id="326">326</span>
-<span id="327">327</span>
-<span id="328">328</span>
-<span id="329">329</span>
-<span id="330">330</span>
-<span id="331">331</span>
-<span id="332">332</span>
-<span id="333">333</span>
-<span id="334">334</span>
-<span id="335">335</span>
-<span id="336">336</span>
-<span id="337">337</span>
-<span id="338">338</span>
-<span id="339">339</span>
-<span id="340">340</span>
-<span id="341">341</span>
-<span id="342">342</span>
-<span id="343">343</span>
-<span id="344">344</span>
-<span id="345">345</span>
-<span id="346">346</span>
-<span id="347">347</span>
-<span id="348">348</span>
-<span id="349">349</span>
-<span id="350">350</span>
-<span id="351">351</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Definition of the `Printer`.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! This is just an abstraction for everything that is printed to the screen</span>
@@ -362,11 +304,14 @@
 <span class="doccomment">//! - `format` (and `quiet`)</span>
 <span class="doccomment">//! - `logfile`</span>
 
-<span class="kw">use</span> <span class="ident">std::fs::File</span>;
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">fs::File</span>, <span class="ident">time::Duration</span>};
 
 <span class="kw">use</span> <span class="ident">termcolor</span>::{<span class="ident">Ansi</span>, <span class="ident">Color</span>, <span class="ident">ColorChoice</span>, <span class="ident">ColorSpec</span>, <span class="ident">NoColor</span>, <span class="ident">StandardStream</span>, <span class="ident">WriteColor</span>};
 
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Arguments</span>, <span class="ident">ColorSetting</span>, <span class="ident">Conclusion</span>, <span class="ident">FormatSetting</span>, <span class="ident">Outcome</span>, <span class="ident">Test</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::{
+    <span class="ident">Arguments</span>, <span class="ident">ColorSetting</span>, <span class="ident">Conclusion</span>, <span class="ident">FormatSetting</span>, <span class="ident">Outcome</span>, <span class="ident">Trial</span>, <span class="ident">Failed</span>,
+    <span class="ident">Measurement</span>, <span class="ident">TestInfo</span>,
+};
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">Printer</span> {
     <span class="ident">out</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">WriteColor</span><span class="op">&gt;</span>,
@@ -378,7 +323,7 @@
 <span class="kw">impl</span> <span class="ident">Printer</span> {
     <span class="doccomment">/// Creates a new printer configured by the given arguments (`format`,</span>
     <span class="doccomment">/// `quiet`, `color` and `logfile` options).</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">args</span>: <span class="kw-2">&amp;</span><span class="ident">Arguments</span>, <span class="ident">tests</span>: <span class="kw-2">&amp;</span>[<span class="ident">Test</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>]) -&gt; <span class="self">Self</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">args</span>: <span class="kw-2">&amp;</span><span class="ident">Arguments</span>, <span class="ident">tests</span>: <span class="kw-2">&amp;</span>[<span class="ident">Trial</span>]) -&gt; <span class="self">Self</span> {
         <span class="kw">let</span> <span class="ident">color_arg</span> <span class="op">=</span> <span class="ident">args</span>.<span class="ident">color</span>.<span class="ident">unwrap_or</span>(<span class="ident">ColorSetting::Auto</span>);
 
         <span class="comment">// Determine target of all output</span>
@@ -412,17 +357,17 @@
         <span class="comment">// a cheap way that works in most cases. Usually, these names are</span>
         <span class="comment">// ASCII.</span>
         <span class="kw">let</span> <span class="ident">name_width</span> <span class="op">=</span> <span class="ident">tests</span>.<span class="ident">iter</span>()
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">test</span><span class="op">|</span> <span class="ident">test</span>.<span class="ident">name</span>.<span class="ident">chars</span>().<span class="ident">count</span>())
+            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">test</span><span class="op">|</span> <span class="ident">test</span>.<span class="ident">info</span>.<span class="ident">name</span>.<span class="ident">chars</span>().<span class="ident">count</span>())
             .<span class="ident">max</span>()
             .<span class="ident">unwrap_or</span>(<span class="number">0</span>);
 
         <span class="kw">let</span> <span class="ident">kind_width</span> <span class="op">=</span> <span class="ident">tests</span>.<span class="ident">iter</span>()
             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">test</span><span class="op">|</span> {
-                <span class="kw">if</span> <span class="ident">test</span>.<span class="ident">kind</span>.<span class="ident">is_empty</span>() {
+                <span class="kw">if</span> <span class="ident">test</span>.<span class="ident">info</span>.<span class="ident">kind</span>.<span class="ident">is_empty</span>() {
                     <span class="number">0</span>
                 } <span class="kw">else</span> {
                     <span class="comment">// The two braces [] and one space</span>
-                    <span class="ident">test</span>.<span class="ident">kind</span>.<span class="ident">chars</span>().<span class="ident">count</span>() <span class="op">+</span> <span class="number">3</span>
+                    <span class="ident">test</span>.<span class="ident">info</span>.<span class="ident">kind</span>.<span class="ident">chars</span>().<span class="ident">count</span>() <span class="op">+</span> <span class="number">3</span>
                 }
             })
             .<span class="ident">max</span>()
@@ -445,13 +390,13 @@
                 <span class="macro">writeln!</span>(<span class="self">self</span>.<span class="ident">out</span>).<span class="ident">unwrap</span>();
                 <span class="macro">writeln!</span>(<span class="self">self</span>.<span class="ident">out</span>, <span class="string">&quot;running {} test{}&quot;</span>, <span class="ident">num_tests</span>, <span class="ident">plural_s</span>).<span class="ident">unwrap</span>();
             }
-            <span class="ident">FormatSetting::Json</span> =&gt; <span class="macro">unimplemented!</span>(),
         }
     }
 
     <span class="doccomment">/// Prints the text announcing the test (e.g. &quot;test foo::bar ... &quot;). Prints</span>
     <span class="doccomment">/// nothing in terse mode.</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">print_test</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">kind</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">print_test</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">info</span>: <span class="kw-2">&amp;</span><span class="ident">TestInfo</span>) {
+        <span class="kw">let</span> <span class="ident">TestInfo</span> { <span class="ident">name</span>, <span class="ident">kind</span>, .. } <span class="op">=</span> <span class="ident">info</span>;
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">format</span> {
             <span class="ident">FormatSetting::Pretty</span> =&gt; {
                 <span class="kw">let</span> <span class="ident">kind</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">kind</span>.<span class="ident">is_empty</span>() {
@@ -474,7 +419,6 @@
                 <span class="comment">// In terse mode, nothing is printed before the job. Only</span>
                 <span class="comment">// `print_single_outcome` prints one character.</span>
             }
-            <span class="ident">FormatSetting::Json</span> =&gt; <span class="macro">unimplemented!</span>(),
         }
     }
 
@@ -504,16 +448,15 @@
                 <span class="macro">write!</span>(<span class="self">self</span>.<span class="ident">out</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">c</span>).<span class="ident">unwrap</span>();
                 <span class="self">self</span>.<span class="ident">out</span>.<span class="ident">reset</span>().<span class="ident">unwrap</span>();
             }
-            <span class="ident">FormatSetting::Json</span> =&gt; <span class="macro">unimplemented!</span>(),
         }
     }
 
     <span class="doccomment">/// Prints the summary line after all tests have been executed.</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">print_summary</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">conclusion</span>: <span class="kw-2">&amp;</span><span class="ident">Conclusion</span>) {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">print_summary</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">conclusion</span>: <span class="kw-2">&amp;</span><span class="ident">Conclusion</span>, <span class="ident">execution_time</span>: <span class="ident">Duration</span>) {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">format</span> {
             <span class="ident">FormatSetting::Pretty</span> <span class="op">|</span> <span class="ident">FormatSetting::Terse</span> =&gt; {
                 <span class="kw">let</span> <span class="ident">outcome</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">conclusion</span>.<span class="ident">has_failed</span>() {
-                    <span class="ident">Outcome::Failed</span> { <span class="ident">msg</span>: <span class="prelude-val">None</span> }
+                    <span class="ident">Outcome::Failed</span>(<span class="ident">Failed</span> { <span class="ident">msg</span>: <span class="prelude-val">None</span> })
                 } <span class="kw">else</span> {
                     <span class="ident">Outcome::Passed</span>
                 };
@@ -523,26 +466,27 @@
                 <span class="self">self</span>.<span class="ident">print_outcome_pretty</span>(<span class="kw-2">&amp;</span><span class="ident">outcome</span>);
                 <span class="macro">writeln!</span>(
                     <span class="self">self</span>.<span class="ident">out</span>,
-                    <span class="string">&quot;. {} passed; {} failed; {} ignored; {} measured; {} filtered out&quot;</span>,
-                    <span class="ident">conclusion</span>.<span class="ident">num_passed</span>(),
-                    <span class="ident">conclusion</span>.<span class="ident">num_failed</span>(),
-                    <span class="ident">conclusion</span>.<span class="ident">num_ignored</span>(),
-                    <span class="ident">conclusion</span>.<span class="ident">num_benches</span>(),
-                    <span class="ident">conclusion</span>.<span class="ident">num_filtered_out</span>(),
+                    <span class="string">&quot;. {} passed; {} failed; {} ignored; {} measured; \
+                        {} filtered out; finished in {:.2}s&quot;</span>,
+                    <span class="ident">conclusion</span>.<span class="ident">num_passed</span>,
+                    <span class="ident">conclusion</span>.<span class="ident">num_failed</span>,
+                    <span class="ident">conclusion</span>.<span class="ident">num_ignored</span>,
+                    <span class="ident">conclusion</span>.<span class="ident">num_measured</span>,
+                    <span class="ident">conclusion</span>.<span class="ident">num_filtered_out</span>,
+                    <span class="ident">execution_time</span>.<span class="ident">as_secs_f64</span>()
                 ).<span class="ident">unwrap</span>();
                 <span class="macro">writeln!</span>(<span class="self">self</span>.<span class="ident">out</span>).<span class="ident">unwrap</span>();
             }
-            <span class="ident">FormatSetting::Json</span> =&gt; <span class="macro">unimplemented!</span>(),
         }
     }
 
     <span class="doccomment">/// Prints a list of all tests. Used if `--list` is set.</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">print_list</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">tests</span>: <span class="kw-2">&amp;</span>[<span class="ident">Test</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>], <span class="ident">ignored</span>: <span class="ident">bool</span>) {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">print_list</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">tests</span>: <span class="kw-2">&amp;</span>[<span class="ident">Trial</span>], <span class="ident">ignored</span>: <span class="ident">bool</span>) {
         <span class="ident"><span class="self">Self</span>::write_list</span>(<span class="ident">tests</span>, <span class="ident">ignored</span>, <span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">out</span>).<span class="ident">unwrap</span>();
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">write_list</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(
-        <span class="ident">tests</span>: <span class="kw-2">&amp;</span>[<span class="ident">Test</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>],
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">write_list</span>(
+        <span class="ident">tests</span>: <span class="kw-2">&amp;</span>[<span class="ident">Trial</span>],
         <span class="ident">ignored</span>: <span class="ident">bool</span>,
         <span class="kw-2">mut</span> <span class="ident">out</span>: <span class="kw">impl</span> <span class="ident">std::io::Write</span>,
     ) -&gt; <span class="ident">std::io::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
@@ -550,22 +494,22 @@
             <span class="comment">// libtest prints out:</span>
             <span class="comment">// * all tests without `--ignored`</span>
             <span class="comment">// * just the ignored tests with `--ignored`</span>
-            <span class="kw">if</span> <span class="ident">ignored</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">test</span>.<span class="ident">is_ignored</span> {
+            <span class="kw">if</span> <span class="ident">ignored</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">test</span>.<span class="ident">info</span>.<span class="ident">is_ignored</span> {
                 <span class="kw">continue</span>;
             }
 
-            <span class="kw">let</span> <span class="ident">kind</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">test</span>.<span class="ident">kind</span>.<span class="ident">is_empty</span>() {
+            <span class="kw">let</span> <span class="ident">kind</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">test</span>.<span class="ident">info</span>.<span class="ident">kind</span>.<span class="ident">is_empty</span>() {
                 <span class="macro">format!</span>(<span class="string">&quot;&quot;</span>)
             } <span class="kw">else</span> {
-                <span class="macro">format!</span>(<span class="string">&quot;[{}] &quot;</span>, <span class="ident">test</span>.<span class="ident">kind</span>)
+                <span class="macro">format!</span>(<span class="string">&quot;[{}] &quot;</span>, <span class="ident">test</span>.<span class="ident">info</span>.<span class="ident">kind</span>)
             };
 
             <span class="macro">writeln!</span>(
                 <span class="ident">out</span>,
                 <span class="string">&quot;{}{}: {}&quot;</span>,
                 <span class="ident">kind</span>,
-                <span class="ident">test</span>.<span class="ident">name</span>,
-                <span class="kw">if</span> <span class="ident">test</span>.<span class="ident">is_bench</span> { <span class="string">&quot;bench&quot;</span> } <span class="kw">else</span> { <span class="string">&quot;test&quot;</span> },
+                <span class="ident">test</span>.<span class="ident">info</span>.<span class="ident">name</span>,
+                <span class="kw">if</span> <span class="ident">test</span>.<span class="ident">info</span>.<span class="ident">is_bench</span> { <span class="string">&quot;bench&quot;</span> } <span class="kw">else</span> { <span class="string">&quot;test&quot;</span> },
             )<span class="question-mark">?</span>;
         }
 
@@ -574,14 +518,14 @@
 
     <span class="doccomment">/// Prints a list of failed tests with their messages. This is only called</span>
     <span class="doccomment">/// if there were any failures.</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">print_failures</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">fails</span>: <span class="kw-2">&amp;</span>[(<span class="ident">Test</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>)]) {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">print_failures</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">fails</span>: <span class="kw-2">&amp;</span>[(<span class="ident">TestInfo</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>)]) {
         <span class="macro">writeln!</span>(<span class="self">self</span>.<span class="ident">out</span>).<span class="ident">unwrap</span>();
         <span class="macro">writeln!</span>(<span class="self">self</span>.<span class="ident">out</span>, <span class="string">&quot;failures:&quot;</span>).<span class="ident">unwrap</span>();
         <span class="macro">writeln!</span>(<span class="self">self</span>.<span class="ident">out</span>).<span class="ident">unwrap</span>();
 
         <span class="comment">// Print messages of all tests</span>
-        <span class="kw">for</span> (<span class="ident">test</span>, <span class="ident">msg</span>) <span class="kw">in</span> <span class="ident">fails</span> {
-            <span class="macro">writeln!</span>(<span class="self">self</span>.<span class="ident">out</span>, <span class="string">&quot;---- {} ----&quot;</span>, <span class="ident">test</span>.<span class="ident">name</span>).<span class="ident">unwrap</span>();
+        <span class="kw">for</span> (<span class="ident">test_info</span>, <span class="ident">msg</span>) <span class="kw">in</span> <span class="ident">fails</span> {
+            <span class="macro">writeln!</span>(<span class="self">self</span>.<span class="ident">out</span>, <span class="string">&quot;---- {} ----&quot;</span>, <span class="ident">test_info</span>.<span class="ident">name</span>).<span class="ident">unwrap</span>();
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">msg</span>) <span class="op">=</span> <span class="ident">msg</span> {
                 <span class="macro">writeln!</span>(<span class="self">self</span>.<span class="ident">out</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">msg</span>).<span class="ident">unwrap</span>();
             }
@@ -591,8 +535,8 @@
         <span class="comment">// Print summary list of failed tests</span>
         <span class="macro">writeln!</span>(<span class="self">self</span>.<span class="ident">out</span>).<span class="ident">unwrap</span>();
         <span class="macro">writeln!</span>(<span class="self">self</span>.<span class="ident">out</span>, <span class="string">&quot;failures:&quot;</span>).<span class="ident">unwrap</span>();
-        <span class="kw">for</span> (<span class="ident">test</span>, <span class="kw">_</span>) <span class="kw">in</span> <span class="ident">fails</span> {
-            <span class="macro">writeln!</span>(<span class="self">self</span>.<span class="ident">out</span>, <span class="string">&quot;    {}&quot;</span>, <span class="ident">test</span>.<span class="ident">name</span>).<span class="ident">unwrap</span>();
+        <span class="kw">for</span> (<span class="ident">test_info</span>, <span class="kw">_</span>) <span class="kw">in</span> <span class="ident">fails</span> {
+            <span class="macro">writeln!</span>(<span class="self">self</span>.<span class="ident">out</span>, <span class="string">&quot;    {}&quot;</span>, <span class="ident">test_info</span>.<span class="ident">name</span>).<span class="ident">unwrap</span>();
         }
     }
 
@@ -609,7 +553,7 @@
         <span class="macro">write!</span>(<span class="self">self</span>.<span class="ident">out</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">s</span>).<span class="ident">unwrap</span>();
         <span class="self">self</span>.<span class="ident">out</span>.<span class="ident">reset</span>().<span class="ident">unwrap</span>();
 
-        <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Outcome::Measured</span> { <span class="ident">avg</span>, <span class="ident">variance</span> } <span class="op">=</span> <span class="ident">outcome</span> {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Outcome::Measured</span>(<span class="ident">Measurement</span> { <span class="ident">avg</span>, <span class="ident">variance</span> }) <span class="op">=</span> <span class="ident">outcome</span> {
             <span class="macro">write!</span>(
                 <span class="self">self</span>.<span class="ident">out</span>,
                 <span class="string">&quot;: {:&gt;11} ns/iter (+/- {})&quot;</span>,
@@ -644,67 +588,6 @@
     <span class="ident">out</span>.<span class="ident">set_fg</span>(<span class="prelude-val">Some</span>(<span class="ident">color</span>));
     <span class="ident">out</span>
 }
-
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">list_ignored</span>() {
-        <span class="kw">let</span> <span class="ident">tests</span> <span class="op">=</span> <span class="macro">vec!</span>[
-            <span class="ident">Test</span> {
-                <span class="ident">name</span>: <span class="string">&quot;foo&quot;</span>.<span class="ident">into</span>(),
-                <span class="ident">kind</span>: <span class="string">&quot;&quot;</span>.<span class="ident">into</span>(),
-                <span class="ident">is_ignored</span>: <span class="bool-val">false</span>,
-                <span class="ident">is_bench</span>: <span class="bool-val">false</span>,
-                <span class="ident">data</span>: (),
-            },
-            <span class="ident">Test</span> {
-                <span class="ident">name</span>: <span class="string">&quot;bar&quot;</span>.<span class="ident">into</span>(),
-                <span class="ident">kind</span>: <span class="string">&quot;bar-test-kind&quot;</span>.<span class="ident">into</span>(),
-                <span class="ident">is_ignored</span>: <span class="bool-val">true</span>,
-                <span class="ident">is_bench</span>: <span class="bool-val">false</span>,
-                <span class="ident">data</span>: (),
-            },
-            <span class="ident">Test</span> {
-                <span class="ident">name</span>: <span class="string">&quot;baz&quot;</span>.<span class="ident">into</span>(),
-                <span class="ident">kind</span>: <span class="string">&quot;baz-test-kind&quot;</span>.<span class="ident">into</span>(),
-                <span class="ident">is_ignored</span>: <span class="bool-val">false</span>,
-                <span class="ident">is_bench</span>: <span class="bool-val">true</span>,
-                <span class="ident">data</span>: (),
-            },
-            <span class="ident">Test</span> {
-                <span class="ident">name</span>: <span class="string">&quot;quux&quot;</span>.<span class="ident">into</span>(),
-                <span class="ident">kind</span>: <span class="string">&quot;&quot;</span>.<span class="ident">into</span>(),
-                <span class="ident">is_ignored</span>: <span class="bool-val">true</span>,
-                <span class="ident">is_bench</span>: <span class="bool-val">true</span>,
-                <span class="ident">data</span>: (),
-            },
-        ];
-
-        {
-            <span class="comment">// Without --ignored (all tests)</span>
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">output</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
-            <span class="ident">Printer::write_list</span>(<span class="kw-2">&amp;</span><span class="ident">tests</span>, <span class="bool-val">false</span>, <span class="kw-2">&amp;mut</span> <span class="ident">output</span>).<span class="ident">unwrap</span>();
-
-            <span class="macro">assert_eq!</span>(
-                <span class="ident">String::from_utf8_lossy</span>(<span class="kw-2">&amp;</span><span class="ident">output</span>),
-                <span class="string">&quot;foo: test\n[bar-test-kind] bar: test\n[baz-test-kind] baz: bench\nquux: bench\n&quot;</span>
-            );
-        }
-
-        {
-            <span class="comment">// With --ignored (just ignored tests)</span>
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">output</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
-            <span class="ident">Printer::write_list</span>(<span class="kw-2">&amp;</span><span class="ident">tests</span>, <span class="bool-val">true</span>, <span class="kw-2">&amp;mut</span> <span class="ident">output</span>).<span class="ident">unwrap</span>();
-
-            <span class="macro">assert_eq!</span>(
-                <span class="ident">String::from_utf8_lossy</span>(<span class="kw-2">&amp;</span><span class="ident">output</span>),
-                <span class="string">&quot;[bar-test-kind] bar: test\nquux: bench\n&quot;</span>
-            );
-        }
-    }
-}
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="libtest_mimic" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0 (fe5b13d68 2022-05-18)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="libtest_mimic" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0 (4b91a6ea7 2022-08-08)" ></div>
 </body></html>

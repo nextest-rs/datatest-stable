@@ -1,9 +1,10 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/libtest-mimic-0.4.0/src/args.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>args.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
-    <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../libtest_mimic/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/libtest-mimic-0.5.2/src/args.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>args.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../libtest_mimic/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
         </a><h2 class="location"></h2>
     </nav>
     <nav class="sidebar"><a class="sidebar-logo" href="../../libtest_mimic/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../libtest_mimic/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><div class="theme-picker hidden"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="22" height="22" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../libtest_mimic/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><div id="settings-menu" tabindex="-1">
+                                <a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div>
+                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -214,28 +215,6 @@
 <span id="209">209</span>
 <span id="210">210</span>
 <span id="211">211</span>
-<span id="212">212</span>
-<span id="213">213</span>
-<span id="214">214</span>
-<span id="215">215</span>
-<span id="216">216</span>
-<span id="217">217</span>
-<span id="218">218</span>
-<span id="219">219</span>
-<span id="220">220</span>
-<span id="221">221</span>
-<span id="222">222</span>
-<span id="223">223</span>
-<span id="224">224</span>
-<span id="225">225</span>
-<span id="226">226</span>
-<span id="227">227</span>
-<span id="228">228</span>
-<span id="229">229</span>
-<span id="230">230</span>
-<span id="231">231</span>
-<span id="232">232</span>
-<span id="233">233</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::str::FromStr</span>;
 
 <span class="kw">use</span> <span class="ident">clap::Parser</span>;
@@ -246,43 +225,28 @@
 <span class="doccomment">/// method is [`from_args`][Arguments::from_args] which reads the global</span>
 <span class="doccomment">/// `std::env::args()` and parses them into this type.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// The CLI is very similar to the one from the native test harness. However,</span>
-<span class="doccomment">/// there are minor differences:</span>
-<span class="doccomment">/// - Most notable: the `--help` message is slightly different. This comes from</span>
-<span class="doccomment">///   the fact that this crate (right now) uses structopt (which uses `clap`)</span>
-<span class="doccomment">///   while the original `libtest` uses `docopt`.</span>
-<span class="doccomment">/// - `--skip` only accepts one value per occurence (but can occur multiple</span>
-<span class="doccomment">///   times). This solves ambiguity with the `filter` value at the very end.</span>
-<span class="doccomment">///   Consider &quot;`--skip foo bar`&quot;: should this be parsed as `skip: vec![&quot;foo&quot;,</span>
-<span class="doccomment">///   &quot;bar&quot;], filter: None` or `skip: vec![&quot;foo&quot;], filter: Some(&quot;bar&quot;)`? Here,</span>
-<span class="doccomment">///   it&#39;s clearly the latter version. If you need multiple values for `skip`,</span>
-<span class="doccomment">///   do it like this: `--skip foo --skip bar`.</span>
-<span class="doccomment">/// - `--bench` and `--test` cannot be both set at the same time. It doesn&#39;t</span>
-<span class="doccomment">///   make sense, but it&#39;s allowed in `libtest` for some reason.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// **Note**: just because all CLI args can be parsed, doesn&#39;t mean that they</span>
-<span class="doccomment">/// are all automatically used. Check [`run_tests`][::run_tests] for information on which</span>
-<span class="doccomment">/// arguments are automatically used and require special care.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Parser</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
-<span class="attribute">#[<span class="ident">structopt</span>(
-    <span class="ident">help_template</span> <span class="op">=</span> <span class="string">&quot;USAGE: [FLAGS] [OPTIONS] [FILTER]\n\n{all-args}\n\n\n{after-help}&quot;</span>,
+<span class="doccomment">/// `libtest-mimic` supports a subset of all args/flags supported by the</span>
+<span class="doccomment">/// official test harness. There are also some other minor CLI differences, but</span>
+<span class="doccomment">/// the main use cases should work exactly like with the built-in harness.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Parser</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Default</span>)]</span>
+<span class="attribute">#[<span class="ident">clap</span>(
+    <span class="ident">help_template</span> <span class="op">=</span> <span class="string">&quot;USAGE: [OPTIONS] [FILTER]\n\n{all-args}\n\n\n{after-help}&quot;</span>,
     <span class="ident">disable_version_flag</span> <span class="op">=</span> <span class="bool-val">true</span>,
     <span class="ident">after_help</span> <span class="op">=</span> <span class="string">&quot;By default, all tests are run in parallel. This can be altered with the \n\
-        --test-threads flag or the RUST_TEST_THREADS environment variable when running \n\
-        tests (set it to 1).\n\
-        \n\
-        All tests have their standard output and standard error captured by default. \n\
-        This can be overridden with the --nocapture flag or setting RUST_TEST_NOCAPTURE \n\
-        environment variable to a value other than \&quot;0\&quot;. Logging is not captured by default.&quot;</span>,
+        --test-threads flag when running tests (set it to 1).&quot;</span>,
 )]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Arguments</span> {
     <span class="comment">// ============== FLAGS ===================================================</span>
-    <span class="doccomment">/// Determines if ignored tests should be run.</span>
-    <span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">long</span> <span class="op">=</span> <span class="string">&quot;--ignored&quot;</span>, <span class="ident">help</span> <span class="op">=</span> <span class="string">&quot;Run ignored tests&quot;</span>)]</span>
+    <span class="doccomment">/// Run ignored and non-ignored tests.</span>
+    <span class="attribute">#[<span class="ident">clap</span>(<span class="ident">long</span> <span class="op">=</span> <span class="string">&quot;--include-ignored&quot;</span>, <span class="ident">help</span> <span class="op">=</span> <span class="string">&quot;Run ignored tests&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">include_ignored</span>: <span class="ident">bool</span>,
+
+    <span class="doccomment">/// Run only ignored tests.</span>
+    <span class="attribute">#[<span class="ident">clap</span>(<span class="ident">long</span> <span class="op">=</span> <span class="string">&quot;--ignored&quot;</span>, <span class="ident">help</span> <span class="op">=</span> <span class="string">&quot;Run ignored tests&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">ignored</span>: <span class="ident">bool</span>,
 
     <span class="doccomment">/// Run tests, but not benchmarks.</span>
-    <span class="attribute">#[<span class="ident">structopt</span>(
+    <span class="attribute">#[<span class="ident">clap</span>(
         <span class="ident">long</span> <span class="op">=</span> <span class="string">&quot;--test&quot;</span>,
         <span class="ident">conflicts_with</span> <span class="op">=</span> <span class="string">&quot;bench&quot;</span>,
         <span class="ident">help</span> <span class="op">=</span> <span class="string">&quot;Run tests and not benchmarks&quot;</span>,
@@ -290,23 +254,19 @@
     <span class="kw">pub</span> <span class="ident">test</span>: <span class="ident">bool</span>,
 
     <span class="doccomment">/// Run benchmarks, but not tests.</span>
-    <span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">long</span> <span class="op">=</span> <span class="string">&quot;--bench&quot;</span>, <span class="ident">help</span> <span class="op">=</span> <span class="string">&quot;Run benchmarks instead of tests&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">clap</span>(<span class="ident">long</span> <span class="op">=</span> <span class="string">&quot;--bench&quot;</span>, <span class="ident">help</span> <span class="op">=</span> <span class="string">&quot;Run benchmarks instead of tests&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">bench</span>: <span class="ident">bool</span>,
 
     <span class="doccomment">/// Only list all tests and benchmarks.</span>
-    <span class="attribute">#[<span class="ident">structopt</span>(<span class="ident">long</span> <span class="op">=</span> <span class="string">&quot;--list&quot;</span>, <span class="ident">help</span> <span class="op">=</span> <span class="string">&quot;List all tests and benchmarks&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">clap</span>(<span class="ident">long</span> <span class="op">=</span> <span class="string">&quot;--list&quot;</span>, <span class="ident">help</span> <span class="op">=</span> <span class="string">&quot;List all tests and benchmarks&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">list</span>: <span class="ident">bool</span>,
 
-    <span class="doccomment">/// If set, stdout/stderr are not captured during the test but are instead</span>
-    <span class="doccomment">/// printed directly.</span>
-    <span class="attribute">#[<span class="ident">structopt</span>(
-        <span class="ident">long</span> <span class="op">=</span> <span class="string">&quot;--nocapture&quot;</span>,
-        <span class="ident">help</span> <span class="op">=</span> <span class="string">&quot;don&#39;t capture stdout/stderr of each task, allow printing directly&quot;</span>,
-    )]</span>
+    <span class="doccomment">/// No-op, ignored (libtest-mimic always runs in no-capture mode)</span>
+    <span class="attribute">#[<span class="ident">clap</span>(<span class="ident">long</span> <span class="op">=</span> <span class="string">&quot;--nocapture&quot;</span>, <span class="ident">help</span> <span class="op">=</span> <span class="string">&quot;No-op (libtest-mimic always runs in no-capture mode)&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">nocapture</span>: <span class="ident">bool</span>,
 
     <span class="doccomment">/// If set, filters are matched exactly rather than by substring.</span>
-    <span class="attribute">#[<span class="ident">structopt</span>(
+    <span class="attribute">#[<span class="ident">clap</span>(
         <span class="ident">long</span> <span class="op">=</span> <span class="string">&quot;--exact&quot;</span>,
         <span class="ident">help</span> <span class="op">=</span> <span class="string">&quot;Exactly match filters rather than by substring&quot;</span>,
     )]</span>
@@ -317,7 +277,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This is an alias for `--format=terse`. If this is set, `format` is</span>
     <span class="doccomment">/// `None`.</span>
-    <span class="attribute">#[<span class="ident">structopt</span>(
+    <span class="attribute">#[<span class="ident">clap</span>(
         <span class="ident">short</span> <span class="op">=</span> <span class="string">&#39;q&#39;</span>,
         <span class="ident">long</span> <span class="op">=</span> <span class="string">&quot;--quiet&quot;</span>,
         <span class="ident">conflicts_with</span> <span class="op">=</span> <span class="string">&quot;format&quot;</span>,
@@ -327,15 +287,16 @@
 
     <span class="comment">// ============== OPTIONS =================================================</span>
     <span class="doccomment">/// Number of threads used for parallel testing.</span>
-    <span class="attribute">#[<span class="ident">structopt</span>(
+    <span class="attribute">#[<span class="ident">clap</span>(
         <span class="ident">long</span> <span class="op">=</span> <span class="string">&quot;--test-threads&quot;</span>,
-        <span class="ident">help</span> <span class="op">=</span> <span class="string">&quot;Number of threads used for running tests in parallel&quot;</span>,
+        <span class="ident">help</span> <span class="op">=</span> <span class="string">&quot;Number of threads used for running tests in parallel. If set to 1, \n\
+            all tests are run in the main thread.&quot;</span>,
     )]</span>
-    <span class="kw">pub</span> <span class="ident">num_threads</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">test_threads</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>,
 
     <span class="doccomment">/// Path of the logfile. If specified, everything will be written into the</span>
     <span class="doccomment">/// file instead of stdout.</span>
-    <span class="attribute">#[<span class="ident">structopt</span>(
+    <span class="attribute">#[<span class="ident">clap</span>(
         <span class="ident">long</span> <span class="op">=</span> <span class="string">&quot;--logfile&quot;</span>,
         <span class="ident">value_name</span> <span class="op">=</span> <span class="string">&quot;PATH&quot;</span>,
         <span class="ident">help</span> <span class="op">=</span> <span class="string">&quot;Write logs to the specified file instead of stdout&quot;</span>,
@@ -344,7 +305,7 @@
 
     <span class="doccomment">/// A list of filters. Tests whose names contain parts of any of these</span>
     <span class="doccomment">/// filters are skipped.</span>
-    <span class="attribute">#[<span class="ident">structopt</span>(
+    <span class="attribute">#[<span class="ident">clap</span>(
         <span class="ident">long</span> <span class="op">=</span> <span class="string">&quot;--skip&quot;</span>,
         <span class="ident">value_name</span> <span class="op">=</span> <span class="string">&quot;FILTER&quot;</span>,
         <span class="ident">number_of_values</span> <span class="op">=</span> <span class="number">1</span>,
@@ -353,7 +314,7 @@
     <span class="kw">pub</span> <span class="ident">skip</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 
     <span class="doccomment">/// Specifies whether or not to color the output.</span>
-    <span class="attribute">#[<span class="ident">structopt</span>(
+    <span class="attribute">#[<span class="ident">clap</span>(
         <span class="ident">long</span> <span class="op">=</span> <span class="string">&quot;--color&quot;</span>,
         <span class="ident">possible_values</span> <span class="op">=</span> <span class="kw-2">&amp;</span>[<span class="string">&quot;auto&quot;</span>, <span class="string">&quot;always&quot;</span>, <span class="string">&quot;never&quot;</span>]</span>,
         <span class="ident">value_name</span> <span class="op">=</span> <span class="string">&quot;auto|always|never&quot;</span>,
@@ -365,25 +326,24 @@
     <span class="kw">pub</span> <span class="ident">color</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ColorSetting</span><span class="op">&gt;</span>,
 
     <span class="doccomment">/// Specifies the format of the output.</span>
-    <span class="attribute">#[<span class="ident">structopt</span>(
+    <span class="attribute">#[<span class="ident">clap</span>(
         <span class="ident">long</span> <span class="op">=</span> <span class="string">&quot;--format&quot;</span>,
-        <span class="ident">possible_values</span> <span class="op">=</span> <span class="kw-2">&amp;</span>[<span class="string">&quot;pretty&quot;</span>, <span class="string">&quot;terse&quot;</span>, <span class="string">&quot;json&quot;</span>]</span>,
+        <span class="ident">possible_values</span> <span class="op">=</span> <span class="kw-2">&amp;</span>[<span class="string">&quot;pretty&quot;</span>, <span class="string">&quot;terse&quot;</span>]</span>,
         <span class="ident">value_name</span> <span class="op">=</span> <span class="string">&quot;pretty|terse|json&quot;</span>,
         <span class="ident">help</span> <span class="op">=</span> <span class="string">&quot;Configure formatting of output: \n\
             - pretty = Print verbose output\n\
-            - terse = Display one character per test\n\
-            - json = Output a json document\n&quot;</span>,
+            - terse = Display one character per test\n&quot;</span>,
     )]
     <span class="kw">pub</span> <span class="ident">format</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">FormatSetting</span><span class="op">&gt;</span>,
 
     <span class="comment">// ============== POSITIONAL VALUES =======================================</span>
     <span class="doccomment">/// Filter string. Only tests which contain this string are run.</span>
-    <span class="attribute">#[<span class="ident">structopt</span>(
+    <span class="attribute">#[<span class="ident">clap</span>(
         <span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;FILTER&quot;</span>,
         <span class="ident">help</span> <span class="op">=</span> <span class="string">&quot;The FILTER string is tested against the name of all tests, and only those tests \
                 whose names contain the filter are run.&quot;</span>,
     )]</span>
-    <span class="kw">pub</span> <span class="ident">filter_string</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">Arguments</span> {
@@ -396,7 +356,8 @@
         <span class="ident">Parser::parse</span>()
     }
 
-    <span class="doccomment">/// Like `from_args()`, but operates on an explicit iterator and not the global arguments.</span>
+    <span class="doccomment">/// Like `from_args()`, but operates on an explicit iterator and not the</span>
+    <span class="doccomment">/// global arguments. Note that the first element is the executable name!</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_iter</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>(<span class="ident">iter</span>: <span class="ident">I</span>) -&gt; <span class="self">Self</span>
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="ident">Sized</span>,
@@ -434,7 +395,7 @@
             <span class="string">&quot;auto&quot;</span> =&gt; <span class="prelude-val">Ok</span>(<span class="ident">ColorSetting::Auto</span>),
             <span class="string">&quot;always&quot;</span> =&gt; <span class="prelude-val">Ok</span>(<span class="ident">ColorSetting::Always</span>),
             <span class="string">&quot;never&quot;</span> =&gt; <span class="prelude-val">Ok</span>(<span class="ident">ColorSetting::Never</span>),
-            <span class="kw">_</span> =&gt; <span class="prelude-val">Err</span>(<span class="string">&quot;foo&quot;</span>),
+            <span class="kw">_</span> =&gt; <span class="prelude-val">Err</span>(<span class="string">&quot;invalid color setting&quot;</span>),
         }
     }
 }
@@ -447,9 +408,6 @@
 
     <span class="doccomment">/// One character per test. Usefull for test suites with many tests.</span>
     <span class="ident">Terse</span>,
-
-    <span class="doccomment">/// Output as JSON.</span>
-    <span class="ident">Json</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">FormatSetting</span> {
@@ -464,11 +422,10 @@
         <span class="kw">match</span> <span class="ident">s</span> {
             <span class="string">&quot;pretty&quot;</span> =&gt; <span class="prelude-val">Ok</span>(<span class="ident">FormatSetting::Pretty</span>),
             <span class="string">&quot;terse&quot;</span> =&gt; <span class="prelude-val">Ok</span>(<span class="ident">FormatSetting::Terse</span>),
-            <span class="string">&quot;json&quot;</span> =&gt; <span class="prelude-val">Ok</span>(<span class="ident">FormatSetting::Json</span>),
-            <span class="kw">_</span> =&gt; <span class="prelude-val">Err</span>(<span class="string">&quot;foo&quot;</span>),
+            <span class="kw">_</span> =&gt; <span class="prelude-val">Err</span>(<span class="string">&quot;invalid output format&quot;</span>),
         }
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="libtest_mimic" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0 (fe5b13d68 2022-05-18)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="libtest_mimic" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0 (4b91a6ea7 2022-08-08)" ></div>
 </body></html>

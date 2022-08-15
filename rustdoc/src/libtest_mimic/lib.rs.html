@@ -1,9 +1,10 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/libtest-mimic-0.4.0/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
-    <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../libtest_mimic/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/libtest-mimic-0.5.2/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../libtest_mimic/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
         </a><h2 class="location"></h2>
     </nav>
     <nav class="sidebar"><a class="sidebar-logo" href="../../libtest_mimic/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../libtest_mimic/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><div class="theme-picker hidden"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="22" height="22" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../libtest_mimic/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><div id="settings-menu" tabindex="-1">
+                                <a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div>
+                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -406,167 +407,438 @@
 <span id="401">401</span>
 <span id="402">402</span>
 <span id="403">403</span>
-</pre><pre class="rust"><code><span class="doccomment">//! Write your own test scripts that look and behave like built-in tests!</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Write your own tests and benchmarks that look and behave like built-in tests!</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! This is a simple and small testing framework that mimics the original</span>
-<span class="doccomment">//! `libtest` (used by `cargo test`/`rustc --test`). That means: all output</span>
-<span class="doccomment">//! looks pretty much like `cargo test` and most CLI arguments are understood</span>
-<span class="doccomment">//! and used. With that plumbing work out of the way, your test runner can</span>
-<span class="doccomment">//! concentrate on the actual testing.</span>
+<span class="doccomment">//! This is a simple and small test harness that mimics the original `libtest`</span>
+<span class="doccomment">//! (used by `cargo test`/`rustc --test`). That means: all output looks pretty</span>
+<span class="doccomment">//! much like `cargo test` and most CLI arguments are understood and used. With</span>
+<span class="doccomment">//! that plumbing work out of the way, your test runner can focus on the actual</span>
+<span class="doccomment">//! testing.</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! The central function of this crate is [`run_tests`].</span>
+<span class="doccomment">//! For a small real world example, see [`examples/tidy.rs`][1].</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! # Example</span>
+<span class="doccomment">//! [1]: https://github.com/LukasKalbertodt/libtest-mimic/blob/master/examples/tidy.rs</span>
 <span class="doccomment">//!</span>
+<span class="doccomment">//! # Usage</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! To use this, you most likely want to add a manual `[[test]]` section to</span>
+<span class="doccomment">//! `Cargo.toml` and set `harness = false`. For example:</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```toml</span>
+<span class="doccomment">//! [[test]]</span>
+<span class="doccomment">//! name = &quot;mytest&quot;</span>
+<span class="doccomment">//! path = &quot;tests/mytest.rs&quot;</span>
+<span class="doccomment">//! harness = false</span>
 <span class="doccomment">//! ```</span>
-<span class="doccomment">//! extern crate libtest_mimic;</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! use libtest_mimic::{Arguments, Test, Outcome, run_tests};</span>
+<span class="doccomment">//! And in `tests/mytest.rs` you would call [`run`] in the `main` function:</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```no_run</span>
+<span class="doccomment">//! use libtest_mimic::{Arguments, Trial};</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! // Parse command line arguments</span>
 <span class="doccomment">//! let args = Arguments::from_args();</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! // Create a list of tests (in this case: three dummy tests)</span>
+<span class="doccomment">//! // Create a list of tests and/or benchmarks (in this case: two dummy tests).</span>
 <span class="doccomment">//! let tests = vec![</span>
-<span class="doccomment">//!     Test::test(&quot;toph&quot;),</span>
-<span class="doccomment">//!     Test::test(&quot;sokka&quot;),</span>
-<span class="doccomment">//!     Test {</span>
-<span class="doccomment">//!         name: &quot;long_computation&quot;.into(),</span>
-<span class="doccomment">//!         kind: &quot;&quot;.into(),</span>
-<span class="doccomment">//!         is_ignored: true,</span>
-<span class="doccomment">//!         is_bench: false,</span>
-<span class="doccomment">//!         data: (),</span>
-<span class="doccomment">//!     },</span>
+<span class="doccomment">//!     Trial::test(&quot;succeeding_test&quot;, move || Ok(())),</span>
+<span class="doccomment">//!     Trial::test(&quot;failing_test&quot;, move || Err(&quot;Woops&quot;.into())),</span>
 <span class="doccomment">//! ];</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! // Run all tests and exit the application appropriatly (in this case, the</span>
-<span class="doccomment">//! // test runner is a dummy runner which does nothing and says that all tests</span>
-<span class="doccomment">//! // passed).</span>
-<span class="doccomment">//! run_tests(&amp;args, tests, |test| Outcome::Passed).exit();</span>
+<span class="doccomment">//! // Run all tests and exit the application appropriatly.</span>
+<span class="doccomment">//! libtest_mimic::run(&amp;args, tests).exit();</span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! For more examples, see [`examples/` in the repository][repo-examples].</span>
+<span class="doccomment">//! Instead of returning `Ok` or `Err` directly, you want to actually perform</span>
+<span class="doccomment">//! your tests, of course. See [`Trial::test`] for more information on how to</span>
+<span class="doccomment">//! define a test. You can of course list all your tests manually. But in many</span>
+<span class="doccomment">//! cases it is useful to generate one test per file in a directory, for</span>
+<span class="doccomment">//! example.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! You can then run `cargo test --test mytest` to run it. To see the CLI</span>
+<span class="doccomment">//! arguments supported by this crate, run `cargo test --test mytest -- -h`.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! [repo-examples]: https://github.com/LukasKalbertodt/libtest-mimic/tree/master/examples</span>
+<span class="doccomment">//! # Known limitations and differences to the official test harness</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! `libtest-mimic` works on a best-effort basis: it tries to be as close to</span>
+<span class="doccomment">//! `libtest` as possible, but there are differences for a variety of reasons.</span>
+<span class="doccomment">//! For example, some rarely used features might not be implemented, some</span>
+<span class="doccomment">//! features are extremely difficult to implement, and removing minor,</span>
+<span class="doccomment">//! unimportant differences is just not worth the hassle.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Some of the notable differences:</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! - Output capture and `--nocapture`: simply not supported. The official</span>
+<span class="doccomment">//!   `libtest` uses internal `std` functions to temporarily redirect output.</span>
+<span class="doccomment">//!   `libtest-mimic` cannot use those. See [this issue][capture] for more</span>
+<span class="doccomment">//!   information.</span>
+<span class="doccomment">//! - `--format=json|junit`</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! [capture]: https://github.com/LukasKalbertodt/libtest-mimic/issues/9</span>
 
-<span class="kw">use</span> <span class="ident">rayon::prelude</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident">std::process</span>;
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">process</span>, <span class="ident">sync::mpsc</span>, <span class="ident">fmt</span>, <span class="ident">time::Instant</span>};
 
 <span class="kw">mod</span> <span class="ident">args</span>;
 <span class="kw">mod</span> <span class="ident">printer</span>;
 
+<span class="kw">use</span> <span class="ident">printer::Printer</span>;
+<span class="kw">use</span> <span class="ident">threadpool::ThreadPool</span>;
+
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::args</span>::{<span class="ident">Arguments</span>, <span class="ident">ColorSetting</span>, <span class="ident">FormatSetting</span>};
 
 
-<span class="doccomment">/// Description of a single test.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Test</span><span class="op">&lt;</span><span class="ident">D</span> <span class="op">=</span> ()<span class="op">&gt;</span> {
-    <span class="doccomment">/// The name of the test. It&#39;s displayed in the output and used for all</span>
-    <span class="doccomment">/// kinds of filtering.</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">String</span>,
 
-    <span class="doccomment">/// Optional string to describe the kind of test. If this string is not</span>
+<span class="doccomment">/// A single test or benchmark.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// `libtest` often treats benchmarks as &quot;tests&quot;, which is a bit confusing. So</span>
+<span class="doccomment">/// in this library, it is called &quot;trial&quot;.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// A trial is create via [`Trial::test`] or [`Trial::bench`]. The trial&#39;s</span>
+<span class="doccomment">/// `name` is printed and used for filtering. The `runner` is called when the</span>
+<span class="doccomment">/// test/benchmark is executed to determine its outcome. If `runner` panics,</span>
+<span class="doccomment">/// the trial is considered &quot;failed&quot;. If you need the behavior of</span>
+<span class="doccomment">/// `#[should_panic]` you need to catch the panic yourself. You likely want to</span>
+<span class="doccomment">/// compare the panic payload to an expected value anyway.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Trial</span> {
+    <span class="ident">runner</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">FnOnce</span>(<span class="ident">bool</span>) -&gt; <span class="ident">Outcome</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;</span>,
+    <span class="ident">info</span>: <span class="ident">TestInfo</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">Trial</span> {
+    <span class="doccomment">/// Creates a (non-benchmark) test with the given name and runner.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The runner returning `Ok(())` is interpreted as the test passing. If the</span>
+    <span class="doccomment">/// runner returns `Err(_)`, the test is considered failed.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>(<span class="ident">name</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, <span class="ident">runner</span>: <span class="ident">R</span>) -&gt; <span class="self">Self</span>
+    <span class="kw">where</span>
+        <span class="ident">R</span>: <span class="ident">FnOnce</span>() -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Failed</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    {
+        <span class="self">Self</span> {
+            <span class="ident">runner</span>: <span class="ident">Box::new</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">_test_mode</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">runner</span>() {
+                <span class="prelude-val">Ok</span>(()) =&gt; <span class="ident">Outcome::Passed</span>,
+                <span class="prelude-val">Err</span>(<span class="ident">failed</span>) =&gt; <span class="ident">Outcome::Failed</span>(<span class="ident">failed</span>),
+            }),
+            <span class="ident">info</span>: <span class="ident">TestInfo</span> {
+                <span class="ident">name</span>: <span class="ident">name</span>.<span class="ident">into</span>(),
+                <span class="ident">kind</span>: <span class="ident">String::new</span>(),
+                <span class="ident">is_ignored</span>: <span class="bool-val">false</span>,
+                <span class="ident">is_bench</span>: <span class="bool-val">false</span>,
+            },
+        }
+    }
+
+    <span class="doccomment">/// Creates a benchmark with the given name and runner.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If the runner&#39;s parameter `test_mode` is `true`, the runner function</span>
+    <span class="doccomment">/// should run all code just once, without measuring, just to make sure it</span>
+    <span class="doccomment">/// does not panic. If the parameter is `false`, it should perform the</span>
+    <span class="doccomment">/// actual benchmark. If `test_mode` is `true` you may return `Ok(None)`,</span>
+    <span class="doccomment">/// but if it&#39;s `false`, you have to return a `Measurement`, or else the</span>
+    <span class="doccomment">/// benchmark is considered a failure.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// `test_mode` is `true` if neither `--bench` nor `--test` are set, and</span>
+    <span class="doccomment">/// `false` when `--bench` is set. If `--test` is set, benchmarks are not</span>
+    <span class="doccomment">/// ran at all, and both flags cannot be set at the same time.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bench</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>(<span class="ident">name</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, <span class="ident">runner</span>: <span class="ident">R</span>) -&gt; <span class="self">Self</span>
+    <span class="kw">where</span>
+        <span class="ident">R</span>: <span class="ident">FnOnce</span>(<span class="ident">bool</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Measurement</span><span class="op">&gt;</span>, <span class="ident">Failed</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    {
+        <span class="self">Self</span> {
+            <span class="ident">runner</span>: <span class="ident">Box::new</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">test_mode</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">runner</span>(<span class="ident">test_mode</span>) {
+                <span class="prelude-val">Err</span>(<span class="ident">failed</span>) =&gt; <span class="ident">Outcome::Failed</span>(<span class="ident">failed</span>),
+                <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="kw">if</span> <span class="ident">test_mode</span> =&gt; <span class="ident">Outcome::Passed</span>,
+                <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">measurement</span>)) =&gt; <span class="ident">Outcome::Measured</span>(<span class="ident">measurement</span>),
+                <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
+                    =&gt; <span class="ident">Outcome::Failed</span>(<span class="string">&quot;bench runner returned `Ok(None)` in bench mode&quot;</span>.<span class="ident">into</span>()),
+            }),
+            <span class="ident">info</span>: <span class="ident">TestInfo</span> {
+                <span class="ident">name</span>: <span class="ident">name</span>.<span class="ident">into</span>(),
+                <span class="ident">kind</span>: <span class="ident">String::new</span>(),
+                <span class="ident">is_ignored</span>: <span class="bool-val">false</span>,
+                <span class="ident">is_bench</span>: <span class="bool-val">true</span>,
+            },
+        }
+    }
+
+    <span class="doccomment">/// Sets the &quot;kind&quot; of this test/benchmark. If this string is not</span>
     <span class="doccomment">/// empty, it is printed in brackets before the test name (e.g.</span>
-    <span class="doccomment">/// `test [my-kind] test_name`).</span>
-    <span class="kw">pub</span> <span class="ident">kind</span>: <span class="ident">String</span>,
-
-    <span class="doccomment">/// Whether or not this test should be ignored. If the `--ignored` flag is</span>
-    <span class="doccomment">/// set, ignored tests are executed, too.</span>
-    <span class="kw">pub</span> <span class="ident">is_ignored</span>: <span class="ident">bool</span>,
-
-    <span class="doccomment">/// Whether this test is actually a benchmark.</span>
-    <span class="kw">pub</span> <span class="ident">is_bench</span>: <span class="ident">bool</span>,
-
-    <span class="doccomment">/// Custom data. This field is not used by this library and can instead be</span>
-    <span class="doccomment">/// used to store arbitrary data per test.</span>
-    <span class="kw">pub</span> <span class="ident">data</span>: <span class="ident">D</span>,
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="ident">Default</span><span class="op">&gt;</span> <span class="ident">Test</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Creates a test with the given name, an empty `kind` and default data.</span>
-    <span class="doccomment">/// The test is not ignored and is not a benchmark.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">test</span>(<span class="ident">name</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) -&gt; <span class="self">Self</span> {
+    <span class="doccomment">/// `test [my-kind] test_name`). (Default: *empty*)</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This is the only extension to the original libtest.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_kind</span>(<span class="self">self</span>, <span class="ident">kind</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) -&gt; <span class="self">Self</span> {
         <span class="self">Self</span> {
-            <span class="ident">name</span>: <span class="ident">name</span>.<span class="ident">into</span>(),
-            <span class="ident">kind</span>: <span class="ident">String::new</span>(),
-            <span class="ident">is_ignored</span>: <span class="bool-val">false</span>,
-            <span class="ident">is_bench</span>: <span class="bool-val">false</span>,
-            <span class="ident">data</span>: <span class="ident">D::default</span>(),
+            <span class="ident">info</span>: <span class="ident">TestInfo</span> {
+                <span class="ident">kind</span>: <span class="ident">kind</span>.<span class="ident">into</span>(),
+                ..<span class="self">self</span>.<span class="ident">info</span>
+            },
+            ..<span class="self">self</span>
         }
     }
 
-    <span class="doccomment">/// Creates a benchmark with the given name, an empty `kind` and default</span>
-    <span class="doccomment">/// data. The benchmark is not ignored.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bench</span>(<span class="ident">name</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) -&gt; <span class="self">Self</span> {
+    <span class="doccomment">/// Sets whether or not this test is considered &quot;ignored&quot;. (Default: `false`)</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// With the built-in test suite, you can annotate `#[ignore]` on tests to</span>
+    <span class="doccomment">/// not execute them by default (for example because they take a long time</span>
+    <span class="doccomment">/// or require a special environment). If the `--ignored` flag is set,</span>
+    <span class="doccomment">/// ignored tests are executed, too.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_ignored_flag</span>(<span class="self">self</span>, <span class="ident">is_ignored</span>: <span class="ident">bool</span>) -&gt; <span class="self">Self</span> {
         <span class="self">Self</span> {
-            <span class="ident">name</span>: <span class="ident">name</span>.<span class="ident">into</span>(),
-            <span class="ident">kind</span>: <span class="ident">String::new</span>(),
-            <span class="ident">is_ignored</span>: <span class="bool-val">false</span>,
-            <span class="ident">is_bench</span>: <span class="bool-val">true</span>,
-            <span class="ident">data</span>: <span class="ident">D::default</span>(),
+            <span class="ident">info</span>: <span class="ident">TestInfo</span> {
+                <span class="ident">is_ignored</span>,
+                ..<span class="self">self</span>.<span class="ident">info</span>
+            },
+            ..<span class="self">self</span>
+        }
+    }
+
+    <span class="doccomment">/// Returns the name of this trial.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">str</span> {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">info</span>.<span class="ident">name</span>
+    }
+
+    <span class="doccomment">/// Returns the kind of this trial. If you have not set a kind, this is an</span>
+    <span class="doccomment">/// empty string.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">kind</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">str</span> {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">info</span>.<span class="ident">kind</span>
+    }
+
+    <span class="doccomment">/// Returns whether this trial has been marked as *ignored*.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">has_ignored_flag</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
+        <span class="self">self</span>.<span class="ident">info</span>.<span class="ident">is_ignored</span>
+    }
+
+    <span class="doccomment">/// Returns `true` iff this trial is a test (as opposed to a benchmark).</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_test</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
+        <span class="op">!</span><span class="self">self</span>.<span class="ident">info</span>.<span class="ident">is_bench</span>
+    }
+
+    <span class="doccomment">/// Returns `true` iff this trial is a benchmark (as opposed to a test).</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_bench</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
+        <span class="self">self</span>.<span class="ident">info</span>.<span class="ident">is_bench</span>
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">fmt::Debug</span> <span class="kw">for</span> <span class="ident">Trial</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
+        <span class="kw">struct</span> <span class="ident">OpaqueRunner</span>;
+        <span class="kw">impl</span> <span class="ident">fmt::Debug</span> <span class="kw">for</span> <span class="ident">OpaqueRunner</span> {
+            <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;&lt;runner&gt;&quot;</span>)
+            }
+        }
+
+        <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;Test&quot;</span>)
+            .<span class="ident">field</span>(<span class="string">&quot;runner&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">OpaqueRunner</span>)
+            .<span class="ident">field</span>(<span class="string">&quot;name&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">info</span>.<span class="ident">name</span>)
+            .<span class="ident">field</span>(<span class="string">&quot;kind&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">info</span>.<span class="ident">kind</span>)
+            .<span class="ident">field</span>(<span class="string">&quot;is_ignored&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">info</span>.<span class="ident">is_ignored</span>)
+            .<span class="ident">field</span>(<span class="string">&quot;is_bench&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">info</span>.<span class="ident">is_bench</span>)
+            .<span class="ident">finish</span>()
+    }
+}
+
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="kw">struct</span> <span class="ident">TestInfo</span> {
+    <span class="ident">name</span>: <span class="ident">String</span>,
+    <span class="ident">kind</span>: <span class="ident">String</span>,
+    <span class="ident">is_ignored</span>: <span class="ident">bool</span>,
+    <span class="ident">is_bench</span>: <span class="ident">bool</span>,
+}
+
+<span class="doccomment">/// Output of a benchmark.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Measurement</span> {
+    <span class="doccomment">/// Average time in ns.</span>
+    <span class="kw">pub</span> <span class="ident">avg</span>: <span class="ident">u64</span>,
+
+    <span class="doccomment">/// Variance in ns.</span>
+    <span class="kw">pub</span> <span class="ident">variance</span>: <span class="ident">u64</span>,
+}
+
+<span class="doccomment">/// Indicates that a test/benchmark has failed. Optionally carries a message.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// You usually want to use the `From` impl of this type, which allows you to</span>
+<span class="doccomment">/// convert any `T: fmt::Display` (e.g. `String`, `&amp;str`, ...) into `Failed`.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Failed</span> {
+    <span class="ident">msg</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">Failed</span> {
+    <span class="doccomment">/// Creates an instance without message.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">without_message</span>() -&gt; <span class="self">Self</span> {
+        <span class="self">Self</span> { <span class="ident">msg</span>: <span class="prelude-val">None</span> }
+    }
+
+    <span class="doccomment">/// Returns the message of this instance.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">message</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">msg</span>.<span class="ident">as_deref</span>()
+    }
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">M</span>: <span class="ident">std::fmt::Display</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Failed</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">msg</span>: <span class="ident">M</span>) -&gt; <span class="self">Self</span> {
+        <span class="self">Self</span> {
+            <span class="ident">msg</span>: <span class="prelude-val">Some</span>(<span class="ident">msg</span>.<span class="ident">to_string</span>())
         }
     }
 }
 
-<span class="doccomment">/// The outcome of performing a test.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Outcome</span> {
+
+
+<span class="doccomment">/// The outcome of performing a test/benchmark.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
+<span class="kw">enum</span> <span class="ident">Outcome</span> {
     <span class="doccomment">/// The test passed.</span>
     <span class="ident">Passed</span>,
 
-    <span class="doccomment">/// The test or benchmark failed (either compiler error or panicked).</span>
-    <span class="ident">Failed</span> {
-        <span class="doccomment">/// A message that is shown after all tests have been run.</span>
-        <span class="ident">msg</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
-    },
+    <span class="doccomment">/// The test or benchmark failed.</span>
+    <span class="ident">Failed</span>(<span class="ident">Failed</span>),
 
     <span class="doccomment">/// The test or benchmark was ignored.</span>
     <span class="ident">Ignored</span>,
 
     <span class="doccomment">/// The benchmark was successfully run.</span>
-    <span class="ident">Measured</span> {
-        <span class="doccomment">/// Average time in ns.</span>
-        <span class="ident">avg</span>: <span class="ident">u64</span>,
-        <span class="doccomment">/// Variance in ns.</span>
-        <span class="ident">variance</span>: <span class="ident">u64</span>,
-    },
+    <span class="ident">Measured</span>(<span class="ident">Measurement</span>),
 }
 
-<span class="doccomment">/// Event indicating that a given test has started running or has completed.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">RunnerEvent</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> {
-    <span class="ident">Started</span> {
-        <span class="doccomment">/// Name of the corresponding test.</span>
-        <span class="ident">name</span>: <span class="ident">String</span>,
-        <span class="doccomment">/// Kind of the corresponding test.</span>
-        <span class="ident">kind</span>: <span class="ident">String</span>,
-    },
-    <span class="ident">Completed</span> {
-        <span class="doccomment">/// Corresponding test.</span>
-        <span class="ident">test</span>: <span class="ident">Test</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// Outcome of having run the test.</span>
-        <span class="ident">outcome</span>: <span class="ident">Outcome</span>,
-    },
-}
-
-<span class="doccomment">/// Contains information about the entire test run. Is returned by</span>
-<span class="doccomment">/// [`run_tests`].</span>
+<span class="doccomment">/// Contains information about the entire test run. Is returned by[`run`].</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This type is marked as `#[must_use]`. Usually, you just call</span>
-<span class="doccomment">/// [`exit()`][Conclusion::exit] on the result of `run_tests` to exit the application</span>
+<span class="doccomment">/// [`exit()`][Conclusion::exit] on the result of `run` to exit the application</span>
 <span class="doccomment">/// with the correct exit code. But you can also store this value and inspect</span>
 <span class="doccomment">/// its data.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
-<span class="attribute">#[<span class="ident">must_use</span>]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
+<span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;Call `exit()` or `exit_if_failed()` to set the correct return code&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Conclusion</span> {
-    <span class="ident">has_failed</span>: <span class="ident">bool</span>,
-    <span class="ident">num_filtered_out</span>: <span class="ident">u64</span>,
-    <span class="ident">num_passed</span>: <span class="ident">u64</span>,
-    <span class="ident">num_failed</span>: <span class="ident">u64</span>,
-    <span class="ident">num_ignored</span>: <span class="ident">u64</span>,
-    <span class="ident">num_benches</span>: <span class="ident">u64</span>,
+    <span class="doccomment">/// Number of tests and benchmarks that were filtered out (either by the</span>
+    <span class="doccomment">/// filter-in pattern or by `--skip` arguments).</span>
+    <span class="kw">pub</span> <span class="ident">num_filtered_out</span>: <span class="ident">u64</span>,
+
+    <span class="doccomment">/// Number of passed tests.</span>
+    <span class="kw">pub</span> <span class="ident">num_passed</span>: <span class="ident">u64</span>,
+
+    <span class="doccomment">/// Number of failed tests and benchmarks.</span>
+    <span class="kw">pub</span> <span class="ident">num_failed</span>: <span class="ident">u64</span>,
+
+    <span class="doccomment">/// Number of ignored tests and benchmarks.</span>
+    <span class="kw">pub</span> <span class="ident">num_ignored</span>: <span class="ident">u64</span>,
+
+    <span class="doccomment">/// Number of benchmarks that successfully ran.</span>
+    <span class="kw">pub</span> <span class="ident">num_measured</span>: <span class="ident">u64</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">Conclusion</span> {
@@ -580,156 +852,83 @@
     <span class="doccomment">/// Exits the application with error code 101 if there were any failures.</span>
     <span class="doccomment">/// Otherwise, returns normally.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">exit_if_failed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">has_failed</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">has_failed</span>() {
             <span class="ident">process::exit</span>(<span class="number">101</span>)
         }
     }
 
-    <span class="doccomment">/// Returns whether or not there have been any failures.</span>
+    <span class="doccomment">/// Returns whether there have been any failures.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">has_failed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">has_failed</span>
+        <span class="self">self</span>.<span class="ident">num_failed</span> <span class="op">&gt;</span> <span class="number">0</span>
     }
 
-    <span class="doccomment">/// Returns how many tests were filtered out (either by the filter-in</span>
-    <span class="doccomment">/// pattern or by `--skip` arguments).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">num_filtered_out</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u64</span> {
-        <span class="self">self</span>.<span class="ident">num_filtered_out</span>
-    }
-
-    <span class="doccomment">/// Returns how many tests passed.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">num_passed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u64</span> {
-        <span class="self">self</span>.<span class="ident">num_passed</span>
-    }
-
-    <span class="doccomment">/// Returns how many tests failed.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">num_failed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u64</span> {
-        <span class="self">self</span>.<span class="ident">num_failed</span>
-    }
-
-    <span class="doccomment">/// Returns how many tests were ignored.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">num_ignored</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u64</span> {
-        <span class="self">self</span>.<span class="ident">num_ignored</span>
-    }
-
-    <span class="doccomment">/// Returns how many benchmark were successfully run.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">num_benches</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u64</span> {
-        <span class="self">self</span>.<span class="ident">num_benches</span>
+    <span class="kw">fn</span> <span class="ident">empty</span>() -&gt; <span class="self">Self</span> {
+        <span class="self">Self</span> {
+            <span class="ident">num_filtered_out</span>: <span class="number">0</span>,
+            <span class="ident">num_passed</span>: <span class="number">0</span>,
+            <span class="ident">num_failed</span>: <span class="number">0</span>,
+            <span class="ident">num_ignored</span>: <span class="number">0</span>,
+            <span class="ident">num_measured</span>: <span class="number">0</span>,
+        }
     }
 }
 
-<span class="doccomment">/// Run the given tests in parallel in a thread pool.</span>
-<span class="kw">fn</span> <span class="ident">run_tests_threaded</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span>(
-    <span class="ident">args</span>: <span class="kw-2">&amp;</span><span class="ident">Arguments</span>,
-    <span class="ident">tests</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Test</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    <span class="ident">run_test</span>: <span class="kw">impl</span> <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">Test</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>) -&gt; <span class="ident">Outcome</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
-) -&gt; <span class="kw">impl</span> <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">RunnerEvent</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-    <span class="comment">// Construct a pool with as many threads as specified.</span>
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">builder</span> <span class="op">=</span> <span class="ident">rayon::ThreadPoolBuilder::new</span>();
-    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">n</span>) <span class="op">=</span> <span class="ident">args</span>.<span class="ident">num_threads</span> {
-        <span class="ident">builder</span> <span class="op">=</span> <span class="ident">builder</span>.<span class="ident">num_threads</span>(<span class="ident">n</span>);
+<span class="kw">impl</span> <span class="ident">Arguments</span> {
+    <span class="doccomment">/// Returns `true` if the given test should be ignored.</span>
+    <span class="kw">fn</span> <span class="ident">is_ignored</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">test</span>: <span class="kw-2">&amp;</span><span class="ident">Trial</span>) -&gt; <span class="ident">bool</span> {
+        (<span class="ident">test</span>.<span class="ident">info</span>.<span class="ident">is_ignored</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">ignored</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">include_ignored</span>)
+            <span class="op">|</span><span class="op">|</span> (<span class="ident">test</span>.<span class="ident">info</span>.<span class="ident">is_bench</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">test</span>)
+            <span class="op">|</span><span class="op">|</span> (<span class="op">!</span><span class="ident">test</span>.<span class="ident">info</span>.<span class="ident">is_bench</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">bench</span>)
     }
-    <span class="kw">let</span> <span class="ident">pool</span> <span class="op">=</span> <span class="ident">builder</span>.<span class="ident">build</span>().<span class="ident">expect</span>(<span class="string">&quot;Unable to spawn threads&quot;</span>);
 
-    <span class="comment">// The spawned threads could outlive the calling function so we can&#39;t pass `args` as a</span>
-    <span class="comment">// reference.</span>
-    <span class="kw">let</span> <span class="ident">args</span> <span class="op">=</span> <span class="ident">args</span>.<span class="ident">clone</span>();
+    <span class="kw">fn</span> <span class="ident">is_filtered_out</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">test</span>: <span class="kw-2">&amp;</span><span class="ident">Trial</span>) -&gt; <span class="ident">bool</span> {
+        <span class="kw">let</span> <span class="ident">test_name</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">test</span>.<span class="ident">info</span>.<span class="ident">name</span>;
 
-    <span class="comment">// We will send the events through this channel.</span>
-    <span class="kw">let</span> (<span class="ident">send</span>, <span class="ident">recv</span>) <span class="op">=</span> <span class="ident">crossbeam_channel::bounded</span>(<span class="number">0</span>);
-
-    <span class="comment">// This spawns a thread on the pool and returns immediately.</span>
-    <span class="ident">pool</span>.<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
-        <span class="comment">// This will split the workload across the thread pool automatically.</span>
-        <span class="ident">tests</span>.<span class="ident">into_par_iter</span>().<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">test</span><span class="op">|</span> {
-            <span class="comment">// It doesn&#39;t matter if the channel got closed so we can ignore the Result here.</span>
-            <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">send</span>.<span class="ident">send</span>(<span class="ident">RunnerEvent::Started</span> {
-                <span class="ident">name</span>: <span class="ident">test</span>.<span class="ident">name</span>.<span class="ident">clone</span>(),
-                <span class="ident">kind</span>: <span class="ident">test</span>.<span class="ident">kind</span>.<span class="ident">clone</span>(),
-            });
-
-            <span class="kw">let</span> <span class="ident">is_ignored</span> <span class="op">=</span> (<span class="ident">test</span>.<span class="ident">is_ignored</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">args</span>.<span class="ident">ignored</span>)
-                <span class="op">|</span><span class="op">|</span> (<span class="ident">test</span>.<span class="ident">is_bench</span> <span class="op">&amp;&amp;</span> <span class="ident">args</span>.<span class="ident">test</span>)
-                <span class="op">|</span><span class="op">|</span> (<span class="op">!</span><span class="ident">test</span>.<span class="ident">is_bench</span> <span class="op">&amp;&amp;</span> <span class="ident">args</span>.<span class="ident">bench</span>);
-
-            <span class="kw">let</span> <span class="ident">outcome</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">is_ignored</span> {
-                <span class="ident">Outcome::Ignored</span>
-            } <span class="kw">else</span> {
-                <span class="comment">// Run the given function</span>
-                <span class="ident">run_test</span>(<span class="kw-2">&amp;</span><span class="ident">test</span>)
+        <span class="comment">// If a filter was specified, apply this</span>
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">filter</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">filter</span> {
+            <span class="kw">match</span> <span class="self">self</span>.<span class="ident">exact</span> {
+                <span class="bool-val">true</span> <span class="kw">if</span> <span class="ident">test_name</span> <span class="op">!</span><span class="op">=</span> <span class="ident">filter</span> =&gt; <span class="kw">return</span> <span class="bool-val">true</span>,
+                <span class="bool-val">false</span> <span class="kw">if</span> <span class="op">!</span><span class="ident">test_name</span>.<span class="ident">contains</span>(<span class="ident">filter</span>) =&gt; <span class="kw">return</span> <span class="bool-val">true</span>,
+                <span class="kw">_</span> =&gt; {}
             };
+        }
 
-            <span class="comment">// It doesn&#39;t matter if the channel got closed so we can ignore the Result here.</span>
-            <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">send</span>.<span class="ident">send</span>(<span class="ident">RunnerEvent::Completed</span> { <span class="ident">test</span>, <span class="ident">outcome</span> });
-        });
-    });
+        <span class="comment">// If any skip pattern were specified, test for all patterns.</span>
+        <span class="kw">for</span> <span class="ident">skip_filter</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">skip</span> {
+            <span class="kw">match</span> <span class="self">self</span>.<span class="ident">exact</span> {
+                <span class="bool-val">true</span> <span class="kw">if</span> <span class="ident">test_name</span> <span class="op">==</span> <span class="ident">skip_filter</span> =&gt; <span class="kw">return</span> <span class="bool-val">true</span>,
+                <span class="bool-val">false</span> <span class="kw">if</span> <span class="ident">test_name</span>.<span class="ident">contains</span>(<span class="ident">skip_filter</span>) =&gt; <span class="kw">return</span> <span class="bool-val">true</span>,
+                <span class="kw">_</span> =&gt; {}
+            }
+        }
 
-    <span class="comment">// Return the other end of the channel</span>
-    <span class="ident">recv</span>
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">ignored</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">test</span>.<span class="ident">info</span>.<span class="ident">is_ignored</span> {
+            <span class="kw">return</span> <span class="bool-val">true</span>;
+        }
+
+        <span class="bool-val">false</span>
+    }
 }
 
-<span class="doccomment">/// Runs all given tests with the given test runner.</span>
+<span class="doccomment">/// Runs all given tests.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This is the central function of this crate. It provides the framework for</span>
 <span class="doccomment">/// the testing harness. It does all the printing and house keeping.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// This function tries to respect most options configured via CLI args. For</span>
-<span class="doccomment">/// example, filtering, output format and coloring are respected. However, some</span>
-<span class="doccomment">/// things cannot be handled by this function and *you* (as a user) need to</span>
-<span class="doccomment">/// take care of it yourself. The following options are ignored by this</span>
-<span class="doccomment">/// function and need to be manually checked:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// - `--nocapture` and capturing in general. It is expected that during the</span>
-<span class="doccomment">///   test, nothing writes to `stdout` and `stderr`, unless `--nocapture` was</span>
-<span class="doccomment">///   specified. If the test is ran as a seperate process, this is fairly easy.</span>
-<span class="doccomment">///   If however, the test is part of the current application and it uses</span>
-<span class="doccomment">///   `println!()` and friends, it might be impossible to capture the output.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Currently, the following CLI arg is ignored, but is planned to be used</span>
-<span class="doccomment">/// in the future:</span>
-<span class="doccomment">/// - `--format=json`. If specified, this function will</span>
-<span class="doccomment">///   panic.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// All other flags and options are used properly.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The returned value contains a couple of useful information. See the</span>
-<span class="doccomment">/// [`Conclusion`] documentation for more information. If `--list` was</span>
-<span class="doccomment">/// specified, a list is printed and a dummy `Conclusion` is returned.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">run_tests</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span>(
-    <span class="ident">args</span>: <span class="kw-2">&amp;</span><span class="ident">Arguments</span>,
-    <span class="ident">tests</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Test</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    <span class="ident">run_test</span>: <span class="kw">impl</span> <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">Test</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>) -&gt; <span class="ident">Outcome</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
-) -&gt; <span class="ident">Conclusion</span> {
+<span class="doccomment">/// The returned value contains a couple of useful information. See</span>
+<span class="doccomment">/// [`Conclusion`] for more information. If `--list` was specified, a list is</span>
+<span class="doccomment">/// printed and a dummy `Conclusion` is returned.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">run</span>(<span class="ident">args</span>: <span class="kw-2">&amp;</span><span class="ident">Arguments</span>, <span class="kw-2">mut</span> <span class="ident">tests</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Trial</span><span class="op">&gt;</span>) -&gt; <span class="ident">Conclusion</span> {
+    <span class="kw">let</span> <span class="ident">start_instant</span> <span class="op">=</span> <span class="ident">Instant::now</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">conclusion</span> <span class="op">=</span> <span class="ident">Conclusion::empty</span>();
+
     <span class="comment">// Apply filtering</span>
-    <span class="kw">let</span> (<span class="ident">tests</span>, <span class="ident">num_filtered_out</span>) <span class="op">=</span> <span class="kw">if</span> <span class="ident">args</span>.<span class="ident">filter_string</span>.<span class="ident">is_some</span>() <span class="op">|</span><span class="op">|</span> <span class="op">!</span><span class="ident">args</span>.<span class="ident">skip</span>.<span class="ident">is_empty</span>() {
+    <span class="kw">if</span> <span class="ident">args</span>.<span class="ident">filter</span>.<span class="ident">is_some</span>() <span class="op">|</span><span class="op">|</span> <span class="op">!</span><span class="ident">args</span>.<span class="ident">skip</span>.<span class="ident">is_empty</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">args</span>.<span class="ident">ignored</span> {
         <span class="kw">let</span> <span class="ident">len_before</span> <span class="op">=</span> <span class="ident">tests</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>;
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tests</span> <span class="op">=</span> <span class="ident">tests</span>;
-        <span class="ident">tests</span>.<span class="ident">retain</span>(<span class="op">|</span><span class="ident">t</span><span class="op">|</span> {
-            <span class="comment">// If a filter was specified, apply this</span>
-            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">filter</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">args</span>.<span class="ident">filter_string</span> {
-                <span class="kw">match</span> <span class="ident">args</span>.<span class="ident">exact</span> {
-                    <span class="bool-val">true</span> <span class="kw">if</span> <span class="kw-2">&amp;</span><span class="ident">t</span>.<span class="ident">name</span> <span class="op">!</span><span class="op">=</span> <span class="ident">filter</span> =&gt; <span class="kw">return</span> <span class="bool-val">false</span>,
-                    <span class="bool-val">false</span> <span class="kw">if</span> <span class="op">!</span><span class="ident">t</span>.<span class="ident">name</span>.<span class="ident">contains</span>(<span class="ident">filter</span>) =&gt; <span class="kw">return</span> <span class="bool-val">false</span>,
-                    <span class="kw">_</span> =&gt; {}
-                };
-            }
-
-            <span class="comment">// If any skip pattern were specified, test for all patterns.</span>
-            <span class="kw">for</span> <span class="ident">skip_filter</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="ident">args</span>.<span class="ident">skip</span> {
-                <span class="kw">match</span> <span class="ident">args</span>.<span class="ident">exact</span> {
-                    <span class="bool-val">true</span> <span class="kw">if</span> <span class="kw-2">&amp;</span><span class="ident">t</span>.<span class="ident">name</span> <span class="op">==</span> <span class="ident">skip_filter</span> =&gt; <span class="kw">return</span> <span class="bool-val">false</span>,
-                    <span class="bool-val">false</span> <span class="kw">if</span> <span class="ident">t</span>.<span class="ident">name</span>.<span class="ident">contains</span>(<span class="ident">skip_filter</span>) =&gt; <span class="kw">return</span> <span class="bool-val">false</span>,
-                    <span class="kw">_</span> =&gt; {}
-                }
-            }
-
-            <span class="bool-val">true</span>
-        });
-
-        <span class="kw">let</span> <span class="ident">num_filtered_out</span> <span class="op">=</span> <span class="ident">len_before</span> <span class="op">-</span> <span class="ident">tests</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>;
-        (<span class="ident">tests</span>, <span class="ident">num_filtered_out</span>)
-    } <span class="kw">else</span> {
-        (<span class="ident">tests</span>, <span class="number">0</span>)
-    };
+        <span class="ident">tests</span>.<span class="ident">retain</span>(<span class="op">|</span><span class="ident">test</span><span class="op">|</span> <span class="op">!</span><span class="ident">args</span>.<span class="ident">is_filtered_out</span>(<span class="ident">test</span>));
+        <span class="ident">conclusion</span>.<span class="ident">num_filtered_out</span> <span class="op">=</span> <span class="ident">len_before</span> <span class="op">-</span> <span class="ident">tests</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>;
+    }
+    <span class="kw">let</span> <span class="ident">tests</span> <span class="op">=</span> <span class="ident">tests</span>;
 
     <span class="comment">// Create printer which is used for all output.</span>
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">printer</span> <span class="op">=</span> <span class="ident">printer::Printer::new</span>(<span class="ident">args</span>, <span class="kw-2">&amp;</span><span class="ident">tests</span>);
@@ -737,78 +936,102 @@
     <span class="comment">// If `--list` is specified, just print the list and return.</span>
     <span class="kw">if</span> <span class="ident">args</span>.<span class="ident">list</span> {
         <span class="ident">printer</span>.<span class="ident">print_list</span>(<span class="kw-2">&amp;</span><span class="ident">tests</span>, <span class="ident">args</span>.<span class="ident">ignored</span>);
-        <span class="kw">return</span> <span class="ident">Conclusion</span> {
-            <span class="ident">has_failed</span>: <span class="bool-val">false</span>,
-            <span class="ident">num_filtered_out</span>: <span class="number">0</span>,
-            <span class="ident">num_passed</span>: <span class="number">0</span>,
-            <span class="ident">num_failed</span>: <span class="number">0</span>,
-            <span class="ident">num_ignored</span>: <span class="number">0</span>,
-            <span class="ident">num_benches</span>: <span class="number">0</span>,
-        };
+        <span class="kw">return</span> <span class="ident">Conclusion::empty</span>();
     }
 
     <span class="comment">// Print number of tests</span>
     <span class="ident">printer</span>.<span class="ident">print_title</span>(<span class="ident">tests</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>);
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">failed_tests</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">num_ignored</span> <span class="op">=</span> <span class="number">0</span>;
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">num_benches</span> <span class="op">=</span> <span class="number">0</span>;
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">num_passed</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">handle_outcome</span> <span class="op">=</span> <span class="op">|</span><span class="ident">outcome</span>: <span class="ident">Outcome</span>, <span class="ident">test</span>: <span class="ident">TestInfo</span>, <span class="ident">printer</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Printer</span><span class="op">|</span> {
+        <span class="ident">printer</span>.<span class="ident">print_single_outcome</span>(<span class="kw-2">&amp;</span><span class="ident">outcome</span>);
 
-    <span class="comment">// Execute all tests</span>
-    <span class="kw">for</span> <span class="ident">event</span> <span class="kw">in</span> <span class="ident">run_tests_threaded</span>(<span class="ident">args</span>, <span class="ident">tests</span>, <span class="ident">run_test</span>) {
-        <span class="kw">match</span> <span class="ident">event</span> {
-            <span class="ident">RunnerEvent::Started</span> { <span class="ident">name</span>, <span class="ident">kind</span> } =&gt; {
-                <span class="comment">// If tests are being run sequentially, we print the test name</span>
-                <span class="comment">// when it starts running and the result after it is done.</span>
-                <span class="comment">// Otherwise we print both at the same time.</span>
-                <span class="kw">if</span> <span class="ident">args</span>.<span class="ident">num_threads</span> <span class="op">==</span> <span class="prelude-val">Some</span>(<span class="number">1</span>) {
-                    <span class="comment">// Print `test foo    ...`.</span>
-                    <span class="ident">printer</span>.<span class="ident">print_test</span>(<span class="kw-2">&amp;</span><span class="ident">name</span>, <span class="kw-2">&amp;</span><span class="ident">kind</span>);
-                }
+        <span class="comment">// Handle outcome</span>
+        <span class="kw">match</span> <span class="ident">outcome</span> {
+            <span class="ident">Outcome::Passed</span> =&gt; <span class="ident">conclusion</span>.<span class="ident">num_passed</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>,
+            <span class="ident">Outcome::Failed</span>(<span class="ident">failed</span>) =&gt; {
+                <span class="ident">failed_tests</span>.<span class="ident">push</span>((<span class="ident">test</span>, <span class="ident">failed</span>.<span class="ident">msg</span>));
+                <span class="ident">conclusion</span>.<span class="ident">num_failed</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+            },
+            <span class="ident">Outcome::Ignored</span> =&gt; <span class="ident">conclusion</span>.<span class="ident">num_ignored</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>,
+            <span class="ident">Outcome::Measured</span>(<span class="kw">_</span>) =&gt; <span class="ident">conclusion</span>.<span class="ident">num_measured</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>,
+        }
+    };
+
+    <span class="comment">// Execute all tests.</span>
+    <span class="kw">let</span> <span class="ident">test_mode</span> <span class="op">=</span> <span class="op">!</span><span class="ident">args</span>.<span class="ident">bench</span>;
+    <span class="kw">if</span> <span class="ident">args</span>.<span class="ident">test_threads</span> <span class="op">==</span> <span class="prelude-val">Some</span>(<span class="number">1</span>) {
+        <span class="comment">// Run test sequentially in main thread</span>
+        <span class="kw">for</span> <span class="ident">test</span> <span class="kw">in</span> <span class="ident">tests</span> {
+            <span class="comment">// Print `test foo    ...`, run the test, then print the outcome in</span>
+            <span class="comment">// the same line.</span>
+            <span class="ident">printer</span>.<span class="ident">print_test</span>(<span class="kw-2">&amp;</span><span class="ident">test</span>.<span class="ident">info</span>);
+            <span class="kw">let</span> <span class="ident">outcome</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">args</span>.<span class="ident">is_ignored</span>(<span class="kw-2">&amp;</span><span class="ident">test</span>) {
+                <span class="ident">Outcome::Ignored</span>
+            } <span class="kw">else</span> {
+                <span class="ident">run_single</span>(<span class="ident">test</span>.<span class="ident">runner</span>, <span class="ident">test_mode</span>)
+            };
+            <span class="ident">handle_outcome</span>(<span class="ident">outcome</span>, <span class="ident">test</span>.<span class="ident">info</span>, <span class="kw-2">&amp;mut</span> <span class="ident">printer</span>);
+        }
+    } <span class="kw">else</span> {
+        <span class="comment">// Run test in thread pool.</span>
+        <span class="kw">let</span> <span class="ident">pool</span> <span class="op">=</span> <span class="ident">ThreadPool::default</span>();
+        <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">receiver</span>) <span class="op">=</span> <span class="ident">mpsc::channel</span>();
+
+        <span class="kw">let</span> <span class="ident">num_tests</span> <span class="op">=</span> <span class="ident">tests</span>.<span class="ident">len</span>();
+        <span class="kw">for</span> <span class="ident">test</span> <span class="kw">in</span> <span class="ident">tests</span> {
+            <span class="kw">if</span> <span class="ident">args</span>.<span class="ident">is_ignored</span>(<span class="kw-2">&amp;</span><span class="ident">test</span>) {
+                <span class="ident">sender</span>.<span class="ident">send</span>((<span class="ident">Outcome::Ignored</span>, <span class="ident">test</span>.<span class="ident">info</span>)).<span class="ident">unwrap</span>();
+            } <span class="kw">else</span> {
+                <span class="kw">let</span> <span class="ident">sender</span> <span class="op">=</span> <span class="ident">sender</span>.<span class="ident">clone</span>();
+                <span class="ident">pool</span>.<span class="ident">execute</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+                    <span class="comment">// It&#39;s fine to ignore the result of sending. If the</span>
+                    <span class="comment">// receiver has hung up, everything will wind down soon</span>
+                    <span class="comment">// anyway.</span>
+                    <span class="kw">let</span> <span class="ident">outcome</span> <span class="op">=</span> <span class="ident">run_single</span>(<span class="ident">test</span>.<span class="ident">runner</span>, <span class="ident">test_mode</span>);
+                    <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">sender</span>.<span class="ident">send</span>((<span class="ident">outcome</span>, <span class="ident">test</span>.<span class="ident">info</span>));
+                });
             }
-            <span class="ident">RunnerEvent::Completed</span> { <span class="ident">test</span>, <span class="ident">outcome</span> } =&gt; {
-                <span class="kw">if</span> <span class="ident">args</span>.<span class="ident">num_threads</span> <span class="op">!</span><span class="op">=</span> <span class="prelude-val">Some</span>(<span class="number">1</span>) {
-                    <span class="comment">// Print `test foo    ...` if it hasn&#39;t already been printed.</span>
-                    <span class="ident">printer</span>.<span class="ident">print_test</span>(<span class="kw-2">&amp;</span><span class="ident">test</span>.<span class="ident">name</span>, <span class="kw-2">&amp;</span><span class="ident">test</span>.<span class="ident">kind</span>);
-                }
-                <span class="ident">printer</span>.<span class="ident">print_single_outcome</span>(<span class="kw-2">&amp;</span><span class="ident">outcome</span>);
+        }
 
-                <span class="kw">if</span> <span class="ident">test</span>.<span class="ident">is_bench</span> {
-                    <span class="ident">num_benches</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
-                }
-
-                <span class="comment">// Handle outcome</span>
-                <span class="kw">match</span> <span class="ident">outcome</span> {
-                    <span class="ident">Outcome::Passed</span> =&gt; <span class="ident">num_passed</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>,
-                    <span class="ident">Outcome::Failed</span> { <span class="ident">msg</span> } =&gt; <span class="ident">failed_tests</span>.<span class="ident">push</span>((<span class="ident">test</span>, <span class="ident">msg</span>)),
-                    <span class="ident">Outcome::Ignored</span> =&gt; <span class="ident">num_ignored</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>,
-                    <span class="ident">Outcome::Measured</span> { .. } =&gt; {}
-                }
-            }
+        <span class="kw">for</span> (<span class="ident">outcome</span>, <span class="ident">test_info</span>) <span class="kw">in</span> <span class="ident">receiver</span>.<span class="ident">iter</span>().<span class="ident">take</span>(<span class="ident">num_tests</span>) {
+            <span class="comment">// In multithreaded mode, we do only print the start of the line</span>
+            <span class="comment">// after the test ran, as otherwise it would lead to terribly</span>
+            <span class="comment">// interleaved output.</span>
+            <span class="ident">printer</span>.<span class="ident">print_test</span>(<span class="kw-2">&amp;</span><span class="ident">test_info</span>);
+            <span class="ident">handle_outcome</span>(<span class="ident">outcome</span>, <span class="ident">test_info</span>, <span class="kw-2">&amp;mut</span> <span class="ident">printer</span>);
         }
     }
 
-    <span class="comment">// Print failures if there were any</span>
+    <span class="comment">// Print failures if there were any, and the final summary.</span>
     <span class="kw">if</span> <span class="op">!</span><span class="ident">failed_tests</span>.<span class="ident">is_empty</span>() {
         <span class="ident">printer</span>.<span class="ident">print_failures</span>(<span class="kw-2">&amp;</span><span class="ident">failed_tests</span>);
     }
 
-    <span class="comment">// Handle overall results</span>
-    <span class="kw">let</span> <span class="ident">num_failed</span> <span class="op">=</span> <span class="ident">failed_tests</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>;
-    <span class="kw">let</span> <span class="ident">conclusion</span> <span class="op">=</span> <span class="ident">Conclusion</span> {
-        <span class="ident">has_failed</span>: <span class="ident">num_failed</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span>,
-        <span class="ident">num_filtered_out</span>,
-        <span class="ident">num_passed</span>,
-        <span class="ident">num_failed</span>,
-        <span class="ident">num_ignored</span>,
-        <span class="ident">num_benches</span>,
-    };
-
-    <span class="ident">printer</span>.<span class="ident">print_summary</span>(<span class="kw-2">&amp;</span><span class="ident">conclusion</span>);
+    <span class="ident">printer</span>.<span class="ident">print_summary</span>(<span class="kw-2">&amp;</span><span class="ident">conclusion</span>, <span class="ident">start_instant</span>.<span class="ident">elapsed</span>());
 
     <span class="ident">conclusion</span>
 }
+
+<span class="doccomment">/// Runs the given runner, catching any panics and treating them as a failed test.</span>
+<span class="kw">fn</span> <span class="ident">run_single</span>(<span class="ident">runner</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">FnOnce</span>(<span class="ident">bool</span>) -&gt; <span class="ident">Outcome</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;</span>, <span class="ident">test_mode</span>: <span class="ident">bool</span>) -&gt; <span class="ident">Outcome</span> {
+    <span class="kw">use</span> <span class="ident">std::panic</span>::{<span class="ident">catch_unwind</span>, <span class="ident">AssertUnwindSafe</span>};
+
+    <span class="ident">catch_unwind</span>(<span class="ident">AssertUnwindSafe</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> <span class="ident">runner</span>(<span class="ident">test_mode</span>))).<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+        <span class="comment">// The `panic` information is just an `Any` object representing the</span>
+        <span class="comment">// value the panic was invoked with. For most panics (which use</span>
+        <span class="comment">// `panic!` like `println!`), this is either `&amp;str` or `String`.</span>
+        <span class="kw">let</span> <span class="ident">payload</span> <span class="op">=</span> <span class="ident">e</span>.<span class="ident">downcast_ref</span>::<span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>()
+            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">as_str</span>())
+            .<span class="ident">or</span>(<span class="ident">e</span>.<span class="ident">downcast_ref</span>::<span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="kw-2">*</span><span class="ident">s</span>));
+
+        <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">payload</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">payload</span>) =&gt; <span class="macro">format!</span>(<span class="string">&quot;test panicked: {payload}&quot;</span>),
+            <span class="prelude-val">None</span> =&gt; <span class="macro">format!</span>(<span class="string">&quot;test panicked&quot;</span>),
+        };
+        <span class="ident">Outcome::Failed</span>(<span class="ident">msg</span>.<span class="ident">into</span>())
+    })
+}
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="libtest_mimic" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0 (fe5b13d68 2022-05-18)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="libtest_mimic" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0 (4b91a6ea7 2022-08-08)" ></div>
 </body></html>
