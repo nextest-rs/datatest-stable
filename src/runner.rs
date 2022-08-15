@@ -59,7 +59,7 @@ impl Requirements {
                         Box::new(move || match (testfn)(&path) {
                             Ok(()) => Outcome::Passed,
                             Err(err) => Outcome::Failed {
-                                msg: Some(format!("{}", err)),
+                                msg: Some(format!("Error: {:?}", err)),
                             },
                         });
 
