@@ -55,9 +55,8 @@ impl Requirements {
                 if re.is_match(&input_path) {
                     let testfn = self.test;
                     let name = utils::derive_test_name(&root, &path, &self.test_name);
-
                     Some(Trial::test(name, move || {
-                        (testfn)(&path).map_err(Into::into)
+                        (testfn)(&path).map_err(|err| format!("{:?}", err).into())
                     }))
                 } else {
                     None
