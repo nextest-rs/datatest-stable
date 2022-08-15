@@ -4,7 +4,7 @@
 #![allow(clippy::integer_arithmetic)]
 
 use crate::{utils, Result};
-use libtest_mimic::{run_tests, Arguments, Outcome, Test};
+use libtest_mimic::{Arguments, Trial};
 use std::path::Path;
 
 #[doc(hidden)]
@@ -12,9 +12,9 @@ pub fn runner(requirements: &[Requirements]) {
     let args = Arguments::from_args();
 
     let mut tests: Vec<_> = requirements.iter().flat_map(|req| req.expand()).collect();
-    tests.sort_unstable_by(|a, b| a.name.cmp(&b.name));
+    tests.sort_unstable_by(|a, b| a.name().cmp(b.name()));
 
-    run_tests(&args, tests, |test| (test.data)()).exit()
+    libtest_mimic::run(&args, tests).exit()
 }
 
 #[doc(hidden)]
@@ -43,7 +43,7 @@ impl Requirements {
 
     /// Scans all files in a given directory, finds matching ones and generates a test descriptor
     /// for each of them.
-    fn expand(&self) -> Vec<Test<Box<dyn Fn() -> Outcome + Send + Sync>>> {
+    fn expand(&self) -> Vec<Trial> {
         let root = Path::new(&self.root).to_path_buf();
 
         let re = regex::Regex::new(&self.pattern)
@@ -55,21 +55,10 @@ impl Requirements {
                 if re.is_match(&input_path) {
                     let testfn = self.test;
                     let name = utils::derive_test_name(&root, &path, &self.test_name);
-                    let testfn: Box<dyn Fn() -> Outcome + Send + Sync> =
-                        Box::new(move || match (testfn)(&path) {
-                            Ok(()) => Outcome::Passed,
-                            Err(err) => Outcome::Failed {
-                                msg: Some(format!("{}", err)),
-                            },
-                        });
 
-                    Some(Test {
-                        name,
-                        kind: String::new(),
-                        is_ignored: false,
-                        is_bench: false,
-                        data: testfn,
-                    })
+                    Some(Trial::test(name, move || {
+                        (testfn)(&path).map_err(Into::into)
+                    }))
                 } else {
                     None
                 }

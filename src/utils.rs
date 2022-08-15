@@ -27,7 +27,6 @@ pub fn derive_test_name(root: &Path, path: &Path, test_name: &str) -> String {
             path.display()
         )
     });
-    let mut test_name = test_name.to_string();
-    test_name.push_str(&format!("::{}", relative.display()));
-    test_name
+
+    format!("{}::{}", test_name, relative.display())
 }

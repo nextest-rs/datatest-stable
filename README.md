@@ -56,7 +56,7 @@ datatest_stable::harness!(my_test, "path/to/fixtures", r"^.*/*");
 
 ## Minimum supported Rust version (MSRV)
 
-The minimum supported Rust version is **Rust 1.56**. MSRV bumps may be accompanied by a minor
+The minimum supported Rust version is **Rust 1.58**. MSRV bumps may be accompanied by a minor
 version update; at any time, at least the last 3 stable versions of Rust will be supported.
 
 ## See also
