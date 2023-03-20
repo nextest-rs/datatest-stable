@@ -24,7 +24,7 @@ with:</p>
 <span class="attr">#[derive(clap::Args)]
 </span><span class="kw">struct </span>LogArgs {
    <span class="attr">#[arg(long, short = <span class="string">&#39;v&#39;</span>, action = clap::ArgAction::Count)]
-   </span>verbose: u8,
+   </span>verbose: i8,
 }</code></pre></div>
 </div></details><h2 id="required-methods" class="small-section-header">Required Methods<a href="#required-methods" class="anchor">§</a></h2><div class="methods"><details class="toggle method-toggle" open><summary><section id="tymethod.augment_args" class="method has-srclink"><a class="srclink rightside" href="../src/clap/derive.rs.html#292">source</a><h4 class="code-header">fn <a href="#tymethod.augment_args" class="fn">augment_args</a>(cmd: <a class="struct" href="builder/struct.Command.html" title="struct clap::builder::Command">Command</a>) -&gt; <a class="struct" href="builder/struct.Command.html" title="struct clap::builder::Command">Command</a></h4></section></summary><div class="docblock"><p>Append to <a href="builder/struct.Command.html" title="Command"><code>Command</code></a> so it can instantiate <code>Self</code>.</p>
 <p>See also <a href="trait.CommandFactory.html" title="CommandFactory"><code>CommandFactory</code></a>.</p>

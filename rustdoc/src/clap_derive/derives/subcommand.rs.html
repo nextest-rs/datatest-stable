@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/clap_derive-4.1.9/src/derives/subcommand.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>subcommand.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../clap_derive/index.html">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/clap_derive-4.0.8/src/derives/subcommand.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>subcommand.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../clap_derive/index.html">
                         <img src="https://raw.githubusercontent.com/clap-rs/clap/master/assets/clap.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -661,27 +661,6 @@
 <a href="#660" id="660">660</a>
 <a href="#661" id="661">661</a>
 <a href="#662" id="662">662</a>
-<a href="#663" id="663">663</a>
-<a href="#664" id="664">664</a>
-<a href="#665" id="665">665</a>
-<a href="#666" id="666">666</a>
-<a href="#667" id="667">667</a>
-<a href="#668" id="668">668</a>
-<a href="#669" id="669">669</a>
-<a href="#670" id="670">670</a>
-<a href="#671" id="671">671</a>
-<a href="#672" id="672">672</a>
-<a href="#673" id="673">673</a>
-<a href="#674" id="674">674</a>
-<a href="#675" id="675">675</a>
-<a href="#676" id="676">676</a>
-<a href="#677" id="677">677</a>
-<a href="#678" id="678">678</a>
-<a href="#679" id="679">679</a>
-<a href="#680" id="680">680</a>
-<a href="#681" id="681">681</a>
-<a href="#682" id="682">682</a>
-<a href="#683" id="683">683</a>
 </pre><pre class="rust"><code><span class="comment">// Copyright 2018 Guillaume Pinot (@TeXitoi) &lt;texitoi@texitoi.eu&gt;,
 // Kevin Knapp (@kbknapp) &lt;kbknapp@gmail.com&gt;, and
 // Ana Hobden (@hoverbear) &lt;operator@hoverbear.org&gt;
@@ -764,8 +743,8 @@
             clippy::nursery,
             clippy::cargo,
             clippy::suspicious_else_formatting,
-            clippy::almost_swapped,
         )]
+        #[deny(clippy::correctness)]
         </span><span class="kw">impl </span>#impl_generics clap::FromArgMatches <span class="kw">for </span>#item_name #ty_generics #where_clause {
             <span class="kw">fn </span>from_arg_matches(__clap_arg_matches: <span class="kw-2">&amp;</span>clap::ArgMatches) -&gt; ::std::result::Result&lt;<span class="self">Self</span>, clap::Error&gt; {
                 <span class="self">Self</span>::from_arg_matches_mut(<span class="kw-2">&amp;mut </span>__clap_arg_matches.clone())
@@ -790,8 +769,8 @@
             clippy::nursery,
             clippy::cargo,
             clippy::suspicious_else_formatting,
-            clippy::almost_swapped,
         )]
+        #[deny(clippy::correctness)]
         </span><span class="kw">impl </span>#impl_generics clap::Subcommand <span class="kw">for </span>#item_name #ty_generics #where_clause {
             <span class="kw">fn </span>augment_subcommands &lt;<span class="lifetime">&#39;b</span>&gt;(__clap_app: clap::Command) -&gt; clap::Command {
                 #augmentation
@@ -857,7 +836,7 @@
                     <span class="prelude-val">Some</span>(subcommand)
                 }
 
-                Kind::Flatten(<span class="kw">_</span>) =&gt; <span class="kw">match </span>variant.fields {
+                Kind::Flatten =&gt; <span class="kw">match </span>variant.fields {
                     Unnamed(FieldsUnnamed { <span class="kw-2">ref </span>unnamed, .. }) <span class="kw">if </span>unnamed.len() == <span class="number">1 </span>=&gt; {
                         <span class="kw">let </span>ty = <span class="kw-2">&amp;</span>unnamed[<span class="number">0</span>];
                         <span class="kw">let </span>deprecations = <span class="kw">if </span>!override_required {
@@ -928,24 +907,16 @@
                     };
                     <span class="kw">let </span>initial_app_methods = item.initial_top_level_methods();
                     <span class="kw">let </span>final_from_attrs = item.final_top_level_methods();
-                    <span class="kw">let </span>override_methods = <span class="kw">if </span>override_required {
-                        <span class="macro">quote_spanned! </span>{ kind.span()=&gt;
-                            .subcommand_required(<span class="bool-val">false</span>)
-                            .arg_required_else_help(<span class="bool-val">false</span>)
-                        }
-                    } <span class="kw">else </span>{
-                        <span class="macro">quote!</span>()
-                    };
                     <span class="kw">let </span>subcommand = <span class="macro">quote! </span>{
                         <span class="kw">let </span>#app_var = #app_var.subcommand({
                             #deprecations;
                             <span class="kw">let </span>#subcommand_var = clap::Command::new(#name);
+                            <span class="kw">let </span>#subcommand_var = #subcommand_var #initial_app_methods;
+                            <span class="kw">let </span>#subcommand_var = #arg_block;
                             <span class="kw">let </span>#subcommand_var = #subcommand_var
                                 .subcommand_required(<span class="bool-val">true</span>)
                                 .arg_required_else_help(<span class="bool-val">true</span>);
-                            <span class="kw">let </span>#subcommand_var = #subcommand_var #initial_app_methods;
-                            <span class="kw">let </span>#subcommand_var = #arg_block;
-                            #subcommand_var #final_from_attrs #override_methods
+                            #subcommand_var #final_from_attrs
                         });
                     };
                     <span class="prelude-val">Some</span>(subcommand)
@@ -1046,20 +1017,16 @@
     <span class="kw">let </span>(flatten_variants, variants): (Vec&lt;<span class="kw">_</span>&gt;, Vec&lt;<span class="kw">_</span>&gt;) = variants
         .iter()
         .filter_map(|(variant, item)| {
-            <span class="kw">let </span>kind = item.kind();
-            <span class="kw">match </span><span class="kw-2">&amp;*</span>kind {
-                Kind::Skip(<span class="kw">_</span>, <span class="kw">_</span>) | Kind::Arg(<span class="kw">_</span>) | Kind::FromGlobal(<span class="kw">_</span>) | Kind::Value =&gt; <span class="prelude-val">None</span>,
-
-                Kind::ExternalSubcommand =&gt; {
-                    ext_subcmd = <span class="bool-val">true</span>;
-                    <span class="prelude-val">None
-                </span>}
-                Kind::Flatten(<span class="kw">_</span>) | Kind::Subcommand(<span class="kw">_</span>) | Kind::Command(<span class="kw">_</span>) =&gt; <span class="prelude-val">Some</span>((variant, item)),
+            <span class="kw">if let </span>Kind::ExternalSubcommand = <span class="kw-2">&amp;*</span>item.kind() {
+                ext_subcmd = <span class="bool-val">true</span>;
+                <span class="prelude-val">None
+            </span>} <span class="kw">else </span>{
+                <span class="prelude-val">Some</span>((variant, item))
             }
         })
         .partition(|(<span class="kw">_</span>, item)| {
             <span class="kw">let </span>kind = item.kind();
-            <span class="macro">matches!</span>(<span class="kw-2">&amp;*</span>kind, Kind::Flatten(<span class="kw">_</span>))
+            <span class="macro">matches!</span>(<span class="kw-2">&amp;*</span>kind, Kind::Flatten)
         });
 
     <span class="kw">let </span>subcommands = variants.iter().map(|(_variant, item)| {
@@ -1110,61 +1077,57 @@
     <span class="kw">let </span>(flatten_variants, variants): (Vec&lt;<span class="kw">_</span>&gt;, Vec&lt;<span class="kw">_</span>&gt;) = variants
         .iter()
         .filter_map(|(variant, item)| {
-            <span class="kw">let </span>kind = item.kind();
-            <span class="kw">match </span><span class="kw-2">&amp;*</span>kind {
-                Kind::Skip(<span class="kw">_</span>, <span class="kw">_</span>) | Kind::Arg(<span class="kw">_</span>) | Kind::FromGlobal(<span class="kw">_</span>) | Kind::Value =&gt; <span class="prelude-val">None</span>,
-
-                Kind::ExternalSubcommand =&gt; {
-                    <span class="kw">if </span>ext_subcmd.is_some() {
-                        <span class="macro">abort!</span>(
-                            item.kind().span(),
-                            <span class="string">&quot;Only one variant can be marked with `external_subcommand`, \
+            <span class="kw">if let </span>Kind::ExternalSubcommand = <span class="kw-2">&amp;*</span>item.kind() {
+                <span class="kw">if </span>ext_subcmd.is_some() {
+                    <span class="macro">abort!</span>(
+                        item.kind().span(),
+                        <span class="string">&quot;Only one variant can be marked with `external_subcommand`, \
                          this is the second&quot;
-                        </span>);
-                    }
+                    </span>);
+                }
 
-                    <span class="kw">let </span>ty = <span class="kw">match </span>variant.fields {
-                        Unnamed(<span class="kw-2">ref </span>fields) <span class="kw">if </span>fields.unnamed.len() == <span class="number">1 </span>=&gt; <span class="kw-2">&amp;</span>fields.unnamed[<span class="number">0</span>].ty,
+                <span class="kw">let </span>ty = <span class="kw">match </span>variant.fields {
+                    Unnamed(<span class="kw-2">ref </span>fields) <span class="kw">if </span>fields.unnamed.len() == <span class="number">1 </span>=&gt; <span class="kw-2">&amp;</span>fields.unnamed[<span class="number">0</span>].ty,
 
-                        <span class="kw">_ </span>=&gt; <span class="macro">abort!</span>(
-                            variant,
-                            <span class="string">&quot;The enum variant marked with `external_subcommand` must be \
+                    <span class="kw">_ </span>=&gt; <span class="macro">abort!</span>(
+                        variant,
+                        <span class="string">&quot;The enum variant marked with `external_subcommand` must be \
                          a single-typed tuple, and the type must be either `Vec&lt;String&gt;` \
                          or `Vec&lt;OsString&gt;`.&quot;
-                        </span>),
-                    };
+                    </span>),
+                };
 
-                    <span class="kw">let </span>(span, str_ty) = <span class="kw">match </span>subty_if_name(ty, <span class="string">&quot;Vec&quot;</span>) {
-                        <span class="prelude-val">Some</span>(subty) =&gt; {
-                            <span class="kw">if </span>is_simple_ty(subty, <span class="string">&quot;String&quot;</span>) {
-                                (subty.span(), <span class="macro">quote!</span>(::std::string::String))
-                            } <span class="kw">else if </span>is_simple_ty(subty, <span class="string">&quot;OsString&quot;</span>) {
-                                (subty.span(), <span class="macro">quote!</span>(::std::ffi::OsString))
-                            } <span class="kw">else </span>{
-                                <span class="macro">abort!</span>(
-                                    ty.span(),
-                                    <span class="string">&quot;The type must be either `Vec&lt;String&gt;` or `Vec&lt;OsString&gt;` \
+                <span class="kw">let </span>(span, str_ty) = <span class="kw">match </span>subty_if_name(ty, <span class="string">&quot;Vec&quot;</span>) {
+                    <span class="prelude-val">Some</span>(subty) =&gt; {
+                        <span class="kw">if </span>is_simple_ty(subty, <span class="string">&quot;String&quot;</span>) {
+                            (subty.span(), <span class="macro">quote!</span>(::std::string::String))
+                        } <span class="kw">else if </span>is_simple_ty(subty, <span class="string">&quot;OsString&quot;</span>) {
+                            (subty.span(), <span class="macro">quote!</span>(::std::ffi::OsString))
+                        } <span class="kw">else </span>{
+                            <span class="macro">abort!</span>(
+                                ty.span(),
+                                <span class="string">&quot;The type must be either `Vec&lt;String&gt;` or `Vec&lt;OsString&gt;` \
                                  to be used with `external_subcommand`.&quot;
-                                </span>);
-                            }
+                            </span>);
                         }
+                    }
 
-                        <span class="prelude-val">None </span>=&gt; <span class="macro">abort!</span>(
-                            ty.span(),
-                            <span class="string">&quot;The type must be either `Vec&lt;String&gt;` or `Vec&lt;OsString&gt;` \
+                    <span class="prelude-val">None </span>=&gt; <span class="macro">abort!</span>(
+                        ty.span(),
+                        <span class="string">&quot;The type must be either `Vec&lt;String&gt;` or `Vec&lt;OsString&gt;` \
                          to be used with `external_subcommand`.&quot;
-                        </span>),
-                    };
+                    </span>),
+                };
 
-                    ext_subcmd = <span class="prelude-val">Some</span>((span, <span class="kw-2">&amp;</span>variant.ident, str_ty));
-                    <span class="prelude-val">None
-                </span>}
-                Kind::Flatten(<span class="kw">_</span>) | Kind::Subcommand(<span class="kw">_</span>) | Kind::Command(<span class="kw">_</span>) =&gt; <span class="prelude-val">Some</span>((variant, item)),
+                ext_subcmd = <span class="prelude-val">Some</span>((span, <span class="kw-2">&amp;</span>variant.ident, str_ty));
+                <span class="prelude-val">None
+            </span>} <span class="kw">else </span>{
+                <span class="prelude-val">Some</span>((variant, item))
             }
         })
         .partition(|(<span class="kw">_</span>, item)| {
             <span class="kw">let </span>kind = item.kind();
-            <span class="macro">matches!</span>(<span class="kw-2">&amp;*</span>kind, Kind::Flatten(<span class="kw">_</span>))
+            <span class="macro">matches!</span>(<span class="kw-2">&amp;*</span>kind, Kind::Flatten)
         });
 
     <span class="kw">let </span>subcommands = variants.iter().map(|(variant, item)| {
@@ -1263,20 +1226,15 @@
     <span class="kw">let </span>(flatten, variants): (Vec&lt;<span class="kw">_</span>&gt;, Vec&lt;<span class="kw">_</span>&gt;) = variants
         .iter()
         .filter_map(|(variant, item)| {
-            <span class="kw">let </span>kind = item.kind();
-            <span class="kw">match </span><span class="kw-2">&amp;*</span>kind {
+            <span class="kw">match </span><span class="kw-2">&amp;*</span>item.kind() {
                 <span class="comment">// Fallback to `from_arg_matches_mut`
-                </span>Kind::Skip(<span class="kw">_</span>, <span class="kw">_</span>)
-                | Kind::Arg(<span class="kw">_</span>)
-                | Kind::FromGlobal(<span class="kw">_</span>)
-                | Kind::Value
-                | Kind::ExternalSubcommand =&gt; <span class="prelude-val">None</span>,
-                Kind::Flatten(<span class="kw">_</span>) | Kind::Subcommand(<span class="kw">_</span>) | Kind::Command(<span class="kw">_</span>) =&gt; <span class="prelude-val">Some</span>((variant, item)),
+                </span>Kind::ExternalSubcommand =&gt; <span class="prelude-val">None</span>,
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">Some</span>((variant, item)),
             }
         })
         .partition(|(<span class="kw">_</span>, item)| {
             <span class="kw">let </span>kind = item.kind();
-            <span class="macro">matches!</span>(<span class="kw-2">&amp;*</span>kind, Kind::Flatten(<span class="kw">_</span>))
+            <span class="macro">matches!</span>(<span class="kw-2">&amp;*</span>kind, Kind::Flatten)
         });
 
     <span class="kw">let </span>subcommands = variants.iter().map(|(variant, item)| {

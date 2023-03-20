@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-4.1.11/src/builder/arg.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>arg.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../clap/index.html">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-4.0.8/src/builder/arg.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>arg.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../clap/index.html">
                         <img src="https://raw.githubusercontent.com/clap-rs/clap/master/assets/clap.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -4639,14 +4639,6 @@
 <a href="#4638" id="4638">4638</a>
 <a href="#4639" id="4639">4639</a>
 <a href="#4640" id="4640">4640</a>
-<a href="#4641" id="4641">4641</a>
-<a href="#4642" id="4642">4642</a>
-<a href="#4643" id="4643">4643</a>
-<a href="#4644" id="4644">4644</a>
-<a href="#4645" id="4645">4645</a>
-<a href="#4646" id="4646">4646</a>
-<a href="#4647" id="4647">4647</a>
-<a href="#4648" id="4648">4648</a>
 </pre><pre class="rust"><code><span class="comment">// Std
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;env&quot;</span>)]
 </span><span class="kw">use </span>std::env;
@@ -4935,7 +4927,7 @@
     ///             .get_matches_from(vec![
     ///                 &quot;prog&quot;, &quot;--do-tests&quot;
     ///             ]);
-    /// assert_eq!(m.get_flag(&quot;test&quot;), true);
+    /// assert_eq!(*m.get_one::&lt;bool&gt;(&quot;test&quot;).expect(&quot;defaulted by clap&quot;), true);
     /// ```
     </span><span class="attr">#[must_use]
     </span><span class="kw">pub fn </span>aliases(<span class="kw-2">mut </span><span class="self">self</span>, names: <span class="kw">impl </span>IntoIterator&lt;Item = <span class="kw">impl </span>Into&lt;Str&gt;&gt;) -&gt; <span class="self">Self </span>{
@@ -4963,7 +4955,7 @@
     ///             .get_matches_from(vec![
     ///                 &quot;prog&quot;, &quot;-s&quot;
     ///             ]);
-    /// assert_eq!(m.get_flag(&quot;test&quot;), true);
+    /// assert_eq!(*m.get_one::&lt;bool&gt;(&quot;test&quot;).expect(&quot;defaulted by clap&quot;), true);
     /// ```
     </span><span class="attr">#[must_use]
     </span><span class="kw">pub fn </span>short_aliases(<span class="kw-2">mut </span><span class="self">self</span>, names: <span class="kw">impl </span>IntoIterator&lt;Item = char&gt;) -&gt; <span class="self">Self </span>{
@@ -5048,7 +5040,7 @@
     ///        .get_matches_from(vec![
     ///             &quot;prog&quot;, &quot;--awesome&quot;
     ///         ]);
-    /// assert_eq!(m.get_flag(&quot;test&quot;), true);
+    /// assert_eq!(*m.get_one::&lt;bool&gt;(&quot;test&quot;).expect(&quot;defaulted by clap&quot;), true);
     /// ```
     /// [`Command::aliases`]: Arg::aliases()
     </span><span class="attr">#[must_use]
@@ -5074,7 +5066,7 @@
     ///        .get_matches_from(vec![
     ///             &quot;prog&quot;, &quot;-t&quot;
     ///         ]);
-    /// assert_eq!(m.get_flag(&quot;test&quot;), true);
+    /// assert_eq!(*m.get_one::&lt;bool&gt;(&quot;test&quot;).expect(&quot;defaulted by clap&quot;), true);
     /// ```
     </span><span class="attr">#[must_use]
     </span><span class="kw">pub fn </span>visible_short_aliases(<span class="kw-2">mut </span><span class="self">self</span>, names: <span class="kw">impl </span>IntoIterator&lt;Item = char&gt;) -&gt; <span class="self">Self </span>{
@@ -5456,7 +5448,7 @@
     ///
     /// assert_eq!(m.subcommand_name(), Some(&quot;do-stuff&quot;));
     /// let sub_m = m.subcommand_matches(&quot;do-stuff&quot;).unwrap();
-    /// assert_eq!(sub_m.get_flag(&quot;verb&quot;), true);
+    /// assert_eq!(*sub_m.get_one::&lt;bool&gt;(&quot;verb&quot;).expect(&quot;defaulted by clap&quot;), true);
     /// ```
     ///
     /// [`Subcommand`]: crate::Subcommand
@@ -6549,9 +6541,9 @@
     ///         &quot;prog&quot;
     ///     ]);
     ///
-    /// assert!(m.get_flag(&quot;true_flag&quot;));
-    /// assert!(!m.get_flag(&quot;false_flag&quot;));
-    /// assert!(!m.get_flag(&quot;absent_flag&quot;));
+    /// assert!(*m.get_one::&lt;bool&gt;(&quot;true_flag&quot;).unwrap());
+    /// assert!(!*m.get_one::&lt;bool&gt;(&quot;false_flag&quot;).unwrap());
+    /// assert!(!*m.get_one::&lt;bool&gt;(&quot;absent_flag&quot;).unwrap());
     /// ```
     ///
     /// In this example, we show the variable coming from an option on the CLI:
@@ -6760,8 +6752,7 @@
     ///
     /// Args with a lower value will be displayed first in the help message. This is helpful when
     /// one would like to emphasise frequently used args, or prioritize those towards the top of
-    /// the list. Args with duplicate display orders will be displayed in the order they are
-    /// defined.
+    /// the list. Args with duplicate display orders will be displayed in alphabetical order.
     ///
     /// **NOTE:** The default is 999 for all arguments.
     ///
@@ -7399,12 +7390,12 @@
     </span><span class="kw">pub fn </span>default_value_if(
         <span class="kw-2">mut </span><span class="self">self</span>,
         arg_id: <span class="kw">impl </span>Into&lt;Id&gt;,
-        predicate: <span class="kw">impl </span>Into&lt;ArgPredicate&gt;,
+        val: <span class="kw">impl </span>Into&lt;ArgPredicate&gt;,
         default: <span class="kw">impl </span>IntoResettable&lt;OsStr&gt;,
     ) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.default_vals_ifs.push((
             arg_id.into(),
-            predicate.into(),
+            val.into(),
             default.into_resettable().into_option(),
         ));
         <span class="self">self
@@ -7419,15 +7410,15 @@
     </span><span class="kw">pub fn </span>default_value_if_os(
         <span class="self">self</span>,
         arg_id: <span class="kw">impl </span>Into&lt;Id&gt;,
-        predicate: <span class="kw">impl </span>Into&lt;ArgPredicate&gt;,
+        val: <span class="kw">impl </span>Into&lt;ArgPredicate&gt;,
         default: <span class="kw">impl </span>IntoResettable&lt;OsStr&gt;,
     ) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.default_value_if(arg_id, predicate, default)
+        <span class="self">self</span>.default_value_if(arg_id, val, default)
     }
 
     <span class="doccomment">/// Specifies multiple values and conditions in the same manner as [`Arg::default_value_if`].
     ///
-    /// The method takes a slice of tuples in the `(arg, predicate, default)` format.
+    /// The method takes a slice of tuples in the `(arg, Option&lt;val&gt;, default)` format.
     ///
     /// **NOTE**: The conditions are stored in order and evaluated in the same order. I.e. the first
     /// if multiple conditions are true, the first one found will be applied and the ultimate value.
@@ -7517,8 +7508,8 @@
             ),
         &gt;,
     ) -&gt; <span class="self">Self </span>{
-        <span class="kw">for </span>(arg, predicate, default) <span class="kw">in </span>ifs {
-            <span class="self">self </span>= <span class="self">self</span>.default_value_if(arg, predicate, default);
+        <span class="kw">for </span>(arg, val, default) <span class="kw">in </span>ifs {
+            <span class="self">self </span>= <span class="self">self</span>.default_value_if(arg, val, default);
         }
         <span class="self">self
     </span>}
@@ -8171,8 +8162,6 @@
     ///
     /// **NOTE** [`Arg::exclusive(true)`] allows specifying an argument which conflicts with every other argument.
     ///
-    /// **NOTE:** All arguments implicitly conflict with themselves.
-    ///
     /// # Examples
     ///
     /// ```rust
@@ -8275,6 +8264,8 @@
     ///
     /// **NOTE:** Overriding an argument implies they [conflict][Arg::conflicts_with`].
     ///
+    /// **NOTE:** All arguments implicitly override themselves.
+    ///
     /// # Examples
     ///
     /// ```rust
@@ -8289,10 +8280,10 @@
     ///         &quot;prog&quot;, &quot;-f&quot;, &quot;-d&quot;, &quot;-c&quot;]);
     ///             //    ^~~~~~~~~~~~^~~~~ flag is overridden by color
     ///
-    /// assert!(m.get_flag(&quot;color&quot;));
-    /// assert!(m.get_flag(&quot;debug&quot;)); // even though flag conflicts with debug, it&#39;s as if flag
+    /// assert!(*m.get_one::&lt;bool&gt;(&quot;color&quot;).unwrap());
+    /// assert!(*m.get_one::&lt;bool&gt;(&quot;debug&quot;).unwrap()); // even though flag conflicts with debug, it&#39;s as if flag
     ///                                 // was never used because it was overridden with color
-    /// assert!(!m.get_flag(&quot;flag&quot;));
+    /// assert!(!*m.get_one::&lt;bool&gt;(&quot;flag&quot;).unwrap());
     /// ```
     </span><span class="attr">#[must_use]
     </span><span class="kw">pub fn </span>overrides_with(<span class="kw-2">mut </span><span class="self">self</span>, arg_id: <span class="kw">impl </span>IntoResettable&lt;Id&gt;) -&gt; <span class="self">Self </span>{
@@ -8328,11 +8319,11 @@
     ///         &quot;prog&quot;, &quot;-f&quot;, &quot;-d&quot;, &quot;-c&quot;]);
     ///             //    ^~~~~~^~~~~~~~~ flag and debug are overridden by color
     ///
-    /// assert!(m.get_flag(&quot;color&quot;)); // even though flag conflicts with color, it&#39;s as if flag
+    /// assert!(*m.get_one::&lt;bool&gt;(&quot;color&quot;).unwrap()); // even though flag conflicts with color, it&#39;s as if flag
     ///                                 // and debug were never used because they were overridden
     ///                                 // with color
-    /// assert!(!m.get_flag(&quot;debug&quot;));
-    /// assert!(!m.get_flag(&quot;flag&quot;));
+    /// assert!(!*m.get_one::&lt;bool&gt;(&quot;debug&quot;).unwrap());
+    /// assert!(!*m.get_one::&lt;bool&gt;(&quot;flag&quot;).unwrap());
     /// ```
     </span><span class="attr">#[must_use]
     </span><span class="kw">pub fn </span>overrides_with_all(<span class="kw-2">mut </span><span class="self">self</span>, names: <span class="kw">impl </span>IntoIterator&lt;Item = <span class="kw">impl </span>Into&lt;Id&gt;&gt;) -&gt; <span class="self">Self </span>{
@@ -8506,13 +8497,6 @@
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>get_value_delimiter(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;char&gt; {
         <span class="self">self</span>.val_delim
-    }
-
-    <span class="doccomment">/// Get the value terminator for this argument. The value_terminator is a value
-    /// that terminates parsing of multi-valued arguments.
-    </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>get_value_terminator(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Str&gt; {
-        <span class="self">self</span>.terminator.as_ref()
     }
 
     <span class="doccomment">/// Get the index of this argument, if any
@@ -8772,7 +8756,7 @@
             <span class="kw">if </span><span class="self">self</span>.val_names.len() &gt; <span class="number">1 </span>{
                 <span class="self">self</span>.val_names
                     .iter()
-                    .map(|n| <span class="macro">format!</span>(<span class="string">&quot;&lt;{n}&gt;&quot;</span>))
+                    .map(|n| <span class="macro">format!</span>(<span class="string">&quot;&lt;{}&gt;&quot;</span>, n))
                     .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
                     .join(delim)
             } <span class="kw">else </span>{
@@ -8836,11 +8820,11 @@
         styled
     }
 
-    <span class="doccomment">/// Write the values such as `&lt;name1&gt; &lt;name2&gt;`
+    <span class="doccomment">/// Write the values such as &lt;name1&gt; &lt;name2&gt;
     </span><span class="kw">fn </span>render_arg_val(<span class="kw-2">&amp;</span><span class="self">self</span>, required: bool) -&gt; String {
         <span class="kw">let </span><span class="kw-2">mut </span>rendered = String::new();
 
-        <span class="kw">let </span>num_vals = <span class="self">self</span>.get_num_args().unwrap_or_else(|| <span class="number">1</span>.into());
+        <span class="kw">let </span>num_vals = <span class="self">self</span>.get_num_args().expect(INTERNAL_ERROR_MSG);
 
         <span class="kw">let </span><span class="kw-2">mut </span>val_names = <span class="kw">if </span><span class="self">self</span>.val_names.is_empty() {
             <span class="macro">vec!</span>[<span class="self">self</span>.id.as_internal_str().to_owned()]
@@ -8856,9 +8840,9 @@
         <span class="macro">debug_assert!</span>(<span class="self">self</span>.is_takes_value_set());
         <span class="kw">for </span>(n, val_name) <span class="kw">in </span>val_names.iter().enumerate() {
             <span class="kw">let </span>arg_name = <span class="kw">if </span><span class="self">self</span>.is_positional() &amp;&amp; (num_vals.min_values() == <span class="number">0 </span>|| !required) {
-                <span class="macro">format!</span>(<span class="string">&quot;[{val_name}]&quot;</span>)
+                <span class="macro">format!</span>(<span class="string">&quot;[{}]&quot;</span>, val_name)
             } <span class="kw">else </span>{
-                <span class="macro">format!</span>(<span class="string">&quot;&lt;{val_name}&gt;&quot;</span>)
+                <span class="macro">format!</span>(<span class="string">&quot;&lt;{}&gt;&quot;</span>, val_name)
             };
 
             <span class="kw">if </span>n != <span class="number">0 </span>{

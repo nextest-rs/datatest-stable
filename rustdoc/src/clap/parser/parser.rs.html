@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-4.1.11/src/parser/parser.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>parser.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../clap/index.html">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-4.0.8/src/parser/parser.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>parser.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../clap/index.html">
                         <img src="https://raw.githubusercontent.com/clap-rs/clap/master/assets/clap.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1636,11 +1636,6 @@
 <a href="#1635" id="1635">1635</a>
 <a href="#1636" id="1636">1636</a>
 <a href="#1637" id="1637">1637</a>
-<a href="#1638" id="1638">1638</a>
-<a href="#1639" id="1639">1639</a>
-<a href="#1640" id="1640">1640</a>
-<a href="#1641" id="1641">1641</a>
-<a href="#1642" id="1642">1642</a>
 </pre><pre class="rust"><code><span class="comment">// Std
 </span><span class="kw">use </span>std::{
     cell::Cell,
@@ -1663,7 +1658,7 @@
 <span class="kw">use </span><span class="kw">crate</span>::parser::{Validator, ValueSource};
 <span class="kw">use </span><span class="kw">crate</span>::util::Id;
 <span class="kw">use </span><span class="kw">crate</span>::ArgAction;
-<span class="kw">use </span><span class="kw">crate</span>::INTERNAL_ERROR_MSG;
+<span class="kw">use crate</span>::{INTERNAL_ERROR_MSG, INVALID_UTF8};
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>Parser&lt;<span class="lifetime">&#39;cmd</span>&gt; {
     cmd: <span class="kw-2">&amp;</span><span class="lifetime">&#39;cmd </span><span class="kw-2">mut </span>Command,
@@ -1814,14 +1809,11 @@
                         }
                         ParseResult::NoMatchingArg { arg } =&gt; {
                             <span class="kw">let _ </span>= <span class="self">self</span>.resolve_pending(matcher);
-                            <span class="kw">let </span>remaining_args: Vec&lt;<span class="kw">_</span>&gt; =
-                                raw_args.remaining(<span class="kw-2">&amp;mut </span>args_cursor).collect();
-                            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="self">self</span>.did_you_mean_error(
-                                <span class="kw-2">&amp;</span>arg,
-                                matcher,
-                                <span class="kw-2">&amp;</span>remaining_args,
-                                trailing_values,
-                            ));
+                            <span class="kw">let </span>remaining_args: Vec&lt;<span class="kw">_</span>&gt; = raw_args
+                                .remaining(<span class="kw-2">&amp;mut </span>args_cursor)
+                                .map(|x| x.to_str().expect(INVALID_UTF8))
+                                .collect();
+                            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="self">self</span>.did_you_mean_error(<span class="kw-2">&amp;</span>arg, matcher, <span class="kw-2">&amp;</span>remaining_args));
                         }
                         ParseResult::UnneededAttachedValue { rest, used, arg } =&gt; {
                             <span class="kw">let _ </span>= <span class="self">self</span>.resolve_pending(matcher);
@@ -1903,14 +1895,10 @@
                         }
                         ParseResult::NoMatchingArg { arg } =&gt; {
                             <span class="kw">let _ </span>= <span class="self">self</span>.resolve_pending(matcher);
-                            <span class="comment">// We already know it looks like a flag
-                            </span><span class="kw">let </span>suggested_trailing_arg =
-                                !trailing_values &amp;&amp; <span class="self">self</span>.cmd.has_positionals();
                             <span class="kw">return </span><span class="prelude-val">Err</span>(ClapError::unknown_argument(
                                 <span class="self">self</span>.cmd,
                                 arg,
                                 <span class="prelude-val">None</span>,
-                                suggested_trailing_arg,
                                 Usage::new(<span class="self">self</span>.cmd).create_usage_with_title(<span class="kw-2">&amp;</span>[]),
                             ));
                         }
@@ -2024,14 +2012,10 @@
             <span class="kw">if let </span><span class="prelude-val">Some</span>(arg) = <span class="self">self</span>.cmd.get_keymap().get(<span class="kw-2">&amp;</span>pos_counter) {
                 <span class="kw">if </span>arg.is_last_set() &amp;&amp; !trailing_values {
                     <span class="kw">let _ </span>= <span class="self">self</span>.resolve_pending(matcher);
-                    <span class="comment">// Its already considered a positional, we don&#39;t need to suggest turning it
-                    // into one
-                    </span><span class="kw">let </span>suggested_trailing_arg = <span class="bool-val">false</span>;
                     <span class="kw">return </span><span class="prelude-val">Err</span>(ClapError::unknown_argument(
                         <span class="self">self</span>.cmd,
                         arg_os.display().to_string(),
                         <span class="prelude-val">None</span>,
-                        suggested_trailing_arg,
                         Usage::new(<span class="self">self</span>.cmd).create_usage_with_title(<span class="kw-2">&amp;</span>[]),
                     ));
                 }
@@ -2145,45 +2129,43 @@
             }
         }
 
-        <span class="kw">if </span>!(<span class="self">self</span>.cmd.is_args_conflicts_with_subcommands_set() &amp;&amp; valid_arg_found) {
-            <span class="kw">let </span>candidates = suggestions::did_you_mean(
-                <span class="kw-2">&amp;</span>arg_os.display().to_string(),
-                <span class="self">self</span>.cmd.all_subcommand_names(),
+        <span class="kw">let </span>candidates = suggestions::did_you_mean(
+            <span class="kw-2">&amp;</span>arg_os.display().to_string(),
+            <span class="self">self</span>.cmd.all_subcommand_names(),
+        );
+        <span class="comment">// If the argument looks like a subcommand.
+        </span><span class="kw">if </span>!candidates.is_empty() {
+            <span class="kw">let </span>candidates: Vec&lt;<span class="kw">_</span>&gt; = candidates
+                .iter()
+                .map(|candidate| <span class="macro">format!</span>(<span class="string">&quot;&#39;{}&#39;&quot;</span>, candidate))
+                .collect();
+            <span class="kw">return </span>ClapError::invalid_subcommand(
+                <span class="self">self</span>.cmd,
+                arg_os.display().to_string(),
+                candidates.join(<span class="string">&quot; or &quot;</span>),
+                <span class="self">self</span>.cmd
+                    .get_bin_name()
+                    .unwrap_or_else(|| <span class="self">self</span>.cmd.get_name())
+                    .to_owned(),
+                Usage::new(<span class="self">self</span>.cmd).create_usage_with_title(<span class="kw-2">&amp;</span>[]),
             );
-            <span class="comment">// If the argument looks like a subcommand.
-            </span><span class="kw">if </span>!candidates.is_empty() {
-                <span class="kw">return </span>ClapError::invalid_subcommand(
-                    <span class="self">self</span>.cmd,
-                    arg_os.display().to_string(),
-                    candidates,
-                    <span class="self">self</span>.cmd
-                        .get_bin_name()
-                        .unwrap_or_else(|| <span class="self">self</span>.cmd.get_name())
-                        .to_owned(),
-                    Usage::new(<span class="self">self</span>.cmd).create_usage_with_title(<span class="kw-2">&amp;</span>[]),
-                );
-            }
-
-            <span class="comment">// If the argument must be a subcommand.
-            </span><span class="kw">if </span><span class="self">self</span>.cmd.has_subcommands()
-                &amp;&amp; (!<span class="self">self</span>.cmd.has_positionals() || <span class="self">self</span>.cmd.is_infer_subcommands_set())
-            {
-                <span class="kw">return </span>ClapError::unrecognized_subcommand(
-                    <span class="self">self</span>.cmd,
-                    arg_os.display().to_string(),
-                    Usage::new(<span class="self">self</span>.cmd).create_usage_with_title(<span class="kw-2">&amp;</span>[]),
-                );
-            }
         }
 
-        <span class="kw">let </span>suggested_trailing_arg = !trailing_values
-            &amp;&amp; <span class="self">self</span>.cmd.has_positionals()
-            &amp;&amp; (arg_os.is_long() || arg_os.is_short());
+        <span class="comment">// If the argument must be a subcommand.
+        </span><span class="kw">if </span><span class="self">self</span>.cmd.has_subcommands()
+            &amp;&amp; (!<span class="self">self</span>.cmd.has_positionals() || <span class="self">self</span>.cmd.is_infer_subcommands_set())
+        {
+            <span class="kw">return </span>ClapError::unrecognized_subcommand(
+                <span class="self">self</span>.cmd,
+                arg_os.display().to_string(),
+                Usage::new(<span class="self">self</span>.cmd).create_usage_with_title(<span class="kw-2">&amp;</span>[]),
+            );
+        }
+
         ClapError::unknown_argument(
             <span class="self">self</span>.cmd,
             arg_os.display().to_string(),
             <span class="prelude-val">None</span>,
-            suggested_trailing_arg,
             Usage::new(<span class="self">self</span>.cmd).create_usage_with_title(<span class="kw-2">&amp;</span>[]),
         )
     }
@@ -2538,8 +2520,9 @@
         <span class="macro">debug_assert_eq!</span>(
             res,
             <span class="prelude-val">Ok</span>(()),
-            <span class="string">&quot;tracking of `flag_subcmd_skip` is off for `{short_arg:?}`&quot;
-        </span>);
+            <span class="string">&quot;tracking of `flag_subcmd_skip` is off for `{:?}`&quot;</span>,
+            short_arg
+        );
         <span class="kw">while let </span><span class="prelude-val">Some</span>(c) = short_arg.next_flag() {
             <span class="kw">let </span>c = <span class="kw">match </span>c {
                 <span class="prelude-val">Ok</span>(c) =&gt; c,
@@ -2624,7 +2607,7 @@
                 <span class="prelude-val">Ok</span>(ParseResult::FlagSubCommand(name))
             } <span class="kw">else </span>{
                 <span class="prelude-val">Ok</span>(ParseResult::NoMatchingArg {
-                    arg: <span class="macro">format!</span>(<span class="string">&quot;-{c}&quot;</span>),
+                    arg: <span class="macro">format!</span>(<span class="string">&quot;-{}&quot;</span>, c),
                 })
             };
         }
@@ -2731,6 +2714,15 @@
 
             matcher.add_val_to(arg.get_id(), val, raw_val);
             matcher.add_index_to(arg.get_id(), <span class="self">self</span>.cur_idx.get());
+        }
+
+        <span class="comment">// Increment or create the group &quot;args&quot;
+        </span><span class="kw">for </span>group <span class="kw">in </span><span class="self">self</span>.cmd.groups_for_arg(arg.get_id()) {
+            matcher.add_val_to(
+                <span class="kw-2">&amp;</span>group,
+                AnyValue::new(arg.get_id().clone()),
+                OsString::from(arg.get_id().as_str()),
+            );
         }
 
         <span class="prelude-val">Ok</span>(())
@@ -3145,15 +3137,20 @@
             </span><span class="self">self</span>.remove_overrides(arg, matcher);
         }
         matcher.start_custom_arg(arg, source);
-        <span class="kw">if </span>source.is_explicit() {
-            <span class="kw">for </span>group <span class="kw">in </span><span class="self">self</span>.cmd.groups_for_arg(arg.get_id()) {
-                matcher.start_custom_group(group.clone(), source);
-                matcher.add_val_to(
-                    <span class="kw-2">&amp;</span>group,
-                    AnyValue::new(arg.get_id().clone()),
-                    OsString::from(arg.get_id().as_str()),
-                );
-            }
+        <span class="kw">for </span>group <span class="kw">in </span><span class="self">self</span>.cmd.groups_for_arg(arg.get_id()) {
+            matcher.start_custom_group(group, source);
+        }
+    }
+
+    <span class="doccomment">/// Increase occurrence of specific argument and the grouped arg it&#39;s in.
+    </span><span class="kw">fn </span>start_occurrence_of_arg(<span class="kw-2">&amp;</span><span class="self">self</span>, matcher: <span class="kw-2">&amp;mut </span>ArgMatcher, arg: <span class="kw-2">&amp;</span>Arg) {
+        <span class="comment">// With each new occurrence, remove overrides from prior occurrences
+        </span><span class="self">self</span>.remove_overrides(arg, matcher);
+
+        matcher.start_occurrence_of_arg(arg);
+        <span class="comment">// Increment or create the group &quot;args&quot;
+        </span><span class="kw">for </span>group <span class="kw">in </span><span class="self">self</span>.cmd.groups_for_arg(arg.get_id()) {
+            matcher.start_occurrence_of_group(group);
         }
     }
 }
@@ -3165,8 +3162,7 @@
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
         arg: <span class="kw-2">&amp;</span>str,
         matcher: <span class="kw-2">&amp;mut </span>ArgMatcher,
-        remaining_args: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>OsStr],
-        trailing_values: bool,
+        remaining_args: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>str],
     ) -&gt; ClapError {
         <span class="macro">debug!</span>(<span class="string">&quot;Parser::did_you_mean_error: arg={}&quot;</span>, arg);
         <span class="comment">// Didn&#39;t match a flag or option
@@ -3191,7 +3187,7 @@
         <span class="comment">// Add the arg to the matches to build a proper usage string
         </span><span class="kw">if let </span><span class="prelude-val">Some</span>((name, <span class="kw">_</span>)) = did_you_mean.as_ref() {
             <span class="kw">if let </span><span class="prelude-val">Some</span>(arg) = <span class="self">self</span>.cmd.get_keymap().get(<span class="kw-2">&amp;</span>name.as_ref()) {
-                <span class="self">self</span>.start_custom_arg(matcher, arg, ValueSource::CommandLine);
+                <span class="self">self</span>.start_occurrence_of_arg(matcher, arg);
             }
         }
 
@@ -3205,19 +3201,13 @@
             .cloned()
             .collect();
 
-        <span class="comment">// `did_you_mean` is a lot more likely and should cause us to skip the `--` suggestion
-        //
-        // In theory, this is only called for `--long`s, so we don&#39;t need to check
-        </span><span class="kw">let </span>suggested_trailing_arg =
-            did_you_mean.is_none() &amp;&amp; !trailing_values &amp;&amp; <span class="self">self</span>.cmd.has_positionals();
         ClapError::unknown_argument(
             <span class="self">self</span>.cmd,
-            <span class="macro">format!</span>(<span class="string">&quot;--{arg}&quot;</span>),
+            <span class="macro">format!</span>(<span class="string">&quot;--{}&quot;</span>, arg),
             did_you_mean,
-            suggested_trailing_arg,
             Usage::new(<span class="self">self</span>.cmd)
                 .required(<span class="kw-2">&amp;</span>required)
-                .create_usage_with_title(<span class="kw-2">&amp;</span>used),
+                .create_usage_with_title(<span class="kw-2">&amp;*</span>used),
         )
     }
 

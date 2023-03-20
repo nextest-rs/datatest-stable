@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/syn-1.0.109/src/path.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>path.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../syn/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/syn-1.0.91/src/path.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>path.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../syn/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -852,6 +852,23 @@
 <a href="#852" id="852">852</a>
 <a href="#853" id="853">853</a>
 <a href="#854" id="854">854</a>
+<a href="#855" id="855">855</a>
+<a href="#856" id="856">856</a>
+<a href="#857" id="857">857</a>
+<a href="#858" id="858">858</a>
+<a href="#859" id="859">859</a>
+<a href="#860" id="860">860</a>
+<a href="#861" id="861">861</a>
+<a href="#862" id="862">862</a>
+<a href="#863" id="863">863</a>
+<a href="#864" id="864">864</a>
+<a href="#865" id="865">865</a>
+<a href="#866" id="866">866</a>
+<a href="#867" id="867">867</a>
+<a href="#868" id="868">868</a>
+<a href="#869" id="869">869</a>
+<a href="#870" id="870">870</a>
+<a href="#871" id="871">871</a>
 </pre><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::punctuated::Punctuated;
 
@@ -943,8 +960,9 @@
         }
     }
 
-    <span class="kw">pub fn </span>is_none(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        <span class="kw">match </span><span class="self">self </span>{
+    <span class="attr">#[cfg(feature = <span class="string">&quot;parsing&quot;</span>)]
+    </span><span class="kw">fn </span>is_none(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
             PathArguments::None =&gt; <span class="bool-val">true</span>,
             PathArguments::AngleBracketed(<span class="kw">_</span>) | PathArguments::Parenthesized(<span class="kw">_</span>) =&gt; <span class="bool-val">false</span>,
         }
@@ -962,16 +980,16 @@
         </span>Lifetime(Lifetime),
         <span class="doccomment">/// A type argument.
         </span>Type(Type),
-        <span class="doccomment">/// A const expression. Must be inside of a block.
-        ///
-        /// NOTE: Identity expressions are represented as Type arguments, as
-        /// they are indistinguishable syntactically.
-        </span>Const(Expr),
         <span class="doccomment">/// A binding (equality constraint) on an associated type: the `Item =
         /// u8` in `Iterator&lt;Item = u8&gt;`.
         </span>Binding(Binding),
         <span class="doccomment">/// An associated type bound: `Iterator&lt;Item: Display&gt;`.
         </span>Constraint(Constraint),
+        <span class="doccomment">/// A const expression. Must be inside of a block.
+        ///
+        /// NOTE: Identity expressions are represented as Type arguments, as
+        /// they are indistinguishable syntactically.
+        </span>Const(Expr),
     }
 }
 
@@ -1582,6 +1600,8 @@
             <span class="kw">match </span><span class="self">self </span>{
                 GenericArgument::Lifetime(lt) =&gt; lt.to_tokens(tokens),
                 GenericArgument::Type(ty) =&gt; ty.to_tokens(tokens),
+                GenericArgument::Binding(tb) =&gt; tb.to_tokens(tokens),
+                GenericArgument::Constraint(tc) =&gt; tc.to_tokens(tokens),
                 GenericArgument::Const(e) =&gt; <span class="kw">match </span><span class="kw-2">*</span>e {
                     Expr::Lit(<span class="kw">_</span>) =&gt; e.to_tokens(tokens),
 
@@ -1597,8 +1617,6 @@
                         e.to_tokens(tokens);
                     }),
                 },
-                GenericArgument::Binding(tb) =&gt; tb.to_tokens(tokens),
-                GenericArgument::Constraint(tc) =&gt; tc.to_tokens(tokens),
             }
         }
     }
@@ -1609,8 +1627,11 @@
             <span class="self">self</span>.colon2_token.to_tokens(tokens);
             <span class="self">self</span>.lt_token.to_tokens(tokens);
 
-            <span class="comment">// Print lifetimes before types/consts/bindings, regardless of their
-            // order in self.args.
+            <span class="comment">// Print lifetimes before types and consts, all before bindings,
+            // regardless of their order in self.args.
+            //
+            // TODO: ordering rules for const arguments vs type arguments have
+            // not been settled yet. https://github.com/rust-lang/rust/issues/44580
             </span><span class="kw">let </span><span class="kw-2">mut </span>trailing_or_empty = <span class="bool-val">true</span>;
             <span class="kw">for </span>param <span class="kw">in </span><span class="self">self</span>.args.pairs() {
                 <span class="kw">match </span><span class="kw-2">**</span>param.value() {
@@ -1619,24 +1640,37 @@
                         trailing_or_empty = param.punct().is_some();
                     }
                     GenericArgument::Type(<span class="kw">_</span>)
-                    | GenericArgument::Const(<span class="kw">_</span>)
                     | GenericArgument::Binding(<span class="kw">_</span>)
-                    | GenericArgument::Constraint(<span class="kw">_</span>) =&gt; {}
+                    | GenericArgument::Constraint(<span class="kw">_</span>)
+                    | GenericArgument::Const(<span class="kw">_</span>) =&gt; {}
                 }
             }
             <span class="kw">for </span>param <span class="kw">in </span><span class="self">self</span>.args.pairs() {
                 <span class="kw">match </span><span class="kw-2">**</span>param.value() {
-                    GenericArgument::Type(<span class="kw">_</span>)
-                    | GenericArgument::Const(<span class="kw">_</span>)
-                    | GenericArgument::Binding(<span class="kw">_</span>)
-                    | GenericArgument::Constraint(<span class="kw">_</span>) =&gt; {
+                    GenericArgument::Type(<span class="kw">_</span>) | GenericArgument::Const(<span class="kw">_</span>) =&gt; {
                         <span class="kw">if </span>!trailing_or_empty {
                             &lt;<span class="macro">Token!</span>[,]&gt;::default().to_tokens(tokens);
                         }
                         param.to_tokens(tokens);
                         trailing_or_empty = param.punct().is_some();
                     }
-                    GenericArgument::Lifetime(<span class="kw">_</span>) =&gt; {}
+                    GenericArgument::Lifetime(<span class="kw">_</span>)
+                    | GenericArgument::Binding(<span class="kw">_</span>)
+                    | GenericArgument::Constraint(<span class="kw">_</span>) =&gt; {}
+                }
+            }
+            <span class="kw">for </span>param <span class="kw">in </span><span class="self">self</span>.args.pairs() {
+                <span class="kw">match </span><span class="kw-2">**</span>param.value() {
+                    GenericArgument::Binding(<span class="kw">_</span>) | GenericArgument::Constraint(<span class="kw">_</span>) =&gt; {
+                        <span class="kw">if </span>!trailing_or_empty {
+                            &lt;<span class="macro">Token!</span>[,]&gt;::default().to_tokens(tokens);
+                        }
+                        param.to_tokens(tokens);
+                        trailing_or_empty = param.punct().is_some();
+                    }
+                    GenericArgument::Lifetime(<span class="kw">_</span>)
+                    | GenericArgument::Type(<span class="kw">_</span>)
+                    | GenericArgument::Const(<span class="kw">_</span>) =&gt; {}
                 }
             }
 

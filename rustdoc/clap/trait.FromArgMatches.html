@@ -21,7 +21,7 @@
   <span class="kw">fn </span>from(m: ArgMatches) -&gt; <span class="self">Self </span>{
       Context {
           name: m.get_one::&lt;String&gt;(<span class="string">&quot;name&quot;</span>).unwrap().clone(),
-          debug: m.get_flag(<span class="string">&quot;debug&quot;</span>),
+          debug: <span class="kw-2">*</span>m.get_one::&lt;bool&gt;(<span class="string">&quot;debug&quot;</span>).expect(<span class="string">&quot;defaulted by clap&quot;</span>),
       }
   }
 }</code></pre></div>
@@ -40,7 +40,7 @@
   <span class="kw">fn </span>from(m: ArgMatches) -&gt; <span class="self">Self </span>{
       Context {
           name: m.get_one::&lt;String&gt;(<span class="string">&quot;name&quot;</span>).unwrap().to_string(),
-          debug: m.get_flag(<span class="string">&quot;debug&quot;</span>),
+          debug: <span class="kw-2">*</span>m.get_one::&lt;bool&gt;(<span class="string">&quot;debug&quot;</span>).expect(<span class="string">&quot;defaulted by clap&quot;</span>),
       }
   }
 }</code></pre></div>

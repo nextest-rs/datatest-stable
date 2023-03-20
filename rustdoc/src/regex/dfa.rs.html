@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/regex-1.7.1/src/dfa.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>dfa.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../regex/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/regex-1.5.5/src/dfa.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>dfa.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../regex/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1943,6 +1943,10 @@
 <a href="#1943" id="1943">1943</a>
 <a href="#1944" id="1944">1944</a>
 <a href="#1945" id="1945">1945</a>
+<a href="#1946" id="1946">1946</a>
+<a href="#1947" id="1947">1947</a>
+<a href="#1948" id="1948">1948</a>
+<a href="#1949" id="1949">1949</a>
 </pre><pre class="rust"><code><span class="doccomment">/*!
 The DFA matching engine.
 
@@ -1976,7 +1980,7 @@ considerably more complex than one might expect out of a DFA. A number of
 tricks are employed to make it fast. Tread carefully.
 
 N.B. While this implementation is heavily commented, Russ Cox&#39;s series of
-articles on regexes is strongly recommended: &lt;https://swtch.com/~rsc/regexp/&gt;
+articles on regexes is strongly recommended: https://swtch.com/~rsc/regexp/
 (As is the DFA implementation in RE2, which heavily influenced this
 implementation.)
 */
@@ -2399,10 +2403,10 @@ implementation.)
         <span class="kw">let </span><span class="kw-2">mut </span>cache = cache.borrow_mut();
         <span class="kw">let </span>cache = <span class="kw-2">&amp;mut </span>cache.dfa;
         <span class="kw">let </span><span class="kw-2">mut </span>dfa = Fsm {
-            prog,
+            prog: prog,
             start: <span class="number">0</span>, <span class="comment">// filled in below
-            </span>at,
-            quit_after_match,
+            </span>at: at,
+            quit_after_match: quit_after_match,
             last_match_si: STATE_UNKNOWN,
             last_cache_flush: at,
             cache: <span class="kw-2">&amp;mut </span>cache.inner,
@@ -2429,10 +2433,10 @@ implementation.)
         <span class="kw">let </span><span class="kw-2">mut </span>cache = cache.borrow_mut();
         <span class="kw">let </span>cache = <span class="kw-2">&amp;mut </span>cache.dfa_reverse;
         <span class="kw">let </span><span class="kw-2">mut </span>dfa = Fsm {
-            prog,
+            prog: prog,
             start: <span class="number">0</span>, <span class="comment">// filled in below
-            </span>at,
-            quit_after_match,
+            </span>at: at,
+            quit_after_match: quit_after_match,
             last_match_si: STATE_UNKNOWN,
             last_cache_flush: at,
             cache: <span class="kw-2">&amp;mut </span>cache.inner,
@@ -2460,9 +2464,9 @@ implementation.)
         <span class="kw">let </span><span class="kw-2">mut </span>cache = cache.borrow_mut();
         <span class="kw">let </span>cache = <span class="kw-2">&amp;mut </span>cache.dfa;
         <span class="kw">let </span><span class="kw-2">mut </span>dfa = Fsm {
-            prog,
+            prog: prog,
             start: <span class="number">0</span>, <span class="comment">// filled in below
-            </span>at,
+            </span>at: at,
             quit_after_match: <span class="bool-val">false</span>,
             last_match_si: STATE_UNKNOWN,
             last_cache_flush: at,
@@ -3551,7 +3555,11 @@ implementation.)
 
 <span class="kw">impl </span>StateMap {
     <span class="kw">fn </span>new(num_byte_classes: usize) -&gt; StateMap {
-        StateMap { map: HashMap::new(), states: <span class="macro">vec!</span>[], num_byte_classes }
+        StateMap {
+            map: HashMap::new(),
+            states: <span class="macro">vec!</span>[],
+            num_byte_classes: num_byte_classes,
+        }
     }
 
     <span class="kw">fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
@@ -3587,7 +3595,7 @@ implementation.)
     /// The number of byte classes corresponds to the stride. Every state will
     /// have `num_byte_classes` slots for transitions.
     </span><span class="kw">fn </span>new(num_byte_classes: usize) -&gt; Transitions {
-        Transitions { table: <span class="macro">vec!</span>[], num_byte_classes }
+        Transitions { table: <span class="macro">vec!</span>[], num_byte_classes: num_byte_classes }
     }
 
     <span class="doccomment">/// Returns the total number of states currently in this table.
@@ -3637,27 +3645,27 @@ implementation.)
 
 <span class="kw">impl </span>StateFlags {
     <span class="kw">fn </span>is_match(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        <span class="self">self</span>.<span class="number">0 </span>&amp; <span class="number">0b0000_0001 </span>&gt; <span class="number">0
+        <span class="self">self</span>.<span class="number">0 </span>&amp; <span class="number">0b0000000_1 </span>&gt; <span class="number">0
     </span>}
 
     <span class="kw">fn </span>set_match(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
-        <span class="self">self</span>.<span class="number">0 </span>|= <span class="number">0b0000_0001</span>;
+        <span class="self">self</span>.<span class="number">0 </span>|= <span class="number">0b0000000_1</span>;
     }
 
     <span class="kw">fn </span>is_word(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        <span class="self">self</span>.<span class="number">0 </span>&amp; <span class="number">0b0000_0010 </span>&gt; <span class="number">0
+        <span class="self">self</span>.<span class="number">0 </span>&amp; <span class="number">0b000000_1_0 </span>&gt; <span class="number">0
     </span>}
 
     <span class="kw">fn </span>set_word(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
-        <span class="self">self</span>.<span class="number">0 </span>|= <span class="number">0b0000_0010</span>;
+        <span class="self">self</span>.<span class="number">0 </span>|= <span class="number">0b000000_1_0</span>;
     }
 
     <span class="kw">fn </span>has_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        <span class="self">self</span>.<span class="number">0 </span>&amp; <span class="number">0b0000_0100 </span>&gt; <span class="number">0
+        <span class="self">self</span>.<span class="number">0 </span>&amp; <span class="number">0b00000_1_00 </span>&gt; <span class="number">0
     </span>}
 
     <span class="kw">fn </span>set_empty(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
-        <span class="self">self</span>.<span class="number">0 </span>|= <span class="number">0b0000_0100</span>;
+        <span class="self">self</span>.<span class="number">0 </span>|= <span class="number">0b00000_1_00</span>;
     }
 }
 

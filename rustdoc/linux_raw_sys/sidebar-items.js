@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"mod":[["cmsg_macros",""],["ctypes",""],["errno",""],["general",""],["ioctl",""]]};

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/regex-syntax-0.6.28/src/ast/parse.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>parse.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../regex_syntax/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/regex-syntax-0.6.25/src/ast/parse.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>parse.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../regex_syntax/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -5928,6 +5928,20 @@
 <a href="#5928" id="5928">5928</a>
 <a href="#5929" id="5929">5929</a>
 <a href="#5930" id="5930">5930</a>
+<a href="#5931" id="5931">5931</a>
+<a href="#5932" id="5932">5932</a>
+<a href="#5933" id="5933">5933</a>
+<a href="#5934" id="5934">5934</a>
+<a href="#5935" id="5935">5935</a>
+<a href="#5936" id="5936">5936</a>
+<a href="#5937" id="5937">5937</a>
+<a href="#5938" id="5938">5938</a>
+<a href="#5939" id="5939">5939</a>
+<a href="#5940" id="5940">5940</a>
+<a href="#5941" id="5941">5941</a>
+<a href="#5942" id="5942">5942</a>
+<a href="#5943" id="5943">5943</a>
+<a href="#5944" id="5944">5944</a>
 </pre><pre class="rust"><code><span class="doccomment">/*!
 This module provides a regular expression parser.
 */
@@ -6097,7 +6111,7 @@ This module provides a regular expression parser.
     /// they should impose a limit on the length, in bytes, of the concrete
     /// pattern string. In particular, this is viable since this parser
     /// implementation will limit itself to heap space proportional to the
-    /// length of the pattern string.
+    /// lenth of the pattern string.
     ///
     /// Note that a nest limit of `0` will return a nest limit error for most
     /// patterns but not all. For example, a nest limit of `0` permits `a` but
@@ -6132,7 +6146,7 @@ This module provides a regular expression parser.
 
     <span class="doccomment">/// Enable verbose mode in the regular expression.
     ///
-    /// When enabled, verbose mode permits insignificant whitespace in many
+    /// When enabled, verbose mode permits insigificant whitespace in many
     /// places in the regular expression, as well as comments. Comments are
     /// started using `#` and continue until the end of the line.
     ///
@@ -6166,7 +6180,7 @@ This module provides a regular expression parser.
     /// supported.
     </span>octal: bool,
     <span class="doccomment">/// The initial setting for `ignore_whitespace` as provided by
-    /// `ParserBuilder`. It is used when resetting the parser&#39;s state.
+    /// Th`ParserBuilder`. is is used when reseting the parser&#39;s state.
     </span>initial_ignore_whitespace: bool,
     <span class="doccomment">/// Whether whitespace should be ignored. When enabled, comments are
     /// also permitted.
@@ -6296,7 +6310,7 @@ This module provides a regular expression parser.
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;s</span>, P: Borrow&lt;Parser&gt;&gt; ParserI&lt;<span class="lifetime">&#39;s</span>, P&gt; {
     <span class="doccomment">/// Build an internal parser from a parser configuration and a pattern.
     </span><span class="kw">fn </span>new(parser: P, pattern: <span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span>str) -&gt; ParserI&lt;<span class="lifetime">&#39;s</span>, P&gt; {
-        ParserI { parser, pattern }
+        ParserI { parser: parser, pattern: pattern }
     }
 
     <span class="doccomment">/// Return a reference to the parser state.
@@ -6311,7 +6325,11 @@ This module provides a regular expression parser.
 
     <span class="doccomment">/// Create a new error with the given span and error type.
     </span><span class="kw">fn </span>error(<span class="kw-2">&amp;</span><span class="self">self</span>, span: Span, kind: ast::ErrorKind) -&gt; ast::Error {
-        ast::Error { kind, pattern: <span class="self">self</span>.pattern().to_string(), span }
+        ast::Error {
+            kind: kind,
+            pattern: <span class="self">self</span>.pattern().to_string(),
+            span: span,
+        }
     }
 
     <span class="doccomment">/// Return the current offset of the parser.
@@ -6407,7 +6425,11 @@ This module provides a regular expression parser.
             column = column.checked_add(<span class="number">1</span>).unwrap();
         }
         offset += <span class="self">self</span>.char().len_utf8();
-        <span class="self">self</span>.parser().pos.set(Position { offset, line, column });
+        <span class="self">self</span>.parser().pos.set(Position {
+            offset: offset,
+            line: line,
+            column: column,
+        });
         <span class="self">self</span>.pattern()[<span class="self">self</span>.offset()..].chars().next().is_some()
     }
 
@@ -6625,8 +6647,8 @@ This module provides a regular expression parser.
                     .unwrap_or(old_ignore_whitespace);
                 <span class="self">self</span>.parser().stack_group.borrow_mut().push(
                     GroupState::Group {
-                        concat,
-                        group,
+                        concat: concat,
+                        group: group,
                         ignore_whitespace: old_ignore_whitespace,
                     },
                 );
@@ -6821,8 +6843,12 @@ This module provides a regular expression parser.
     </span><span class="attr">#[inline(never)]
     </span><span class="kw">fn </span>unclosed_class_error(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; ast::Error {
         <span class="kw">for </span>state <span class="kw">in </span><span class="self">self</span>.parser().stack_class.borrow().iter().rev() {
-            <span class="kw">if let </span>ClassState::Open { <span class="kw-2">ref </span>set, .. } = <span class="kw-2">*</span>state {
-                <span class="kw">return </span><span class="self">self</span>.error(set.span, ast::ErrorKind::ClassUnclosed);
+            <span class="kw">match </span><span class="kw-2">*</span>state {
+                ClassState::Open { <span class="kw-2">ref </span>set, .. } =&gt; {
+                    <span class="kw">return </span><span class="self">self
+                        </span>.error(set.span, ast::ErrorKind::ClassUnclosed);
+                }
+                <span class="kw">_ </span>=&gt; {}
             }
         }
         <span class="comment">// We are guaranteed to have a non-empty stack with at least
@@ -6868,8 +6894,8 @@ This module provides a regular expression parser.
         };
         <span class="kw">let </span>span = Span::new(lhs.span().start, rhs.span().end);
         ast::ClassSet::BinaryOp(ast::ClassSetBinaryOp {
-            span,
-            kind,
+            span: span,
+            kind: kind,
             lhs: Box::new(lhs),
             rhs: Box::new(rhs),
         })
@@ -6928,7 +6954,7 @@ This module provides a regular expression parser.
         <span class="kw">let </span>ast = <span class="self">self</span>.pop_group_end(concat)<span class="question-mark">?</span>;
         NestLimiter::new(<span class="self">self</span>).check(<span class="kw-2">&amp;</span>ast)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(ast::WithComments {
-            ast,
+            ast: ast,
             comments: mem::replace(
                 <span class="kw-2">&amp;mut *</span><span class="self">self</span>.parser().comments.borrow_mut(),
                 <span class="macro">vec!</span>[],
@@ -6941,7 +6967,7 @@ This module provides a regular expression parser.
     /// The given `kind` should correspond to the operator observed by the
     /// caller.
     ///
-    /// This assumes that the parser is currently positioned at the repetition
+    /// This assumes that the paser is currently positioned at the repetition
     /// operator and advances the parser to the first character after the
     /// operator. (Note that the operator may include a single additional `?`,
     /// which makes the operator ungreedy.)
@@ -6984,9 +7010,9 @@ This module provides a regular expression parser.
             span: ast.span().with_end(<span class="self">self</span>.pos()),
             op: ast::RepetitionOp {
                 span: Span::new(op_start, <span class="self">self</span>.pos()),
-                kind,
+                kind: kind,
             },
-            greedy,
+            greedy: greedy,
             ast: Box::new(ast),
         }));
         <span class="prelude-val">Ok</span>(concat)
@@ -6996,7 +7022,7 @@ This module provides a regular expression parser.
     /// corresponds to the {m,n} syntax, and does not include the ?, * or +
     /// operators.
     ///
-    /// This assumes that the parser is currently positioned at the opening `{`
+    /// This assumes that the paser is currently positioned at the opening `{`
     /// and advances the parser to the first character after the operator.
     /// (Note that the operator may include a single additional `?`, which
     /// makes the operator ungreedy.)
@@ -7088,7 +7114,7 @@ This module provides a regular expression parser.
                 span: op_span,
                 kind: ast::RepetitionKind::Range(range),
             },
-            greedy,
+            greedy: greedy,
             ast: Box::new(ast),
         }));
         <span class="prelude-val">Ok</span>(concat)
@@ -7153,7 +7179,7 @@ This module provides a regular expression parser.
                 }
                 <span class="prelude-val">Ok</span>(Either::Left(ast::SetFlags {
                     span: Span { end: <span class="self">self</span>.pos(), ..open_span },
-                    flags,
+                    flags: flags,
                 }))
             } <span class="kw">else </span>{
                 <span class="macro">assert_eq!</span>(char_end, <span class="string">&#39;:&#39;</span>);
@@ -7346,7 +7372,7 @@ This module provides a regular expression parser.
                 <span class="kw">let </span>ast = Primitive::Literal(ast::Literal {
                     span: <span class="self">self</span>.span_char(),
                     kind: ast::LiteralKind::Verbatim,
-                    c,
+                    c: c,
                 });
                 <span class="self">self</span>.bump();
                 <span class="prelude-val">Ok</span>(ast)
@@ -7412,16 +7438,16 @@ This module provides a regular expression parser.
         <span class="kw">let </span>span = Span::new(start, <span class="self">self</span>.pos());
         <span class="kw">if </span>is_meta_character(c) {
             <span class="kw">return </span><span class="prelude-val">Ok</span>(Primitive::Literal(ast::Literal {
-                span,
+                span: span,
                 kind: ast::LiteralKind::Punctuation,
-                c,
+                c: c,
             }));
         }
         <span class="kw">let </span>special = |kind, c| {
             <span class="prelude-val">Ok</span>(Primitive::Literal(ast::Literal {
-                span,
+                span: span,
                 kind: ast::LiteralKind::Special(kind),
-                c,
+                c: c,
             }))
         };
         <span class="kw">match </span>c {
@@ -7435,19 +7461,19 @@ This module provides a regular expression parser.
                 special(ast::SpecialLiteralKind::Space, <span class="string">&#39; &#39;</span>)
             }
             <span class="string">&#39;A&#39; </span>=&gt; <span class="prelude-val">Ok</span>(Primitive::Assertion(ast::Assertion {
-                span,
+                span: span,
                 kind: ast::AssertionKind::StartText,
             })),
             <span class="string">&#39;z&#39; </span>=&gt; <span class="prelude-val">Ok</span>(Primitive::Assertion(ast::Assertion {
-                span,
+                span: span,
                 kind: ast::AssertionKind::EndText,
             })),
             <span class="string">&#39;b&#39; </span>=&gt; <span class="prelude-val">Ok</span>(Primitive::Assertion(ast::Assertion {
-                span,
+                span: span,
                 kind: ast::AssertionKind::WordBoundary,
             })),
             <span class="string">&#39;B&#39; </span>=&gt; <span class="prelude-val">Ok</span>(Primitive::Assertion(ast::Assertion {
-                span,
+                span: span,
                 kind: ast::AssertionKind::NotWordBoundary,
             })),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(<span class="self">self</span>.error(span, ast::ErrorKind::EscapeUnrecognized)),
@@ -7487,7 +7513,7 @@ This module provides a regular expression parser.
         ast::Literal {
             span: Span::new(start, end),
             kind: ast::LiteralKind::Octal,
-            c,
+            c: c,
         }
     }
 
@@ -7563,7 +7589,7 @@ This module provides a regular expression parser.
             <span class="prelude-val">Some</span>(c) =&gt; <span class="prelude-val">Ok</span>(ast::Literal {
                 span: Span::new(start, end),
                 kind: ast::LiteralKind::HexFixed(kind),
-                c,
+                c: c,
             }),
         }
     }
@@ -7618,7 +7644,7 @@ This module provides a regular expression parser.
             <span class="prelude-val">Some</span>(c) =&gt; <span class="prelude-val">Ok</span>(ast::Literal {
                 span: Span::new(start, <span class="self">self</span>.pos()),
                 kind: ast::LiteralKind::HexBrace(kind),
-                c,
+                c: c,
             }),
         }
     }
@@ -7845,7 +7871,7 @@ This module provides a regular expression parser.
             }));
             <span class="kw">if </span>!<span class="self">self</span>.bump_and_bump_space() {
                 <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="self">self</span>.error(
-                    Span::new(start, start),
+                    Span::new(start, <span class="self">self</span>.pos()),
                     ast::ErrorKind::ClassUnclosed,
                 ));
             }
@@ -7867,7 +7893,7 @@ This module provides a regular expression parser.
         }
         <span class="kw">let </span>set = ast::ClassBracketed {
             span: Span::new(start, <span class="self">self</span>.pos()),
-            negated,
+            negated: negated,
             kind: ast::ClassSet::union(ast::ClassSetUnion {
                 span: Span::new(union.span.start, union.span.start),
                 items: <span class="macro">vec!</span>[],
@@ -7944,8 +7970,8 @@ This module provides a regular expression parser.
         };
         <span class="prelude-val">Some</span>(ast::ClassAscii {
             span: Span::new(start, <span class="self">self</span>.pos()),
-            kind,
-            negated,
+            kind: kind,
+            negated: negated,
         })
     }
 
@@ -8026,8 +8052,8 @@ This module provides a regular expression parser.
         };
         <span class="prelude-val">Ok</span>(ast::ClassUnicode {
             span: Span::new(start, <span class="self">self</span>.pos()),
-            negated,
-            kind,
+            negated: negated,
+            kind: kind,
         })
     }
 
@@ -8048,7 +8074,7 @@ This module provides a regular expression parser.
             <span class="string">&#39;W&#39; </span>=&gt; (<span class="bool-val">true</span>, ast::ClassPerlKind::Word),
             c =&gt; <span class="macro">panic!</span>(<span class="string">&quot;expected valid Perl class but got &#39;{}&#39;&quot;</span>, c),
         };
-        ast::ClassPerl { span, kind, negated }
+        ast::ClassPerl { span: span, kind: kind, negated: negated }
     }
 }
 
@@ -8064,7 +8090,7 @@ This module provides a regular expression parser.
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;p</span>, <span class="lifetime">&#39;s</span>, P: Borrow&lt;Parser&gt;&gt; NestLimiter&lt;<span class="lifetime">&#39;p</span>, <span class="lifetime">&#39;s</span>, P&gt; {
     <span class="kw">fn </span>new(p: <span class="kw-2">&amp;</span><span class="lifetime">&#39;p </span>ParserI&lt;<span class="lifetime">&#39;s</span>, P&gt;) -&gt; NestLimiter&lt;<span class="lifetime">&#39;p</span>, <span class="lifetime">&#39;s</span>, P&gt; {
-        NestLimiter { p, depth: <span class="number">0 </span>}
+        NestLimiter { p: p, depth: <span class="number">0 </span>}
     }
 
     <span class="attr">#[inline(never)]
@@ -8347,18 +8373,18 @@ This module provides a regular expression parser.
     <span class="doccomment">/// Create a punctuation literal starting at the given position.
     </span><span class="kw">fn </span>punct_lit(c: char, span: Span) -&gt; Ast {
         Ast::Literal(ast::Literal {
-            span,
+            span: span,
             kind: ast::LiteralKind::Punctuation,
-            c,
+            c: c,
         })
     }
 
     <span class="doccomment">/// Create a verbatim literal with the given span.
     </span><span class="kw">fn </span>lit_with(c: char, span: Span) -&gt; Ast {
         Ast::Literal(ast::Literal {
-            span,
+            span: span,
             kind: ast::LiteralKind::Verbatim,
-            c,
+            c: c,
         })
     }
 
@@ -8369,12 +8395,12 @@ This module provides a regular expression parser.
 
     <span class="doccomment">/// Create a concatenation with the given span.
     </span><span class="kw">fn </span>concat_with(span: Span, asts: Vec&lt;Ast&gt;) -&gt; Ast {
-        Ast::Concat(ast::Concat { span, asts })
+        Ast::Concat(ast::Concat { span: span, asts: asts })
     }
 
     <span class="doccomment">/// Create an alternation with the given span.
     </span><span class="kw">fn </span>alt(range: Range&lt;usize&gt;, asts: Vec&lt;Ast&gt;) -&gt; Ast {
-        Ast::Alternation(ast::Alternation { span: span(range), asts })
+        Ast::Alternation(ast::Alternation { span: span(range), asts: asts })
     }
 
     <span class="doccomment">/// Create a capturing group with the given span.
@@ -8416,7 +8442,7 @@ This module provides a regular expression parser.
             span: span_range(pat, range.clone()),
             flags: ast::Flags {
                 span: span_range(pat, (range.start + <span class="number">2</span>)..(range.end - <span class="number">1</span>)),
-                items,
+                items: items,
             },
         })
     }
@@ -10126,7 +10152,7 @@ bar
                 <span class="prelude-val">Ok</span>(Primitive::Literal(ast::Literal {
                     span: span(<span class="number">0</span>..<span class="number">2</span>),
                     kind: ast::LiteralKind::Special(kind.clone()),
-                    c,
+                    c: c,
                 }))
             );
         }
@@ -10320,7 +10346,7 @@ bar
                     kind: ast::LiteralKind::HexFixed(
                         ast::HexLiteralKind::UnicodeShort
                     ),
-                    c,
+                    c: c,
                 }))
             );
         }
@@ -10384,7 +10410,7 @@ bar
                     kind: ast::LiteralKind::HexFixed(
                         ast::HexLiteralKind::UnicodeLong
                     ),
-                    c,
+                    c: c,
                 }))
             );
         }
@@ -10585,7 +10611,10 @@ bar
     <span class="attr">#[test]
     </span><span class="kw">fn </span>parse_set_class() {
         <span class="kw">fn </span>union(span: Span, items: Vec&lt;ast::ClassSetItem&gt;) -&gt; ast::ClassSet {
-            ast::ClassSet::union(ast::ClassSetUnion { span, items })
+            ast::ClassSet::union(ast::ClassSetUnion {
+                span: span,
+                items: items,
+            })
         }
 
         <span class="kw">fn </span>intersection(
@@ -10594,7 +10623,7 @@ bar
             rhs: ast::ClassSet,
         ) -&gt; ast::ClassSet {
             ast::ClassSet::BinaryOp(ast::ClassSetBinaryOp {
-                span,
+                span: span,
                 kind: ast::ClassSetBinaryOpKind::Intersection,
                 lhs: Box::new(lhs),
                 rhs: Box::new(rhs),
@@ -10607,7 +10636,7 @@ bar
             rhs: ast::ClassSet,
         ) -&gt; ast::ClassSet {
             ast::ClassSet::BinaryOp(ast::ClassSetBinaryOp {
-                span,
+                span: span,
                 kind: ast::ClassSetBinaryOpKind::Difference,
                 lhs: Box::new(lhs),
                 rhs: Box::new(rhs),
@@ -10620,7 +10649,7 @@ bar
             rhs: ast::ClassSet,
         ) -&gt; ast::ClassSet {
             ast::ClassSet::BinaryOp(ast::ClassSetBinaryOp {
-                span,
+                span: span,
                 kind: ast::ClassSetBinaryOpKind::SymmetricDifference,
                 lhs: Box::new(lhs),
                 rhs: Box::new(rhs),
@@ -10649,9 +10678,9 @@ bar
 
         <span class="kw">fn </span>lit(span: Span, c: char) -&gt; ast::ClassSetItem {
             ast::ClassSetItem::Literal(ast::Literal {
-                span,
+                span: span,
                 kind: ast::LiteralKind::Verbatim,
-                c,
+                c: c,
             })
         }
 
@@ -10671,7 +10700,7 @@ bar
                 ..span.end
             };
             ast::ClassSetItem::Range(ast::ClassSetRange {
-                span,
+                span: span,
                 start: ast::Literal {
                     span: Span { end: pos1, ..span },
                     kind: ast::LiteralKind::Verbatim,
@@ -10686,11 +10715,19 @@ bar
         }
 
         <span class="kw">fn </span>alnum(span: Span, negated: bool) -&gt; ast::ClassAscii {
-            ast::ClassAscii { span, kind: ast::ClassAsciiKind::Alnum, negated }
+            ast::ClassAscii {
+                span: span,
+                kind: ast::ClassAsciiKind::Alnum,
+                negated: negated,
+            }
         }
 
         <span class="kw">fn </span>lower(span: Span, negated: bool) -&gt; ast::ClassAscii {
-            ast::ClassAscii { span, kind: ast::ClassAsciiKind::Lower, negated }
+            ast::ClassAscii {
+                span: span,
+                kind: ast::ClassAsciiKind::Lower,
+                negated: negated,
+            }
         }
 
         <span class="macro">assert_eq!</span>(
@@ -11422,23 +11459,14 @@ bar
         <span class="macro">assert_eq!</span>(
             parser(<span class="string">&quot;[-&quot;</span>).parse_set_class_open().unwrap_err(),
             TestError {
-                span: span(<span class="number">0</span>..<span class="number">0</span>),
+                span: span(<span class="number">0</span>..<span class="number">2</span>),
                 kind: ast::ErrorKind::ClassUnclosed,
             }
         );
         <span class="macro">assert_eq!</span>(
             parser(<span class="string">&quot;[--&quot;</span>).parse_set_class_open().unwrap_err(),
             TestError {
-                span: span(<span class="number">0</span>..<span class="number">0</span>),
-                kind: ast::ErrorKind::ClassUnclosed,
-            }
-        );
-
-        <span class="comment">// See: https://github.com/rust-lang/regex/issues/792
-        </span><span class="macro">assert_eq!</span>(
-            parser(<span class="string">&quot;(?x)[-#]&quot;</span>).parse_with_comments().unwrap_err(),
-            TestError {
-                span: span(<span class="number">4</span>..<span class="number">4</span>),
+                span: span(<span class="number">0</span>..<span class="number">3</span>),
                 kind: ast::ErrorKind::ClassUnclosed,
             }
         );

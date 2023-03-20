@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/regex-1.7.1/src/compile.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>compile.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../regex/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/regex-1.5.5/src/compile.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>compile.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../regex/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1262,6 +1262,9 @@
 <a href="#1262" id="1262">1262</a>
 <a href="#1263" id="1263">1263</a>
 <a href="#1264" id="1264">1264</a>
+<a href="#1265" id="1265">1265</a>
+<a href="#1266" id="1266">1266</a>
+<a href="#1267" id="1267">1267</a>
 </pre><pre class="rust"><code><span class="kw">use </span>std::collections::HashMap;
 <span class="kw">use </span>std::fmt;
 <span class="kw">use </span>std::iter;
@@ -1413,8 +1416,7 @@
             <span class="self">self</span>.compiled.start = dotstar_patch.entry;
         }
         <span class="self">self</span>.compiled.captures = <span class="macro">vec!</span>[<span class="prelude-val">None</span>];
-        <span class="kw">let </span>patch =
-            <span class="self">self</span>.c_capture(<span class="number">0</span>, expr)<span class="question-mark">?</span>.unwrap_or_else(|| <span class="self">self</span>.next_inst());
+        <span class="kw">let </span>patch = <span class="self">self</span>.c_capture(<span class="number">0</span>, expr)<span class="question-mark">?</span>.unwrap_or(<span class="self">self</span>.next_inst());
         <span class="kw">if </span><span class="self">self</span>.compiled.needs_dotstar() {
             <span class="self">self</span>.fill(dotstar_patch.hole, patch.entry);
         } <span class="kw">else </span>{
@@ -1450,7 +1452,7 @@
             <span class="self">self</span>.fill_to_next(prev_hole);
             <span class="kw">let </span>split = <span class="self">self</span>.push_split_hole();
             <span class="kw">let </span>Patch { hole, entry } =
-                <span class="self">self</span>.c_capture(<span class="number">0</span>, expr)<span class="question-mark">?</span>.unwrap_or_else(|| <span class="self">self</span>.next_inst());
+                <span class="self">self</span>.c_capture(<span class="number">0</span>, expr)<span class="question-mark">?</span>.unwrap_or(<span class="self">self</span>.next_inst());
             <span class="self">self</span>.fill_to_next(hole);
             <span class="self">self</span>.compiled.matches.push(<span class="self">self</span>.insts.len());
             <span class="self">self</span>.push_compiled(Inst::Match(i));
@@ -1458,7 +1460,7 @@
         }
         <span class="kw">let </span>i = exprs.len() - <span class="number">1</span>;
         <span class="kw">let </span>Patch { hole, entry } =
-            <span class="self">self</span>.c_capture(<span class="number">0</span>, <span class="kw-2">&amp;</span>exprs[i])<span class="question-mark">?</span>.unwrap_or_else(|| <span class="self">self</span>.next_inst());
+            <span class="self">self</span>.c_capture(<span class="number">0</span>, <span class="kw-2">&amp;</span>exprs[i])<span class="question-mark">?</span>.unwrap_or(<span class="self">self</span>.next_inst());
         <span class="self">self</span>.fill(prev_hole, entry);
         <span class="self">self</span>.fill_to_next(hole);
         <span class="self">self</span>.compiled.matches.push(<span class="self">self</span>.insts.len());
@@ -1675,11 +1677,11 @@
         } <span class="kw">else </span>{
             <span class="kw">let </span>entry = <span class="self">self</span>.insts.len();
             <span class="kw">let </span>hole = <span class="self">self</span>.push_hole(InstHole::Save { slot: first_slot });
-            <span class="kw">let </span>patch = <span class="self">self</span>.c(expr)<span class="question-mark">?</span>.unwrap_or_else(|| <span class="self">self</span>.next_inst());
+            <span class="kw">let </span>patch = <span class="self">self</span>.c(expr)<span class="question-mark">?</span>.unwrap_or(<span class="self">self</span>.next_inst());
             <span class="self">self</span>.fill(hole, patch.entry);
             <span class="self">self</span>.fill_to_next(patch.hole);
             <span class="kw">let </span>hole = <span class="self">self</span>.push_hole(InstHole::Save { slot: first_slot + <span class="number">1 </span>});
-            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Patch { hole, entry }))
+            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Patch { hole: hole, entry: entry }))
         }
     }
 
@@ -1713,7 +1715,7 @@
                 <span class="self">self</span>.c_class(<span class="kw-2">&amp;</span>[hir::ClassUnicodeRange::new(c, c)])
             }
         } <span class="kw">else </span>{
-            <span class="kw">let </span>hole = <span class="self">self</span>.push_hole(InstHole::Char { c });
+            <span class="kw">let </span>hole = <span class="self">self</span>.push_hole(InstHole::Char { c: c });
             <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Patch { hole, entry: <span class="self">self</span>.insts.len() - <span class="number">1 </span>}))
         }
     }
@@ -1723,7 +1725,7 @@
 
         <span class="macro">assert!</span>(!ranges.is_empty());
         <span class="kw">if </span><span class="self">self</span>.compiled.uses_bytes() {
-            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(CompileClass { c: <span class="self">self</span>, ranges }.compile()<span class="question-mark">?</span>))
+            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(CompileClass { c: <span class="self">self</span>, ranges: ranges }.compile()<span class="question-mark">?</span>))
         } <span class="kw">else </span>{
             <span class="kw">let </span>ranges: Vec&lt;(char, char)&gt; =
                 ranges.iter().map(|r| (r.start(), r.end())).collect();
@@ -1732,9 +1734,9 @@
             } <span class="kw">else </span>{
                 <span class="self">self</span>.extra_inst_bytes +=
                     ranges.len() * (size_of::&lt;char&gt;() * <span class="number">2</span>);
-                <span class="self">self</span>.push_hole(InstHole::Ranges { ranges })
+                <span class="self">self</span>.push_hole(InstHole::Ranges { ranges: ranges })
             };
-            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Patch { hole, entry: <span class="self">self</span>.insts.len() - <span class="number">1 </span>}))
+            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Patch { hole: hole, entry: <span class="self">self</span>.insts.len() - <span class="number">1 </span>}))
         }
     }
 
@@ -1773,8 +1775,8 @@
     }
 
     <span class="kw">fn </span>c_empty_look(<span class="kw-2">&amp;mut </span><span class="self">self</span>, look: EmptyLook) -&gt; ResultOrEmpty {
-        <span class="kw">let </span>hole = <span class="self">self</span>.push_hole(InstHole::EmptyLook { look });
-        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Patch { hole, entry: <span class="self">self</span>.insts.len() - <span class="number">1 </span>}))
+        <span class="kw">let </span>hole = <span class="self">self</span>.push_hole(InstHole::EmptyLook { look: look });
+        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Patch { hole: hole, entry: <span class="self">self</span>.insts.len() - <span class="number">1 </span>}))
     }
 
     <span class="kw">fn </span>c_concat&lt;<span class="lifetime">&#39;a</span>, I&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, exprs: I) -&gt; ResultOrEmpty
@@ -1798,7 +1800,7 @@
                 hole = p.hole;
             }
         }
-        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Patch { hole, entry }))
+        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Patch { hole: hole, entry: entry }))
     }
 
     <span class="kw">fn </span>c_alternate(<span class="kw-2">&amp;mut </span><span class="self">self</span>, exprs: <span class="kw-2">&amp;</span>[Hir]) -&gt; ResultOrEmpty {
@@ -1941,7 +1943,7 @@
         // None).
         </span><span class="kw">let </span>patch_concat = <span class="self">self
             </span>.c_concat(iter::repeat(expr).take(min))<span class="question-mark">?
-            </span>.unwrap_or_else(|| <span class="self">self</span>.next_inst());
+            </span>.unwrap_or(<span class="self">self</span>.next_inst());
         <span class="kw">if let </span><span class="prelude-val">Some</span>(patch_rep) = <span class="self">self</span>.c_repeat_zero_or_more(expr, greedy)<span class="question-mark">? </span>{
             <span class="self">self</span>.fill(patch_concat.hole, patch_rep.entry);
             <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Patch { hole: patch_rep.hole, entry: patch_concat.entry }))
@@ -1965,7 +1967,7 @@
         }
         <span class="comment">// Same reasoning as in c_repeat_range_min_or_more (we know that min &lt;
         // max at this point).
-        </span><span class="kw">let </span>patch_concat = patch_concat.unwrap_or_else(|| <span class="self">self</span>.next_inst());
+        </span><span class="kw">let </span>patch_concat = patch_concat.unwrap_or(<span class="self">self</span>.next_inst());
         <span class="kw">let </span>initial_entry = patch_concat.entry;
         <span class="comment">// It is much simpler to compile, e.g., `a{2,5}` as:
         //
@@ -2144,14 +2146,14 @@
             }
             MaybeInst::Split1(goto1) =&gt; {
                 MaybeInst::Compiled(Inst::Split(InstSplit {
-                    goto1,
+                    goto1: goto1,
                     goto2: goto,
                 }))
             }
             MaybeInst::Split2(goto2) =&gt; {
                 MaybeInst::Compiled(Inst::Split(InstSplit {
                     goto1: goto,
-                    goto2,
+                    goto2: goto2,
                 }))
             }
             <span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>(
@@ -2165,7 +2167,9 @@
 
     <span class="kw">fn </span>fill_split(<span class="kw-2">&amp;mut </span><span class="self">self</span>, goto1: InstPtr, goto2: InstPtr) {
         <span class="kw">let </span>filled = <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
-            MaybeInst::Split =&gt; Inst::Split(InstSplit { goto1, goto2 }),
+            MaybeInst::Split =&gt; {
+                Inst::Split(InstSplit { goto1: goto1, goto2: goto2 })
+            }
             <span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>(
                 <span class="string">&quot;must be called on Split instruction, \
                  instead it was called on: {:?}&quot;</span>,
@@ -2223,17 +2227,19 @@
 <span class="kw">impl </span>InstHole {
     <span class="kw">fn </span>fill(<span class="kw-2">&amp;</span><span class="self">self</span>, goto: InstPtr) -&gt; Inst {
         <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
-            InstHole::Save { slot } =&gt; Inst::Save(InstSave { goto, slot }),
-            InstHole::EmptyLook { look } =&gt; {
-                Inst::EmptyLook(InstEmptyLook { goto, look })
+            InstHole::Save { slot } =&gt; {
+                Inst::Save(InstSave { goto: goto, slot: slot })
             }
-            InstHole::Char { c } =&gt; Inst::Char(InstChar { goto, c }),
+            InstHole::EmptyLook { look } =&gt; {
+                Inst::EmptyLook(InstEmptyLook { goto: goto, look: look })
+            }
+            InstHole::Char { c } =&gt; Inst::Char(InstChar { goto: goto, c: c }),
             InstHole::Ranges { <span class="kw-2">ref </span>ranges } =&gt; Inst::Ranges(InstRanges {
-                goto,
+                goto: goto,
                 ranges: ranges.clone().into_boxed_slice(),
             }),
             InstHole::Bytes { start, end } =&gt; {
-                Inst::Bytes(InstBytes { goto, start, end })
+                Inst::Bytes(InstBytes { goto: goto, start: start, end: end })
             }
         }
     }
@@ -2303,7 +2309,7 @@
         <span class="kw">let </span><span class="kw-2">mut </span>last_hole = Hole::None;
         <span class="kw">for </span>byte_range <span class="kw">in </span>seq {
             <span class="kw">let </span>key = SuffixCacheKey {
-                from_inst,
+                from_inst: from_inst,
                 start: byte_range.start,
                 end: byte_range.end,
             };
@@ -2393,7 +2399,7 @@
             }
         }
         <span class="kw-2">*</span>pos = <span class="self">self</span>.dense.len();
-        <span class="self">self</span>.dense.push(SuffixCacheEntry { key, pc });
+        <span class="self">self</span>.dense.push(SuffixCacheEntry { key: key, pc: pc });
         <span class="prelude-val">None
     </span>}
 
@@ -2404,8 +2410,8 @@
     <span class="kw">fn </span>hash(<span class="kw-2">&amp;</span><span class="self">self</span>, suffix: <span class="kw-2">&amp;</span>SuffixCacheKey) -&gt; usize {
         <span class="comment">// Basic FNV-1a hash as described:
         // https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function
-        </span><span class="kw">const </span>FNV_PRIME: u64 = <span class="number">1_099_511_628_211</span>;
-        <span class="kw">let </span><span class="kw-2">mut </span>h = <span class="number">14_695_981_039_346_656_037</span>;
+        </span><span class="kw">const </span>FNV_PRIME: u64 = <span class="number">1099511628211</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>h = <span class="number">14695981039346656037</span>;
         h = (h ^ (suffix.from_inst <span class="kw">as </span>u64)).wrapping_mul(FNV_PRIME);
         h = (h ^ (suffix.start <span class="kw">as </span>u64)).wrapping_mul(FNV_PRIME);
         h = (h ^ (suffix.end <span class="kw">as </span>u64)).wrapping_mul(FNV_PRIME);

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/syn-1.0.109/src/ty.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>ty.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../syn/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/syn-1.0.91/src/ty.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>ty.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../syn/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1253,55 +1253,6 @@
 <a href="#1253" id="1253">1253</a>
 <a href="#1254" id="1254">1254</a>
 <a href="#1255" id="1255">1255</a>
-<a href="#1256" id="1256">1256</a>
-<a href="#1257" id="1257">1257</a>
-<a href="#1258" id="1258">1258</a>
-<a href="#1259" id="1259">1259</a>
-<a href="#1260" id="1260">1260</a>
-<a href="#1261" id="1261">1261</a>
-<a href="#1262" id="1262">1262</a>
-<a href="#1263" id="1263">1263</a>
-<a href="#1264" id="1264">1264</a>
-<a href="#1265" id="1265">1265</a>
-<a href="#1266" id="1266">1266</a>
-<a href="#1267" id="1267">1267</a>
-<a href="#1268" id="1268">1268</a>
-<a href="#1269" id="1269">1269</a>
-<a href="#1270" id="1270">1270</a>
-<a href="#1271" id="1271">1271</a>
-<a href="#1272" id="1272">1272</a>
-<a href="#1273" id="1273">1273</a>
-<a href="#1274" id="1274">1274</a>
-<a href="#1275" id="1275">1275</a>
-<a href="#1276" id="1276">1276</a>
-<a href="#1277" id="1277">1277</a>
-<a href="#1278" id="1278">1278</a>
-<a href="#1279" id="1279">1279</a>
-<a href="#1280" id="1280">1280</a>
-<a href="#1281" id="1281">1281</a>
-<a href="#1282" id="1282">1282</a>
-<a href="#1283" id="1283">1283</a>
-<a href="#1284" id="1284">1284</a>
-<a href="#1285" id="1285">1285</a>
-<a href="#1286" id="1286">1286</a>
-<a href="#1287" id="1287">1287</a>
-<a href="#1288" id="1288">1288</a>
-<a href="#1289" id="1289">1289</a>
-<a href="#1290" id="1290">1290</a>
-<a href="#1291" id="1291">1291</a>
-<a href="#1292" id="1292">1292</a>
-<a href="#1293" id="1293">1293</a>
-<a href="#1294" id="1294">1294</a>
-<a href="#1295" id="1295">1295</a>
-<a href="#1296" id="1296">1296</a>
-<a href="#1297" id="1297">1297</a>
-<a href="#1298" id="1298">1298</a>
-<a href="#1299" id="1299">1299</a>
-<a href="#1300" id="1300">1300</a>
-<a href="#1301" id="1301">1301</a>
-<a href="#1302" id="1302">1302</a>
-<a href="#1303" id="1303">1303</a>
-<a href="#1304" id="1304">1304</a>
 </pre><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::punctuated::Punctuated;
 <span class="kw">use </span>proc_macro2::TokenStream;
@@ -1358,7 +1309,7 @@
         <span class="doccomment">/// A dynamically sized slice type: `[T]`.
         </span>Slice(TypeSlice),
 
-        <span class="doccomment">/// A trait object type `dyn Bound1 + Bound2 + Bound3` where `Bound` is a
+        <span class="doccomment">/// A trait object type `Bound1 + Bound2 + Bound3` where `Bound` is a
         /// trait or a lifetime.
         </span>TraitObject(TypeTraitObject),
 
@@ -1548,7 +1499,7 @@
 }
 
 <span class="macro">ast_struct! </span>{
-    <span class="doccomment">/// A trait object type `dyn Bound1 + Bound2 + Bound3` where `Bound` is a
+    <span class="doccomment">/// A trait object type `Bound1 + Bound2 + Bound3` where `Bound` is a
     /// trait or a lifetime.
     ///
     /// *This type is available only if Syn is built with the `&quot;derive&quot;` or
@@ -1641,14 +1592,13 @@
     <span class="kw">use </span><span class="kw">crate</span>::ext::IdentExt;
     <span class="kw">use </span><span class="kw">crate</span>::parse::{Parse, ParseStream, <span class="prelude-ty">Result</span>};
     <span class="kw">use </span><span class="kw">crate</span>::path;
-    <span class="kw">use </span>proc_macro2::{Punct, Spacing, Span, TokenTree};
+    <span class="kw">use </span>proc_macro2::{Punct, Spacing, TokenTree};
 
     <span class="attr">#[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">&quot;parsing&quot;</span>)))]
     </span><span class="kw">impl </span>Parse <span class="kw">for </span>Type {
         <span class="kw">fn </span>parse(input: ParseStream) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
             <span class="kw">let </span>allow_plus = <span class="bool-val">true</span>;
-            <span class="kw">let </span>allow_group_generic = <span class="bool-val">true</span>;
-            ambig_ty(input, allow_plus, allow_group_generic)
+            ambig_ty(input, allow_plus)
         }
     }
 
@@ -1661,16 +1611,11 @@
         </span><span class="attr">#[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">&quot;parsing&quot;</span>)))]
         </span><span class="kw">pub fn </span>without_plus(input: ParseStream) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
             <span class="kw">let </span>allow_plus = <span class="bool-val">false</span>;
-            <span class="kw">let </span>allow_group_generic = <span class="bool-val">true</span>;
-            ambig_ty(input, allow_plus, allow_group_generic)
+            ambig_ty(input, allow_plus)
         }
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>ambig_ty(
-        input: ParseStream,
-        allow_plus: bool,
-        allow_group_generic: bool,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;Type&gt; {
+    <span class="kw">fn </span>ambig_ty(input: ParseStream, allow_plus: bool) -&gt; <span class="prelude-ty">Result</span>&lt;Type&gt; {
         <span class="kw">let </span>begin = input.fork();
 
         <span class="kw">if </span>input.peek(token::Group) {
@@ -1691,9 +1636,7 @@
                         path: Path::parse_helper(input, <span class="bool-val">false</span>)<span class="question-mark">?</span>,
                     }));
                 }
-            } <span class="kw">else if </span>input.peek(<span class="macro">Token!</span>[&lt;]) &amp;&amp; allow_group_generic
-                || input.peek(<span class="macro">Token!</span>[::]) &amp;&amp; input.peek3(<span class="macro">Token!</span>[&lt;])
-            {
+            } <span class="kw">else if </span>input.peek(<span class="macro">Token!</span>[&lt;]) || input.peek(<span class="macro">Token!</span>[::]) &amp;&amp; input.peek3(<span class="macro">Token!</span>[&lt;]) {
                 <span class="kw">if let </span>Type::Path(<span class="kw-2">mut </span>ty) = <span class="kw-2">*</span>group.elem {
                     <span class="kw">let </span>arguments = <span class="kw-2">&amp;mut </span>ty.path.segments.last_mut().unwrap().arguments;
                     <span class="kw">if let </span>PathArguments::None = arguments {
@@ -1849,19 +1792,9 @@
             || lookahead.peek(<span class="macro">Token!</span>[::])
             || lookahead.peek(<span class="macro">Token!</span>[&lt;])
         {
-            <span class="kw">let </span>dyn_token: <span class="prelude-ty">Option</span>&lt;<span class="macro">Token!</span>[<span class="kw">dyn</span>]&gt; = input.parse()<span class="question-mark">?</span>;
-            <span class="kw">if let </span><span class="prelude-val">Some</span>(dyn_token) = dyn_token {
-                <span class="kw">let </span>dyn_span = dyn_token.span;
-                <span class="kw">let </span>star_token: <span class="prelude-ty">Option</span>&lt;<span class="macro">Token!</span>[<span class="kw-2">*</span>]&gt; = input.parse()<span class="question-mark">?</span>;
-                <span class="kw">let </span>bounds = TypeTraitObject::parse_bounds(dyn_span, input, allow_plus)<span class="question-mark">?</span>;
-                <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="kw">if </span>star_token.is_some() {
-                    Type::Verbatim(verbatim::between(begin, input))
-                } <span class="kw">else </span>{
-                    Type::TraitObject(TypeTraitObject {
-                        dyn_token: <span class="prelude-val">Some</span>(dyn_token),
-                        bounds,
-                    })
-                });
+            <span class="kw">if </span>input.peek(<span class="macro">Token!</span>[<span class="kw">dyn</span>]) {
+                <span class="kw">let </span>trait_object = TypeTraitObject::parse(input, allow_plus)<span class="question-mark">?</span>;
+                <span class="kw">return </span><span class="prelude-val">Ok</span>(Type::TraitObject(trait_object));
             }
 
             <span class="kw">let </span>ty: TypePath = input.parse()<span class="question-mark">?</span>;
@@ -2141,28 +2074,15 @@
     <span class="attr">#[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">&quot;parsing&quot;</span>)))]
     </span><span class="kw">impl </span>Parse <span class="kw">for </span>TypePath {
         <span class="kw">fn </span>parse(input: ParseStream) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">let </span>expr_style = <span class="bool-val">false</span>;
-            <span class="kw">let </span>(qself, <span class="kw-2">mut </span>path) = path::parsing::qpath(input, expr_style)<span class="question-mark">?</span>;
+            <span class="kw">let </span>(qself, <span class="kw-2">mut </span>path) = path::parsing::qpath(input, <span class="bool-val">false</span>)<span class="question-mark">?</span>;
 
-            <span class="kw">while </span>path.segments.last().unwrap().arguments.is_empty()
+            <span class="kw">if </span>path.segments.last().unwrap().arguments.is_empty()
                 &amp;&amp; (input.peek(token::Paren) || input.peek(<span class="macro">Token!</span>[::]) &amp;&amp; input.peek3(token::Paren))
             {
                 input.parse::&lt;<span class="prelude-ty">Option</span>&lt;<span class="macro">Token!</span>[::]&gt;&gt;()<span class="question-mark">?</span>;
                 <span class="kw">let </span>args: ParenthesizedGenericArguments = input.parse()<span class="question-mark">?</span>;
-                <span class="kw">let </span>allow_associated_type = <span class="macro">cfg!</span>(feature = <span class="string">&quot;full&quot;</span>)
-                    &amp;&amp; <span class="kw">match </span><span class="kw-2">&amp;</span>args.output {
-                        ReturnType::Default =&gt; <span class="bool-val">true</span>,
-                        ReturnType::Type(<span class="kw">_</span>, ty) =&gt; <span class="kw">match </span><span class="kw-2">**</span>ty {
-                            <span class="comment">// TODO: probably some of the other kinds allow this too.
-                            </span>Type::Paren(<span class="kw">_</span>) =&gt; <span class="bool-val">true</span>,
-                            <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
-                        },
-                    };
                 <span class="kw">let </span>parenthesized = PathArguments::Parenthesized(args);
                 path.segments.last_mut().unwrap().arguments = parenthesized;
-                <span class="kw">if </span>allow_associated_type {
-                    Path::parse_rest(input, <span class="kw-2">&amp;mut </span>path, expr_style)<span class="question-mark">?</span>;
-                }
             }
 
             <span class="prelude-val">Ok</span>(TypePath { qself, path })
@@ -2179,8 +2099,7 @@
         <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>parse(input: ParseStream, allow_plus: bool) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
             <span class="kw">if </span>input.peek(<span class="macro">Token!</span>[-&gt;]) {
                 <span class="kw">let </span>arrow = input.parse()<span class="question-mark">?</span>;
-                <span class="kw">let </span>allow_group_generic = <span class="bool-val">true</span>;
-                <span class="kw">let </span>ty = ambig_ty(input, allow_plus, allow_group_generic)<span class="question-mark">?</span>;
+                <span class="kw">let </span>ty = ambig_ty(input, allow_plus)<span class="question-mark">?</span>;
                 <span class="prelude-val">Ok</span>(ReturnType::Type(arrow, Box::new(ty)))
             } <span class="kw">else </span>{
                 <span class="prelude-val">Ok</span>(ReturnType::Default)
@@ -2204,6 +2123,15 @@
         }
     }
 
+    <span class="kw">fn </span>at_least_one_type(bounds: <span class="kw-2">&amp;</span>Punctuated&lt;TypeParamBound, <span class="macro">Token!</span>[+]&gt;) -&gt; bool {
+        <span class="kw">for </span>bound <span class="kw">in </span>bounds {
+            <span class="kw">if let </span>TypeParamBound::Trait(<span class="kw">_</span>) = <span class="kw-2">*</span>bound {
+                <span class="kw">return </span><span class="bool-val">true</span>;
+            }
+        }
+        <span class="bool-val">false
+    </span>}
+
     <span class="kw">impl </span>TypeTraitObject {
         <span class="attr">#[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">&quot;parsing&quot;</span>)))]
         </span><span class="kw">pub fn </span>without_plus(input: ParseStream) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
@@ -2213,38 +2141,35 @@
 
         <span class="comment">// Only allow multiple trait references if allow_plus is true.
         </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>parse(input: ParseStream, allow_plus: bool) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">let </span>dyn_token: <span class="prelude-ty">Option</span>&lt;<span class="macro">Token!</span>[<span class="kw">dyn</span>]&gt; = input.parse()<span class="question-mark">?</span>;
-            <span class="kw">let </span>dyn_span = <span class="kw">match </span><span class="kw-2">&amp;</span>dyn_token {
-                <span class="prelude-val">Some</span>(token) =&gt; token.span,
-                <span class="prelude-val">None </span>=&gt; input.span(),
-            };
-            <span class="kw">let </span>bounds = <span class="self">Self</span>::parse_bounds(dyn_span, input, allow_plus)<span class="question-mark">?</span>;
-            <span class="prelude-val">Ok</span>(TypeTraitObject { dyn_token, bounds })
+            <span class="prelude-val">Ok</span>(TypeTraitObject {
+                dyn_token: input.parse()<span class="question-mark">?</span>,
+                bounds: <span class="self">Self</span>::parse_bounds(input, allow_plus)<span class="question-mark">?</span>,
+            })
         }
 
         <span class="kw">fn </span>parse_bounds(
-            dyn_span: Span,
             input: ParseStream,
             allow_plus: bool,
         ) -&gt; <span class="prelude-ty">Result</span>&lt;Punctuated&lt;TypeParamBound, <span class="macro">Token!</span>[+]&gt;&gt; {
-            <span class="kw">let </span>bounds = TypeParamBound::parse_multiple(input, allow_plus)<span class="question-mark">?</span>;
-            <span class="kw">let </span><span class="kw-2">mut </span>last_lifetime_span = <span class="prelude-val">None</span>;
-            <span class="kw">let </span><span class="kw-2">mut </span>at_least_one_trait = <span class="bool-val">false</span>;
-            <span class="kw">for </span>bound <span class="kw">in </span><span class="kw-2">&amp;</span>bounds {
-                <span class="kw">match </span>bound {
-                    TypeParamBound::Trait(<span class="kw">_</span>) =&gt; {
-                        at_least_one_trait = <span class="bool-val">true</span>;
-                        <span class="kw">break</span>;
-                    }
-                    TypeParamBound::Lifetime(lifetime) =&gt; {
-                        last_lifetime_span = <span class="prelude-val">Some</span>(lifetime.ident.span());
-                    }
+            <span class="kw">let </span><span class="kw-2">mut </span>bounds = Punctuated::new();
+            <span class="kw">loop </span>{
+                bounds.push_value(input.parse()<span class="question-mark">?</span>);
+                <span class="kw">if </span>!(allow_plus &amp;&amp; input.peek(<span class="macro">Token!</span>[+])) {
+                    <span class="kw">break</span>;
+                }
+                bounds.push_punct(input.parse()<span class="question-mark">?</span>);
+                <span class="kw">if </span>!(input.peek(Ident::peek_any)
+                    || input.peek(<span class="macro">Token!</span>[::])
+                    || input.peek(<span class="macro">Token!</span>[<span class="question-mark">?</span>])
+                    || input.peek(Lifetime)
+                    || input.peek(token::Paren))
+                {
+                    <span class="kw">break</span>;
                 }
             }
             <span class="comment">// Just lifetimes like `&#39;a + &#39;b` is not a TraitObject.
-            </span><span class="kw">if </span>!at_least_one_trait {
-                <span class="kw">let </span>msg = <span class="string">&quot;at least one trait is required for an object type&quot;</span>;
-                <span class="kw">return </span><span class="prelude-val">Err</span>(error::new2(dyn_span, last_lifetime_span.unwrap(), msg));
+            </span><span class="kw">if </span>!at_least_one_type(<span class="kw-2">&amp;</span>bounds) {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(input.error(<span class="string">&quot;expected at least one type&quot;</span>));
             }
             <span class="prelude-val">Ok</span>(bounds)
         }
@@ -2266,30 +2191,10 @@
         }
 
         <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>parse(input: ParseStream, allow_plus: bool) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">let </span>impl_token: <span class="macro">Token!</span>[<span class="kw">impl</span>] = input.parse()<span class="question-mark">?</span>;
-            <span class="kw">let </span>bounds = TypeParamBound::parse_multiple(input, allow_plus)<span class="question-mark">?</span>;
-            <span class="kw">let </span><span class="kw-2">mut </span>last_lifetime_span = <span class="prelude-val">None</span>;
-            <span class="kw">let </span><span class="kw-2">mut </span>at_least_one_trait = <span class="bool-val">false</span>;
-            <span class="kw">for </span>bound <span class="kw">in </span><span class="kw-2">&amp;</span>bounds {
-                <span class="kw">match </span>bound {
-                    TypeParamBound::Trait(<span class="kw">_</span>) =&gt; {
-                        at_least_one_trait = <span class="bool-val">true</span>;
-                        <span class="kw">break</span>;
-                    }
-                    TypeParamBound::Lifetime(lifetime) =&gt; {
-                        last_lifetime_span = <span class="prelude-val">Some</span>(lifetime.ident.span());
-                    }
-                }
-            }
-            <span class="kw">if </span>!at_least_one_trait {
-                <span class="kw">let </span>msg = <span class="string">&quot;at least one trait must be specified&quot;</span>;
-                <span class="kw">return </span><span class="prelude-val">Err</span>(error::new2(
-                    impl_token.span,
-                    last_lifetime_span.unwrap(),
-                    msg,
-                ));
-            }
-            <span class="prelude-val">Ok</span>(TypeImplTrait { impl_token, bounds })
+            <span class="prelude-val">Ok</span>(TypeImplTrait {
+                impl_token: input.parse()<span class="question-mark">?</span>,
+                bounds: TypeTraitObject::parse_bounds(input, allow_plus)<span class="question-mark">?</span>,
+            })
         }
     }
 
@@ -2317,10 +2222,7 @@
             <span class="kw">let </span>content;
             <span class="prelude-val">Ok</span>(TypeParen {
                 paren_token: <span class="macro">parenthesized!</span>(content <span class="kw">in </span>input),
-                elem: Box::new({
-                    <span class="kw">let </span>allow_group_generic = <span class="bool-val">true</span>;
-                    ambig_ty(<span class="kw-2">&amp;</span>content, allow_plus, allow_group_generic)<span class="question-mark">?
-                </span>}),
+                elem: Box::new(ambig_ty(<span class="kw-2">&amp;</span>content, allow_plus)<span class="question-mark">?</span>),
             })
         }
     }

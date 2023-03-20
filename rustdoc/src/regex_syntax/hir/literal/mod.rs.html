@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/regex-syntax-0.6.28/src/hir/literal/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../regex_syntax/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/regex-syntax-0.6.25/src/hir/literal/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../regex_syntax/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1683,7 +1683,6 @@
 <a href="#1683" id="1683">1683</a>
 <a href="#1684" id="1684">1684</a>
 <a href="#1685" id="1685">1685</a>
-<a href="#1686" id="1686">1686</a>
 </pre><pre class="rust"><code><span class="doccomment">/*!
 Provides routines for extracting literal prefixes and suffixes from an `Hir`.
 */
@@ -1911,7 +1910,7 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
         <span class="kw">if </span><span class="self">self</span>.lits.is_empty() {
             <span class="kw">return </span><span class="self">self</span>.to_empty();
         }
-        <span class="kw">let </span><span class="kw-2">mut </span>old = <span class="self">self</span>.lits.to_vec();
+        <span class="kw">let </span><span class="kw-2">mut </span>old: Vec&lt;Literal&gt; = <span class="self">self</span>.lits.iter().cloned().collect();
         <span class="kw">let </span><span class="kw-2">mut </span>new = <span class="self">self</span>.to_empty();
         <span class="lifetime">&#39;OUTER</span>: <span class="kw">while let </span><span class="prelude-val">Some</span>(<span class="kw-2">mut </span>candidate) = old.pop() {
             <span class="kw">if </span>candidate.is_empty() {
@@ -1942,13 +1941,15 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
                         old.push(lit3);
                         lit2.clear();
                     }
-                } <span class="kw">else if let </span><span class="prelude-val">Some</span>(i) = position(<span class="kw-2">&amp;</span>lit2, <span class="kw-2">&amp;</span>candidate) {
-                    lit2.cut();
-                    <span class="kw">let </span><span class="kw-2">mut </span>new_candidate = candidate.clone();
-                    new_candidate.truncate(i);
-                    new_candidate.cut();
-                    old.push(new_candidate);
-                    candidate.clear();
+                } <span class="kw">else </span>{
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(i) = position(<span class="kw-2">&amp;</span>lit2, <span class="kw-2">&amp;</span>candidate) {
+                        lit2.cut();
+                        <span class="kw">let </span><span class="kw-2">mut </span>new_candidate = candidate.clone();
+                        new_candidate.truncate(i);
+                        new_candidate.cut();
+                        old.push(new_candidate);
+                        candidate.clear();
+                    }
                 }
                 <span class="comment">// Oops, the candidate is already represented in the set.
                 </span><span class="kw">if </span>candidate.is_empty() {
@@ -2419,18 +2420,18 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
     lits: <span class="kw-2">&amp;mut </span>Literals,
     <span class="kw-2">mut </span>f: F,
 ) {
-    f(
-        <span class="kw-2">&amp;</span>Hir::repetition(hir::Repetition {
-            kind: hir::RepetitionKind::ZeroOrMore,
-            <span class="comment">// FIXME: Our literal extraction doesn&#39;t care about greediness.
-            // Which is partially why we&#39;re treating &#39;e?&#39; as &#39;e*&#39;. Namely,
-            // &#39;ab??&#39; yields [Complete(ab), Complete(a)], but it should yield
-            // [Complete(a), Complete(ab)] because of the non-greediness.
-            </span>greedy: <span class="bool-val">true</span>,
-            hir: Box::new(e.clone()),
-        }),
-        lits,
-    );
+    <span class="kw">let </span>(<span class="kw-2">mut </span>lits2, <span class="kw-2">mut </span>lits3) = (lits.clone(), lits.to_empty());
+    lits3.set_limit_size(lits.limit_size() / <span class="number">2</span>);
+    f(e, <span class="kw-2">&amp;mut </span>lits3);
+
+    <span class="kw">if </span>lits3.is_empty() || !lits2.cross_product(<span class="kw-2">&amp;</span>lits3) {
+        lits.cut();
+        <span class="kw">return</span>;
+    }
+    lits2.add(Literal::empty());
+    <span class="kw">if </span>!lits.union(lits2) {
+        lits.cut();
+    }
 }
 
 <span class="kw">fn </span>repeat_zero_or_more_literals&lt;F: FnMut(<span class="kw-2">&amp;</span>Hir, <span class="kw-2">&amp;mut </span>Literals)&gt;(
@@ -2477,7 +2478,7 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
         </span>f(
             <span class="kw-2">&amp;</span>Hir::repetition(hir::Repetition {
                 kind: hir::RepetitionKind::ZeroOrMore,
-                greedy,
+                greedy: greedy,
                 hir: Box::new(e.clone()),
             }),
             lits,
@@ -2616,10 +2617,12 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
         <span class="kw">if </span>c.is_whitespace() {
             <span class="kw">let </span>escaped = <span class="kw">if </span>c <span class="kw">as </span>u32 &lt;= <span class="number">0x7F </span>{
                 escape_byte(c <span class="kw">as </span>u8)
-            } <span class="kw">else if </span>c <span class="kw">as </span>u32 &lt;= <span class="number">0xFFFF </span>{
-                <span class="macro">format!</span>(<span class="string">r&quot;\u{{{:04x}}}&quot;</span>, c <span class="kw">as </span>u32)
             } <span class="kw">else </span>{
-                <span class="macro">format!</span>(<span class="string">r&quot;\U{{{:08x}}}&quot;</span>, c <span class="kw">as </span>u32)
+                <span class="kw">if </span>c <span class="kw">as </span>u32 &lt;= <span class="number">0xFFFF </span>{
+                    <span class="macro">format!</span>(<span class="string">r&quot;\u{{{:04x}}}&quot;</span>, c <span class="kw">as </span>u32)
+                } <span class="kw">else </span>{
+                    <span class="macro">format!</span>(<span class="string">r&quot;\U{{{:08x}}}&quot;</span>, c <span class="kw">as </span>u32)
+                }
             };
             space_escaped.push_str(<span class="kw-2">&amp;</span>escaped);
         } <span class="kw">else </span>{
@@ -2823,11 +2826,6 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
     <span class="macro">test_lit!</span>(pfx_group1, prefixes, <span class="string">&quot;(a)&quot;</span>, M(<span class="string">&quot;a&quot;</span>));
     <span class="macro">test_lit!</span>(pfx_rep_zero_or_one1, prefixes, <span class="string">&quot;a?&quot;</span>);
     <span class="macro">test_lit!</span>(pfx_rep_zero_or_one2, prefixes, <span class="string">&quot;(?:abc)?&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_rep_zero_or_one_cat1, prefixes, <span class="string">&quot;ab?&quot;</span>, C(<span class="string">&quot;ab&quot;</span>), M(<span class="string">&quot;a&quot;</span>));
-    <span class="comment">// FIXME: This should return [M(&quot;a&quot;), M(&quot;ab&quot;)] because of the non-greedy
-    // repetition. As a work-around, we rewrite ab?? as ab*?, and thus we get
-    // a cut literal.
-    </span><span class="macro">test_lit!</span>(pfx_rep_zero_or_one_cat2, prefixes, <span class="string">&quot;ab??&quot;</span>, C(<span class="string">&quot;ab&quot;</span>), M(<span class="string">&quot;a&quot;</span>));
     <span class="macro">test_lit!</span>(pfx_rep_zero_or_more1, prefixes, <span class="string">&quot;a*&quot;</span>);
     <span class="macro">test_lit!</span>(pfx_rep_zero_or_more2, prefixes, <span class="string">&quot;(?:abc)*&quot;</span>);
     <span class="macro">test_lit!</span>(pfx_rep_one_or_more1, prefixes, <span class="string">&quot;a+&quot;</span>, C(<span class="string">&quot;a&quot;</span>));
@@ -2936,8 +2934,8 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
         pfx_crazy1,
         prefixes,
         <span class="string">r&quot;M[ou]&#39;?am+[ae]r .*([AEae]l[- ])?[GKQ]h?[aeu]+([dtz][dhz]?)+af[iy]&quot;</span>,
-        C(<span class="string">&quot;Mo\\&#39;&quot;</span>),
-        C(<span class="string">&quot;Mu\\&#39;&quot;</span>),
+        C(<span class="string">&quot;Mo\\&#39;am&quot;</span>),
+        C(<span class="string">&quot;Mu\\&#39;am&quot;</span>),
         C(<span class="string">&quot;Moam&quot;</span>),
         C(<span class="string">&quot;Muam&quot;</span>)
     );

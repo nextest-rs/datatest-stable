@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/regex-syntax-0.6.28/src/unicode_tables/word_break.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>word_break.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../regex_syntax/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/regex-syntax-0.6.25/src/unicode_tables/word_break.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>word_break.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../regex_syntax/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1058,73 +1058,13 @@
 <a href="#1058" id="1058">1058</a>
 <a href="#1059" id="1059">1059</a>
 <a href="#1060" id="1060">1060</a>
-<a href="#1061" id="1061">1061</a>
-<a href="#1062" id="1062">1062</a>
-<a href="#1063" id="1063">1063</a>
-<a href="#1064" id="1064">1064</a>
-<a href="#1065" id="1065">1065</a>
-<a href="#1066" id="1066">1066</a>
-<a href="#1067" id="1067">1067</a>
-<a href="#1068" id="1068">1068</a>
-<a href="#1069" id="1069">1069</a>
-<a href="#1070" id="1070">1070</a>
-<a href="#1071" id="1071">1071</a>
-<a href="#1072" id="1072">1072</a>
-<a href="#1073" id="1073">1073</a>
-<a href="#1074" id="1074">1074</a>
-<a href="#1075" id="1075">1075</a>
-<a href="#1076" id="1076">1076</a>
-<a href="#1077" id="1077">1077</a>
-<a href="#1078" id="1078">1078</a>
-<a href="#1079" id="1079">1079</a>
-<a href="#1080" id="1080">1080</a>
-<a href="#1081" id="1081">1081</a>
-<a href="#1082" id="1082">1082</a>
-<a href="#1083" id="1083">1083</a>
-<a href="#1084" id="1084">1084</a>
-<a href="#1085" id="1085">1085</a>
-<a href="#1086" id="1086">1086</a>
-<a href="#1087" id="1087">1087</a>
-<a href="#1088" id="1088">1088</a>
-<a href="#1089" id="1089">1089</a>
-<a href="#1090" id="1090">1090</a>
-<a href="#1091" id="1091">1091</a>
-<a href="#1092" id="1092">1092</a>
-<a href="#1093" id="1093">1093</a>
-<a href="#1094" id="1094">1094</a>
-<a href="#1095" id="1095">1095</a>
-<a href="#1096" id="1096">1096</a>
-<a href="#1097" id="1097">1097</a>
-<a href="#1098" id="1098">1098</a>
-<a href="#1099" id="1099">1099</a>
-<a href="#1100" id="1100">1100</a>
-<a href="#1101" id="1101">1101</a>
-<a href="#1102" id="1102">1102</a>
-<a href="#1103" id="1103">1103</a>
-<a href="#1104" id="1104">1104</a>
-<a href="#1105" id="1105">1105</a>
-<a href="#1106" id="1106">1106</a>
-<a href="#1107" id="1107">1107</a>
-<a href="#1108" id="1108">1108</a>
-<a href="#1109" id="1109">1109</a>
-<a href="#1110" id="1110">1110</a>
-<a href="#1111" id="1111">1111</a>
-<a href="#1112" id="1112">1112</a>
-<a href="#1113" id="1113">1113</a>
-<a href="#1114" id="1114">1114</a>
-<a href="#1115" id="1115">1115</a>
-<a href="#1116" id="1116">1116</a>
-<a href="#1117" id="1117">1117</a>
-<a href="#1118" id="1118">1118</a>
-<a href="#1119" id="1119">1119</a>
-<a href="#1120" id="1120">1120</a>
 </pre><pre class="rust"><code><span class="comment">// DO NOT EDIT THIS FILE. IT WAS AUTOMATICALLY GENERATED BY:
 //
-//   ucd-generate word-break ucd-15.0.0 --chars
+//   ucd-generate word-break ucd-13.0.0 --chars
 //
-// Unicode version: 15.0.0.
+// Unicode version: 13.0.0.
 //
-// ucd-generate 0.2.14 is available on crates.io.
+// ucd-generate 0.2.8 is available on crates.io.
 
 </span><span class="kw">pub const </span>BY_NAME: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[(char, char)])] = <span class="kw-2">&amp;</span>[
     (<span class="string">&quot;ALetter&quot;</span>, ALETTER),
@@ -1195,9 +1135,8 @@
     (<span class="string">&#39;ࠨ&#39;</span>, <span class="string">&#39;ࠨ&#39;</span>),
     (<span class="string">&#39;ࡀ&#39;</span>, <span class="string">&#39;ࡘ&#39;</span>),
     (<span class="string">&#39;ࡠ&#39;</span>, <span class="string">&#39;ࡪ&#39;</span>),
-    (<span class="string">&#39;ࡰ&#39;</span>, <span class="string">&#39;ࢇ&#39;</span>),
-    (<span class="string">&#39;ࢉ&#39;</span>, <span class="string">&#39;ࢎ&#39;</span>),
-    (<span class="string">&#39;ࢠ&#39;</span>, <span class="string">&#39;ࣉ&#39;</span>),
+    (<span class="string">&#39;ࢠ&#39;</span>, <span class="string">&#39;ࢴ&#39;</span>),
+    (<span class="string">&#39;ࢶ&#39;</span>, <span class="string">&#39;\u{8c7}&#39;</span>),
     (<span class="string">&#39;ऄ&#39;</span>, <span class="string">&#39;ह&#39;</span>),
     (<span class="string">&#39;ऽ&#39;</span>, <span class="string">&#39;ऽ&#39;</span>),
     (<span class="string">&#39;ॐ&#39;</span>, <span class="string">&#39;ॐ&#39;</span>),
@@ -1262,7 +1201,6 @@
     (<span class="string">&#39;ప&#39;</span>, <span class="string">&#39;హ&#39;</span>),
     (<span class="string">&#39;ఽ&#39;</span>, <span class="string">&#39;ఽ&#39;</span>),
     (<span class="string">&#39;ౘ&#39;</span>, <span class="string">&#39;ౚ&#39;</span>),
-    (<span class="string">&#39;ౝ&#39;</span>, <span class="string">&#39;ౝ&#39;</span>),
     (<span class="string">&#39;ౠ&#39;</span>, <span class="string">&#39;ౡ&#39;</span>),
     (<span class="string">&#39;ಀ&#39;</span>, <span class="string">&#39;ಀ&#39;</span>),
     (<span class="string">&#39;ಅ&#39;</span>, <span class="string">&#39;ಌ&#39;</span>),
@@ -1271,10 +1209,10 @@
     (<span class="string">&#39;ಪ&#39;</span>, <span class="string">&#39;ಳ&#39;</span>),
     (<span class="string">&#39;ವ&#39;</span>, <span class="string">&#39;ಹ&#39;</span>),
     (<span class="string">&#39;ಽ&#39;</span>, <span class="string">&#39;ಽ&#39;</span>),
-    (<span class="string">&#39;ೝ&#39;</span>, <span class="string">&#39;ೞ&#39;</span>),
+    (<span class="string">&#39;ೞ&#39;</span>, <span class="string">&#39;ೞ&#39;</span>),
     (<span class="string">&#39;ೠ&#39;</span>, <span class="string">&#39;ೡ&#39;</span>),
     (<span class="string">&#39;ೱ&#39;</span>, <span class="string">&#39;ೲ&#39;</span>),
-    (<span class="string">&#39;ഄ&#39;</span>, <span class="string">&#39;ഌ&#39;</span>),
+    (<span class="string">&#39;\u{d04}&#39;</span>, <span class="string">&#39;ഌ&#39;</span>),
     (<span class="string">&#39;എ&#39;</span>, <span class="string">&#39;ഐ&#39;</span>),
     (<span class="string">&#39;ഒ&#39;</span>, <span class="string">&#39;ഺ&#39;</span>),
     (<span class="string">&#39;ഽ&#39;</span>, <span class="string">&#39;ഽ&#39;</span>),
@@ -1319,8 +1257,9 @@
     (<span class="string">&#39;ᚁ&#39;</span>, <span class="string">&#39;ᚚ&#39;</span>),
     (<span class="string">&#39;ᚠ&#39;</span>, <span class="string">&#39;ᛪ&#39;</span>),
     (<span class="string">&#39;ᛮ&#39;</span>, <span class="string">&#39;ᛸ&#39;</span>),
-    (<span class="string">&#39;ᜀ&#39;</span>, <span class="string">&#39;ᜑ&#39;</span>),
-    (<span class="string">&#39;ᜟ&#39;</span>, <span class="string">&#39;ᜱ&#39;</span>),
+    (<span class="string">&#39;ᜀ&#39;</span>, <span class="string">&#39;ᜌ&#39;</span>),
+    (<span class="string">&#39;ᜎ&#39;</span>, <span class="string">&#39;ᜑ&#39;</span>),
+    (<span class="string">&#39;ᜠ&#39;</span>, <span class="string">&#39;ᜱ&#39;</span>),
     (<span class="string">&#39;ᝀ&#39;</span>, <span class="string">&#39;ᝑ&#39;</span>),
     (<span class="string">&#39;ᝠ&#39;</span>, <span class="string">&#39;ᝬ&#39;</span>),
     (<span class="string">&#39;ᝮ&#39;</span>, <span class="string">&#39;ᝰ&#39;</span>),
@@ -1332,7 +1271,7 @@
     (<span class="string">&#39;ᤀ&#39;</span>, <span class="string">&#39;ᤞ&#39;</span>),
     (<span class="string">&#39;ᨀ&#39;</span>, <span class="string">&#39;ᨖ&#39;</span>),
     (<span class="string">&#39;ᬅ&#39;</span>, <span class="string">&#39;ᬳ&#39;</span>),
-    (<span class="string">&#39;ᭅ&#39;</span>, <span class="string">&#39;ᭌ&#39;</span>),
+    (<span class="string">&#39;ᭅ&#39;</span>, <span class="string">&#39;ᭋ&#39;</span>),
     (<span class="string">&#39;ᮃ&#39;</span>, <span class="string">&#39;ᮠ&#39;</span>),
     (<span class="string">&#39;ᮮ&#39;</span>, <span class="string">&#39;ᮯ&#39;</span>),
     (<span class="string">&#39;ᮺ&#39;</span>, <span class="string">&#39;ᯥ&#39;</span>),
@@ -1384,7 +1323,9 @@
     (<span class="string">&#39;ⅎ&#39;</span>, <span class="string">&#39;ⅎ&#39;</span>),
     (<span class="string">&#39;Ⅰ&#39;</span>, <span class="string">&#39;ↈ&#39;</span>),
     (<span class="string">&#39;Ⓐ&#39;</span>, <span class="string">&#39;ⓩ&#39;</span>),
-    (<span class="string">&#39;Ⰰ&#39;</span>, <span class="string">&#39;ⳤ&#39;</span>),
+    (<span class="string">&#39;Ⰰ&#39;</span>, <span class="string">&#39;Ⱞ&#39;</span>),
+    (<span class="string">&#39;ⰰ&#39;</span>, <span class="string">&#39;ⱞ&#39;</span>),
+    (<span class="string">&#39;Ⱡ&#39;</span>, <span class="string">&#39;ⳤ&#39;</span>),
     (<span class="string">&#39;Ⳬ&#39;</span>, <span class="string">&#39;ⳮ&#39;</span>),
     (<span class="string">&#39;Ⳳ&#39;</span>, <span class="string">&#39;ⳳ&#39;</span>),
     (<span class="string">&#39;ⴀ&#39;</span>, <span class="string">&#39;ⴥ&#39;</span>),
@@ -1406,7 +1347,7 @@
     (<span class="string">&#39;〻&#39;</span>, <span class="string">&#39;〼&#39;</span>),
     (<span class="string">&#39;ㄅ&#39;</span>, <span class="string">&#39;ㄯ&#39;</span>),
     (<span class="string">&#39;ㄱ&#39;</span>, <span class="string">&#39;ㆎ&#39;</span>),
-    (<span class="string">&#39;ㆠ&#39;</span>, <span class="string">&#39;ㆿ&#39;</span>),
+    (<span class="string">&#39;ㆠ&#39;</span>, <span class="string">&#39;\u{31bf}&#39;</span>),
     (<span class="string">&#39;ꀀ&#39;</span>, <span class="string">&#39;ꒌ&#39;</span>),
     (<span class="string">&#39;ꓐ&#39;</span>, <span class="string">&#39;ꓽ&#39;</span>),
     (<span class="string">&#39;ꔀ&#39;</span>, <span class="string">&#39;ꘌ&#39;</span>),
@@ -1415,11 +1356,9 @@
     (<span class="string">&#39;Ꙁ&#39;</span>, <span class="string">&#39;ꙮ&#39;</span>),
     (<span class="string">&#39;ꙿ&#39;</span>, <span class="string">&#39;ꚝ&#39;</span>),
     (<span class="string">&#39;ꚠ&#39;</span>, <span class="string">&#39;ꛯ&#39;</span>),
-    (<span class="string">&#39;꜈&#39;</span>, <span class="string">&#39;ꟊ&#39;</span>),
-    (<span class="string">&#39;Ꟑ&#39;</span>, <span class="string">&#39;ꟑ&#39;</span>),
-    (<span class="string">&#39;ꟓ&#39;</span>, <span class="string">&#39;ꟓ&#39;</span>),
-    (<span class="string">&#39;ꟕ&#39;</span>, <span class="string">&#39;ꟙ&#39;</span>),
-    (<span class="string">&#39;ꟲ&#39;</span>, <span class="string">&#39;ꠁ&#39;</span>),
+    (<span class="string">&#39;꜈&#39;</span>, <span class="string">&#39;ꞿ&#39;</span>),
+    (<span class="string">&#39;Ꟃ&#39;</span>, <span class="string">&#39;\u{a7ca}&#39;</span>),
+    (<span class="string">&#39;\u{a7f5}&#39;</span>, <span class="string">&#39;ꠁ&#39;</span>),
     (<span class="string">&#39;ꠃ&#39;</span>, <span class="string">&#39;ꠅ&#39;</span>),
     (<span class="string">&#39;ꠇ&#39;</span>, <span class="string">&#39;ꠊ&#39;</span>),
     (<span class="string">&#39;ꠌ&#39;</span>, <span class="string">&#39;ꠢ&#39;</span>),
@@ -1443,7 +1382,7 @@
     (<span class="string">&#39;ꬑ&#39;</span>, <span class="string">&#39;ꬖ&#39;</span>),
     (<span class="string">&#39;ꬠ&#39;</span>, <span class="string">&#39;ꬦ&#39;</span>),
     (<span class="string">&#39;ꬨ&#39;</span>, <span class="string">&#39;ꬮ&#39;</span>),
-    (<span class="string">&#39;ꬰ&#39;</span>, <span class="string">&#39;ꭩ&#39;</span>),
+    (<span class="string">&#39;ꬰ&#39;</span>, <span class="string">&#39;\u{ab69}&#39;</span>),
     (<span class="string">&#39;ꭰ&#39;</span>, <span class="string">&#39;ꯢ&#39;</span>),
     (<span class="string">&#39;가&#39;</span>, <span class="string">&#39;힣&#39;</span>),
     (<span class="string">&#39;ힰ&#39;</span>, <span class="string">&#39;ퟆ&#39;</span>),
@@ -1486,20 +1425,9 @@
     (<span class="string">&#39;𐓘&#39;</span>, <span class="string">&#39;𐓻&#39;</span>),
     (<span class="string">&#39;𐔀&#39;</span>, <span class="string">&#39;𐔧&#39;</span>),
     (<span class="string">&#39;𐔰&#39;</span>, <span class="string">&#39;𐕣&#39;</span>),
-    (<span class="string">&#39;𐕰&#39;</span>, <span class="string">&#39;𐕺&#39;</span>),
-    (<span class="string">&#39;𐕼&#39;</span>, <span class="string">&#39;𐖊&#39;</span>),
-    (<span class="string">&#39;𐖌&#39;</span>, <span class="string">&#39;𐖒&#39;</span>),
-    (<span class="string">&#39;𐖔&#39;</span>, <span class="string">&#39;𐖕&#39;</span>),
-    (<span class="string">&#39;𐖗&#39;</span>, <span class="string">&#39;𐖡&#39;</span>),
-    (<span class="string">&#39;𐖣&#39;</span>, <span class="string">&#39;𐖱&#39;</span>),
-    (<span class="string">&#39;𐖳&#39;</span>, <span class="string">&#39;𐖹&#39;</span>),
-    (<span class="string">&#39;𐖻&#39;</span>, <span class="string">&#39;𐖼&#39;</span>),
     (<span class="string">&#39;𐘀&#39;</span>, <span class="string">&#39;𐜶&#39;</span>),
     (<span class="string">&#39;𐝀&#39;</span>, <span class="string">&#39;𐝕&#39;</span>),
     (<span class="string">&#39;𐝠&#39;</span>, <span class="string">&#39;𐝧&#39;</span>),
-    (<span class="string">&#39;𐞀&#39;</span>, <span class="string">&#39;𐞅&#39;</span>),
-    (<span class="string">&#39;𐞇&#39;</span>, <span class="string">&#39;𐞰&#39;</span>),
-    (<span class="string">&#39;𐞲&#39;</span>, <span class="string">&#39;𐞺&#39;</span>),
     (<span class="string">&#39;𐠀&#39;</span>, <span class="string">&#39;𐠅&#39;</span>),
     (<span class="string">&#39;𐠈&#39;</span>, <span class="string">&#39;𐠈&#39;</span>),
     (<span class="string">&#39;𐠊&#39;</span>, <span class="string">&#39;𐠵&#39;</span>),
@@ -1530,22 +1458,19 @@
     (<span class="string">&#39;𐲀&#39;</span>, <span class="string">&#39;𐲲&#39;</span>),
     (<span class="string">&#39;𐳀&#39;</span>, <span class="string">&#39;𐳲&#39;</span>),
     (<span class="string">&#39;𐴀&#39;</span>, <span class="string">&#39;𐴣&#39;</span>),
-    (<span class="string">&#39;𐺀&#39;</span>, <span class="string">&#39;𐺩&#39;</span>),
-    (<span class="string">&#39;𐺰&#39;</span>, <span class="string">&#39;𐺱&#39;</span>),
+    (<span class="string">&#39;\u{10e80}&#39;</span>, <span class="string">&#39;\u{10ea9}&#39;</span>),
+    (<span class="string">&#39;\u{10eb0}&#39;</span>, <span class="string">&#39;\u{10eb1}&#39;</span>),
     (<span class="string">&#39;𐼀&#39;</span>, <span class="string">&#39;𐼜&#39;</span>),
     (<span class="string">&#39;𐼧&#39;</span>, <span class="string">&#39;𐼧&#39;</span>),
     (<span class="string">&#39;𐼰&#39;</span>, <span class="string">&#39;𐽅&#39;</span>),
-    (<span class="string">&#39;𐽰&#39;</span>, <span class="string">&#39;𐾁&#39;</span>),
-    (<span class="string">&#39;𐾰&#39;</span>, <span class="string">&#39;𐿄&#39;</span>),
+    (<span class="string">&#39;\u{10fb0}&#39;</span>, <span class="string">&#39;\u{10fc4}&#39;</span>),
     (<span class="string">&#39;𐿠&#39;</span>, <span class="string">&#39;𐿶&#39;</span>),
     (<span class="string">&#39;𑀃&#39;</span>, <span class="string">&#39;𑀷&#39;</span>),
-    (<span class="string">&#39;𑁱&#39;</span>, <span class="string">&#39;𑁲&#39;</span>),
-    (<span class="string">&#39;𑁵&#39;</span>, <span class="string">&#39;𑁵&#39;</span>),
     (<span class="string">&#39;𑂃&#39;</span>, <span class="string">&#39;𑂯&#39;</span>),
     (<span class="string">&#39;𑃐&#39;</span>, <span class="string">&#39;𑃨&#39;</span>),
     (<span class="string">&#39;𑄃&#39;</span>, <span class="string">&#39;𑄦&#39;</span>),
     (<span class="string">&#39;𑅄&#39;</span>, <span class="string">&#39;𑅄&#39;</span>),
-    (<span class="string">&#39;𑅇&#39;</span>, <span class="string">&#39;𑅇&#39;</span>),
+    (<span class="string">&#39;\u{11147}&#39;</span>, <span class="string">&#39;\u{11147}&#39;</span>),
     (<span class="string">&#39;𑅐&#39;</span>, <span class="string">&#39;𑅲&#39;</span>),
     (<span class="string">&#39;𑅶&#39;</span>, <span class="string">&#39;𑅶&#39;</span>),
     (<span class="string">&#39;𑆃&#39;</span>, <span class="string">&#39;𑆲&#39;</span>),
@@ -1554,7 +1479,6 @@
     (<span class="string">&#39;𑇜&#39;</span>, <span class="string">&#39;𑇜&#39;</span>),
     (<span class="string">&#39;𑈀&#39;</span>, <span class="string">&#39;𑈑&#39;</span>),
     (<span class="string">&#39;𑈓&#39;</span>, <span class="string">&#39;𑈫&#39;</span>),
-    (<span class="string">&#39;𑈿&#39;</span>, <span class="string">&#39;𑉀&#39;</span>),
     (<span class="string">&#39;𑊀&#39;</span>, <span class="string">&#39;𑊆&#39;</span>),
     (<span class="string">&#39;𑊈&#39;</span>, <span class="string">&#39;𑊈&#39;</span>),
     (<span class="string">&#39;𑊊&#39;</span>, <span class="string">&#39;𑊍&#39;</span>),
@@ -1572,7 +1496,7 @@
     (<span class="string">&#39;𑍝&#39;</span>, <span class="string">&#39;𑍡&#39;</span>),
     (<span class="string">&#39;𑐀&#39;</span>, <span class="string">&#39;𑐴&#39;</span>),
     (<span class="string">&#39;𑑇&#39;</span>, <span class="string">&#39;𑑊&#39;</span>),
-    (<span class="string">&#39;𑑟&#39;</span>, <span class="string">&#39;𑑡&#39;</span>),
+    (<span class="string">&#39;𑑟&#39;</span>, <span class="string">&#39;\u{11461}&#39;</span>),
     (<span class="string">&#39;𑒀&#39;</span>, <span class="string">&#39;𑒯&#39;</span>),
     (<span class="string">&#39;𑓄&#39;</span>, <span class="string">&#39;𑓅&#39;</span>),
     (<span class="string">&#39;𑓇&#39;</span>, <span class="string">&#39;𑓇&#39;</span>),
@@ -1584,13 +1508,13 @@
     (<span class="string">&#39;𑚸&#39;</span>, <span class="string">&#39;𑚸&#39;</span>),
     (<span class="string">&#39;𑠀&#39;</span>, <span class="string">&#39;𑠫&#39;</span>),
     (<span class="string">&#39;𑢠&#39;</span>, <span class="string">&#39;𑣟&#39;</span>),
-    (<span class="string">&#39;𑣿&#39;</span>, <span class="string">&#39;𑤆&#39;</span>),
-    (<span class="string">&#39;𑤉&#39;</span>, <span class="string">&#39;𑤉&#39;</span>),
-    (<span class="string">&#39;𑤌&#39;</span>, <span class="string">&#39;𑤓&#39;</span>),
-    (<span class="string">&#39;𑤕&#39;</span>, <span class="string">&#39;𑤖&#39;</span>),
-    (<span class="string">&#39;𑤘&#39;</span>, <span class="string">&#39;𑤯&#39;</span>),
-    (<span class="string">&#39;𑤿&#39;</span>, <span class="string">&#39;𑤿&#39;</span>),
-    (<span class="string">&#39;𑥁&#39;</span>, <span class="string">&#39;𑥁&#39;</span>),
+    (<span class="string">&#39;𑣿&#39;</span>, <span class="string">&#39;\u{11906}&#39;</span>),
+    (<span class="string">&#39;\u{11909}&#39;</span>, <span class="string">&#39;\u{11909}&#39;</span>),
+    (<span class="string">&#39;\u{1190c}&#39;</span>, <span class="string">&#39;\u{11913}&#39;</span>),
+    (<span class="string">&#39;\u{11915}&#39;</span>, <span class="string">&#39;\u{11916}&#39;</span>),
+    (<span class="string">&#39;\u{11918}&#39;</span>, <span class="string">&#39;\u{1192f}&#39;</span>),
+    (<span class="string">&#39;\u{1193f}&#39;</span>, <span class="string">&#39;\u{1193f}&#39;</span>),
+    (<span class="string">&#39;\u{11941}&#39;</span>, <span class="string">&#39;\u{11941}&#39;</span>),
     (<span class="string">&#39;𑦠&#39;</span>, <span class="string">&#39;𑦧&#39;</span>),
     (<span class="string">&#39;𑦪&#39;</span>, <span class="string">&#39;𑧐&#39;</span>),
     (<span class="string">&#39;𑧡&#39;</span>, <span class="string">&#39;𑧡&#39;</span>),
@@ -1601,7 +1525,7 @@
     (<span class="string">&#39;𑩐&#39;</span>, <span class="string">&#39;𑩐&#39;</span>),
     (<span class="string">&#39;𑩜&#39;</span>, <span class="string">&#39;𑪉&#39;</span>),
     (<span class="string">&#39;𑪝&#39;</span>, <span class="string">&#39;𑪝&#39;</span>),
-    (<span class="string">&#39;𑪰&#39;</span>, <span class="string">&#39;𑫸&#39;</span>),
+    (<span class="string">&#39;𑫀&#39;</span>, <span class="string">&#39;𑫸&#39;</span>),
     (<span class="string">&#39;𑰀&#39;</span>, <span class="string">&#39;𑰈&#39;</span>),
     (<span class="string">&#39;𑰊&#39;</span>, <span class="string">&#39;𑰮&#39;</span>),
     (<span class="string">&#39;𑱀&#39;</span>, <span class="string">&#39;𑱀&#39;</span>),
@@ -1615,20 +1539,14 @@
     (<span class="string">&#39;𑵪&#39;</span>, <span class="string">&#39;𑶉&#39;</span>),
     (<span class="string">&#39;𑶘&#39;</span>, <span class="string">&#39;𑶘&#39;</span>),
     (<span class="string">&#39;𑻠&#39;</span>, <span class="string">&#39;𑻲&#39;</span>),
-    (<span class="string">&#39;𑼂&#39;</span>, <span class="string">&#39;𑼂&#39;</span>),
-    (<span class="string">&#39;𑼄&#39;</span>, <span class="string">&#39;𑼐&#39;</span>),
-    (<span class="string">&#39;𑼒&#39;</span>, <span class="string">&#39;𑼳&#39;</span>),
-    (<span class="string">&#39;𑾰&#39;</span>, <span class="string">&#39;𑾰&#39;</span>),
+    (<span class="string">&#39;\u{11fb0}&#39;</span>, <span class="string">&#39;\u{11fb0}&#39;</span>),
     (<span class="string">&#39;𒀀&#39;</span>, <span class="string">&#39;𒎙&#39;</span>),
     (<span class="string">&#39;𒐀&#39;</span>, <span class="string">&#39;𒑮&#39;</span>),
     (<span class="string">&#39;𒒀&#39;</span>, <span class="string">&#39;𒕃&#39;</span>),
-    (<span class="string">&#39;𒾐&#39;</span>, <span class="string">&#39;𒿰&#39;</span>),
-    (<span class="string">&#39;𓀀&#39;</span>, <span class="string">&#39;𓐯&#39;</span>),
-    (<span class="string">&#39;𓑁&#39;</span>, <span class="string">&#39;𓑆&#39;</span>),
+    (<span class="string">&#39;𓀀&#39;</span>, <span class="string">&#39;𓐮&#39;</span>),
     (<span class="string">&#39;𔐀&#39;</span>, <span class="string">&#39;𔙆&#39;</span>),
     (<span class="string">&#39;𖠀&#39;</span>, <span class="string">&#39;𖨸&#39;</span>),
     (<span class="string">&#39;𖩀&#39;</span>, <span class="string">&#39;𖩞&#39;</span>),
-    (<span class="string">&#39;𖩰&#39;</span>, <span class="string">&#39;𖪾&#39;</span>),
     (<span class="string">&#39;𖫐&#39;</span>, <span class="string">&#39;𖫭&#39;</span>),
     (<span class="string">&#39;𖬀&#39;</span>, <span class="string">&#39;𖬯&#39;</span>),
     (<span class="string">&#39;𖭀&#39;</span>, <span class="string">&#39;𖭃&#39;</span>),
@@ -1674,19 +1592,10 @@
     (<span class="string">&#39;𝞊&#39;</span>, <span class="string">&#39;𝞨&#39;</span>),
     (<span class="string">&#39;𝞪&#39;</span>, <span class="string">&#39;𝟂&#39;</span>),
     (<span class="string">&#39;𝟄&#39;</span>, <span class="string">&#39;𝟋&#39;</span>),
-    (<span class="string">&#39;𝼀&#39;</span>, <span class="string">&#39;𝼞&#39;</span>),
-    (<span class="string">&#39;𝼥&#39;</span>, <span class="string">&#39;𝼪&#39;</span>),
-    (<span class="string">&#39;𞀰&#39;</span>, <span class="string">&#39;𞁭&#39;</span>),
     (<span class="string">&#39;𞄀&#39;</span>, <span class="string">&#39;𞄬&#39;</span>),
     (<span class="string">&#39;𞄷&#39;</span>, <span class="string">&#39;𞄽&#39;</span>),
     (<span class="string">&#39;𞅎&#39;</span>, <span class="string">&#39;𞅎&#39;</span>),
-    (<span class="string">&#39;𞊐&#39;</span>, <span class="string">&#39;𞊭&#39;</span>),
     (<span class="string">&#39;𞋀&#39;</span>, <span class="string">&#39;𞋫&#39;</span>),
-    (<span class="string">&#39;𞓐&#39;</span>, <span class="string">&#39;𞓫&#39;</span>),
-    (<span class="string">&#39;𞟠&#39;</span>, <span class="string">&#39;𞟦&#39;</span>),
-    (<span class="string">&#39;𞟨&#39;</span>, <span class="string">&#39;𞟫&#39;</span>),
-    (<span class="string">&#39;𞟭&#39;</span>, <span class="string">&#39;𞟮&#39;</span>),
-    (<span class="string">&#39;𞟰&#39;</span>, <span class="string">&#39;𞟾&#39;</span>),
     (<span class="string">&#39;𞠀&#39;</span>, <span class="string">&#39;𞣄&#39;</span>),
     (<span class="string">&#39;𞤀&#39;</span>, <span class="string">&#39;𞥃&#39;</span>),
     (<span class="string">&#39;𞥋&#39;</span>, <span class="string">&#39;𞥋&#39;</span>),
@@ -1730,7 +1639,7 @@
 
 <span class="kw">pub const </span>CR: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[(char, char)] = <span class="kw-2">&amp;</span>[(<span class="string">&#39;\r&#39;</span>, <span class="string">&#39;\r&#39;</span>)];
 
-<span class="kw">pub const </span>DOUBLE_QUOTE: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[(char, char)] = <span class="kw-2">&amp;</span>[(<span class="string">&#39;&quot;&#39;</span>, <span class="string">&#39;&quot;&#39;</span>)];
+<span class="kw">pub const </span>DOUBLE_QUOTE: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[(char, char)] = <span class="kw-2">&amp;</span>[(<span class="string">&#39;\&quot;&#39;</span>, <span class="string">&#39;\&quot;&#39;</span>)];
 
 <span class="kw">pub const </span>EXTEND: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[(char, char)] = <span class="kw-2">&amp;</span>[
     (<span class="string">&#39;\u{300}&#39;</span>, <span class="string">&#39;\u{36f}&#39;</span>),
@@ -1757,8 +1666,7 @@
     (<span class="string">&#39;\u{825}&#39;</span>, <span class="string">&#39;\u{827}&#39;</span>),
     (<span class="string">&#39;\u{829}&#39;</span>, <span class="string">&#39;\u{82d}&#39;</span>),
     (<span class="string">&#39;\u{859}&#39;</span>, <span class="string">&#39;\u{85b}&#39;</span>),
-    (<span class="string">&#39;\u{898}&#39;</span>, <span class="string">&#39;\u{89f}&#39;</span>),
-    (<span class="string">&#39;\u{8ca}&#39;</span>, <span class="string">&#39;\u{8e1}&#39;</span>),
+    (<span class="string">&#39;\u{8d3}&#39;</span>, <span class="string">&#39;\u{8e1}&#39;</span>),
     (<span class="string">&#39;\u{8e3}&#39;</span>, <span class="string">&#39;ः&#39;</span>),
     (<span class="string">&#39;\u{93a}&#39;</span>, <span class="string">&#39;\u{93c}&#39;</span>),
     (<span class="string">&#39;ा&#39;</span>, <span class="string">&#39;ॏ&#39;</span>),
@@ -1800,7 +1708,6 @@
     (<span class="string">&#39;ொ&#39;</span>, <span class="string">&#39;\u{bcd}&#39;</span>),
     (<span class="string">&#39;\u{bd7}&#39;</span>, <span class="string">&#39;\u{bd7}&#39;</span>),
     (<span class="string">&#39;\u{c00}&#39;</span>, <span class="string">&#39;\u{c04}&#39;</span>),
-    (<span class="string">&#39;\u{c3c}&#39;</span>, <span class="string">&#39;\u{c3c}&#39;</span>),
     (<span class="string">&#39;\u{c3e}&#39;</span>, <span class="string">&#39;ౄ&#39;</span>),
     (<span class="string">&#39;\u{c46}&#39;</span>, <span class="string">&#39;\u{c48}&#39;</span>),
     (<span class="string">&#39;\u{c4a}&#39;</span>, <span class="string">&#39;\u{c4d}&#39;</span>),
@@ -1813,7 +1720,6 @@
     (<span class="string">&#39;ೊ&#39;</span>, <span class="string">&#39;\u{ccd}&#39;</span>),
     (<span class="string">&#39;\u{cd5}&#39;</span>, <span class="string">&#39;\u{cd6}&#39;</span>),
     (<span class="string">&#39;\u{ce2}&#39;</span>, <span class="string">&#39;\u{ce3}&#39;</span>),
-    (<span class="string">&#39;ೳ&#39;</span>, <span class="string">&#39;ೳ&#39;</span>),
     (<span class="string">&#39;\u{d00}&#39;</span>, <span class="string">&#39;ഃ&#39;</span>),
     (<span class="string">&#39;\u{d3b}&#39;</span>, <span class="string">&#39;\u{d3c}&#39;</span>),
     (<span class="string">&#39;\u{d3e}&#39;</span>, <span class="string">&#39;\u{d44}&#39;</span>),
@@ -1832,7 +1738,7 @@
     (<span class="string">&#39;\u{e47}&#39;</span>, <span class="string">&#39;\u{e4e}&#39;</span>),
     (<span class="string">&#39;\u{eb1}&#39;</span>, <span class="string">&#39;\u{eb1}&#39;</span>),
     (<span class="string">&#39;\u{eb4}&#39;</span>, <span class="string">&#39;\u{ebc}&#39;</span>),
-    (<span class="string">&#39;\u{ec8}&#39;</span>, <span class="string">&#39;\u{ece}&#39;</span>),
+    (<span class="string">&#39;\u{ec8}&#39;</span>, <span class="string">&#39;\u{ecd}&#39;</span>),
     (<span class="string">&#39;\u{f18}&#39;</span>, <span class="string">&#39;\u{f19}&#39;</span>),
     (<span class="string">&#39;\u{f35}&#39;</span>, <span class="string">&#39;\u{f35}&#39;</span>),
     (<span class="string">&#39;\u{f37}&#39;</span>, <span class="string">&#39;\u{f37}&#39;</span>),
@@ -1853,14 +1759,13 @@
     (<span class="string">&#39;ႏ&#39;</span>, <span class="string">&#39;ႏ&#39;</span>),
     (<span class="string">&#39;ႚ&#39;</span>, <span class="string">&#39;\u{109d}&#39;</span>),
     (<span class="string">&#39;\u{135d}&#39;</span>, <span class="string">&#39;\u{135f}&#39;</span>),
-    (<span class="string">&#39;\u{1712}&#39;</span>, <span class="string">&#39;᜕&#39;</span>),
-    (<span class="string">&#39;\u{1732}&#39;</span>, <span class="string">&#39;᜴&#39;</span>),
+    (<span class="string">&#39;\u{1712}&#39;</span>, <span class="string">&#39;\u{1714}&#39;</span>),
+    (<span class="string">&#39;\u{1732}&#39;</span>, <span class="string">&#39;\u{1734}&#39;</span>),
     (<span class="string">&#39;\u{1752}&#39;</span>, <span class="string">&#39;\u{1753}&#39;</span>),
     (<span class="string">&#39;\u{1772}&#39;</span>, <span class="string">&#39;\u{1773}&#39;</span>),
     (<span class="string">&#39;\u{17b4}&#39;</span>, <span class="string">&#39;\u{17d3}&#39;</span>),
     (<span class="string">&#39;\u{17dd}&#39;</span>, <span class="string">&#39;\u{17dd}&#39;</span>),
     (<span class="string">&#39;\u{180b}&#39;</span>, <span class="string">&#39;\u{180d}&#39;</span>),
-    (<span class="string">&#39;\u{180f}&#39;</span>, <span class="string">&#39;\u{180f}&#39;</span>),
     (<span class="string">&#39;\u{1885}&#39;</span>, <span class="string">&#39;\u{1886}&#39;</span>),
     (<span class="string">&#39;\u{18a9}&#39;</span>, <span class="string">&#39;\u{18a9}&#39;</span>),
     (<span class="string">&#39;\u{1920}&#39;</span>, <span class="string">&#39;ᤫ&#39;</span>),
@@ -1869,7 +1774,7 @@
     (<span class="string">&#39;ᩕ&#39;</span>, <span class="string">&#39;\u{1a5e}&#39;</span>),
     (<span class="string">&#39;\u{1a60}&#39;</span>, <span class="string">&#39;\u{1a7c}&#39;</span>),
     (<span class="string">&#39;\u{1a7f}&#39;</span>, <span class="string">&#39;\u{1a7f}&#39;</span>),
-    (<span class="string">&#39;\u{1ab0}&#39;</span>, <span class="string">&#39;\u{1ace}&#39;</span>),
+    (<span class="string">&#39;\u{1ab0}&#39;</span>, <span class="string">&#39;\u{1ac0}&#39;</span>),
     (<span class="string">&#39;\u{1b00}&#39;</span>, <span class="string">&#39;ᬄ&#39;</span>),
     (<span class="string">&#39;\u{1b34}&#39;</span>, <span class="string">&#39;᭄&#39;</span>),
     (<span class="string">&#39;\u{1b6b}&#39;</span>, <span class="string">&#39;\u{1b73}&#39;</span>),
@@ -1882,7 +1787,8 @@
     (<span class="string">&#39;\u{1ced}&#39;</span>, <span class="string">&#39;\u{1ced}&#39;</span>),
     (<span class="string">&#39;\u{1cf4}&#39;</span>, <span class="string">&#39;\u{1cf4}&#39;</span>),
     (<span class="string">&#39;᳷&#39;</span>, <span class="string">&#39;\u{1cf9}&#39;</span>),
-    (<span class="string">&#39;\u{1dc0}&#39;</span>, <span class="string">&#39;\u{1dff}&#39;</span>),
+    (<span class="string">&#39;\u{1dc0}&#39;</span>, <span class="string">&#39;\u{1df9}&#39;</span>),
+    (<span class="string">&#39;\u{1dfb}&#39;</span>, <span class="string">&#39;\u{1dff}&#39;</span>),
     (<span class="string">&#39;\u{200c}&#39;</span>, <span class="string">&#39;\u{200c}&#39;</span>),
     (<span class="string">&#39;\u{20d0}&#39;</span>, <span class="string">&#39;\u{20f0}&#39;</span>),
     (<span class="string">&#39;\u{2cef}&#39;</span>, <span class="string">&#39;\u{2cf1}&#39;</span>),
@@ -1936,16 +1842,11 @@
     (<span class="string">&#39;\u{10ae5}&#39;</span>, <span class="string">&#39;\u{10ae6}&#39;</span>),
     (<span class="string">&#39;\u{10d24}&#39;</span>, <span class="string">&#39;\u{10d27}&#39;</span>),
     (<span class="string">&#39;\u{10eab}&#39;</span>, <span class="string">&#39;\u{10eac}&#39;</span>),
-    (<span class="string">&#39;\u{10efd}&#39;</span>, <span class="string">&#39;\u{10eff}&#39;</span>),
     (<span class="string">&#39;\u{10f46}&#39;</span>, <span class="string">&#39;\u{10f50}&#39;</span>),
-    (<span class="string">&#39;\u{10f82}&#39;</span>, <span class="string">&#39;\u{10f85}&#39;</span>),
     (<span class="string">&#39;𑀀&#39;</span>, <span class="string">&#39;𑀂&#39;</span>),
     (<span class="string">&#39;\u{11038}&#39;</span>, <span class="string">&#39;\u{11046}&#39;</span>),
-    (<span class="string">&#39;\u{11070}&#39;</span>, <span class="string">&#39;\u{11070}&#39;</span>),
-    (<span class="string">&#39;\u{11073}&#39;</span>, <span class="string">&#39;\u{11074}&#39;</span>),
     (<span class="string">&#39;\u{1107f}&#39;</span>, <span class="string">&#39;𑂂&#39;</span>),
     (<span class="string">&#39;𑂰&#39;</span>, <span class="string">&#39;\u{110ba}&#39;</span>),
-    (<span class="string">&#39;\u{110c2}&#39;</span>, <span class="string">&#39;\u{110c2}&#39;</span>),
     (<span class="string">&#39;\u{11100}&#39;</span>, <span class="string">&#39;\u{11102}&#39;</span>),
     (<span class="string">&#39;\u{11127}&#39;</span>, <span class="string">&#39;\u{11134}&#39;</span>),
     (<span class="string">&#39;𑅅&#39;</span>, <span class="string">&#39;𑅆&#39;</span>),
@@ -1953,10 +1854,9 @@
     (<span class="string">&#39;\u{11180}&#39;</span>, <span class="string">&#39;𑆂&#39;</span>),
     (<span class="string">&#39;𑆳&#39;</span>, <span class="string">&#39;𑇀&#39;</span>),
     (<span class="string">&#39;\u{111c9}&#39;</span>, <span class="string">&#39;\u{111cc}&#39;</span>),
-    (<span class="string">&#39;𑇎&#39;</span>, <span class="string">&#39;\u{111cf}&#39;</span>),
+    (<span class="string">&#39;\u{111ce}&#39;</span>, <span class="string">&#39;\u{111cf}&#39;</span>),
     (<span class="string">&#39;𑈬&#39;</span>, <span class="string">&#39;\u{11237}&#39;</span>),
     (<span class="string">&#39;\u{1123e}&#39;</span>, <span class="string">&#39;\u{1123e}&#39;</span>),
-    (<span class="string">&#39;\u{11241}&#39;</span>, <span class="string">&#39;\u{11241}&#39;</span>),
     (<span class="string">&#39;\u{112df}&#39;</span>, <span class="string">&#39;\u{112ea}&#39;</span>),
     (<span class="string">&#39;\u{11300}&#39;</span>, <span class="string">&#39;𑌃&#39;</span>),
     (<span class="string">&#39;\u{1133b}&#39;</span>, <span class="string">&#39;\u{1133c}&#39;</span>),
@@ -1977,11 +1877,11 @@
     (<span class="string">&#39;\u{116ab}&#39;</span>, <span class="string">&#39;\u{116b7}&#39;</span>),
     (<span class="string">&#39;\u{1171d}&#39;</span>, <span class="string">&#39;\u{1172b}&#39;</span>),
     (<span class="string">&#39;𑠬&#39;</span>, <span class="string">&#39;\u{1183a}&#39;</span>),
-    (<span class="string">&#39;\u{11930}&#39;</span>, <span class="string">&#39;𑤵&#39;</span>),
-    (<span class="string">&#39;𑤷&#39;</span>, <span class="string">&#39;𑤸&#39;</span>),
+    (<span class="string">&#39;\u{11930}&#39;</span>, <span class="string">&#39;\u{11935}&#39;</span>),
+    (<span class="string">&#39;\u{11937}&#39;</span>, <span class="string">&#39;\u{11938}&#39;</span>),
     (<span class="string">&#39;\u{1193b}&#39;</span>, <span class="string">&#39;\u{1193e}&#39;</span>),
-    (<span class="string">&#39;𑥀&#39;</span>, <span class="string">&#39;𑥀&#39;</span>),
-    (<span class="string">&#39;𑥂&#39;</span>, <span class="string">&#39;\u{11943}&#39;</span>),
+    (<span class="string">&#39;\u{11940}&#39;</span>, <span class="string">&#39;\u{11940}&#39;</span>),
+    (<span class="string">&#39;\u{11942}&#39;</span>, <span class="string">&#39;\u{11943}&#39;</span>),
     (<span class="string">&#39;𑧑&#39;</span>, <span class="string">&#39;\u{119d7}&#39;</span>),
     (<span class="string">&#39;\u{119da}&#39;</span>, <span class="string">&#39;\u{119e0}&#39;</span>),
     (<span class="string">&#39;𑧤&#39;</span>, <span class="string">&#39;𑧤&#39;</span>),
@@ -2004,22 +1904,14 @@
     (<span class="string">&#39;\u{11d90}&#39;</span>, <span class="string">&#39;\u{11d91}&#39;</span>),
     (<span class="string">&#39;𑶓&#39;</span>, <span class="string">&#39;\u{11d97}&#39;</span>),
     (<span class="string">&#39;\u{11ef3}&#39;</span>, <span class="string">&#39;𑻶&#39;</span>),
-    (<span class="string">&#39;\u{11f00}&#39;</span>, <span class="string">&#39;\u{11f01}&#39;</span>),
-    (<span class="string">&#39;𑼃&#39;</span>, <span class="string">&#39;𑼃&#39;</span>),
-    (<span class="string">&#39;𑼴&#39;</span>, <span class="string">&#39;\u{11f3a}&#39;</span>),
-    (<span class="string">&#39;𑼾&#39;</span>, <span class="string">&#39;\u{11f42}&#39;</span>),
-    (<span class="string">&#39;\u{13440}&#39;</span>, <span class="string">&#39;\u{13440}&#39;</span>),
-    (<span class="string">&#39;\u{13447}&#39;</span>, <span class="string">&#39;\u{13455}&#39;</span>),
     (<span class="string">&#39;\u{16af0}&#39;</span>, <span class="string">&#39;\u{16af4}&#39;</span>),
     (<span class="string">&#39;\u{16b30}&#39;</span>, <span class="string">&#39;\u{16b36}&#39;</span>),
     (<span class="string">&#39;\u{16f4f}&#39;</span>, <span class="string">&#39;\u{16f4f}&#39;</span>),
     (<span class="string">&#39;𖽑&#39;</span>, <span class="string">&#39;𖾇&#39;</span>),
     (<span class="string">&#39;\u{16f8f}&#39;</span>, <span class="string">&#39;\u{16f92}&#39;</span>),
     (<span class="string">&#39;\u{16fe4}&#39;</span>, <span class="string">&#39;\u{16fe4}&#39;</span>),
-    (<span class="string">&#39;𖿰&#39;</span>, <span class="string">&#39;𖿱&#39;</span>),
+    (<span class="string">&#39;\u{16ff0}&#39;</span>, <span class="string">&#39;\u{16ff1}&#39;</span>),
     (<span class="string">&#39;\u{1bc9d}&#39;</span>, <span class="string">&#39;\u{1bc9e}&#39;</span>),
-    (<span class="string">&#39;\u{1cf00}&#39;</span>, <span class="string">&#39;\u{1cf2d}&#39;</span>),
-    (<span class="string">&#39;\u{1cf30}&#39;</span>, <span class="string">&#39;\u{1cf46}&#39;</span>),
     (<span class="string">&#39;\u{1d165}&#39;</span>, <span class="string">&#39;\u{1d169}&#39;</span>),
     (<span class="string">&#39;𝅭&#39;</span>, <span class="string">&#39;\u{1d172}&#39;</span>),
     (<span class="string">&#39;\u{1d17b}&#39;</span>, <span class="string">&#39;\u{1d182}&#39;</span>),
@@ -2037,11 +1929,8 @@
     (<span class="string">&#39;\u{1e01b}&#39;</span>, <span class="string">&#39;\u{1e021}&#39;</span>),
     (<span class="string">&#39;\u{1e023}&#39;</span>, <span class="string">&#39;\u{1e024}&#39;</span>),
     (<span class="string">&#39;\u{1e026}&#39;</span>, <span class="string">&#39;\u{1e02a}&#39;</span>),
-    (<span class="string">&#39;\u{1e08f}&#39;</span>, <span class="string">&#39;\u{1e08f}&#39;</span>),
     (<span class="string">&#39;\u{1e130}&#39;</span>, <span class="string">&#39;\u{1e136}&#39;</span>),
-    (<span class="string">&#39;\u{1e2ae}&#39;</span>, <span class="string">&#39;\u{1e2ae}&#39;</span>),
     (<span class="string">&#39;\u{1e2ec}&#39;</span>, <span class="string">&#39;\u{1e2ef}&#39;</span>),
-    (<span class="string">&#39;\u{1e4ec}&#39;</span>, <span class="string">&#39;\u{1e4ef}&#39;</span>),
     (<span class="string">&#39;\u{1e8d0}&#39;</span>, <span class="string">&#39;\u{1e8d6}&#39;</span>),
     (<span class="string">&#39;\u{1e944}&#39;</span>, <span class="string">&#39;\u{1e94a}&#39;</span>),
     (<span class="string">&#39;🏻&#39;</span>, <span class="string">&#39;🏿&#39;</span>),
@@ -2065,7 +1954,6 @@
     (<span class="string">&#39;\u{61c}&#39;</span>, <span class="string">&#39;\u{61c}&#39;</span>),
     (<span class="string">&#39;\u{6dd}&#39;</span>, <span class="string">&#39;\u{6dd}&#39;</span>),
     (<span class="string">&#39;\u{70f}&#39;</span>, <span class="string">&#39;\u{70f}&#39;</span>),
-    (<span class="string">&#39;\u{890}&#39;</span>, <span class="string">&#39;\u{891}&#39;</span>),
     (<span class="string">&#39;\u{8e2}&#39;</span>, <span class="string">&#39;\u{8e2}&#39;</span>),
     (<span class="string">&#39;\u{180e}&#39;</span>, <span class="string">&#39;\u{180e}&#39;</span>),
     (<span class="string">&#39;\u{200e}&#39;</span>, <span class="string">&#39;\u{200f}&#39;</span>),
@@ -2076,7 +1964,7 @@
     (<span class="string">&#39;\u{fff9}&#39;</span>, <span class="string">&#39;\u{fffb}&#39;</span>),
     (<span class="string">&#39;\u{110bd}&#39;</span>, <span class="string">&#39;\u{110bd}&#39;</span>),
     (<span class="string">&#39;\u{110cd}&#39;</span>, <span class="string">&#39;\u{110cd}&#39;</span>),
-    (<span class="string">&#39;\u{13430}&#39;</span>, <span class="string">&#39;\u{1343f}&#39;</span>),
+    (<span class="string">&#39;\u{13430}&#39;</span>, <span class="string">&#39;\u{13438}&#39;</span>),
     (<span class="string">&#39;\u{1bca0}&#39;</span>, <span class="string">&#39;\u{1bca3}&#39;</span>),
     (<span class="string">&#39;\u{1d173}&#39;</span>, <span class="string">&#39;\u{1d17a}&#39;</span>),
     (<span class="string">&#39;\u{e0001}&#39;</span>, <span class="string">&#39;\u{e0001}&#39;</span>),
@@ -2104,12 +1992,7 @@
     (<span class="string">&#39;㋐&#39;</span>, <span class="string">&#39;㋾&#39;</span>),
     (<span class="string">&#39;㌀&#39;</span>, <span class="string">&#39;㍗&#39;</span>),
     (<span class="string">&#39;ｦ&#39;</span>, <span class="string">&#39;ﾝ&#39;</span>),
-    (<span class="string">&#39;𚿰&#39;</span>, <span class="string">&#39;𚿳&#39;</span>),
-    (<span class="string">&#39;𚿵&#39;</span>, <span class="string">&#39;𚿻&#39;</span>),
-    (<span class="string">&#39;𚿽&#39;</span>, <span class="string">&#39;𚿾&#39;</span>),
     (<span class="string">&#39;𛀀&#39;</span>, <span class="string">&#39;𛀀&#39;</span>),
-    (<span class="string">&#39;𛄠&#39;</span>, <span class="string">&#39;𛄢&#39;</span>),
-    (<span class="string">&#39;𛅕&#39;</span>, <span class="string">&#39;𛅕&#39;</span>),
     (<span class="string">&#39;𛅤&#39;</span>, <span class="string">&#39;𛅧&#39;</span>),
 ];
 
@@ -2208,20 +2091,17 @@
     (<span class="string">&#39;𑛀&#39;</span>, <span class="string">&#39;𑛉&#39;</span>),
     (<span class="string">&#39;𑜰&#39;</span>, <span class="string">&#39;𑜹&#39;</span>),
     (<span class="string">&#39;𑣠&#39;</span>, <span class="string">&#39;𑣩&#39;</span>),
-    (<span class="string">&#39;𑥐&#39;</span>, <span class="string">&#39;𑥙&#39;</span>),
+    (<span class="string">&#39;\u{11950}&#39;</span>, <span class="string">&#39;\u{11959}&#39;</span>),
     (<span class="string">&#39;𑱐&#39;</span>, <span class="string">&#39;𑱙&#39;</span>),
     (<span class="string">&#39;𑵐&#39;</span>, <span class="string">&#39;𑵙&#39;</span>),
     (<span class="string">&#39;𑶠&#39;</span>, <span class="string">&#39;𑶩&#39;</span>),
-    (<span class="string">&#39;𑽐&#39;</span>, <span class="string">&#39;𑽙&#39;</span>),
     (<span class="string">&#39;𖩠&#39;</span>, <span class="string">&#39;𖩩&#39;</span>),
-    (<span class="string">&#39;𖫀&#39;</span>, <span class="string">&#39;𖫉&#39;</span>),
     (<span class="string">&#39;𖭐&#39;</span>, <span class="string">&#39;𖭙&#39;</span>),
     (<span class="string">&#39;𝟎&#39;</span>, <span class="string">&#39;𝟿&#39;</span>),
     (<span class="string">&#39;𞅀&#39;</span>, <span class="string">&#39;𞅉&#39;</span>),
     (<span class="string">&#39;𞋰&#39;</span>, <span class="string">&#39;𞋹&#39;</span>),
-    (<span class="string">&#39;𞓰&#39;</span>, <span class="string">&#39;𞓹&#39;</span>),
     (<span class="string">&#39;𞥐&#39;</span>, <span class="string">&#39;𞥙&#39;</span>),
-    (<span class="string">&#39;🯰&#39;</span>, <span class="string">&#39;🯹&#39;</span>),
+    (<span class="string">&#39;\u{1fbf0}&#39;</span>, <span class="string">&#39;\u{1fbf9}&#39;</span>),
 ];
 
 <span class="kw">pub const </span>REGIONAL_INDICATOR: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[(char, char)] = <span class="kw-2">&amp;</span>[(<span class="string">&#39;🇦&#39;</span>, <span class="string">&#39;🇿&#39;</span>)];

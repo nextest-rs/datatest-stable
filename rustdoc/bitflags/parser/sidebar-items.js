@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"struct":[["ParseError","An error encountered while parsing flags from text."]]};

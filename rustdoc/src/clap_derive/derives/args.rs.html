@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/clap_derive-4.1.9/src/derives/args.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>args.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../clap_derive/index.html">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/clap_derive-4.0.8/src/derives/args.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>args.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../clap_derive/index.html">
                         <img src="https://raw.githubusercontent.com/clap-rs/clap/master/assets/clap.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -620,120 +620,6 @@
 <a href="#619" id="619">619</a>
 <a href="#620" id="620">620</a>
 <a href="#621" id="621">621</a>
-<a href="#622" id="622">622</a>
-<a href="#623" id="623">623</a>
-<a href="#624" id="624">624</a>
-<a href="#625" id="625">625</a>
-<a href="#626" id="626">626</a>
-<a href="#627" id="627">627</a>
-<a href="#628" id="628">628</a>
-<a href="#629" id="629">629</a>
-<a href="#630" id="630">630</a>
-<a href="#631" id="631">631</a>
-<a href="#632" id="632">632</a>
-<a href="#633" id="633">633</a>
-<a href="#634" id="634">634</a>
-<a href="#635" id="635">635</a>
-<a href="#636" id="636">636</a>
-<a href="#637" id="637">637</a>
-<a href="#638" id="638">638</a>
-<a href="#639" id="639">639</a>
-<a href="#640" id="640">640</a>
-<a href="#641" id="641">641</a>
-<a href="#642" id="642">642</a>
-<a href="#643" id="643">643</a>
-<a href="#644" id="644">644</a>
-<a href="#645" id="645">645</a>
-<a href="#646" id="646">646</a>
-<a href="#647" id="647">647</a>
-<a href="#648" id="648">648</a>
-<a href="#649" id="649">649</a>
-<a href="#650" id="650">650</a>
-<a href="#651" id="651">651</a>
-<a href="#652" id="652">652</a>
-<a href="#653" id="653">653</a>
-<a href="#654" id="654">654</a>
-<a href="#655" id="655">655</a>
-<a href="#656" id="656">656</a>
-<a href="#657" id="657">657</a>
-<a href="#658" id="658">658</a>
-<a href="#659" id="659">659</a>
-<a href="#660" id="660">660</a>
-<a href="#661" id="661">661</a>
-<a href="#662" id="662">662</a>
-<a href="#663" id="663">663</a>
-<a href="#664" id="664">664</a>
-<a href="#665" id="665">665</a>
-<a href="#666" id="666">666</a>
-<a href="#667" id="667">667</a>
-<a href="#668" id="668">668</a>
-<a href="#669" id="669">669</a>
-<a href="#670" id="670">670</a>
-<a href="#671" id="671">671</a>
-<a href="#672" id="672">672</a>
-<a href="#673" id="673">673</a>
-<a href="#674" id="674">674</a>
-<a href="#675" id="675">675</a>
-<a href="#676" id="676">676</a>
-<a href="#677" id="677">677</a>
-<a href="#678" id="678">678</a>
-<a href="#679" id="679">679</a>
-<a href="#680" id="680">680</a>
-<a href="#681" id="681">681</a>
-<a href="#682" id="682">682</a>
-<a href="#683" id="683">683</a>
-<a href="#684" id="684">684</a>
-<a href="#685" id="685">685</a>
-<a href="#686" id="686">686</a>
-<a href="#687" id="687">687</a>
-<a href="#688" id="688">688</a>
-<a href="#689" id="689">689</a>
-<a href="#690" id="690">690</a>
-<a href="#691" id="691">691</a>
-<a href="#692" id="692">692</a>
-<a href="#693" id="693">693</a>
-<a href="#694" id="694">694</a>
-<a href="#695" id="695">695</a>
-<a href="#696" id="696">696</a>
-<a href="#697" id="697">697</a>
-<a href="#698" id="698">698</a>
-<a href="#699" id="699">699</a>
-<a href="#700" id="700">700</a>
-<a href="#701" id="701">701</a>
-<a href="#702" id="702">702</a>
-<a href="#703" id="703">703</a>
-<a href="#704" id="704">704</a>
-<a href="#705" id="705">705</a>
-<a href="#706" id="706">706</a>
-<a href="#707" id="707">707</a>
-<a href="#708" id="708">708</a>
-<a href="#709" id="709">709</a>
-<a href="#710" id="710">710</a>
-<a href="#711" id="711">711</a>
-<a href="#712" id="712">712</a>
-<a href="#713" id="713">713</a>
-<a href="#714" id="714">714</a>
-<a href="#715" id="715">715</a>
-<a href="#716" id="716">716</a>
-<a href="#717" id="717">717</a>
-<a href="#718" id="718">718</a>
-<a href="#719" id="719">719</a>
-<a href="#720" id="720">720</a>
-<a href="#721" id="721">721</a>
-<a href="#722" id="722">722</a>
-<a href="#723" id="723">723</a>
-<a href="#724" id="724">724</a>
-<a href="#725" id="725">725</a>
-<a href="#726" id="726">726</a>
-<a href="#727" id="727">727</a>
-<a href="#728" id="728">728</a>
-<a href="#729" id="729">729</a>
-<a href="#730" id="730">730</a>
-<a href="#731" id="731">731</a>
-<a href="#732" id="732">732</a>
-<a href="#733" id="733">733</a>
-<a href="#734" id="734">734</a>
-<a href="#735" id="735">735</a>
 </pre><pre class="rust"><code><span class="comment">// Copyright 2018 Guillaume Pinot (@TeXitoi) &lt;texitoi@texitoi.eu&gt;,
 // Kevin Knapp (@kbknapp) &lt;kbknapp@gmail.com&gt;, and
 // Ana Hobden (@hoverbear) &lt;operator@hoverbear.org&gt;
@@ -845,8 +731,8 @@
             clippy::nursery,
             clippy::cargo,
             clippy::suspicious_else_formatting,
-            clippy::almost_swapped,
         )]
+        #[deny(clippy::correctness)]
         </span><span class="kw">impl </span>#impl_generics clap::FromArgMatches <span class="kw">for </span>#item_name #ty_generics #where_clause {
             <span class="kw">fn </span>from_arg_matches(__clap_arg_matches: <span class="kw-2">&amp;</span>clap::ArgMatches) -&gt; ::std::result::Result&lt;<span class="self">Self</span>, clap::Error&gt; {
                 <span class="self">Self</span>::from_arg_matches_mut(<span class="kw-2">&amp;mut </span>__clap_arg_matches.clone())
@@ -880,8 +766,8 @@
             clippy::nursery,
             clippy::cargo,
             clippy::suspicious_else_formatting,
-            clippy::almost_swapped,
         )]
+        #[deny(clippy::correctness)]
         </span><span class="kw">impl </span>#impl_generics clap::Args <span class="kw">for </span>#item_name #ty_generics #where_clause {
             <span class="kw">fn </span>group_id() -&gt; <span class="prelude-ty">Option</span>&lt;clap::Id&gt; {
                 #group_id
@@ -923,7 +809,7 @@
                     (Ty::Option, <span class="prelude-val">Some</span>(sub_type)) =&gt; sub_type,
                     <span class="kw">_ </span>=&gt; <span class="kw-2">&amp;</span>field.ty,
                 };
-                <span class="kw">let </span>implicit_methods = <span class="kw">if </span><span class="kw-2">**</span>ty == Ty::Option {
+                <span class="kw">let </span>implicit_methods = <span class="kw">if </span><span class="kw-2">**</span>ty == Ty::Option || override_required {
                     <span class="macro">quote!</span>()
                 } <span class="kw">else </span>{
                     <span class="macro">quote_spanned! </span>{ kind.span()=&gt;
@@ -932,28 +818,14 @@
                     }
                 };
 
-                <span class="kw">let </span>override_methods = <span class="kw">if </span>override_required {
-                    <span class="macro">quote_spanned! </span>{ kind.span()=&gt;
-                        .subcommand_required(<span class="bool-val">false</span>)
-                        .arg_required_else_help(<span class="bool-val">false</span>)
-                    }
-                } <span class="kw">else </span>{
-                    <span class="macro">quote!</span>()
-                };
-
                 <span class="prelude-val">Some</span>(<span class="macro">quote! </span>{
                     <span class="kw">let </span>#app_var = &lt;#subcmd_type <span class="kw">as </span>clap::Subcommand&gt;::augment_subcommands( #app_var );
                     <span class="kw">let </span>#app_var = #app_var
-                        #implicit_methods
-                        #override_methods;
+                        #implicit_methods;
                 })
             }
-            Kind::Flatten(ty) =&gt; {
-                <span class="kw">let </span>inner_type = <span class="kw">match </span>(<span class="kw-2">**</span>ty, sub_type(<span class="kw-2">&amp;</span>field.ty)) {
-                    (Ty::Option, <span class="prelude-val">Some</span>(sub_type)) =&gt; sub_type,
-                    <span class="kw">_ </span>=&gt; <span class="kw-2">&amp;</span>field.ty,
-                };
-
+            Kind::Flatten =&gt; {
+                <span class="kw">let </span>ty = <span class="kw-2">&amp;</span>field.ty;
                 <span class="kw">let </span>next_help_heading = item.next_help_heading();
                 <span class="kw">let </span>next_display_order = item.next_display_order();
                 <span class="kw">if </span>override_required {
@@ -961,14 +833,14 @@
                         <span class="kw">let </span>#app_var = #app_var
                             #next_help_heading
                             #next_display_order;
-                        <span class="kw">let </span>#app_var = &lt;#inner_type <span class="kw">as </span>clap::Args&gt;::augment_args_for_update(#app_var);
+                        <span class="kw">let </span>#app_var = &lt;#ty <span class="kw">as </span>clap::Args&gt;::augment_args_for_update(#app_var);
                     })
                 } <span class="kw">else </span>{
                     <span class="prelude-val">Some</span>(<span class="macro">quote_spanned! </span>{ kind.span()=&gt;
                         <span class="kw">let </span>#app_var = #app_var
                             #next_help_heading
                             #next_display_order;
-                        <span class="kw">let </span>#app_var = &lt;#inner_type <span class="kw">as </span>clap::Args&gt;::augment_args(#app_var);
+                        <span class="kw">let </span>#app_var = &lt;#ty <span class="kw">as </span>clap::Args&gt;::augment_args(#app_var);
                     })
                 }
             }
@@ -978,13 +850,6 @@
                 <span class="kw">let </span>value_name = item.value_name();
 
                 <span class="kw">let </span>implicit_methods = <span class="kw">match </span><span class="kw-2">**</span>ty {
-                    Ty::Unit =&gt; {
-                        <span class="comment">// Leaving out `value_parser` as it will always fail
-                        </span><span class="macro">quote_spanned! </span>{ ty.span()=&gt;
-                            .value_name(#value_name)
-                            #action
-                        }
-                    }
                     Ty::Option =&gt; {
                         <span class="macro">quote_spanned! </span>{ ty.span()=&gt;
                             .value_name(#value_name)
@@ -1034,16 +899,8 @@
                         }
                     }
 
-                    Ty::VecVec | Ty::OptionVecVec =&gt; {
-                        <span class="macro">quote_spanned! </span>{ ty.span() =&gt;
-                            .value_name(#value_name)
-                            #value_parser
-                            #action
-                        }
-                    }
-
                     Ty::Other =&gt; {
-                        <span class="kw">let </span>required = item.find_default_method().is_none();
+                        <span class="kw">let </span>required = item.find_default_method().is_none() &amp;&amp; !override_required;
                         <span class="comment">// `ArgAction::takes_values` is assuming `ArgAction::default_value` will be
                         // set though that won&#39;t always be true but this should be good enough,
                         // otherwise we&#39;ll report an &quot;arg required&quot; error when unwrapping.
@@ -1064,13 +921,6 @@
                 } <span class="kw">else </span>{
                     <span class="macro">quote!</span>()
                 };
-                <span class="kw">let </span>override_methods = <span class="kw">if </span>override_required {
-                    <span class="macro">quote_spanned! </span>{ kind.span()=&gt;
-                        .required(<span class="bool-val">false</span>)
-                    }
-                } <span class="kw">else </span>{
-                    <span class="macro">quote!</span>()
-                };
 
                 <span class="prelude-val">Some</span>(<span class="macro">quote_spanned! </span>{ field.span()=&gt;
                     <span class="kw">let </span>#app_var = #app_var.arg({
@@ -1082,10 +932,6 @@
 
                         <span class="kw">let </span>arg = arg
                             #explicit_methods;
-
-                        <span class="kw">let </span>arg = arg
-                            #override_methods;
-
                         arg
                     });
                 })
@@ -1126,7 +972,7 @@
             .iter()
             .filter(|(_field, item)| {
                 <span class="kw">let </span>kind = item.kind();
-                <span class="macro">matches!</span>(<span class="kw-2">*</span>kind, Kind::Flatten(<span class="kw">_</span>))
+                <span class="macro">matches!</span>(<span class="kw-2">*</span>kind, Kind::Flatten)
             })
             .count();
         <span class="kw">if </span><span class="number">0 </span>&lt; possible_group_members_len {
@@ -1186,6 +1032,7 @@
                             }
                         }
                     },
+                    Ty::Vec |
                     Ty::Other =&gt; {
                         <span class="macro">quote_spanned! </span>{ kind.span()=&gt;
                             #field_name: {
@@ -1193,12 +1040,8 @@
                             </span>}
                         }
                     },
-                    Ty::Unit |
-                    Ty::Vec |
                     Ty::OptionOption |
-                    Ty::OptionVec |
-                    Ty::VecVec |
-                    Ty::OptionVecVec =&gt; {
+                    Ty::OptionVec =&gt; {
                         <span class="macro">abort!</span>(
                             ty.span(),
                             <span class="string">&quot;{} types are not supported for subcommand&quot;</span>,
@@ -1208,46 +1051,9 @@
                 }
             }
 
-            Kind::Flatten(ty) =&gt; {
-                <span class="kw">let </span>inner_type = <span class="kw">match </span>(<span class="kw-2">**</span>ty, sub_type(<span class="kw-2">&amp;</span>field.ty)) {
-                    (Ty::Option, <span class="prelude-val">Some</span>(sub_type)) =&gt; sub_type,
-                    <span class="kw">_ </span>=&gt; <span class="kw-2">&amp;</span>field.ty,
-                };
-                <span class="kw">match </span><span class="kw-2">**</span>ty {
-                    Ty::Other =&gt; {
-                        <span class="macro">quote_spanned! </span>{ kind.span()=&gt;
-                            #field_name: &lt;#inner_type <span class="kw">as </span>clap::FromArgMatches&gt;::from_arg_matches_mut(#arg_matches)<span class="question-mark">?
-                        </span>}
-                    },
-                    Ty::Option =&gt; {
-                        <span class="macro">quote_spanned! </span>{ kind.span()=&gt;
-                            #field_name: {
-                                <span class="kw">let </span>group_id = &lt;#inner_type <span class="kw">as </span>clap::Args&gt;::group_id()
-                                    .expect(<span class="string">&quot;`#[arg(flatten)]`ed field type implements `Args::group_id`&quot;</span>);
-                                <span class="kw">if </span>#arg_matches.contains_id(group_id.as_str()) {
-                                    <span class="prelude-val">Some</span>(
-                                        &lt;#inner_type <span class="kw">as </span>clap::FromArgMatches&gt;::from_arg_matches_mut(#arg_matches)<span class="question-mark">?
-                                    </span>)
-                                } <span class="kw">else </span>{
-                                    <span class="prelude-val">None
-                                </span>}
-                            }
-                        }
-                    },
-                    Ty::Unit |
-                    Ty::Vec |
-                    Ty::OptionOption |
-                    Ty::OptionVec |
-                    Ty::VecVec |
-                    Ty::OptionVecVec =&gt; {
-                        <span class="macro">abort!</span>(
-                            ty.span(),
-                            <span class="string">&quot;{} types are not supported for flatten&quot;</span>,
-                            ty.as_str()
-                        );
-                    }
-                }
-            },
+            Kind::Flatten =&gt; <span class="macro">quote_spanned! </span>{ kind.span()=&gt;
+                #field_name: clap::FromArgMatches::from_arg_matches_mut(#arg_matches)<span class="question-mark">?
+            </span>},
 
             Kind::Skip(val, <span class="kw">_</span>) =&gt; <span class="kw">match </span>val {
                 <span class="prelude-val">None </span>=&gt; <span class="macro">quote_spanned!</span>(kind.span()=&gt; #field_name: Default::default()),
@@ -1322,36 +1128,9 @@
                 }
             }
 
-            Kind::Flatten(ty) =&gt; {
-                <span class="kw">let </span>inner_type = <span class="kw">match </span>(<span class="kw-2">**</span>ty, sub_type(<span class="kw-2">&amp;</span>field.ty)) {
-                    (Ty::Option, <span class="prelude-val">Some</span>(sub_type)) =&gt; sub_type,
-                    <span class="kw">_ </span>=&gt; <span class="kw-2">&amp;</span>field.ty,
-                };
-
-                <span class="kw">let </span>updater = <span class="macro">quote_spanned! </span>{ ty.span()=&gt;
-                    &lt;#inner_type <span class="kw">as </span>clap::FromArgMatches&gt;::update_from_arg_matches_mut(#field_name, #arg_matches)<span class="question-mark">?</span>;
-                };
-
-                <span class="kw">let </span>updater = <span class="kw">match </span><span class="kw-2">**</span>ty {
-                    Ty::Option =&gt; <span class="macro">quote_spanned! </span>{ kind.span()=&gt;
-                        <span class="kw">if let </span><span class="prelude-val">Some</span>(#field_name) = #field_name.as_mut() {
-                            #updater
-                        } <span class="kw">else </span>{
-                            <span class="kw-2">*</span>#field_name = <span class="prelude-val">Some</span>(&lt;#inner_type <span class="kw">as </span>clap::FromArgMatches&gt;::from_arg_matches_mut(
-                                #arg_matches
-                            )<span class="question-mark">?</span>);
-                        }
-                    },
-                    <span class="kw">_ </span>=&gt; <span class="macro">quote_spanned! </span>{ kind.span()=&gt;
-                        #updater
-                    },
-                };
-
-                <span class="macro">quote_spanned! </span>{ kind.span()=&gt;
-                    {
-                        #access
-                        #updater
-                    }
+            Kind::Flatten =&gt; <span class="macro">quote_spanned! </span>{ kind.span()=&gt; {
+                    #access
+                    clap::FromArgMatches::update_from_arg_matches_mut(#field_name, #arg_matches)<span class="question-mark">?</span>;
                 }
             },
 
@@ -1378,7 +1157,8 @@
     <span class="kw">let </span>id = item.id();
     <span class="kw">let </span>get_one = <span class="macro">quote_spanned!</span>(span=&gt; remove_one::&lt;#convert_type&gt;);
     <span class="kw">let </span>get_many = <span class="macro">quote_spanned!</span>(span=&gt; remove_many::&lt;#convert_type&gt;);
-    <span class="kw">let </span>get_occurrences = <span class="macro">quote_spanned!</span>(span=&gt; remove_occurrences::&lt;#convert_type&gt;);
+    <span class="kw">let </span>deref = <span class="macro">quote!</span>(|s| s);
+    <span class="kw">let </span>parse = <span class="macro">quote_spanned!</span>(span=&gt; |s| ::std::result::Result::Ok::&lt;<span class="kw">_</span>, clap::Error&gt;(s));
 
     <span class="comment">// Give this identifier the same hygiene
     // as the `arg_matches` parameter definition. This
@@ -1386,23 +1166,22 @@
     </span><span class="kw">let </span>arg_matches = <span class="macro">format_ident!</span>(<span class="string">&quot;__clap_arg_matches&quot;</span>);
 
     <span class="kw">let </span>field_value = <span class="kw">match </span><span class="kw-2">**</span>ty {
-        Ty::Unit =&gt; {
-            <span class="macro">quote_spanned! </span>{ ty.span()=&gt;
-                ()
-            }
-        }
-
         Ty::Option =&gt; {
             <span class="macro">quote_spanned! </span>{ ty.span()=&gt;
                 #arg_matches.#get_one(#id)
-            }
+                    .map(#deref)
+                    .map(#parse)
+                    .transpose()<span class="question-mark">?
+            </span>}
         }
 
         Ty::OptionOption =&gt; <span class="macro">quote_spanned! </span>{ ty.span()=&gt;
             <span class="kw">if </span>#arg_matches.contains_id(#id) {
                 <span class="prelude-val">Some</span>(
                     #arg_matches.#get_one(#id)
-                )
+                        .map(#deref)
+                        .map(#parse).transpose()<span class="question-mark">?
+                </span>)
             } <span class="kw">else </span>{
                 <span class="prelude-val">None
             </span>}
@@ -1411,8 +1190,9 @@
         Ty::OptionVec =&gt; <span class="macro">quote_spanned! </span>{ ty.span()=&gt;
             <span class="kw">if </span>#arg_matches.contains_id(#id) {
                 <span class="prelude-val">Some</span>(#arg_matches.#get_many(#id)
-                    .map(|v| v.collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;())
-                    .unwrap_or_else(Vec::new))
+                    .map(|v| v.map(#deref).map::&lt;::std::result::Result&lt;#convert_type, clap::Error&gt;, <span class="kw">_</span>&gt;(#parse).collect::&lt;::std::result::Result&lt;Vec&lt;<span class="kw">_</span>&gt;, clap::Error&gt;&gt;())
+                    .transpose()<span class="question-mark">?
+                    </span>.unwrap_or_else(Vec::new))
             } <span class="kw">else </span>{
                 <span class="prelude-val">None
             </span>}
@@ -1421,26 +1201,18 @@
         Ty::Vec =&gt; {
             <span class="macro">quote_spanned! </span>{ ty.span()=&gt;
                 #arg_matches.#get_many(#id)
-                    .map(|v| v.collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;())
-                    .unwrap_or_else(Vec::new)
+                    .map(|v| v.map(#deref).map::&lt;::std::result::Result&lt;#convert_type, clap::Error&gt;, <span class="kw">_</span>&gt;(#parse).collect::&lt;::std::result::Result&lt;Vec&lt;<span class="kw">_</span>&gt;, clap::Error&gt;&gt;())
+                    .transpose()<span class="question-mark">?
+                    </span>.unwrap_or_else(Vec::new)
             }
         }
-
-        Ty::VecVec =&gt; <span class="macro">quote_spanned! </span>{ ty.span()=&gt;
-            #arg_matches.#get_occurrences(#id)
-                .map(|g| g.map(::std::iter::Iterator::collect).collect::&lt;Vec&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;())
-                .unwrap_or_else(Vec::new)
-        },
-
-        Ty::OptionVecVec =&gt; <span class="macro">quote_spanned! </span>{ ty.span()=&gt;
-            #arg_matches.#get_occurrences(#id)
-                .map(|g| g.map(::std::iter::Iterator::collect).collect::&lt;Vec&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;&gt;())
-        },
 
         Ty::Other =&gt; {
             <span class="macro">quote_spanned! </span>{ ty.span()=&gt;
                 #arg_matches.#get_one(#id)
-                    .ok_or_else(|| clap::Error::raw(clap::error::ErrorKind::MissingRequiredArgument, <span class="macro">format!</span>(<span class="string">&quot;The following required argument was not provided: {}&quot;</span>, #id)))<span class="question-mark">?
+                    .map(#deref)
+                    .ok_or_else(|| clap::Error::raw(clap::error::ErrorKind::MissingRequiredArgument, <span class="macro">format!</span>(<span class="string">&quot;The following required argument was not provided: {}&quot;</span>, #id)))
+                    .and_then(#parse)<span class="question-mark">?
             </span>}
         }
     };

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/regex-syntax-0.6.28/src/unicode_tables/property_values.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>property_values.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../regex_syntax/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/regex-syntax-0.6.25/src/unicode_tables/property_values.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>property_values.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../regex_syntax/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -894,41 +894,13 @@
 <a href="#894" id="894">894</a>
 <a href="#895" id="895">895</a>
 <a href="#896" id="896">896</a>
-<a href="#897" id="897">897</a>
-<a href="#898" id="898">898</a>
-<a href="#899" id="899">899</a>
-<a href="#900" id="900">900</a>
-<a href="#901" id="901">901</a>
-<a href="#902" id="902">902</a>
-<a href="#903" id="903">903</a>
-<a href="#904" id="904">904</a>
-<a href="#905" id="905">905</a>
-<a href="#906" id="906">906</a>
-<a href="#907" id="907">907</a>
-<a href="#908" id="908">908</a>
-<a href="#909" id="909">909</a>
-<a href="#910" id="910">910</a>
-<a href="#911" id="911">911</a>
-<a href="#912" id="912">912</a>
-<a href="#913" id="913">913</a>
-<a href="#914" id="914">914</a>
-<a href="#915" id="915">915</a>
-<a href="#916" id="916">916</a>
-<a href="#917" id="917">917</a>
-<a href="#918" id="918">918</a>
-<a href="#919" id="919">919</a>
-<a href="#920" id="920">920</a>
-<a href="#921" id="921">921</a>
-<a href="#922" id="922">922</a>
-<a href="#923" id="923">923</a>
-<a href="#924" id="924">924</a>
 </pre><pre class="rust"><code><span class="comment">// DO NOT EDIT THIS FILE. IT WAS AUTOMATICALLY GENERATED BY:
 //
-//   ucd-generate property-values ucd-15.0.0 --include gc,script,scx,age,gcb,wb,sb
+//   ucd-generate property-values ucd-13.0.0 --include gc,script,scx,age,gcb,wb,sb
 //
-// Unicode version: 15.0.0.
+// Unicode version: 13.0.0.
 //
-// ucd-generate 0.2.14 is available on crates.io.
+// ucd-generate 0.2.8 is available on crates.io.
 
 </span><span class="kw">pub const </span>PROPERTY_VALUES: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[(
     <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
@@ -943,8 +915,6 @@
             (<span class="string">&quot;12.0&quot;</span>, <span class="string">&quot;V12_0&quot;</span>),
             (<span class="string">&quot;12.1&quot;</span>, <span class="string">&quot;V12_1&quot;</span>),
             (<span class="string">&quot;13.0&quot;</span>, <span class="string">&quot;V13_0&quot;</span>),
-            (<span class="string">&quot;14.0&quot;</span>, <span class="string">&quot;V14_0&quot;</span>),
-            (<span class="string">&quot;15.0&quot;</span>, <span class="string">&quot;V15_0&quot;</span>),
             (<span class="string">&quot;2.0&quot;</span>, <span class="string">&quot;V2_0&quot;</span>),
             (<span class="string">&quot;2.1&quot;</span>, <span class="string">&quot;V2_1&quot;</span>),
             (<span class="string">&quot;3.0&quot;</span>, <span class="string">&quot;V3_0&quot;</span>),
@@ -970,8 +940,6 @@
             (<span class="string">&quot;v120&quot;</span>, <span class="string">&quot;V12_0&quot;</span>),
             (<span class="string">&quot;v121&quot;</span>, <span class="string">&quot;V12_1&quot;</span>),
             (<span class="string">&quot;v130&quot;</span>, <span class="string">&quot;V13_0&quot;</span>),
-            (<span class="string">&quot;v140&quot;</span>, <span class="string">&quot;V14_0&quot;</span>),
-            (<span class="string">&quot;v150&quot;</span>, <span class="string">&quot;V15_0&quot;</span>),
             (<span class="string">&quot;v20&quot;</span>, <span class="string">&quot;V2_0&quot;</span>),
             (<span class="string">&quot;v21&quot;</span>, <span class="string">&quot;V2_1&quot;</span>),
             (<span class="string">&quot;v30&quot;</span>, <span class="string">&quot;V3_0&quot;</span>),
@@ -1161,11 +1129,9 @@
             (<span class="string">&quot;common&quot;</span>, <span class="string">&quot;Common&quot;</span>),
             (<span class="string">&quot;copt&quot;</span>, <span class="string">&quot;Coptic&quot;</span>),
             (<span class="string">&quot;coptic&quot;</span>, <span class="string">&quot;Coptic&quot;</span>),
-            (<span class="string">&quot;cpmn&quot;</span>, <span class="string">&quot;Cypro_Minoan&quot;</span>),
             (<span class="string">&quot;cprt&quot;</span>, <span class="string">&quot;Cypriot&quot;</span>),
             (<span class="string">&quot;cuneiform&quot;</span>, <span class="string">&quot;Cuneiform&quot;</span>),
             (<span class="string">&quot;cypriot&quot;</span>, <span class="string">&quot;Cypriot&quot;</span>),
-            (<span class="string">&quot;cyprominoan&quot;</span>, <span class="string">&quot;Cypro_Minoan&quot;</span>),
             (<span class="string">&quot;cyrillic&quot;</span>, <span class="string">&quot;Cyrillic&quot;</span>),
             (<span class="string">&quot;cyrl&quot;</span>, <span class="string">&quot;Cyrillic&quot;</span>),
             (<span class="string">&quot;deseret&quot;</span>, <span class="string">&quot;Deseret&quot;</span>),
@@ -1234,7 +1200,6 @@
             (<span class="string">&quot;kannada&quot;</span>, <span class="string">&quot;Kannada&quot;</span>),
             (<span class="string">&quot;katakana&quot;</span>, <span class="string">&quot;Katakana&quot;</span>),
             (<span class="string">&quot;katakanaorhiragana&quot;</span>, <span class="string">&quot;Katakana_Or_Hiragana&quot;</span>),
-            (<span class="string">&quot;kawi&quot;</span>, <span class="string">&quot;Kawi&quot;</span>),
             (<span class="string">&quot;kayahli&quot;</span>, <span class="string">&quot;Kayah_Li&quot;</span>),
             (<span class="string">&quot;khar&quot;</span>, <span class="string">&quot;Kharoshthi&quot;</span>),
             (<span class="string">&quot;kharoshthi&quot;</span>, <span class="string">&quot;Kharoshthi&quot;</span>),
@@ -1299,8 +1264,6 @@
             (<span class="string">&quot;myanmar&quot;</span>, <span class="string">&quot;Myanmar&quot;</span>),
             (<span class="string">&quot;mymr&quot;</span>, <span class="string">&quot;Myanmar&quot;</span>),
             (<span class="string">&quot;nabataean&quot;</span>, <span class="string">&quot;Nabataean&quot;</span>),
-            (<span class="string">&quot;nagm&quot;</span>, <span class="string">&quot;Nag_Mundari&quot;</span>),
-            (<span class="string">&quot;nagmundari&quot;</span>, <span class="string">&quot;Nag_Mundari&quot;</span>),
             (<span class="string">&quot;nand&quot;</span>, <span class="string">&quot;Nandinagari&quot;</span>),
             (<span class="string">&quot;nandinagari&quot;</span>, <span class="string">&quot;Nandinagari&quot;</span>),
             (<span class="string">&quot;narb&quot;</span>, <span class="string">&quot;Old_North_Arabian&quot;</span>),
@@ -1324,7 +1287,6 @@
             (<span class="string">&quot;oldsogdian&quot;</span>, <span class="string">&quot;Old_Sogdian&quot;</span>),
             (<span class="string">&quot;oldsoutharabian&quot;</span>, <span class="string">&quot;Old_South_Arabian&quot;</span>),
             (<span class="string">&quot;oldturkic&quot;</span>, <span class="string">&quot;Old_Turkic&quot;</span>),
-            (<span class="string">&quot;olduyghur&quot;</span>, <span class="string">&quot;Old_Uyghur&quot;</span>),
             (<span class="string">&quot;oriya&quot;</span>, <span class="string">&quot;Oriya&quot;</span>),
             (<span class="string">&quot;orkh&quot;</span>, <span class="string">&quot;Old_Turkic&quot;</span>),
             (<span class="string">&quot;orya&quot;</span>, <span class="string">&quot;Oriya&quot;</span>),
@@ -1332,7 +1294,6 @@
             (<span class="string">&quot;osge&quot;</span>, <span class="string">&quot;Osage&quot;</span>),
             (<span class="string">&quot;osma&quot;</span>, <span class="string">&quot;Osmanya&quot;</span>),
             (<span class="string">&quot;osmanya&quot;</span>, <span class="string">&quot;Osmanya&quot;</span>),
-            (<span class="string">&quot;ougr&quot;</span>, <span class="string">&quot;Old_Uyghur&quot;</span>),
             (<span class="string">&quot;pahawhhmong&quot;</span>, <span class="string">&quot;Pahawh_Hmong&quot;</span>),
             (<span class="string">&quot;palm&quot;</span>, <span class="string">&quot;Palmyrene&quot;</span>),
             (<span class="string">&quot;palmyrene&quot;</span>, <span class="string">&quot;Palmyrene&quot;</span>),
@@ -1397,7 +1358,6 @@
             (<span class="string">&quot;tamil&quot;</span>, <span class="string">&quot;Tamil&quot;</span>),
             (<span class="string">&quot;taml&quot;</span>, <span class="string">&quot;Tamil&quot;</span>),
             (<span class="string">&quot;tang&quot;</span>, <span class="string">&quot;Tangut&quot;</span>),
-            (<span class="string">&quot;tangsa&quot;</span>, <span class="string">&quot;Tangsa&quot;</span>),
             (<span class="string">&quot;tangut&quot;</span>, <span class="string">&quot;Tangut&quot;</span>),
             (<span class="string">&quot;tavt&quot;</span>, <span class="string">&quot;Tai_Viet&quot;</span>),
             (<span class="string">&quot;telu&quot;</span>, <span class="string">&quot;Telugu&quot;</span>),
@@ -1412,15 +1372,11 @@
             (<span class="string">&quot;tifinagh&quot;</span>, <span class="string">&quot;Tifinagh&quot;</span>),
             (<span class="string">&quot;tirh&quot;</span>, <span class="string">&quot;Tirhuta&quot;</span>),
             (<span class="string">&quot;tirhuta&quot;</span>, <span class="string">&quot;Tirhuta&quot;</span>),
-            (<span class="string">&quot;tnsa&quot;</span>, <span class="string">&quot;Tangsa&quot;</span>),
-            (<span class="string">&quot;toto&quot;</span>, <span class="string">&quot;Toto&quot;</span>),
             (<span class="string">&quot;ugar&quot;</span>, <span class="string">&quot;Ugaritic&quot;</span>),
             (<span class="string">&quot;ugaritic&quot;</span>, <span class="string">&quot;Ugaritic&quot;</span>),
             (<span class="string">&quot;unknown&quot;</span>, <span class="string">&quot;Unknown&quot;</span>),
             (<span class="string">&quot;vai&quot;</span>, <span class="string">&quot;Vai&quot;</span>),
             (<span class="string">&quot;vaii&quot;</span>, <span class="string">&quot;Vai&quot;</span>),
-            (<span class="string">&quot;vith&quot;</span>, <span class="string">&quot;Vithkuqi&quot;</span>),
-            (<span class="string">&quot;vithkuqi&quot;</span>, <span class="string">&quot;Vithkuqi&quot;</span>),
             (<span class="string">&quot;wancho&quot;</span>, <span class="string">&quot;Wancho&quot;</span>),
             (<span class="string">&quot;wara&quot;</span>, <span class="string">&quot;Warang_Citi&quot;</span>),
             (<span class="string">&quot;warangciti&quot;</span>, <span class="string">&quot;Warang_Citi&quot;</span>),
@@ -1490,11 +1446,9 @@
             (<span class="string">&quot;common&quot;</span>, <span class="string">&quot;Common&quot;</span>),
             (<span class="string">&quot;copt&quot;</span>, <span class="string">&quot;Coptic&quot;</span>),
             (<span class="string">&quot;coptic&quot;</span>, <span class="string">&quot;Coptic&quot;</span>),
-            (<span class="string">&quot;cpmn&quot;</span>, <span class="string">&quot;Cypro_Minoan&quot;</span>),
             (<span class="string">&quot;cprt&quot;</span>, <span class="string">&quot;Cypriot&quot;</span>),
             (<span class="string">&quot;cuneiform&quot;</span>, <span class="string">&quot;Cuneiform&quot;</span>),
             (<span class="string">&quot;cypriot&quot;</span>, <span class="string">&quot;Cypriot&quot;</span>),
-            (<span class="string">&quot;cyprominoan&quot;</span>, <span class="string">&quot;Cypro_Minoan&quot;</span>),
             (<span class="string">&quot;cyrillic&quot;</span>, <span class="string">&quot;Cyrillic&quot;</span>),
             (<span class="string">&quot;cyrl&quot;</span>, <span class="string">&quot;Cyrillic&quot;</span>),
             (<span class="string">&quot;deseret&quot;</span>, <span class="string">&quot;Deseret&quot;</span>),
@@ -1563,7 +1517,6 @@
             (<span class="string">&quot;kannada&quot;</span>, <span class="string">&quot;Kannada&quot;</span>),
             (<span class="string">&quot;katakana&quot;</span>, <span class="string">&quot;Katakana&quot;</span>),
             (<span class="string">&quot;katakanaorhiragana&quot;</span>, <span class="string">&quot;Katakana_Or_Hiragana&quot;</span>),
-            (<span class="string">&quot;kawi&quot;</span>, <span class="string">&quot;Kawi&quot;</span>),
             (<span class="string">&quot;kayahli&quot;</span>, <span class="string">&quot;Kayah_Li&quot;</span>),
             (<span class="string">&quot;khar&quot;</span>, <span class="string">&quot;Kharoshthi&quot;</span>),
             (<span class="string">&quot;kharoshthi&quot;</span>, <span class="string">&quot;Kharoshthi&quot;</span>),
@@ -1628,8 +1581,6 @@
             (<span class="string">&quot;myanmar&quot;</span>, <span class="string">&quot;Myanmar&quot;</span>),
             (<span class="string">&quot;mymr&quot;</span>, <span class="string">&quot;Myanmar&quot;</span>),
             (<span class="string">&quot;nabataean&quot;</span>, <span class="string">&quot;Nabataean&quot;</span>),
-            (<span class="string">&quot;nagm&quot;</span>, <span class="string">&quot;Nag_Mundari&quot;</span>),
-            (<span class="string">&quot;nagmundari&quot;</span>, <span class="string">&quot;Nag_Mundari&quot;</span>),
             (<span class="string">&quot;nand&quot;</span>, <span class="string">&quot;Nandinagari&quot;</span>),
             (<span class="string">&quot;nandinagari&quot;</span>, <span class="string">&quot;Nandinagari&quot;</span>),
             (<span class="string">&quot;narb&quot;</span>, <span class="string">&quot;Old_North_Arabian&quot;</span>),
@@ -1653,7 +1604,6 @@
             (<span class="string">&quot;oldsogdian&quot;</span>, <span class="string">&quot;Old_Sogdian&quot;</span>),
             (<span class="string">&quot;oldsoutharabian&quot;</span>, <span class="string">&quot;Old_South_Arabian&quot;</span>),
             (<span class="string">&quot;oldturkic&quot;</span>, <span class="string">&quot;Old_Turkic&quot;</span>),
-            (<span class="string">&quot;olduyghur&quot;</span>, <span class="string">&quot;Old_Uyghur&quot;</span>),
             (<span class="string">&quot;oriya&quot;</span>, <span class="string">&quot;Oriya&quot;</span>),
             (<span class="string">&quot;orkh&quot;</span>, <span class="string">&quot;Old_Turkic&quot;</span>),
             (<span class="string">&quot;orya&quot;</span>, <span class="string">&quot;Oriya&quot;</span>),
@@ -1661,7 +1611,6 @@
             (<span class="string">&quot;osge&quot;</span>, <span class="string">&quot;Osage&quot;</span>),
             (<span class="string">&quot;osma&quot;</span>, <span class="string">&quot;Osmanya&quot;</span>),
             (<span class="string">&quot;osmanya&quot;</span>, <span class="string">&quot;Osmanya&quot;</span>),
-            (<span class="string">&quot;ougr&quot;</span>, <span class="string">&quot;Old_Uyghur&quot;</span>),
             (<span class="string">&quot;pahawhhmong&quot;</span>, <span class="string">&quot;Pahawh_Hmong&quot;</span>),
             (<span class="string">&quot;palm&quot;</span>, <span class="string">&quot;Palmyrene&quot;</span>),
             (<span class="string">&quot;palmyrene&quot;</span>, <span class="string">&quot;Palmyrene&quot;</span>),
@@ -1726,7 +1675,6 @@
             (<span class="string">&quot;tamil&quot;</span>, <span class="string">&quot;Tamil&quot;</span>),
             (<span class="string">&quot;taml&quot;</span>, <span class="string">&quot;Tamil&quot;</span>),
             (<span class="string">&quot;tang&quot;</span>, <span class="string">&quot;Tangut&quot;</span>),
-            (<span class="string">&quot;tangsa&quot;</span>, <span class="string">&quot;Tangsa&quot;</span>),
             (<span class="string">&quot;tangut&quot;</span>, <span class="string">&quot;Tangut&quot;</span>),
             (<span class="string">&quot;tavt&quot;</span>, <span class="string">&quot;Tai_Viet&quot;</span>),
             (<span class="string">&quot;telu&quot;</span>, <span class="string">&quot;Telugu&quot;</span>),
@@ -1741,15 +1689,11 @@
             (<span class="string">&quot;tifinagh&quot;</span>, <span class="string">&quot;Tifinagh&quot;</span>),
             (<span class="string">&quot;tirh&quot;</span>, <span class="string">&quot;Tirhuta&quot;</span>),
             (<span class="string">&quot;tirhuta&quot;</span>, <span class="string">&quot;Tirhuta&quot;</span>),
-            (<span class="string">&quot;tnsa&quot;</span>, <span class="string">&quot;Tangsa&quot;</span>),
-            (<span class="string">&quot;toto&quot;</span>, <span class="string">&quot;Toto&quot;</span>),
             (<span class="string">&quot;ugar&quot;</span>, <span class="string">&quot;Ugaritic&quot;</span>),
             (<span class="string">&quot;ugaritic&quot;</span>, <span class="string">&quot;Ugaritic&quot;</span>),
             (<span class="string">&quot;unknown&quot;</span>, <span class="string">&quot;Unknown&quot;</span>),
             (<span class="string">&quot;vai&quot;</span>, <span class="string">&quot;Vai&quot;</span>),
             (<span class="string">&quot;vaii&quot;</span>, <span class="string">&quot;Vai&quot;</span>),
-            (<span class="string">&quot;vith&quot;</span>, <span class="string">&quot;Vithkuqi&quot;</span>),
-            (<span class="string">&quot;vithkuqi&quot;</span>, <span class="string">&quot;Vithkuqi&quot;</span>),
             (<span class="string">&quot;wancho&quot;</span>, <span class="string">&quot;Wancho&quot;</span>),
             (<span class="string">&quot;wara&quot;</span>, <span class="string">&quot;Warang_Citi&quot;</span>),
             (<span class="string">&quot;warangciti&quot;</span>, <span class="string">&quot;Warang_Citi&quot;</span>),

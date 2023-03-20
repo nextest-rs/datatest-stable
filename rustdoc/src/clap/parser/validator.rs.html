@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-4.1.11/src/parser/validator.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>validator.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../clap/index.html">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-4.0.8/src/parser/validator.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>validator.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../clap/index.html">
                         <img src="https://raw.githubusercontent.com/clap-rs/clap/master/assets/clap.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -536,34 +536,9 @@
 <a href="#535" id="535">535</a>
 <a href="#536" id="536">536</a>
 <a href="#537" id="537">537</a>
-<a href="#538" id="538">538</a>
-<a href="#539" id="539">539</a>
-<a href="#540" id="540">540</a>
-<a href="#541" id="541">541</a>
-<a href="#542" id="542">542</a>
-<a href="#543" id="543">543</a>
-<a href="#544" id="544">544</a>
-<a href="#545" id="545">545</a>
-<a href="#546" id="546">546</a>
-<a href="#547" id="547">547</a>
-<a href="#548" id="548">548</a>
-<a href="#549" id="549">549</a>
-<a href="#550" id="550">550</a>
-<a href="#551" id="551">551</a>
-<a href="#552" id="552">552</a>
-<a href="#553" id="553">553</a>
-<a href="#554" id="554">554</a>
-<a href="#555" id="555">555</a>
-<a href="#556" id="556">556</a>
-<a href="#557" id="557">557</a>
-<a href="#558" id="558">558</a>
-<a href="#559" id="559">559</a>
-<a href="#560" id="560">560</a>
-<a href="#561" id="561">561</a>
-<a href="#562" id="562">562</a>
 </pre><pre class="rust"><code><span class="comment">// Internal
 </span><span class="kw">use </span><span class="kw">crate</span>::builder::StyledStr;
-<span class="kw">use </span><span class="kw">crate</span>::builder::{Arg, ArgGroup, ArgPredicate, Command, PossibleValue};
+<span class="kw">use </span><span class="kw">crate</span>::builder::{Arg, ArgPredicate, Command, PossibleValue};
 <span class="kw">use </span><span class="kw">crate</span>::error::{Error, <span class="prelude-ty">Result </span><span class="kw">as </span>ClapResult};
 <span class="kw">use </span><span class="kw">crate</span>::output::Usage;
 <span class="kw">use </span><span class="kw">crate</span>::parser::{ArgMatcher, ParseState};
@@ -590,7 +565,7 @@
         matcher: <span class="kw-2">&amp;mut </span>ArgMatcher,
     ) -&gt; ClapResult&lt;()&gt; {
         <span class="macro">debug!</span>(<span class="string">&quot;Validator::validate&quot;</span>);
-        <span class="kw">let </span>conflicts = Conflicts::with_args(<span class="self">self</span>.cmd, matcher);
+        <span class="kw">let </span><span class="kw-2">mut </span>conflicts = Conflicts::new();
         <span class="kw">let </span>has_subcmd = matcher.subcommand_name().is_some();
 
         <span class="kw">if let </span>ParseState::Opt(a) = parse_state {
@@ -617,8 +592,8 @@
 
         <span class="kw">if </span>!has_subcmd &amp;&amp; <span class="self">self</span>.cmd.is_arg_required_else_help_set() {
             <span class="kw">let </span>num_user_values = matcher
-                .args()
-                .filter(|(<span class="kw">_</span>, matched)| matched.check_explicit(<span class="kw-2">&amp;</span>ArgPredicate::IsPresent))
+                .arg_ids()
+                .filter(|arg_id| matcher.check_explicit(arg_id, <span class="kw-2">&amp;</span>ArgPredicate::IsPresent))
                 .count();
             <span class="kw">if </span>num_user_values == <span class="number">0 </span>{
                 <span class="kw">let </span>message = <span class="self">self</span>.cmd.write_help_err(<span class="bool-val">false</span>);
@@ -633,19 +608,15 @@
             <span class="kw">return </span><span class="prelude-val">Err</span>(Error::missing_subcommand(
                 <span class="self">self</span>.cmd,
                 bn.to_string(),
-                <span class="self">self</span>.cmd
-                    .all_subcommand_names()
-                    .map(|s| s.to_owned())
-                    .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;(),
                 Usage::new(<span class="self">self</span>.cmd)
                     .required(<span class="kw-2">&amp;</span><span class="self">self</span>.required)
                     .create_usage_with_title(<span class="kw-2">&amp;</span>[]),
             ));
         }
 
-        <span class="macro">ok!</span>(<span class="self">self</span>.validate_conflicts(matcher, <span class="kw-2">&amp;</span>conflicts));
+        <span class="macro">ok!</span>(<span class="self">self</span>.validate_conflicts(matcher, <span class="kw-2">&amp;mut </span>conflicts));
         <span class="kw">if </span>!(<span class="self">self</span>.cmd.is_subcommand_negates_reqs_set() &amp;&amp; has_subcmd) {
-            <span class="macro">ok!</span>(<span class="self">self</span>.validate_required(matcher, <span class="kw-2">&amp;</span>conflicts));
+            <span class="macro">ok!</span>(<span class="self">self</span>.validate_required(matcher, <span class="kw-2">&amp;mut </span>conflicts));
         }
 
         <span class="prelude-val">Ok</span>(())
@@ -654,19 +625,19 @@
     <span class="kw">fn </span>validate_conflicts(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
         matcher: <span class="kw-2">&amp;</span>ArgMatcher,
-        conflicts: <span class="kw-2">&amp;</span>Conflicts,
+        conflicts: <span class="kw-2">&amp;mut </span>Conflicts,
     ) -&gt; ClapResult&lt;()&gt; {
         <span class="macro">debug!</span>(<span class="string">&quot;Validator::validate_conflicts&quot;</span>);
 
         <span class="macro">ok!</span>(<span class="self">self</span>.validate_exclusive(matcher));
 
-        <span class="kw">for </span>(arg_id, <span class="kw">_</span>) <span class="kw">in </span>matcher
-            .args()
-            .filter(|(<span class="kw">_</span>, matched)| matched.check_explicit(<span class="kw-2">&amp;</span>ArgPredicate::IsPresent))
-            .filter(|(arg_id, <span class="kw">_</span>)| <span class="self">self</span>.cmd.find(arg_id).is_some())
+        <span class="kw">for </span>arg_id <span class="kw">in </span>matcher
+            .arg_ids()
+            .filter(|arg_id| matcher.check_explicit(arg_id, <span class="kw-2">&amp;</span>ArgPredicate::IsPresent))
+            .filter(|arg_id| <span class="self">self</span>.cmd.find(arg_id).is_some())
         {
             <span class="macro">debug!</span>(<span class="string">&quot;Validator::validate_conflicts::iter: id={:?}&quot;</span>, arg_id);
-            <span class="kw">let </span>conflicts = conflicts.gather_conflicts(<span class="self">self</span>.cmd, arg_id);
+            <span class="kw">let </span>conflicts = conflicts.gather_conflicts(<span class="self">self</span>.cmd, matcher, arg_id);
             <span class="macro">ok!</span>(<span class="self">self</span>.build_conflict_err(arg_id, <span class="kw-2">&amp;</span>conflicts, matcher));
         }
 
@@ -676,12 +647,9 @@
     <span class="kw">fn </span>validate_exclusive(<span class="kw-2">&amp;</span><span class="self">self</span>, matcher: <span class="kw-2">&amp;</span>ArgMatcher) -&gt; ClapResult&lt;()&gt; {
         <span class="macro">debug!</span>(<span class="string">&quot;Validator::validate_exclusive&quot;</span>);
         <span class="kw">let </span>args_count = matcher
-            .args()
-            .filter(|(arg_id, matched)| {
-                matched.check_explicit(<span class="kw-2">&amp;</span><span class="kw">crate</span>::builder::ArgPredicate::IsPresent)
-                    <span class="comment">// Avoid including our own groups by checking none of them.  If a group is present, the
-                    // args for the group will be.
-                    </span>&amp;&amp; <span class="self">self</span>.cmd.find(arg_id).is_some()
+            .arg_ids()
+            .filter(|arg_id| {
+                matcher.check_explicit(arg_id, <span class="kw-2">&amp;</span><span class="kw">crate</span>::builder::ArgPredicate::IsPresent)
             })
             .count();
         <span class="kw">if </span>args_count &lt;= <span class="number">1 </span>{
@@ -690,12 +658,14 @@
         }
 
         matcher
-            .args()
-            .filter(|(<span class="kw">_</span>, matched)| matched.check_explicit(<span class="kw-2">&amp;</span><span class="kw">crate</span>::builder::ArgPredicate::IsPresent))
-            .filter_map(|(id, <span class="kw">_</span>)| {
-                <span class="macro">debug!</span>(<span class="string">&quot;Validator::validate_exclusive:iter:{:?}&quot;</span>, id);
+            .arg_ids()
+            .filter(|arg_id| {
+                matcher.check_explicit(arg_id, <span class="kw-2">&amp;</span><span class="kw">crate</span>::builder::ArgPredicate::IsPresent)
+            })
+            .filter_map(|name| {
+                <span class="macro">debug!</span>(<span class="string">&quot;Validator::validate_exclusive:iter:{:?}&quot;</span>, name);
                 <span class="self">self</span>.cmd
-                    .find(id)
+                    .find(name)
                     <span class="comment">// Find `arg`s which are exclusive but also appear with other args.
                     </span>.filter(|<span class="kw-2">&amp;</span>arg| arg.is_exclusive_set() &amp;&amp; args_count &gt; <span class="number">1</span>)
             })
@@ -757,9 +727,8 @@
         conflicting_keys: <span class="kw-2">&amp;</span>[Id],
     ) -&gt; <span class="prelude-ty">Option</span>&lt;StyledStr&gt; {
         <span class="kw">let </span>used_filtered: Vec&lt;Id&gt; = matcher
-            .args()
-            .filter(|(<span class="kw">_</span>, matched)| matched.check_explicit(<span class="kw-2">&amp;</span>ArgPredicate::IsPresent))
-            .map(|(n, <span class="kw">_</span>)| n)
+            .arg_ids()
+            .filter(|arg_id| matcher.check_explicit(arg_id, <span class="kw-2">&amp;</span>ArgPredicate::IsPresent))
             .filter(|n| {
                 <span class="comment">// Filter out the args we don&#39;t want to specify.
                 </span><span class="self">self</span>.cmd.find(n).map_or(<span class="bool-val">false</span>, |a| !a.is_hide_set())
@@ -782,14 +751,14 @@
 
     <span class="kw">fn </span>gather_requires(<span class="kw-2">&amp;mut </span><span class="self">self</span>, matcher: <span class="kw-2">&amp;</span>ArgMatcher) {
         <span class="macro">debug!</span>(<span class="string">&quot;Validator::gather_requires&quot;</span>);
-        <span class="kw">for </span>(name, matched) <span class="kw">in </span>matcher
-            .args()
-            .filter(|(<span class="kw">_</span>, matched)| matched.check_explicit(<span class="kw-2">&amp;</span>ArgPredicate::IsPresent))
+        <span class="kw">for </span>name <span class="kw">in </span>matcher
+            .arg_ids()
+            .filter(|arg_id| matcher.check_explicit(arg_id, <span class="kw-2">&amp;</span>ArgPredicate::IsPresent))
         {
             <span class="macro">debug!</span>(<span class="string">&quot;Validator::gather_requires:iter:{:?}&quot;</span>, name);
             <span class="kw">if let </span><span class="prelude-val">Some</span>(arg) = <span class="self">self</span>.cmd.find(name) {
                 <span class="kw">let </span>is_relevant = |(val, req_arg): <span class="kw-2">&amp;</span>(ArgPredicate, Id)| -&gt; <span class="prelude-ty">Option</span>&lt;Id&gt; {
-                    <span class="kw">let </span>required = matched.check_explicit(val);
+                    <span class="kw">let </span>required = matcher.check_explicit(arg.get_id(), val);
                     required.then(|| req_arg.clone())
                 };
 
@@ -805,7 +774,11 @@
         }
     }
 
-    <span class="kw">fn </span>validate_required(<span class="kw-2">&amp;mut </span><span class="self">self</span>, matcher: <span class="kw-2">&amp;</span>ArgMatcher, conflicts: <span class="kw-2">&amp;</span>Conflicts) -&gt; ClapResult&lt;()&gt; {
+    <span class="kw">fn </span>validate_required(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        matcher: <span class="kw-2">&amp;</span>ArgMatcher,
+        conflicts: <span class="kw-2">&amp;mut </span>Conflicts,
+    ) -&gt; ClapResult&lt;()&gt; {
         <span class="macro">debug!</span>(<span class="string">&quot;Validator::validate_required: required={:?}&quot;</span>, <span class="self">self</span>.required);
         <span class="self">self</span>.gather_requires(matcher);
 
@@ -813,9 +786,9 @@
         <span class="kw">let </span><span class="kw-2">mut </span>highest_index = <span class="number">0</span>;
 
         <span class="kw">let </span>is_exclusive_present = matcher
-            .args()
-            .filter(|(<span class="kw">_</span>, matched)| matched.check_explicit(<span class="kw-2">&amp;</span>ArgPredicate::IsPresent))
-            .any(|(id, <span class="kw">_</span>)| {
+            .arg_ids()
+            .filter(|arg_id| matcher.check_explicit(arg_id, <span class="kw-2">&amp;</span>ArgPredicate::IsPresent))
+            .any(|id| {
                 <span class="self">self</span>.cmd
                     .find(id)
                     .map(|arg| arg.is_exclusive_set())
@@ -834,7 +807,7 @@
             <span class="macro">debug!</span>(<span class="string">&quot;Validator::validate_required:iter:aog={:?}&quot;</span>, arg_or_group);
             <span class="kw">if let </span><span class="prelude-val">Some</span>(arg) = <span class="self">self</span>.cmd.find(arg_or_group) {
                 <span class="macro">debug!</span>(<span class="string">&quot;Validator::validate_required:iter: This is an arg&quot;</span>);
-                <span class="kw">if </span>!is_exclusive_present &amp;&amp; !<span class="self">self</span>.is_missing_required_ok(arg, conflicts) {
+                <span class="kw">if </span>!is_exclusive_present &amp;&amp; !<span class="self">self</span>.is_missing_required_ok(arg, matcher, conflicts) {
                     <span class="macro">debug!</span>(
                         <span class="string">&quot;Validator::validate_required:iter: Missing {:?}&quot;</span>,
                         arg.get_id()
@@ -932,20 +905,16 @@
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn </span>is_missing_required_ok(<span class="kw-2">&amp;</span><span class="self">self</span>, a: <span class="kw-2">&amp;</span>Arg, conflicts: <span class="kw-2">&amp;</span>Conflicts) -&gt; bool {
+    <span class="kw">fn </span>is_missing_required_ok(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        a: <span class="kw-2">&amp;</span>Arg,
+        matcher: <span class="kw-2">&amp;</span>ArgMatcher,
+        conflicts: <span class="kw-2">&amp;mut </span>Conflicts,
+    ) -&gt; bool {
         <span class="macro">debug!</span>(<span class="string">&quot;Validator::is_missing_required_ok: {}&quot;</span>, a.get_id());
-        <span class="kw">if </span>!conflicts.gather_conflicts(<span class="self">self</span>.cmd, a.get_id()).is_empty() {
-            <span class="macro">debug!</span>(<span class="string">&quot;Validator::is_missing_required_ok: true (self)&quot;</span>);
-            <span class="kw">return </span><span class="bool-val">true</span>;
-        }
-        <span class="kw">for </span>group_id <span class="kw">in </span><span class="self">self</span>.cmd.groups_for_arg(a.get_id()) {
-            <span class="kw">if </span>!conflicts.gather_conflicts(<span class="self">self</span>.cmd, <span class="kw-2">&amp;</span>group_id).is_empty() {
-                <span class="macro">debug!</span>(<span class="string">&quot;Validator::is_missing_required_ok: true ({})&quot;</span>, group_id);
-                <span class="kw">return </span><span class="bool-val">true</span>;
-            }
-        }
-        <span class="bool-val">false
-    </span>}
+        <span class="kw">let </span>conflicts = conflicts.gather_conflicts(<span class="self">self</span>.cmd, matcher, a.get_id());
+        !conflicts.is_empty()
+    }
 
     <span class="comment">// Failing a required unless means, the arg&#39;s &quot;unless&quot; wasn&#39;t present, and neither were they
     </span><span class="kw">fn </span>fails_arg_required_unless(<span class="kw-2">&amp;</span><span class="self">self</span>, a: <span class="kw-2">&amp;</span>Arg, matcher: <span class="kw-2">&amp;</span>ArgMatcher) -&gt; bool {
@@ -1003,9 +972,8 @@
         );
 
         <span class="kw">let </span>used: Vec&lt;Id&gt; = matcher
-            .args()
-            .filter(|(<span class="kw">_</span>, matched)| matched.check_explicit(<span class="kw-2">&amp;</span>ArgPredicate::IsPresent))
-            .map(|(n, <span class="kw">_</span>)| n)
+            .arg_ids()
+            .filter(|arg_id| matcher.check_explicit(arg_id, <span class="kw-2">&amp;</span>ArgPredicate::IsPresent))
             .filter(|n| {
                 <span class="comment">// Filter out the args we don&#39;t want to specify.
                 </span><span class="self">self</span>.cmd.find(n).map_or(<span class="bool-val">false</span>, |a| !a.is_hide_set())
@@ -1028,89 +996,71 @@
 }
 
 <span class="kw">impl </span>Conflicts {
-    <span class="kw">fn </span>with_args(cmd: <span class="kw-2">&amp;</span>Command, matcher: <span class="kw-2">&amp;</span>ArgMatcher) -&gt; <span class="self">Self </span>{
-        <span class="kw">let </span><span class="kw-2">mut </span>potential = FlatMap::new();
-        potential.extend_unchecked(
-            matcher
-                .args()
-                .filter(|(<span class="kw">_</span>, matched)| matched.check_explicit(<span class="kw-2">&amp;</span>ArgPredicate::IsPresent))
-                .map(|(id, <span class="kw">_</span>)| {
-                    <span class="kw">let </span>conf = gather_direct_conflicts(cmd, id);
-                    (id.clone(), conf)
-                }),
-        );
-        <span class="self">Self </span>{ potential }
+    <span class="kw">fn </span>new() -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::default()
     }
 
-    <span class="kw">fn </span>gather_conflicts(<span class="kw-2">&amp;</span><span class="self">self</span>, cmd: <span class="kw-2">&amp;</span>Command, arg_id: <span class="kw-2">&amp;</span>Id) -&gt; Vec&lt;Id&gt; {
+    <span class="kw">fn </span>gather_conflicts(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cmd: <span class="kw-2">&amp;</span>Command, matcher: <span class="kw-2">&amp;</span>ArgMatcher, arg_id: <span class="kw-2">&amp;</span>Id) -&gt; Vec&lt;Id&gt; {
         <span class="macro">debug!</span>(<span class="string">&quot;Conflicts::gather_conflicts: arg={:?}&quot;</span>, arg_id);
         <span class="kw">let </span><span class="kw-2">mut </span>conflicts = Vec::new();
-
-        <span class="kw">let </span>arg_id_conflicts_storage;
-        <span class="kw">let </span>arg_id_conflicts = <span class="kw">if let </span><span class="prelude-val">Some</span>(arg_id_conflicts) = <span class="self">self</span>.get_direct_conflicts(arg_id) {
-            arg_id_conflicts
-        } <span class="kw">else </span>{
-            <span class="comment">// `is_missing_required_ok` is a case where we check not-present args for conflicts
-            </span>arg_id_conflicts_storage = gather_direct_conflicts(cmd, arg_id);
-            <span class="kw-2">&amp;</span>arg_id_conflicts_storage
-        };
-        <span class="kw">for </span>(other_arg_id, other_arg_id_conflicts) <span class="kw">in </span><span class="self">self</span>.potential.iter() {
+        <span class="kw">for </span>other_arg_id <span class="kw">in </span>matcher
+            .arg_ids()
+            .filter(|arg_id| matcher.check_explicit(arg_id, <span class="kw-2">&amp;</span>ArgPredicate::IsPresent))
+        {
             <span class="kw">if </span>arg_id == other_arg_id {
                 <span class="kw">continue</span>;
             }
 
-            <span class="kw">if </span>arg_id_conflicts.contains(other_arg_id) {
+            <span class="kw">if </span><span class="self">self
+                </span>.gather_direct_conflicts(cmd, arg_id)
+                .contains(other_arg_id)
+            {
                 conflicts.push(other_arg_id.clone());
             }
-            <span class="kw">if </span>other_arg_id_conflicts.contains(arg_id) {
+            <span class="kw">if </span><span class="self">self
+                </span>.gather_direct_conflicts(cmd, other_arg_id)
+                .contains(arg_id)
+            {
                 conflicts.push(other_arg_id.clone());
             }
         }
-
         <span class="macro">debug!</span>(<span class="string">&quot;Conflicts::gather_conflicts: conflicts={:?}&quot;</span>, conflicts);
         conflicts
     }
 
-    <span class="kw">fn </span>get_direct_conflicts(<span class="kw-2">&amp;</span><span class="self">self</span>, arg_id: <span class="kw-2">&amp;</span>Id) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[Id]&gt; {
-        <span class="self">self</span>.potential.get(arg_id).map(Vec::as_slice)
-    }
-}
-
-<span class="kw">fn </span>gather_direct_conflicts(cmd: <span class="kw-2">&amp;</span>Command, id: <span class="kw-2">&amp;</span>Id) -&gt; Vec&lt;Id&gt; {
-    <span class="kw">let </span>conf = <span class="kw">if let </span><span class="prelude-val">Some</span>(arg) = cmd.find(id) {
-        gather_arg_direct_conflicts(cmd, arg)
-    } <span class="kw">else if let </span><span class="prelude-val">Some</span>(group) = cmd.find_group(id) {
-        gather_group_direct_conflicts(group)
-    } <span class="kw">else </span>{
-        <span class="macro">debug_assert!</span>(<span class="bool-val">false</span>, <span class="string">&quot;id={id:?} is unknown&quot;</span>);
-        Vec::new()
-    };
-    <span class="macro">debug!</span>(<span class="string">&quot;Conflicts::gather_direct_conflicts id={id:?}, conflicts={conf:?}&quot;</span>,);
-    conf
-}
-
-<span class="kw">fn </span>gather_arg_direct_conflicts(cmd: <span class="kw-2">&amp;</span>Command, arg: <span class="kw-2">&amp;</span>Arg) -&gt; Vec&lt;Id&gt; {
-    <span class="kw">let </span><span class="kw-2">mut </span>conf = arg.blacklist.clone();
-    <span class="kw">for </span>group_id <span class="kw">in </span>cmd.groups_for_arg(arg.get_id()) {
-        <span class="kw">let </span>group = cmd.find_group(<span class="kw-2">&amp;</span>group_id).expect(INTERNAL_ERROR_MSG);
-        conf.extend(group.conflicts.iter().cloned());
-        <span class="kw">if </span>!group.multiple {
-            <span class="kw">for </span>member_id <span class="kw">in </span><span class="kw-2">&amp;</span>group.args {
-                <span class="kw">if </span>member_id != arg.get_id() {
-                    conf.push(member_id.clone());
+    <span class="kw">fn </span>gather_direct_conflicts(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cmd: <span class="kw-2">&amp;</span>Command, arg_id: <span class="kw-2">&amp;</span>Id) -&gt; <span class="kw-2">&amp;</span>[Id] {
+        <span class="self">self</span>.potential.entry(arg_id.clone()).or_insert_with(|| {
+            <span class="kw">let </span>conf = <span class="kw">if let </span><span class="prelude-val">Some</span>(arg) = cmd.find(arg_id) {
+                <span class="kw">let </span><span class="kw-2">mut </span>conf = arg.blacklist.clone();
+                <span class="kw">for </span>group_id <span class="kw">in </span>cmd.groups_for_arg(arg_id) {
+                    <span class="kw">let </span>group = cmd.find_group(<span class="kw-2">&amp;</span>group_id).expect(INTERNAL_ERROR_MSG);
+                    conf.extend(group.conflicts.iter().cloned());
+                    <span class="kw">if </span>!group.multiple {
+                        <span class="kw">for </span>member_id <span class="kw">in </span><span class="kw-2">&amp;</span>group.args {
+                            <span class="kw">if </span>member_id != arg_id {
+                                conf.push(member_id.clone());
+                            }
+                        }
+                    }
                 }
-            }
-        }
+
+                <span class="comment">// Overrides are implicitly conflicts
+                </span>conf.extend(arg.overrides.iter().cloned());
+
+                conf
+            } <span class="kw">else if let </span><span class="prelude-val">Some</span>(group) = cmd.find_group(arg_id) {
+                group.conflicts.clone()
+            } <span class="kw">else </span>{
+                <span class="macro">debug_assert!</span>(<span class="bool-val">false</span>, <span class="string">&quot;id={:?} is unknown&quot;</span>, arg_id);
+                Vec::new()
+            };
+            <span class="macro">debug!</span>(
+                <span class="string">&quot;Conflicts::gather_direct_conflicts id={:?}, conflicts={:?}&quot;</span>,
+                arg_id, conf
+            );
+            conf
+        })
     }
-
-    <span class="comment">// Overrides are implicitly conflicts
-    </span>conf.extend(arg.overrides.iter().cloned());
-
-    conf
-}
-
-<span class="kw">fn </span>gather_group_direct_conflicts(group: <span class="kw-2">&amp;</span>ArgGroup) -&gt; Vec&lt;Id&gt; {
-    group.conflicts.clone()
 }
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>get_possible_values_cli(a: <span class="kw-2">&amp;</span>Arg) -&gt; Vec&lt;PossibleValue&gt; {

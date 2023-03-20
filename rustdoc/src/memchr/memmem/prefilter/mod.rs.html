@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/memchr-2.5.0/src/memmem/prefilter/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../memchr/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/memchr-2.4.1/src/memmem/prefilter/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../memchr/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -560,21 +560,11 @@
 <a href="#560" id="560">560</a>
 <a href="#561" id="561">561</a>
 <a href="#562" id="562">562</a>
-<a href="#563" id="563">563</a>
-<a href="#564" id="564">564</a>
-<a href="#565" id="565">565</a>
-<a href="#566" id="566">566</a>
-<a href="#567" id="567">567</a>
-<a href="#568" id="568">568</a>
-<a href="#569" id="569">569</a>
-<a href="#570" id="570">570</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::memmem::{rarebytes::RareNeedleBytes, NeedleInfo};
 
 <span class="kw">mod </span>fallback;
-<span class="attr">#[cfg(memchr_runtime_simd)]
+<span class="attr">#[cfg(all(target_arch = <span class="string">&quot;x86_64&quot;</span>, memchr_runtime_simd))]
 </span><span class="kw">mod </span>genericsimd;
-<span class="attr">#[cfg(all(not(miri), target_arch = <span class="string">&quot;wasm32&quot;</span>, memchr_runtime_simd))]
-</span><span class="kw">mod </span>wasm;
 <span class="attr">#[cfg(all(not(miri), target_arch = <span class="string">&quot;x86_64&quot;</span>, memchr_runtime_simd))]
 </span><span class="kw">mod </span>x86;
 
@@ -661,21 +651,6 @@
     haystack: <span class="kw-2">&amp;</span>[u8],
     needle: <span class="kw-2">&amp;</span>[u8],
 ) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt;;
-
-<span class="comment">// If the haystack is too small for SSE2, then just run memchr on the
-// rarest byte and be done with it. (It is likely that this code path is
-// rarely exercised, since a higher level routine will probably dispatch to
-// Rabin-Karp for such a small haystack.)
-</span><span class="attr">#[cfg(memchr_runtime_simd)]
-</span><span class="kw">fn </span>simple_memchr_fallback(
-    _prestate: <span class="kw-2">&amp;mut </span>PrefilterState,
-    ninfo: <span class="kw-2">&amp;</span>NeedleInfo,
-    haystack: <span class="kw-2">&amp;</span>[u8],
-    needle: <span class="kw-2">&amp;</span>[u8],
-) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
-    <span class="kw">let </span>(rare, <span class="kw">_</span>) = ninfo.rarebytes.as_rare_ordered_usize();
-    <span class="kw">crate</span>::memchr(needle[rare], haystack).map(|i| i.saturating_sub(rare))
-}
 
 <span class="kw">impl </span>PrefilterFn {
     <span class="doccomment">/// Create a new prefilter function from the function pointer given.
@@ -856,7 +831,8 @@
 /// This only applies to x86_64 when runtime SIMD detection is enabled (which
 /// is the default). In general, we try to use an AVX prefilter, followed by
 /// SSE and then followed by a generic one based on memchr.
-</span><span class="attr">#[inline(always)]
+</span><span class="attr">#[cfg(all(not(miri), target_arch = <span class="string">&quot;x86_64&quot;</span>, memchr_runtime_simd))]
+#[inline(always)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>forward(
     config: <span class="kw-2">&amp;</span>Prefilter,
     rare: <span class="kw-2">&amp;</span>RareNeedleBytes,
@@ -866,38 +842,47 @@
         <span class="kw">return </span><span class="prelude-val">None</span>;
     }
 
-    <span class="attr">#[cfg(all(not(miri), target_arch = <span class="string">&quot;x86_64&quot;</span>, memchr_runtime_simd))]
+    <span class="attr">#[cfg(feature = <span class="string">&quot;std&quot;</span>)]
     </span>{
-        <span class="attr">#[cfg(feature = <span class="string">&quot;std&quot;</span>)]
-        </span>{
-            <span class="kw">if </span><span class="macro">cfg!</span>(memchr_runtime_avx) {
-                <span class="kw">if </span><span class="macro">is_x86_feature_detected!</span>(<span class="string">&quot;avx2&quot;</span>) {
-                    <span class="comment">// SAFETY: x86::avx::find only requires the avx2 feature,
-                    // which we&#39;ve just checked above.
-                    </span><span class="kw">return unsafe </span>{ <span class="prelude-val">Some</span>(PrefilterFn::new(x86::avx::find)) };
-                }
+        <span class="kw">if </span><span class="macro">cfg!</span>(memchr_runtime_avx) {
+            <span class="kw">if </span><span class="macro">is_x86_feature_detected!</span>(<span class="string">&quot;avx2&quot;</span>) {
+                <span class="comment">// SAFETY: x86::avx::find only requires the avx2 feature,
+                // which we&#39;ve just checked above.
+                </span><span class="kw">return unsafe </span>{ <span class="prelude-val">Some</span>(PrefilterFn::new(x86::avx::find)) };
             }
         }
-        <span class="kw">if </span><span class="macro">cfg!</span>(memchr_runtime_sse2) {
-            <span class="comment">// SAFETY: x86::sse::find only requires the sse2 feature, which is
-            // guaranteed to be available on x86_64.
-            </span><span class="kw">return unsafe </span>{ <span class="prelude-val">Some</span>(PrefilterFn::new(x86::sse::find)) };
-        }
     }
-    <span class="attr">#[cfg(all(not(miri), target_arch = <span class="string">&quot;wasm32&quot;</span>, memchr_runtime_simd))]
-    </span>{
-        <span class="comment">// SAFETY: `wasm::find` is actually a safe function
-        //
-        // Also note that the `if true` is here to prevent, on wasm with simd,
-        // rustc warning about the code below being dead code.
-        </span><span class="kw">if </span><span class="bool-val">true </span>{
-            <span class="kw">return unsafe </span>{ <span class="prelude-val">Some</span>(PrefilterFn::new(wasm::find)) };
-        }
+    <span class="kw">if </span><span class="macro">cfg!</span>(memchr_runtime_sse2) {
+        <span class="comment">// SAFETY: x86::sse::find only requires the sse2 feature, which is
+        // guaranteed to be available on x86_64.
+        </span><span class="kw">return unsafe </span>{ <span class="prelude-val">Some</span>(PrefilterFn::new(x86::sse::find)) };
     }
     <span class="comment">// Check that our rarest byte has a reasonably low rank. The main issue
     // here is that the fallback prefilter can perform pretty poorly if it&#39;s
     // given common bytes. So we try to avoid the worst cases here.
     </span><span class="kw">let </span>(rare1_rank, <span class="kw">_</span>) = rare.as_ranks(needle);
+    <span class="kw">if </span>rare1_rank &lt;= MAX_FALLBACK_RANK {
+        <span class="comment">// SAFETY: fallback::find is safe to call in all environments.
+        </span><span class="kw">return unsafe </span>{ <span class="prelude-val">Some</span>(PrefilterFn::new(fallback::find)) };
+    }
+    <span class="prelude-val">None
+</span>}
+
+<span class="doccomment">/// Determine which prefilter function, if any, to use.
+///
+/// Since SIMD is currently only supported on x86_64, this will just select
+/// the fallback prefilter if the rare bytes provided have a low enough rank.
+</span><span class="attr">#[cfg(not(all(not(miri), target_arch = <span class="string">&quot;x86_64&quot;</span>, memchr_runtime_simd)))]
+#[inline(always)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>forward(
+    config: <span class="kw-2">&amp;</span>Prefilter,
+    rare: <span class="kw-2">&amp;</span>RareNeedleBytes,
+    needle: <span class="kw-2">&amp;</span>[u8],
+) -&gt; <span class="prelude-ty">Option</span>&lt;PrefilterFn&gt; {
+    <span class="kw">if </span>config.is_none() || needle.len() &lt;= <span class="number">1 </span>{
+        <span class="kw">return </span><span class="prelude-val">None</span>;
+    }
+    <span class="kw">let </span>(rare1_rank, <span class="kw">_</span>) = rare.as_ranks(needle);
     <span class="kw">if </span>rare1_rank &lt;= MAX_FALLBACK_RANK {
         <span class="comment">// SAFETY: fallback::find is safe to call in all environments.
         </span><span class="kw">return unsafe </span>{ <span class="prelude-val">Some</span>(PrefilterFn::new(fallback::find)) };
@@ -1001,7 +986,7 @@
         /// (Currently, we take the approach of massaging tests to be valid
         /// instead of rejecting them outright.)
         </span><span class="kw">fn </span>new(
-            seed: PrefilterTestSeed,
+            seed: <span class="kw-2">&amp;</span>PrefilterTestSeed,
             rare1i: usize,
             rare2i: usize,
             haystack_len: usize,
@@ -1085,7 +1070,6 @@
     ];
 
     <span class="doccomment">/// Data that describes a single prefilter test seed.
-    </span><span class="attr">#[derive(Clone, Copy)]
     </span><span class="kw">struct </span>PrefilterTestSeed {
         first: u8,
         rare1: u8,
@@ -1094,47 +1078,47 @@
 
     <span class="kw">impl </span>PrefilterTestSeed {
         <span class="doccomment">/// Generate a series of prefilter tests from this seed.
-        </span><span class="kw">fn </span>generate(<span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = PrefilterTest&gt; {
+        </span><span class="kw">fn </span>generate(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;PrefilterTest&gt; {
+            <span class="kw">let </span><span class="kw-2">mut </span>tests = <span class="macro">vec!</span>[];
+            <span class="kw">let </span><span class="kw-2">mut </span>push = |test: <span class="prelude-ty">Option</span>&lt;PrefilterTest&gt;| {
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(test) = test {
+                    tests.push(test);
+                }
+            };
             <span class="kw">let </span>len_start = <span class="number">2</span>;
-            <span class="comment">// The iterator below generates *a lot* of tests. The number of
-            // tests was chosen somewhat empirically to be &quot;bearable&quot; when
-            // running the test suite.
-            //
-            // We use an iterator here because the collective haystacks of all
-            // these test cases add up to enough memory to OOM a conservative
-            // sandbox or a small laptop.
-            </span>(len_start..=<span class="number">40</span>).flat_map(<span class="kw">move </span>|needle_len| {
+            <span class="comment">// The loop below generates *a lot* of tests. The number of tests
+            // was chosen somewhat empirically to be &quot;bearable&quot; when running
+            // the test suite.
+            </span><span class="kw">for </span>needle_len <span class="kw">in </span>len_start..=<span class="number">40 </span>{
                 <span class="kw">let </span>rare_start = len_start - <span class="number">1</span>;
-                (rare_start..needle_len).flat_map(<span class="kw">move </span>|rare1i| {
-                    (rare1i..needle_len).flat_map(<span class="kw">move </span>|rare2i| {
-                        (needle_len..=<span class="number">66</span>).flat_map(<span class="kw">move </span>|haystack_len| {
-                            PrefilterTest::new(
+                <span class="kw">for </span>rare1i <span class="kw">in </span>rare_start..needle_len {
+                    <span class="kw">for </span>rare2i <span class="kw">in </span>rare1i..needle_len {
+                        <span class="kw">for </span>haystack_len <span class="kw">in </span>needle_len..=<span class="number">66 </span>{
+                            push(PrefilterTest::new(
                                 <span class="self">self</span>,
                                 rare1i,
                                 rare2i,
                                 haystack_len,
                                 needle_len,
                                 <span class="prelude-val">None</span>,
-                            )
-                            .into_iter()
-                            .chain(
-                                (<span class="number">0</span>..=(haystack_len - needle_len)).flat_map(
-                                    <span class="kw">move </span>|output| {
-                                        PrefilterTest::new(
-                                            <span class="self">self</span>,
-                                            rare1i,
-                                            rare2i,
-                                            haystack_len,
-                                            needle_len,
-                                            <span class="prelude-val">Some</span>(output),
-                                        )
-                                    },
-                                ),
-                            )
-                        })
-                    })
-                })
-            })
+                            ));
+                            <span class="comment">// Test all possible match scenarios for this
+                            // needle and haystack.
+                            </span><span class="kw">for </span>output <span class="kw">in </span><span class="number">0</span>..=(haystack_len - needle_len) {
+                                push(PrefilterTest::new(
+                                    <span class="self">self</span>,
+                                    rare1i,
+                                    rare2i,
+                                    haystack_len,
+                                    needle_len,
+                                    <span class="prelude-val">Some</span>(output),
+                                ));
+                            }
+                        }
+                    }
+                }
+            }
+            tests
         }
     }
 }

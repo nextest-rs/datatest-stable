@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/regex-syntax-0.6.28/src/unicode_tables/case_folding_simple.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>case_folding_simple.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../regex_syntax/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/regex-syntax-0.6.25/src/unicode_tables/case_folding_simple.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>case_folding_simple.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../regex_syntax/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -2806,93 +2806,13 @@
 <a href="#2806" id="2806">2806</a>
 <a href="#2807" id="2807">2807</a>
 <a href="#2808" id="2808">2808</a>
-<a href="#2809" id="2809">2809</a>
-<a href="#2810" id="2810">2810</a>
-<a href="#2811" id="2811">2811</a>
-<a href="#2812" id="2812">2812</a>
-<a href="#2813" id="2813">2813</a>
-<a href="#2814" id="2814">2814</a>
-<a href="#2815" id="2815">2815</a>
-<a href="#2816" id="2816">2816</a>
-<a href="#2817" id="2817">2817</a>
-<a href="#2818" id="2818">2818</a>
-<a href="#2819" id="2819">2819</a>
-<a href="#2820" id="2820">2820</a>
-<a href="#2821" id="2821">2821</a>
-<a href="#2822" id="2822">2822</a>
-<a href="#2823" id="2823">2823</a>
-<a href="#2824" id="2824">2824</a>
-<a href="#2825" id="2825">2825</a>
-<a href="#2826" id="2826">2826</a>
-<a href="#2827" id="2827">2827</a>
-<a href="#2828" id="2828">2828</a>
-<a href="#2829" id="2829">2829</a>
-<a href="#2830" id="2830">2830</a>
-<a href="#2831" id="2831">2831</a>
-<a href="#2832" id="2832">2832</a>
-<a href="#2833" id="2833">2833</a>
-<a href="#2834" id="2834">2834</a>
-<a href="#2835" id="2835">2835</a>
-<a href="#2836" id="2836">2836</a>
-<a href="#2837" id="2837">2837</a>
-<a href="#2838" id="2838">2838</a>
-<a href="#2839" id="2839">2839</a>
-<a href="#2840" id="2840">2840</a>
-<a href="#2841" id="2841">2841</a>
-<a href="#2842" id="2842">2842</a>
-<a href="#2843" id="2843">2843</a>
-<a href="#2844" id="2844">2844</a>
-<a href="#2845" id="2845">2845</a>
-<a href="#2846" id="2846">2846</a>
-<a href="#2847" id="2847">2847</a>
-<a href="#2848" id="2848">2848</a>
-<a href="#2849" id="2849">2849</a>
-<a href="#2850" id="2850">2850</a>
-<a href="#2851" id="2851">2851</a>
-<a href="#2852" id="2852">2852</a>
-<a href="#2853" id="2853">2853</a>
-<a href="#2854" id="2854">2854</a>
-<a href="#2855" id="2855">2855</a>
-<a href="#2856" id="2856">2856</a>
-<a href="#2857" id="2857">2857</a>
-<a href="#2858" id="2858">2858</a>
-<a href="#2859" id="2859">2859</a>
-<a href="#2860" id="2860">2860</a>
-<a href="#2861" id="2861">2861</a>
-<a href="#2862" id="2862">2862</a>
-<a href="#2863" id="2863">2863</a>
-<a href="#2864" id="2864">2864</a>
-<a href="#2865" id="2865">2865</a>
-<a href="#2866" id="2866">2866</a>
-<a href="#2867" id="2867">2867</a>
-<a href="#2868" id="2868">2868</a>
-<a href="#2869" id="2869">2869</a>
-<a href="#2870" id="2870">2870</a>
-<a href="#2871" id="2871">2871</a>
-<a href="#2872" id="2872">2872</a>
-<a href="#2873" id="2873">2873</a>
-<a href="#2874" id="2874">2874</a>
-<a href="#2875" id="2875">2875</a>
-<a href="#2876" id="2876">2876</a>
-<a href="#2877" id="2877">2877</a>
-<a href="#2878" id="2878">2878</a>
-<a href="#2879" id="2879">2879</a>
-<a href="#2880" id="2880">2880</a>
-<a href="#2881" id="2881">2881</a>
-<a href="#2882" id="2882">2882</a>
-<a href="#2883" id="2883">2883</a>
-<a href="#2884" id="2884">2884</a>
-<a href="#2885" id="2885">2885</a>
-<a href="#2886" id="2886">2886</a>
-<a href="#2887" id="2887">2887</a>
-<a href="#2888" id="2888">2888</a>
 </pre><pre class="rust"><code><span class="comment">// DO NOT EDIT THIS FILE. IT WAS AUTOMATICALLY GENERATED BY:
 //
-//   ucd-generate case-folding-simple ucd-15.0.0 --chars --all-pairs
+//   ucd-generate case-folding-simple ucd-13.0.0 --chars --all-pairs
 //
-// Unicode version: 15.0.0.
+// Unicode version: 13.0.0.
 //
-// ucd-generate 0.2.14 is available on crates.io.
+// ucd-generate 0.2.8 is available on crates.io.
 
 </span><span class="kw">pub const </span>CASE_FOLDING_SIMPLE: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[(char, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[char])] = <span class="kw-2">&amp;</span>[
     (<span class="string">&#39;A&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;a&#39;</span>]),
@@ -4669,7 +4589,6 @@
     (<span class="string">&#39;Ⱜ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;ⱜ&#39;</span>]),
     (<span class="string">&#39;Ⱝ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;ⱝ&#39;</span>]),
     (<span class="string">&#39;Ⱞ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;ⱞ&#39;</span>]),
-    (<span class="string">&#39;Ⱟ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;ⱟ&#39;</span>]),
     (<span class="string">&#39;ⰰ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;Ⰰ&#39;</span>]),
     (<span class="string">&#39;ⰱ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;Ⰱ&#39;</span>]),
     (<span class="string">&#39;ⰲ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;Ⰲ&#39;</span>]),
@@ -4717,7 +4636,6 @@
     (<span class="string">&#39;ⱜ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;Ⱜ&#39;</span>]),
     (<span class="string">&#39;ⱝ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;Ⱝ&#39;</span>]),
     (<span class="string">&#39;ⱞ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;Ⱞ&#39;</span>]),
-    (<span class="string">&#39;ⱟ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;Ⱟ&#39;</span>]),
     (<span class="string">&#39;Ⱡ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;ⱡ&#39;</span>]),
     (<span class="string">&#39;ⱡ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;Ⱡ&#39;</span>]),
     (<span class="string">&#39;Ɫ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;ɫ&#39;</span>]),
@@ -5101,25 +5019,17 @@
     (<span class="string">&#39;ꞽ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;Ꞽ&#39;</span>]),
     (<span class="string">&#39;Ꞿ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;ꞿ&#39;</span>]),
     (<span class="string">&#39;ꞿ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;Ꞿ&#39;</span>]),
-    (<span class="string">&#39;Ꟁ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;ꟁ&#39;</span>]),
-    (<span class="string">&#39;ꟁ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;Ꟁ&#39;</span>]),
     (<span class="string">&#39;Ꟃ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;ꟃ&#39;</span>]),
     (<span class="string">&#39;ꟃ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;Ꟃ&#39;</span>]),
     (<span class="string">&#39;Ꞔ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;ꞔ&#39;</span>]),
     (<span class="string">&#39;Ʂ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;ʂ&#39;</span>]),
     (<span class="string">&#39;Ᶎ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;ᶎ&#39;</span>]),
-    (<span class="string">&#39;Ꟈ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;ꟈ&#39;</span>]),
-    (<span class="string">&#39;ꟈ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;Ꟈ&#39;</span>]),
-    (<span class="string">&#39;Ꟊ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;ꟊ&#39;</span>]),
-    (<span class="string">&#39;ꟊ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;Ꟊ&#39;</span>]),
-    (<span class="string">&#39;Ꟑ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;ꟑ&#39;</span>]),
-    (<span class="string">&#39;ꟑ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;Ꟑ&#39;</span>]),
-    (<span class="string">&#39;Ꟗ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;ꟗ&#39;</span>]),
-    (<span class="string">&#39;ꟗ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;Ꟗ&#39;</span>]),
-    (<span class="string">&#39;Ꟙ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;ꟙ&#39;</span>]),
-    (<span class="string">&#39;ꟙ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;Ꟙ&#39;</span>]),
-    (<span class="string">&#39;Ꟶ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;ꟶ&#39;</span>]),
-    (<span class="string">&#39;ꟶ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;Ꟶ&#39;</span>]),
+    (<span class="string">&#39;\u{a7c7}&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;\u{a7c8}&#39;</span>]),
+    (<span class="string">&#39;\u{a7c8}&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;\u{a7c7}&#39;</span>]),
+    (<span class="string">&#39;\u{a7c9}&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;\u{a7ca}&#39;</span>]),
+    (<span class="string">&#39;\u{a7ca}&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;\u{a7c9}&#39;</span>]),
+    (<span class="string">&#39;\u{a7f5}&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;\u{a7f6}&#39;</span>]),
+    (<span class="string">&#39;\u{a7f6}&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;\u{a7f5}&#39;</span>]),
     (<span class="string">&#39;ꭓ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;Ꭓ&#39;</span>]),
     (<span class="string">&#39;ꭰ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;Ꭰ&#39;</span>]),
     (<span class="string">&#39;ꭱ&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;Ꭱ&#39;</span>]),
@@ -5405,76 +5315,6 @@
     (<span class="string">&#39;𐓹&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐓑&#39;</span>]),
     (<span class="string">&#39;𐓺&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐓒&#39;</span>]),
     (<span class="string">&#39;𐓻&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐓓&#39;</span>]),
-    (<span class="string">&#39;𐕰&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖗&#39;</span>]),
-    (<span class="string">&#39;𐕱&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖘&#39;</span>]),
-    (<span class="string">&#39;𐕲&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖙&#39;</span>]),
-    (<span class="string">&#39;𐕳&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖚&#39;</span>]),
-    (<span class="string">&#39;𐕴&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖛&#39;</span>]),
-    (<span class="string">&#39;𐕵&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖜&#39;</span>]),
-    (<span class="string">&#39;𐕶&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖝&#39;</span>]),
-    (<span class="string">&#39;𐕷&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖞&#39;</span>]),
-    (<span class="string">&#39;𐕸&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖟&#39;</span>]),
-    (<span class="string">&#39;𐕹&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖠&#39;</span>]),
-    (<span class="string">&#39;𐕺&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖡&#39;</span>]),
-    (<span class="string">&#39;𐕼&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖣&#39;</span>]),
-    (<span class="string">&#39;𐕽&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖤&#39;</span>]),
-    (<span class="string">&#39;𐕾&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖥&#39;</span>]),
-    (<span class="string">&#39;𐕿&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖦&#39;</span>]),
-    (<span class="string">&#39;𐖀&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖧&#39;</span>]),
-    (<span class="string">&#39;𐖁&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖨&#39;</span>]),
-    (<span class="string">&#39;𐖂&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖩&#39;</span>]),
-    (<span class="string">&#39;𐖃&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖪&#39;</span>]),
-    (<span class="string">&#39;𐖄&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖫&#39;</span>]),
-    (<span class="string">&#39;𐖅&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖬&#39;</span>]),
-    (<span class="string">&#39;𐖆&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖭&#39;</span>]),
-    (<span class="string">&#39;𐖇&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖮&#39;</span>]),
-    (<span class="string">&#39;𐖈&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖯&#39;</span>]),
-    (<span class="string">&#39;𐖉&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖰&#39;</span>]),
-    (<span class="string">&#39;𐖊&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖱&#39;</span>]),
-    (<span class="string">&#39;𐖌&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖳&#39;</span>]),
-    (<span class="string">&#39;𐖍&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖴&#39;</span>]),
-    (<span class="string">&#39;𐖎&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖵&#39;</span>]),
-    (<span class="string">&#39;𐖏&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖶&#39;</span>]),
-    (<span class="string">&#39;𐖐&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖷&#39;</span>]),
-    (<span class="string">&#39;𐖑&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖸&#39;</span>]),
-    (<span class="string">&#39;𐖒&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖹&#39;</span>]),
-    (<span class="string">&#39;𐖔&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖻&#39;</span>]),
-    (<span class="string">&#39;𐖕&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖼&#39;</span>]),
-    (<span class="string">&#39;𐖗&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐕰&#39;</span>]),
-    (<span class="string">&#39;𐖘&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐕱&#39;</span>]),
-    (<span class="string">&#39;𐖙&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐕲&#39;</span>]),
-    (<span class="string">&#39;𐖚&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐕳&#39;</span>]),
-    (<span class="string">&#39;𐖛&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐕴&#39;</span>]),
-    (<span class="string">&#39;𐖜&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐕵&#39;</span>]),
-    (<span class="string">&#39;𐖝&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐕶&#39;</span>]),
-    (<span class="string">&#39;𐖞&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐕷&#39;</span>]),
-    (<span class="string">&#39;𐖟&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐕸&#39;</span>]),
-    (<span class="string">&#39;𐖠&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐕹&#39;</span>]),
-    (<span class="string">&#39;𐖡&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐕺&#39;</span>]),
-    (<span class="string">&#39;𐖣&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐕼&#39;</span>]),
-    (<span class="string">&#39;𐖤&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐕽&#39;</span>]),
-    (<span class="string">&#39;𐖥&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐕾&#39;</span>]),
-    (<span class="string">&#39;𐖦&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐕿&#39;</span>]),
-    (<span class="string">&#39;𐖧&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖀&#39;</span>]),
-    (<span class="string">&#39;𐖨&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖁&#39;</span>]),
-    (<span class="string">&#39;𐖩&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖂&#39;</span>]),
-    (<span class="string">&#39;𐖪&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖃&#39;</span>]),
-    (<span class="string">&#39;𐖫&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖄&#39;</span>]),
-    (<span class="string">&#39;𐖬&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖅&#39;</span>]),
-    (<span class="string">&#39;𐖭&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖆&#39;</span>]),
-    (<span class="string">&#39;𐖮&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖇&#39;</span>]),
-    (<span class="string">&#39;𐖯&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖈&#39;</span>]),
-    (<span class="string">&#39;𐖰&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖉&#39;</span>]),
-    (<span class="string">&#39;𐖱&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖊&#39;</span>]),
-    (<span class="string">&#39;𐖳&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖌&#39;</span>]),
-    (<span class="string">&#39;𐖴&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖍&#39;</span>]),
-    (<span class="string">&#39;𐖵&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖎&#39;</span>]),
-    (<span class="string">&#39;𐖶&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖏&#39;</span>]),
-    (<span class="string">&#39;𐖷&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖐&#39;</span>]),
-    (<span class="string">&#39;𐖸&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖑&#39;</span>]),
-    (<span class="string">&#39;𐖹&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖒&#39;</span>]),
-    (<span class="string">&#39;𐖻&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖔&#39;</span>]),
-    (<span class="string">&#39;𐖼&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐖕&#39;</span>]),
     (<span class="string">&#39;𐲀&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐳀&#39;</span>]),
     (<span class="string">&#39;𐲁&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐳁&#39;</span>]),
     (<span class="string">&#39;𐲂&#39;</span>, <span class="kw-2">&amp;</span>[<span class="string">&#39;𐳂&#39;</span>]),
