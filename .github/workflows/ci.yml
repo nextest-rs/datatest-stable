@@ -47,7 +47,7 @@ jobs:
       - name: Install nextest
         uses: taiki-e/install-action@nextest
       - name: Test
-        run: cargo nextest run --all-fatures
+        run: cargo nextest run --all-features
       - name: Delete Cargo.lock and test against latest versions
         if: matrix.rust-version == 'stable'
         run: |
