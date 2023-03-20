@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"macro":[["bitflags","The macro used to generate the flag structures."]]};
+window.SIDEBAR_ITEMS = {"macro":[["bitflags","The macro used to generate the flag structure."]],"mod":[["parser","Parsing flags from text."]],"trait":[["BitFlags","A trait that is automatically implemented for all bitflags."]]};
