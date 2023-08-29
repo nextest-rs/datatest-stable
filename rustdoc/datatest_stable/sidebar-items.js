@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"macro":[["harness","`datatest-stable` test harness entry point. Should be declared in the test module."]],"type":[["Result","The result type for `datatest-stable` tests."]]};
+window.SIDEBAR_ITEMS = {"macro":["harness"],"type":["Result"]};
