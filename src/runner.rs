@@ -1,8 +1,6 @@
 // Copyright (c) The Diem Core Contributors
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
-#![allow(clippy::integer_arithmetic)]
-
 use crate::{utils, Result};
 use camino::{Utf8Path, Utf8PathBuf};
 use libtest_mimic::{Arguments, Trial};
