@@ -29,9 +29,10 @@ harness = false
 
 2. Call the `datatest_stable::harness!(testfn, root, pattern)` macro with the following
 parameters:
-* `testfn` - The test function to be executed on each matching input. This function must have
-  the type `fn(&Utf8Path) -> datatest_stable::Result<()>`. (`Utf8Path` is part of the
-  [`camino`](https://docs.rs/camino) library.)
+* `testfn` - The test function to be executed on each matching input. This function can be one of:
+  * `fn(&Path) -> datatest_stable::Result<()>`
+  * `fn(&Utf8Path) -> datatest_stable::Result<()>` (`Utf8Path` is part of the
+     [`camino`](https://docs.rs/camino) library, and is re-exported here for convenience.)
 * `root` - The path to the root directory where the input files (fixtures) live. This path is
   relative to the root of the crate.
 * `pattern` - the regex used to match against and select each file to be tested.
@@ -45,14 +46,24 @@ This is an example test. Use it with `harness = false`.
 
 ```rust
 use datatest_stable::Utf8Path;
+use std::path::Path;
 
-fn my_test(path: &Utf8Path) -> datatest_stable::Result<()> {
+fn my_test(path: &Path) -> datatest_stable::Result<()> {
     // ... write test here
 
     Ok(())
 }
 
-datatest_stable::harness!(my_test, "path/to/fixtures", r"^.*/*");
+fn my_test_utf8(path: &Utf8Path) -> datatest_stable::Result<()> {
+    // ... write test here
+
+    Ok(())
+}
+
+datatest_stable::harness!(
+    my_test, "path/to/fixtures", r"^.*/*",
+    my_test_utf8, "path/to/fixtures", r"^.*/*,
+);
 ```
 
 ## Minimum supported Rust version (MSRV)

@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.3] - 2023-08-29
+
+Updated README.
+
 ## [0.2.2] - 2023-08-29
 
 ### Added
@@ -58,6 +62,7 @@ There are no functional changes in this release.
 
 (Version 0.1.0 was yanked because of a metadata issue.)
 
+[0.2.3]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.3
 [0.2.2]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.2
 [0.2.1]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.1
 [0.1.3]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.1.3
