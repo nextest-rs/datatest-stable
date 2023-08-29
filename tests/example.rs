@@ -18,6 +18,10 @@ fn test_artifact_utf8(path: &Utf8Path) -> Result<()> {
 }
 
 datatest_stable::harness!(
-    test_artifact, "tests/files", r"^.*/*",
-    test_artifact_utf8, "tests/files", r"^.*/*",
+    test_artifact,
+    "tests/files",
+    r"^.*/*",
+    test_artifact_utf8,
+    "tests/files",
+    r"^.*/*",
 );
