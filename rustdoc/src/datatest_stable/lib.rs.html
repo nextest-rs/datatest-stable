@@ -79,6 +79,17 @@
 <a href="#79" id="79">79</a>
 <a href="#80" id="80">80</a>
 <a href="#81" id="81">81</a>
+<a href="#82" id="82">82</a>
+<a href="#83" id="83">83</a>
+<a href="#84" id="84">84</a>
+<a href="#85" id="85">85</a>
+<a href="#86" id="86">86</a>
+<a href="#87" id="87">87</a>
+<a href="#88" id="88">88</a>
+<a href="#89" id="89">89</a>
+<a href="#90" id="90">90</a>
+<a href="#91" id="91">91</a>
+<a href="#92" id="92">92</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright (c) The datatest-stable Contributors
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
@@ -107,9 +118,10 @@
 //!
 //! 2. Call the `datatest_stable::harness!(testfn, root, pattern)` macro with the following
 //! parameters:
-//! * `testfn` - The test function to be executed on each matching input. This function must have
-//!   the type `fn(&amp;Utf8Path) -&gt; datatest_stable::Result&lt;()&gt;`. (`Utf8Path` is part of the
-//!   [`camino`](https://docs.rs/camino) library.)
+//! * `testfn` - The test function to be executed on each matching input. This function can be one of:
+//!   * `fn(&amp;Path) -&gt; datatest_stable::Result&lt;()&gt;`
+//!   * `fn(&amp;Utf8Path) -&gt; datatest_stable::Result&lt;()&gt;` (`Utf8Path` is part of the
+//!      [`camino`](https://docs.rs/camino) library, and is re-exported here for convenience.)
 //! * `root` - The path to the root directory where the input files (fixtures) live. This path is
 //!   relative to the root of the crate.
 //! * `pattern` - the regex used to match against and select each file to be tested.
@@ -123,14 +135,24 @@
 //!
 //! ```rust
 //! use datatest_stable::Utf8Path;
+//! use std::path::Path;
 //!
-//! fn my_test(path: &amp;Utf8Path) -&gt; datatest_stable::Result&lt;()&gt; {
+//! fn my_test(path: &amp;Path) -&gt; datatest_stable::Result&lt;()&gt; {
 //!     // ... write test here
 //!
 //!     Ok(())
 //! }
 //!
-//! datatest_stable::harness!(my_test, &quot;path/to/fixtures&quot;, r&quot;^.*/*&quot;);
+//! fn my_test_utf8(path: &amp;Utf8Path) -&gt; datatest_stable::Result&lt;()&gt; {
+//!     // ... write test here
+//!
+//!     Ok(())
+//! }
+//!
+//! datatest_stable::harness!(
+//!     my_test, &quot;path/to/fixtures&quot;, r&quot;^.*/*&quot;,
+//!     my_test_utf8, &quot;path/to/fixtures&quot;, r&quot;^.*/*,
+//! );
 //! ```
 //!
 //! # Minimum supported Rust version (MSRV)
@@ -159,5 +181,5 @@
 
 <span class="doccomment">/// Not part of the public API, just used for macros.
 </span><span class="attr">#[doc(hidden)]
-</span><span class="kw">pub use </span><span class="self">self</span>::runner::{runner, Requirements};
+</span><span class="kw">pub use </span><span class="self">self</span>::runner::{runner, Requirements, TestFn};
 </code></pre></div></section></main></body></html>
