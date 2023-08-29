@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.2] - 2023-08-29
+
+### Added
+
+- Restored compatibility with `fn(&Path) -> Result<()>`. The harness now can take either `fn(&Path) -> Result<()>` or `fn(&Utf8Path) -> Result<()>`.
+
 ## [0.2.1] - 2023-08-29
 
 ### Changed
@@ -52,7 +58,8 @@ There are no functional changes in this release.
 
 (Version 0.1.0 was yanked because of a metadata issue.)
 
-[0.2.0]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.1
+[0.2.2]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.2
+[0.2.1]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.1
 [0.1.3]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.1.3
 [0.1.2]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.1.2
 [0.1.1]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.1.1

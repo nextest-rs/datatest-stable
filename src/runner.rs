@@ -1,6 +1,8 @@
 // Copyright (c) The datatest-stable Contributors
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
+use std::path::Path;
+
 use crate::{utils, Result};
 use camino::{Utf8Path, Utf8PathBuf};
 use libtest_mimic::{Arguments, Trial};
@@ -17,7 +19,7 @@ pub fn runner(requirements: &[Requirements]) {
 
 #[doc(hidden)]
 pub struct Requirements {
-    test: fn(&Utf8Path) -> Result<()>,
+    test: TestFn,
     test_name: String,
     root: Utf8PathBuf,
     pattern: String,
@@ -25,14 +27,14 @@ pub struct Requirements {
 
 impl Requirements {
     #[doc(hidden)]
-    pub fn new(
-        test: fn(&Utf8Path) -> Result<()>,
+    pub fn new<P: TestFnPath + ?Sized>(
+        test: fn(&P) -> Result<()>,
         test_name: String,
         root: Utf8PathBuf,
         pattern: String,
     ) -> Self {
         Self {
-            test,
+            test: P::convert(test),
             test_name,
             root,
             pattern,
@@ -52,7 +54,9 @@ impl Requirements {
                     let testfn = self.test;
                     let name = utils::derive_test_name(&self.root, &path, &self.test_name);
                     Some(Trial::test(name, move || {
-                        (testfn)(&path).map_err(|err| format!("{:?}", err).into())
+                        testfn
+                            .call(&path)
+                            .map_err(|err| format!("{:?}", err).into())
                     }))
                 } else {
                     None
@@ -69,5 +73,46 @@ impl Requirements {
         }
 
         tests
+    }
+}
+
+#[derive(Clone, Copy)]
+#[doc(hidden)]
+pub enum TestFn {
+    Path(fn(&Path) -> Result<()>),
+    Utf8Path(fn(&Utf8Path) -> Result<()>),
+}
+
+mod private {
+    pub trait Sealed {}
+}
+
+#[doc(hidden)]
+pub trait TestFnPath: private::Sealed {
+    fn convert(f: fn(&Self) -> Result<()>) -> TestFn;
+}
+
+impl private::Sealed for Path {}
+
+impl TestFnPath for Path {
+    fn convert(f: fn(&Self) -> Result<()>) -> TestFn {
+        TestFn::Path(f)
+    }
+}
+
+impl private::Sealed for Utf8Path {}
+
+impl TestFnPath for Utf8Path {
+    fn convert(f: fn(&Self) -> Result<()>) -> TestFn {
+        TestFn::Utf8Path(f)
+    }
+}
+
+impl TestFn {
+    fn call(&self, path: &Utf8Path) -> Result<()> {
+        match self {
+            TestFn::Path(f) => f(path.as_ref()),
+            TestFn::Utf8Path(f) => f(path),
+        }
     }
 }

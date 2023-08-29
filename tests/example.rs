@@ -3,9 +3,9 @@
 
 use camino::Utf8Path;
 use datatest_stable::Result;
-use std::{fs::File, io::Read};
+use std::{fs::File, io::Read, path::Path};
 
-fn test_artifact(path: &Utf8Path) -> Result<()> {
+fn test_artifact(path: &Path) -> Result<()> {
     let mut file = File::open(path)?;
     let mut contents = String::new();
     file.read_to_string(&mut contents)?;
@@ -13,4 +13,11 @@ fn test_artifact(path: &Utf8Path) -> Result<()> {
     Ok(())
 }
 
-datatest_stable::harness!(test_artifact, "tests/files", r"^.*/*");
+fn test_artifact_utf8(path: &Utf8Path) -> Result<()> {
+    test_artifact(path.as_ref())
+}
+
+datatest_stable::harness!(
+    test_artifact, "tests/files", r"^.*/*",
+    test_artifact_utf8, "tests/files", r"^.*/*",
+);
