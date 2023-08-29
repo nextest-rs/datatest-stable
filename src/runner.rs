@@ -4,8 +4,8 @@
 #![allow(clippy::integer_arithmetic)]
 
 use crate::{utils, Result};
+use camino::{Utf8Path, Utf8PathBuf};
 use libtest_mimic::{Arguments, Trial};
-use std::path::Path;
 
 #[doc(hidden)]
 pub fn runner(requirements: &[Requirements]) {
@@ -19,18 +19,18 @@ pub fn runner(requirements: &[Requirements]) {
 
 #[doc(hidden)]
 pub struct Requirements {
-    test: fn(&Path) -> Result<()>,
+    test: fn(&Utf8Path) -> Result<()>,
     test_name: String,
-    root: String,
+    root: Utf8PathBuf,
     pattern: String,
 }
 
 impl Requirements {
     #[doc(hidden)]
     pub fn new(
-        test: fn(&Path) -> Result<()>,
+        test: fn(&Utf8Path) -> Result<()>,
         test_name: String,
-        root: String,
+        root: Utf8PathBuf,
         pattern: String,
     ) -> Self {
         Self {
@@ -44,17 +44,15 @@ impl Requirements {
     /// Scans all files in a given directory, finds matching ones and generates a test descriptor
     /// for each of them.
     fn expand(&self) -> Vec<Trial> {
-        let root = Path::new(&self.root).to_path_buf();
-
         let re = regex::Regex::new(&self.pattern)
             .unwrap_or_else(|_| panic!("invalid regular expression: '{}'", self.pattern));
 
-        let tests: Vec<_> = utils::iterate_directory(&root)
-            .filter_map(|path| {
-                let input_path = path.to_string_lossy();
-                if re.is_match(&input_path) {
+        let tests: Vec<_> = utils::iterate_directory(&self.root)
+            .filter_map(|path_res| {
+                let path = path_res.expect("error while iterating directory");
+                if re.is_match(path.as_str()) {
                     let testfn = self.test;
-                    let name = utils::derive_test_name(&root, &path, &self.test_name);
+                    let name = utils::derive_test_name(&self.root, &path, &self.test_name);
                     Some(Trial::test(name, move || {
                         (testfn)(&path).map_err(|err| format!("{:?}", err).into())
                     }))

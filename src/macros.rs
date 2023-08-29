@@ -16,7 +16,7 @@ macro_rules! harness {
                     $crate::Requirements::new(
                         $name,
                         stringify!($name).to_string(),
-                        $root.to_string(),
+                        $root.to_string().into(),
                         $pattern.to_string()
                     )
                 );

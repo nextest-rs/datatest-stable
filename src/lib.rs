@@ -27,7 +27,8 @@
 //! 2. Call the `datatest_stable::harness!(testfn, root, pattern)` macro with the following
 //! parameters:
 //! * `testfn` - The test function to be executed on each matching input. This function must have
-//!   the type `fn(&Path) -> datatest_stable::Result<()>`
+//!   the type `fn(&Utf8Path) -> datatest_stable::Result<()>`. (`Utf8Path` is part of the
+//!   [`camino`](https://docs.rs/camino) library.)
 //! * `root` - The path to the root directory where the input files (fixtures) live. This path is
 //!   relative to the root of the crate.
 //! * `pattern` - the regex used to match against and select each file to be tested.
@@ -40,9 +41,9 @@
 //! This is an example test. Use it with `harness = false`.
 //!
 //! ```rust
-//! use std::path::Path;
+//! use datatest_stable::Utf8Path;
 //!
-//! fn my_test(path: &Path) -> datatest_stable::Result<()> {
+//! fn my_test(path: &Utf8Path) -> datatest_stable::Result<()> {
 //!     // ... write test here
 //!
 //!     Ok(())
@@ -58,8 +59,8 @@
 //!
 //! # See also
 //!
-//! * [`datatest`](https://crates.io/crates/datatest): the original inspiration for this crate,
-//!   with a better UI and more features but targeting nightly Rust
+//! * [`datatest`](https://crates.io/crates/datatest): the original inspiration for this crate, with
+//!   a better UI and more features but targeting nightly Rust
 //! * [Data-driven testing](https://en.wikipedia.org/wiki/Data-driven_testing)
 
 #![warn(missing_docs)]
@@ -71,4 +72,10 @@ mod utils;
 /// The result type for `datatest-stable` tests.
 pub type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
 
+/// A re-export of this type from the `camino` crate, since it forms part of function signatures.
+#[doc(no_inline)]
+pub use camino::Utf8Path;
+
+/// Not part of the public API, just used for macros.
+#[doc(hidden)]
 pub use self::runner::{runner, Requirements};
