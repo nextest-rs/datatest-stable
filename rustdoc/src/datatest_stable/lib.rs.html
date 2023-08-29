@@ -72,7 +72,14 @@
 <a href="#72" id="72">72</a>
 <a href="#73" id="73">73</a>
 <a href="#74" id="74">74</a>
-</pre></div><pre class="rust"><code><span class="comment">// Copyright (c) The Diem Core Contributors
+<a href="#75" id="75">75</a>
+<a href="#76" id="76">76</a>
+<a href="#77" id="77">77</a>
+<a href="#78" id="78">78</a>
+<a href="#79" id="79">79</a>
+<a href="#80" id="80">80</a>
+<a href="#81" id="81">81</a>
+</pre></div><pre class="rust"><code><span class="comment">// Copyright (c) The datatest-stable Contributors
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
 </span><span class="attr">#![forbid(unsafe_code)]
@@ -101,7 +108,8 @@
 //! 2. Call the `datatest_stable::harness!(testfn, root, pattern)` macro with the following
 //! parameters:
 //! * `testfn` - The test function to be executed on each matching input. This function must have
-//!   the type `fn(&amp;Path) -&gt; datatest_stable::Result&lt;()&gt;`
+//!   the type `fn(&amp;Utf8Path) -&gt; datatest_stable::Result&lt;()&gt;`. (`Utf8Path` is part of the
+//!   [`camino`](https://docs.rs/camino) library.)
 //! * `root` - The path to the root directory where the input files (fixtures) live. This path is
 //!   relative to the root of the crate.
 //! * `pattern` - the regex used to match against and select each file to be tested.
@@ -114,9 +122,9 @@
 //! This is an example test. Use it with `harness = false`.
 //!
 //! ```rust
-//! use std::path::Path;
+//! use datatest_stable::Utf8Path;
 //!
-//! fn my_test(path: &amp;Path) -&gt; datatest_stable::Result&lt;()&gt; {
+//! fn my_test(path: &amp;Utf8Path) -&gt; datatest_stable::Result&lt;()&gt; {
 //!     // ... write test here
 //!
 //!     Ok(())
@@ -132,8 +140,8 @@
 //!
 //! # See also
 //!
-//! * [`datatest`](https://crates.io/crates/datatest): the original inspiration for this crate,
-//!   with a better UI and more features but targeting nightly Rust
+//! * [`datatest`](https://crates.io/crates/datatest): the original inspiration for this crate, with
+//!   a better UI and more features but targeting nightly Rust
 //! * [Data-driven testing](https://en.wikipedia.org/wiki/Data-driven_testing)
 
 </span><span class="attr">#![warn(missing_docs)]
@@ -145,5 +153,11 @@
 <span class="doccomment">/// The result type for `datatest-stable` tests.
 </span><span class="kw">pub type </span><span class="prelude-ty">Result</span>&lt;T&gt; = std::result::Result&lt;T, Box&lt;<span class="kw">dyn </span>std::error::Error&gt;&gt;;
 
-<span class="kw">pub use </span><span class="self">self</span>::runner::{runner, Requirements};
+<span class="doccomment">/// A re-export of this type from the `camino` crate, since it forms part of function signatures.
+</span><span class="attr">#[doc(no_inline)]
+</span><span class="kw">pub use </span>camino::Utf8Path;
+
+<span class="doccomment">/// Not part of the public API, just used for macros.
+</span><span class="attr">#[doc(hidden)]
+</span><span class="kw">pub use </span><span class="self">self</span>::runner::{runner, Requirements};
 </code></pre></div></section></main></body></html>

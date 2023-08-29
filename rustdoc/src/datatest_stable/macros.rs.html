@@ -26,7 +26,7 @@
 <a href="#26" id="26">26</a>
 <a href="#27" id="27">27</a>
 <a href="#28" id="28">28</a>
-</pre></div><pre class="rust"><code><span class="comment">// Copyright (c) The Diem Core Contributors
+</pre></div><pre class="rust"><code><span class="comment">// Copyright (c) The datatest-stable Contributors
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
 </span><span class="doccomment">/// `datatest-stable` test harness entry point. Should be declared in the test module.
@@ -44,7 +44,7 @@
                     <span class="macro-nonterminal">$crate::Requirements::new</span>(
                         <span class="macro-nonterminal">$name</span>,
                         <span class="macro">stringify!</span>(<span class="macro-nonterminal">$name</span>).to_string(),
-                        <span class="macro-nonterminal">$root</span>.to_string(),
+                        <span class="macro-nonterminal">$root</span>.to_string().into(),
                         <span class="macro-nonterminal">$pattern</span>.to_string()
                     )
                 );

@@ -30,36 +30,42 @@
 <a href="#30" id="30">30</a>
 <a href="#31" id="31">31</a>
 <a href="#32" id="32">32</a>
-</pre></div><pre class="rust"><code><span class="comment">// Copyright (c) The Diem Core Contributors
+<a href="#33" id="33">33</a>
+<a href="#34" id="34">34</a>
+<a href="#35" id="35">35</a>
+</pre></div><pre class="rust"><code><span class="comment">// Copyright (c) The datatest-stable Contributors
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
-</span><span class="kw">use </span>std::path::{Path, PathBuf};
+</span><span class="kw">use </span>camino::{Utf8Path, Utf8PathBuf};
 
 <span class="doccomment">/// Helper function to iterate through all the files in the given directory, skipping hidden files,
 /// and return an iterator of their paths.
-</span><span class="kw">pub fn </span>iterate_directory(path: <span class="kw-2">&amp;</span>Path) -&gt; <span class="kw">impl </span>Iterator&lt;Item = PathBuf&gt; {
+</span><span class="kw">pub fn </span>iterate_directory(path: <span class="kw-2">&amp;</span>Utf8Path) -&gt; <span class="kw">impl </span>Iterator&lt;Item = std::io::Result&lt;Utf8PathBuf&gt;&gt; {
     walkdir::WalkDir::new(path)
         .into_iter()
-        .map(::std::result::Result::unwrap)
-        .filter(|entry| {
-            entry.file_type().is_file()
-                &amp;&amp; entry
-                    .file_name()
-                    .to_str()
-                    .map_or(<span class="bool-val">false</span>, |s| !s.starts_with(<span class="string">&#39;.&#39;</span>)) <span class="comment">// Skip hidden files
-        </span>})
-        .map(|entry| entry.path().to_path_buf())
+        .filter(|res| {
+            <span class="comment">// Continue to bubble up all errors to the parent.
+            </span>res.as_ref().map_or(<span class="bool-val">true</span>, |entry| {
+                entry.file_type().is_file()
+                    &amp;&amp; entry
+                        .file_name()
+                        .to_str()
+                        .map_or(<span class="bool-val">false</span>, |s| !s.starts_with(<span class="string">&#39;.&#39;</span>)) <span class="comment">// Skip hidden files
+            </span>})
+        })
+        .map(|res| <span class="kw">match </span>res {
+            <span class="prelude-val">Ok</span>(entry) =&gt; {
+                Utf8PathBuf::try_from(entry.into_path()).map_err(|error| error.into_io_error())
+            }
+            <span class="prelude-val">Err</span>(error) =&gt; <span class="prelude-val">Err</span>(error.into()),
+        })
 }
 
-<span class="kw">pub fn </span>derive_test_name(root: <span class="kw-2">&amp;</span>Path, path: <span class="kw-2">&amp;</span>Path, test_name: <span class="kw-2">&amp;</span>str) -&gt; String {
-    <span class="kw">let </span>relative = path.strip_prefix(root).unwrap_or_else(|<span class="kw">_</span>| {
-        <span class="macro">panic!</span>(
-            <span class="string">&quot;failed to strip prefix &#39;{}&#39; from path &#39;{}&#39;&quot;</span>,
-            root.display(),
-            path.display()
-        )
-    });
+<span class="kw">pub fn </span>derive_test_name(root: <span class="kw-2">&amp;</span>Utf8Path, path: <span class="kw-2">&amp;</span>Utf8Path, test_name: <span class="kw-2">&amp;</span>str) -&gt; String {
+    <span class="kw">let </span>relative = path
+        .strip_prefix(root)
+        .unwrap_or_else(|<span class="kw">_</span>| <span class="macro">panic!</span>(<span class="string">&quot;failed to strip prefix &#39;{}&#39; from path &#39;{}&#39;&quot;</span>, root, path));
 
-    <span class="macro">format!</span>(<span class="string">&quot;{}::{}&quot;</span>, test_name, relative.display())
+    <span class="macro">format!</span>(<span class="string">&quot;{}::{}&quot;</span>, test_name, relative)
 }
 </code></pre></div></section></main></body></html>

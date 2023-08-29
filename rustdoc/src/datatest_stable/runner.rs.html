@@ -71,18 +71,12 @@
 <a href="#71" id="71">71</a>
 <a href="#72" id="72">72</a>
 <a href="#73" id="73">73</a>
-<a href="#74" id="74">74</a>
-<a href="#75" id="75">75</a>
-<a href="#76" id="76">76</a>
-<a href="#77" id="77">77</a>
-</pre></div><pre class="rust"><code><span class="comment">// Copyright (c) The Diem Core Contributors
+</pre></div><pre class="rust"><code><span class="comment">// Copyright (c) The datatest-stable Contributors
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
-</span><span class="attr">#![allow(clippy::integer_arithmetic)]
-
 </span><span class="kw">use crate</span>::{utils, <span class="prelude-ty">Result</span>};
+<span class="kw">use </span>camino::{Utf8Path, Utf8PathBuf};
 <span class="kw">use </span>libtest_mimic::{Arguments, Trial};
-<span class="kw">use </span>std::path::Path;
 
 <span class="attr">#[doc(hidden)]
 </span><span class="kw">pub fn </span>runner(requirements: <span class="kw-2">&amp;</span>[Requirements]) {
@@ -96,18 +90,18 @@
 
 <span class="attr">#[doc(hidden)]
 </span><span class="kw">pub struct </span>Requirements {
-    test: <span class="kw">fn</span>(<span class="kw-2">&amp;</span>Path) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt;,
+    test: <span class="kw">fn</span>(<span class="kw-2">&amp;</span>Utf8Path) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt;,
     test_name: String,
-    root: String,
+    root: Utf8PathBuf,
     pattern: String,
 }
 
 <span class="kw">impl </span>Requirements {
     <span class="attr">#[doc(hidden)]
     </span><span class="kw">pub fn </span>new(
-        test: <span class="kw">fn</span>(<span class="kw-2">&amp;</span>Path) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt;,
+        test: <span class="kw">fn</span>(<span class="kw-2">&amp;</span>Utf8Path) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt;,
         test_name: String,
-        root: String,
+        root: Utf8PathBuf,
         pattern: String,
     ) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
@@ -121,17 +115,15 @@
     <span class="doccomment">/// Scans all files in a given directory, finds matching ones and generates a test descriptor
     /// for each of them.
     </span><span class="kw">fn </span>expand(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;Trial&gt; {
-        <span class="kw">let </span>root = Path::new(<span class="kw-2">&amp;</span><span class="self">self</span>.root).to_path_buf();
-
         <span class="kw">let </span>re = regex::Regex::new(<span class="kw-2">&amp;</span><span class="self">self</span>.pattern)
             .unwrap_or_else(|<span class="kw">_</span>| <span class="macro">panic!</span>(<span class="string">&quot;invalid regular expression: &#39;{}&#39;&quot;</span>, <span class="self">self</span>.pattern));
 
-        <span class="kw">let </span>tests: Vec&lt;<span class="kw">_</span>&gt; = utils::iterate_directory(<span class="kw-2">&amp;</span>root)
-            .filter_map(|path| {
-                <span class="kw">let </span>input_path = path.to_string_lossy();
-                <span class="kw">if </span>re.is_match(<span class="kw-2">&amp;</span>input_path) {
+        <span class="kw">let </span>tests: Vec&lt;<span class="kw">_</span>&gt; = utils::iterate_directory(<span class="kw-2">&amp;</span><span class="self">self</span>.root)
+            .filter_map(|path_res| {
+                <span class="kw">let </span>path = path_res.expect(<span class="string">&quot;error while iterating directory&quot;</span>);
+                <span class="kw">if </span>re.is_match(path.as_str()) {
                     <span class="kw">let </span>testfn = <span class="self">self</span>.test;
-                    <span class="kw">let </span>name = utils::derive_test_name(<span class="kw-2">&amp;</span>root, <span class="kw-2">&amp;</span>path, <span class="kw-2">&amp;</span><span class="self">self</span>.test_name);
+                    <span class="kw">let </span>name = utils::derive_test_name(<span class="kw-2">&amp;</span><span class="self">self</span>.root, <span class="kw-2">&amp;</span>path, <span class="kw-2">&amp;</span><span class="self">self</span>.test_name);
                     <span class="prelude-val">Some</span>(Trial::test(name, <span class="kw">move </span>|| {
                         (testfn)(<span class="kw-2">&amp;</span>path).map_err(|err| <span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, err).into())
                     }))
