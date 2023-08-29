@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- Internal dependency update: clap updated to version 4.
+- MSRV updated to Rust 1.60.
+
 ## [0.1.3] - 2022-08-15
 
 ### Changed
