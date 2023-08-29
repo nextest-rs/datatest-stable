@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.2.0] - 2023-08-29
+## [0.2.1] - 2023-08-29
 
 ### Changed
 
@@ -12,6 +12,10 @@
 [`Utf8Path`]: https://docs.rs/camino/latest/camino/struct.Utf8Path.html
 [`.as_ref()`]: https://docs.rs/camino/latest/camino/struct.Utf8Path.html#impl-AsRef%3COsStr%3E-for-Utf8Path
 [`.as_std_path()`]: https://docs.rs/camino/latest/camino/struct.Utf8Path.html#method.as_std_path
+
+## [0.2.0] - 2023-08-29
+
+This version had a publishing issue.
 
 ## [0.1.3] - 2022-08-15
 
@@ -48,7 +52,7 @@ There are no functional changes in this release.
 
 (Version 0.1.0 was yanked because of a metadata issue.)
 
-[0.2.0]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.0
+[0.2.0]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.1
 [0.1.3]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.1.3
 [0.1.2]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.1.2
 [0.1.1]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.1.1
