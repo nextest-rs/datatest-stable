@@ -1,4 +1,4 @@
-var sourcesIndex = JSON.parse('{\
+var srcIndex = JSON.parse('{\
 "aho_corasick":["",[["packed",[["teddy",[],["compile.rs","mod.rs","runtime.rs"]]],["api.rs","mod.rs","pattern.rs","rabinkarp.rs","vector.rs"]]],["ahocorasick.rs","automaton.rs","buffer.rs","byte_frequencies.rs","classes.rs","dfa.rs","error.rs","lib.rs","nfa.rs","prefilter.rs","state_id.rs"]],\
 "atty":["",[],["lib.rs"]],\
 "bitflags":["",[],["lib.rs"]],\
@@ -29,4 +29,4 @@ var sourcesIndex = JSON.parse('{\
 "unicode_xid":["",[],["lib.rs","tables.rs"]],\
 "walkdir":["",[],["dent.rs","error.rs","lib.rs","util.rs"]]\
 }');
-createSourceSidebar();
+createSrcSidebar();
