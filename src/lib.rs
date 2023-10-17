@@ -59,7 +59,7 @@
 //!
 //! datatest_stable::harness!(
 //!     my_test, "path/to/fixtures", r"^.*/*",
-//!     my_test_utf8, "path/to/fixtures", r"^.*/*,
+//!     my_test_utf8, "path/to/fixtures", r"^.*/*",
 //! );
 //! ```
 //!
