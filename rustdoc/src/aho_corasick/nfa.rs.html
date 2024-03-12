@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/aho-corasick-0.7.18/src/nfa.rs`."><title>nfa.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="aho_corasick" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0 (cc66ad468 2023-10-03)" data-channel="1.73.0" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-1596385f77d47ef2.css" data-theme-dark-css="dark-0a43001d3fc2282c.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-1596385f77d47ef2.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-0a43001d3fc2282c.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../aho_corasick/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/aho-corasick-0.7.18/src/nfa.rs`."><title>nfa.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-ac92e1bbe349e143.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="aho_corasick" data-themes="" data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../static.files/src-script-39ed315d46fb705f.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1414,7 +1415,7 @@
 /// match semantics may differ.
 ///
 /// If one wants a DFA, then it is necessary to first build an NFA and convert
-/// it into a DFA. Note, however, that because we&#39;ve constrained ourselves to
+/// it into a DFA. Note, however, that because we've constrained ourselves to
 /// matching literal patterns, this does not need to use subset construction
 /// for determinization. Instead, the DFA has at most a number of states
 /// equivalent to the number of NFA states. The only real difference between
@@ -1433,15 +1434,15 @@
     <span class="doccomment">/// The total number of patterns added to this automaton, including
     /// patterns that may never be matched.
     </span>pattern_count: usize,
-    <span class="doccomment">/// The number of bytes of heap used by this NFA&#39;s transition table.
+    <span class="doccomment">/// The number of bytes of heap used by this NFA's transition table.
     </span>heap_bytes: usize,
     <span class="doccomment">/// A prefilter for quickly skipping to candidate matches, if pertinent.
     </span>prefilter: <span class="prelude-ty">Option</span>&lt;PrefilterObj&gt;,
     <span class="doccomment">/// Whether this automaton anchors all matches to the start of input.
     </span>anchored: bool,
     <span class="doccomment">/// A set of equivalence classes in terms of bytes. We compute this while
-    /// building the NFA, but don&#39;t use it in the NFA&#39;s states. Instead, we
-    /// use this for building the DFA. We store it on the NFA since it&#39;s easy
+    /// building the NFA, but don't use it in the NFA's states. Instead, we
+    /// use this for building the DFA. We store it on the NFA since it's easy
     /// to compute while visiting the the patterns.
     </span>byte_classes: ByteClasses,
     <span class="doccomment">/// A set of states. Each state defines its own transitions, a fail
@@ -1449,7 +1450,7 @@
     ///
     /// The first state is always the fail state, which is used only as a
     /// sentinel. Namely, in the final NFA, no transition into the fail state
-    /// exists. (Well, they do, but they aren&#39;t followed. Instead, the state&#39;s
+    /// exists. (Well, they do, but they aren't followed. Instead, the state's
     /// failure transition is followed.)
     ///
     /// The second state (index 1) is always the dead state. Dead states are
@@ -1460,7 +1461,7 @@
     /// the dead state.
     ///
     /// The third state (index 2) is generally intended to be the starting or
-    /// &quot;root&quot; state.
+    /// "root" state.
     </span>states: Vec&lt;State&lt;S&gt;&gt;,
 }
 
@@ -1468,7 +1469,7 @@
     <span class="doccomment">/// Returns the equivalence classes of bytes found while constructing
     /// this NFA.
     ///
-    /// Note that the NFA doesn&#39;t actually make use of these equivalence
+    /// Note that the NFA doesn't actually make use of these equivalence
     /// classes. Instead, these are useful for building the DFA when desired.
     </span><span class="kw">pub fn </span>byte_classes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>ByteClasses {
         <span class="kw-2">&amp;</span><span class="self">self</span>.byte_classes
@@ -1479,7 +1480,7 @@
         <span class="self">self</span>.prefilter.as_ref()
     }
 
-    <span class="doccomment">/// Returns the total number of heap bytes used by this NFA&#39;s transition
+    <span class="doccomment">/// Returns the total number of heap bytes used by this NFA's transition
     /// table.
     </span><span class="kw">pub fn </span>heap_bytes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
         <span class="self">self</span>.heap_bytes
@@ -1549,7 +1550,7 @@
         <span class="self">self</span>.state_mut(id)
     }
 
-    <span class="kw">fn </span>iter_transitions_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>, id: S) -&gt; IterTransitionsMut&lt;<span class="lifetime">&#39;_</span>, S&gt; {
+    <span class="kw">fn </span>iter_transitions_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>, id: S) -&gt; IterTransitionsMut&lt;<span class="lifetime">'_</span>, S&gt; {
         IterTransitionsMut::new(<span class="self">self</span>, id)
     }
 
@@ -1668,10 +1669,10 @@
     trans: Transitions&lt;S&gt;,
     fail: S,
     matches: Vec&lt;(PatternID, PatternLength)&gt;,
-    <span class="comment">// TODO: Strictly speaking, this isn&#39;t needed for searching. It&#39;s only
+    <span class="comment">// TODO: Strictly speaking, this isn't needed for searching. It's only
     // used when building an NFA that supports leftmost match semantics. We
     // could drop this from the state and dynamically build a map only when
-    // computing failure transitions, but it&#39;s not clear which is better.
+    // computing failure transitions, but it's not clear which is better.
     // Benchmark this.
     </span>depth: usize,
 }
@@ -1761,7 +1762,7 @@
 /// are still explicitly represented.
 ///
 /// For the NFA, by default, we use a dense representation for transitions for
-/// states close to the start state because it&#39;s likely these are the states
+/// states close to the start state because it's likely these are the states
 /// that will be most frequently visited.
 </span><span class="attr">#[derive(Clone, Debug)]
 </span><span class="kw">enum </span>Transitions&lt;S&gt; {
@@ -1874,14 +1875,14 @@
 /// is iterating over transitions, the caller can still mutate the NFA. This
 /// is useful when creating failure transitions.
 </span><span class="attr">#[derive(Debug)]
-</span><span class="kw">struct </span>IterTransitionsMut&lt;<span class="lifetime">&#39;a</span>, S: StateID&gt; {
-    nfa: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>NFA&lt;S&gt;,
+</span><span class="kw">struct </span>IterTransitionsMut&lt;<span class="lifetime">'a</span>, S: StateID&gt; {
+    nfa: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>NFA&lt;S&gt;,
     state_id: S,
     cur: usize,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, S: StateID&gt; IterTransitionsMut&lt;<span class="lifetime">&#39;a</span>, S&gt; {
-    <span class="kw">fn </span>new(nfa: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>NFA&lt;S&gt;, state_id: S) -&gt; IterTransitionsMut&lt;<span class="lifetime">&#39;a</span>, S&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, S: StateID&gt; IterTransitionsMut&lt;<span class="lifetime">'a</span>, S&gt; {
+    <span class="kw">fn </span>new(nfa: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>NFA&lt;S&gt;, state_id: S) -&gt; IterTransitionsMut&lt;<span class="lifetime">'a</span>, S&gt; {
         IterTransitionsMut { nfa, state_id, cur: <span class="number">0 </span>}
     }
 
@@ -1890,7 +1891,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, S: StateID&gt; Iterator <span class="kw">for </span>IterTransitionsMut&lt;<span class="lifetime">&#39;a</span>, S&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, S: StateID&gt; Iterator <span class="kw">for </span>IterTransitionsMut&lt;<span class="lifetime">'a</span>, S&gt; {
     <span class="kw">type </span>Item = (u8, S);
 
     <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;(u8, S)&gt; {
@@ -1986,15 +1987,15 @@
 /// of an Aho-Corasick automaton. This roughly corresponds to the standard
 /// formulation described in textbooks.
 </span><span class="attr">#[derive(Debug)]
-</span><span class="kw">struct </span>Compiler&lt;<span class="lifetime">&#39;a</span>, S: StateID&gt; {
-    builder: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Builder,
+</span><span class="kw">struct </span>Compiler&lt;<span class="lifetime">'a</span>, S: StateID&gt; {
+    builder: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Builder,
     prefilter: prefilter::Builder,
     nfa: NFA&lt;S&gt;,
     byte_classes: ByteClassBuilder,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, S: StateID&gt; Compiler&lt;<span class="lifetime">&#39;a</span>, S&gt; {
-    <span class="kw">fn </span>new(builder: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Builder) -&gt; <span class="prelude-ty">Result</span>&lt;Compiler&lt;<span class="lifetime">&#39;a</span>, S&gt;&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, S: StateID&gt; Compiler&lt;<span class="lifetime">'a</span>, S&gt; {
+    <span class="kw">fn </span>new(builder: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Builder) -&gt; <span class="prelude-ty">Result</span>&lt;Compiler&lt;<span class="lifetime">'a</span>, S&gt;&gt; {
         <span class="prelude-val">Ok</span>(Compiler {
             builder,
             prefilter: prefilter::Builder::new(builder.match_kind)
@@ -2050,7 +2051,7 @@
         </span>I: IntoIterator&lt;Item = P&gt;,
         P: AsRef&lt;[u8]&gt;,
     {
-        <span class="lifetime">&#39;PATTERNS</span>: <span class="kw">for </span>(pati, pat) <span class="kw">in </span>patterns.into_iter().enumerate() {
+        <span class="lifetime">'PATTERNS</span>: <span class="kw">for </span>(pati, pat) <span class="kw">in </span>patterns.into_iter().enumerate() {
             <span class="kw">let </span>pat = pat.as_ref();
             <span class="self">self</span>.nfa.max_pattern_len =
                 cmp::max(<span class="self">self</span>.nfa.max_pattern_len, pat.len());
@@ -2071,11 +2072,11 @@
                 <span class="kw">if </span><span class="self">self</span>.builder.match_kind.is_leftmost_first() &amp;&amp; saw_match {
                     <span class="comment">// Skip to the next pattern immediately. This avoids
                     // incorrectly adding a match after this loop terminates.
-                    </span><span class="kw">continue </span><span class="lifetime">&#39;PATTERNS</span>;
+                    </span><span class="kw">continue </span><span class="lifetime">'PATTERNS</span>;
                 }
 
-                <span class="comment">// Add this byte to our equivalence classes. We don&#39;t use these
-                // for NFA construction. These are instead used only if we&#39;re
+                <span class="comment">// Add this byte to our equivalence classes. We don't use these
+                // for NFA construction. These are instead used only if we're
                 // building a DFA. They would technically be useful for the
                 // NFA, but it would require a second pass over the patterns.
                 </span><span class="self">self</span>.byte_classes.set_range(b, b);
@@ -2127,8 +2128,8 @@
     /// current state for the current input byte. If there is no other proper
     /// suffix, then the failure transition points back to the starting state.
     ///
-    /// For example, let&#39;s say we built an Aho-Corasick automaton with the
-    /// following patterns: &#39;abcd&#39; and &#39;cef&#39;. The trie looks like this:
+    /// For example, let's say we built an Aho-Corasick automaton with the
+    /// following patterns: 'abcd' and 'cef'. The trie looks like this:
     ///
     /// ```ignore
     ///          a - S1 - b - S2 - c - S3 - d - S4*
@@ -2138,18 +2139,18 @@
     ///
     /// At this point, it should be fairly straight-forward to see how this
     /// trie can be used in a simplistic way. At any given position in the
-    /// text we&#39;re searching (called the &quot;subject&quot; string), all we need to do
+    /// text we're searching (called the "subject" string), all we need to do
     /// is follow the transitions in the trie by consuming one transition for
     /// each byte in the subject string. If we reach a match state, then we can
     /// report that location as a match.
     ///
-    /// The trick comes when searching a subject string like &#39;abcef&#39;. We&#39;ll
+    /// The trick comes when searching a subject string like 'abcef'. We'll
     /// initially follow the transition from S0 to S1 and wind up in S3 after
-    /// observng the &#39;c&#39; byte. At this point, the next byte is &#39;e&#39; but state
-    /// S3 has no transition for &#39;e&#39;, so the search fails. We then would need
-    /// to restart the search at the next position in &#39;abcef&#39;, which
-    /// corresponds to &#39;b&#39;. The match would fail, but the next search starting
-    /// at &#39;c&#39; would finally succeed. The problem with this approach is that
+    /// observng the 'c' byte. At this point, the next byte is 'e' but state
+    /// S3 has no transition for 'e', so the search fails. We then would need
+    /// to restart the search at the next position in 'abcef', which
+    /// corresponds to 'b'. The match would fail, but the next search starting
+    /// at 'c' would finally succeed. The problem with this approach is that
     /// we wind up searching the subject string potentially many times. In
     /// effect, this makes the algorithm have worst case `O(n * m)` complexity,
     /// where `n ~ len(subject)` and `m ~ len(all patterns)`. We would instead
@@ -2158,8 +2159,8 @@
     /// This is where failure transitions come in. Instead of dying at S3 in
     /// the first search, the automaton can instruct the search to move to
     /// another part of the automaton that corresponds to a suffix of what
-    /// we&#39;ve seen so far. Recall that we&#39;ve seen &#39;abc&#39; in the subject string,
-    /// and the automaton does indeed have a non-empty suffix, &#39;c&#39;, that could
+    /// we've seen so far. Recall that we've seen 'abc' in the subject string,
+    /// and the automaton does indeed have a non-empty suffix, 'c', that could
     /// potentially lead to another match. Thus, the actual Aho-Corasick
     /// automaton for our patterns in this case looks like this:
     ///
@@ -2173,15 +2174,15 @@
     ///
     /// That is, we have a failure transition from S3 to S5, which is followed
     /// exactly in cases when we are in state S3 but see any byte other than
-    /// &#39;d&#39; (that is, we&#39;ve &quot;failed&quot; to find a match in this portion of our
-    /// trie). We know we can transition back to S5 because we&#39;ve already seen
-    /// a &#39;c&#39; byte, so we don&#39;t need to re-scan it. We can then pick back up
+    /// 'd' (that is, we've "failed" to find a match in this portion of our
+    /// trie). We know we can transition back to S5 because we've already seen
+    /// a 'c' byte, so we don't need to re-scan it. We can then pick back up
     /// with the search starting at S5 and complete our match.
     ///
     /// Adding failure transitions to a trie is fairly simple, but subtle. The
     /// key issue is that you might have multiple failure transition that you
     /// need to follow. For example, look at the trie for the patterns
-    /// &#39;abcd&#39;, &#39;b&#39;, &#39;bcd&#39; and &#39;cd&#39;:
+    /// 'abcd', 'b', 'bcd' and 'cd':
     ///
     /// ```ignore
     ///        - a - S1 - b - S2 - c - S3 - d - S4*
@@ -2208,12 +2209,12 @@
     /// assumptions, we already know that there is a failure transition from
     /// S2 (the previous state) to S5. So we follow that transition and check
     /// whether the transition connecting S2 to S3 is defined. Indeed, it is,
-    /// as there is a transition from S5 to S6 for the byte &#39;c&#39;. If no such
+    /// as there is a transition from S5 to S6 for the byte 'c'. If no such
     /// transition existed, we could keep following the failure transitions
     /// until we reach the start state, which is the failure transition for
     /// every state that has no corresponding proper suffix.
     ///
-    /// We don&#39;t actually use recursion to implement this, but instead, use a
+    /// We don't actually use recursion to implement this, but instead, use a
     /// breadth first search of the automaton. Our base case is the start
     /// state, whose failure transition is just a transition to itself.
     </span><span class="kw">fn </span>fill_failure_transitions_standard(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
@@ -2238,10 +2239,10 @@
                 <span class="kw">if </span>seen.contains(next) {
                     <span class="comment">// The only way to visit a duplicate state in a transition
                     // list is when ASCII case insensitivity is enabled. In
-                    // this case, we want to skip it since it&#39;s redundant work.
+                    // this case, we want to skip it since it's redundant work.
                     // But it would also end up duplicating matches, which
                     // results in reporting duplicate matches in some cases.
-                    // See the &#39;acasei010&#39; regression test.
+                    // See the 'acasei010' regression test.
                     </span><span class="kw">continue</span>;
                 }
                 queue.push_back(next);
@@ -2263,7 +2264,7 @@
             // non-empty non-start match state needs to report empty matches
             // in addition to its own. For the non-overlapping case, such
             // states only report the first match, which is never empty since
-            // it isn&#39;t a start state.
+            // it isn't a start state.
             </span>it.nfa().copy_empty_matches(id);
         }
     }
@@ -2292,7 +2293,7 @@
     ///
     /// N.B. I came up with this algorithm on my own, and after scouring all of
     /// the other AC implementations I know of (Perl, Snort, many on GitHub).
-    /// I couldn&#39;t find any that implement leftmost semantics like this.
+    /// I couldn't find any that implement leftmost semantics like this.
     /// Perl of course needs leftmost-first semantics, but they implement it
     /// with a seeming hack at *search* time instead of encoding it into the
     /// automaton. There are also a couple Java libraries that support leftmost
@@ -2317,7 +2318,7 @@
         }
 
         <span class="kw">impl</span>&lt;S: StateID&gt; QueuedState&lt;S&gt; {
-            <span class="doccomment">/// Create a queued state corresponding to the given NFA&#39;s start
+            <span class="doccomment">/// Create a queued state corresponding to the given NFA's start
             /// state.
             </span><span class="kw">fn </span>start(nfa: <span class="kw-2">&amp;</span>NFA&lt;S&gt;) -&gt; QueuedState&lt;S&gt; {
                 <span class="kw">let </span>match_at_depth =
@@ -2345,7 +2346,7 @@
                 next: S,
             ) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
                 <span class="comment">// This is a little tricky. If the previous state has already
-                // seen a match or if `next` isn&#39;t a match state, then nothing
+                // seen a match or if `next` isn't a match state, then nothing
                 // needs to change since a later state cannot find an earlier
                 // match.
                 </span><span class="kw">match </span><span class="self">self</span>.match_at_depth {
@@ -2399,10 +2400,10 @@
                 <span class="kw">if </span>seen.contains(next.id) {
                     <span class="comment">// The only way to visit a duplicate state in a transition
                     // list is when ASCII case insensitivity is enabled. In
-                    // this case, we want to skip it since it&#39;s redundant work.
+                    // this case, we want to skip it since it's redundant work.
                     // But it would also end up duplicating matches, which
                     // results in reporting duplicate matches in some cases.
-                    // See the &#39;acasei010&#39; regression test.
+                    // See the 'acasei010' regression test.
                     </span><span class="kw">continue</span>;
                 }
                 queue.push_back(next);
@@ -2416,24 +2417,24 @@
                 fail = it.nfa().state(fail).next_state(b);
 
                 <span class="comment">// This is the key difference from the standard formulation.
-                // Namely, if we&#39;ve seen a match, then we only want a failure
+                // Namely, if we've seen a match, then we only want a failure
                 // transition if the failure transition preserves the match
-                // we&#39;ve seen. In general, this is not true of all failure
+                // we've seen. In general, this is not true of all failure
                 // transitions since they can point back to any suffix of what
-                // we&#39;ve seen so far. Instead, we only want to point back to
-                // suffixes that contain any match we&#39;ve seen.
+                // we've seen so far. Instead, we only want to point back to
+                // suffixes that contain any match we've seen.
                 //
                 // We achieve this by comparing the depth of the failure
                 // transition with the number of states between this state
                 // and the beginning of the earliest match detected. If the
                 // depth of the failure state is smaller than this difference,
-                // then it cannot contain the match. If it&#39;s bigger or equal
+                // then it cannot contain the match. If it's bigger or equal
                 // to the difference, then it necessarily includes the match
-                // we&#39;ve seen since all failure transitions correspond to a
+                // we've seen since all failure transitions correspond to a
                 // suffix.
                 //
-                // If we&#39;ve determined that we don&#39;t want the failure
-                // transition, then we set this state&#39;s failure transition to
+                // If we've determined that we don't want the failure
+                // transition, then we set this state's failure transition to
                 // the dead state. In other words, when a search hits this
                 // state, it will not continue and correctly stop. (N.B. A
                 // dead state is different than a fail state. A dead state
@@ -2442,7 +2443,7 @@
                 //
                 // Understanding this is tricky, and it took me several days
                 // to think through this and get it right. If you want to grok
-                // it, then I&#39;d recommend: 1) switch the implementation to
+                // it, then I'd recommend: 1) switch the implementation to
                 // always use the standard algorithm for filling in failure
                 // transitions, 2) run the test suite and 3) examine the test
                 // failures. Write out the automatons for them and try to work
@@ -2458,23 +2459,23 @@
                     <span class="macro">assert_ne!</span>(
                         start.id,
                         it.nfa().state(next.id).fail,
-                        <span class="string">&quot;states that are match states or follow match \
+                        <span class="string">"states that are match states or follow match \
                          states should never have a failure transition \
-                         back to the start state in leftmost searching&quot;</span>,
+                         back to the start state in leftmost searching"</span>,
                     );
                 }
                 it.nfa().state_mut(next.id).fail = fail;
                 it.nfa().copy_matches(fail, next.id);
             }
-            <span class="comment">// If there are no transitions for this state and if it&#39;s a match
+            <span class="comment">// If there are no transitions for this state and if it's a match
             // state, then we must set its failure transition to the dead
             // state since we never want it to restart the search.
             </span><span class="kw">if </span>!any_trans &amp;&amp; it.nfa().state(item.id).is_match() {
                 it.nfa().state_mut(item.id).fail = dead_id();
             }
-            <span class="comment">// We don&#39;t need to copy empty matches from the start state here
-            // because that&#39;s only necessary for overlapping matches and
-            // leftmost match kinds don&#39;t support overlapping matches.
+            <span class="comment">// We don't need to copy empty matches from the start state here
+            // because that's only necessary for overlapping matches and
+            // leftmost match kinds don't support overlapping matches.
         </span>}
     }
 
@@ -2580,7 +2581,7 @@
 <span class="doccomment">/// A set of state identifiers used to avoid revisiting the same state multiple
 /// times when filling in failure transitions.
 ///
-/// This set has an &quot;inert&quot; and an &quot;active&quot; mode. When inert, the set never
+/// This set has an "inert" and an "active" mode. When inert, the set never
 /// stores anything and always returns `false` for every member test. This is
 /// useful to avoid the performance and memory overhead of maintaining this
 /// set when it is not needed.
@@ -2624,7 +2625,7 @@
 /// We use this instead of (0..256).map(|b| b as u8) because this optimizes
 /// better in debug builds.
 ///
-/// We also use this instead of 0..=255 because we&#39;re targeting Rust 1.24 and
+/// We also use this instead of 0..=255 because we're targeting Rust 1.24 and
 /// inclusive range syntax was stabilized in Rust 1.26. We can get rid of this
 /// once our MSRV is Rust 1.26 or newer.
 </span><span class="attr">#[derive(Debug)]
@@ -2651,16 +2652,16 @@
 }
 
 <span class="kw">impl</span>&lt;S: StateID&gt; fmt::Debug <span class="kw">for </span>NFA&lt;S&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        <span class="macro">writeln!</span>(f, <span class="string">&quot;NFA(&quot;</span>)<span class="question-mark">?</span>;
-        <span class="macro">writeln!</span>(f, <span class="string">&quot;match_kind: {:?}&quot;</span>, <span class="self">self</span>.match_kind)<span class="question-mark">?</span>;
-        <span class="macro">writeln!</span>(f, <span class="string">&quot;prefilter: {:?}&quot;</span>, <span class="self">self</span>.prefilter)<span class="question-mark">?</span>;
-        <span class="macro">writeln!</span>(f, <span class="string">&quot;{}&quot;</span>, <span class="string">&quot;-&quot;</span>.repeat(<span class="number">79</span>))<span class="question-mark">?</span>;
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        <span class="macro">writeln!</span>(f, <span class="string">"NFA("</span>)<span class="question-mark">?</span>;
+        <span class="macro">writeln!</span>(f, <span class="string">"match_kind: {:?}"</span>, <span class="self">self</span>.match_kind)<span class="question-mark">?</span>;
+        <span class="macro">writeln!</span>(f, <span class="string">"prefilter: {:?}"</span>, <span class="self">self</span>.prefilter)<span class="question-mark">?</span>;
+        <span class="macro">writeln!</span>(f, <span class="string">"{}"</span>, <span class="string">"-"</span>.repeat(<span class="number">79</span>))<span class="question-mark">?</span>;
         <span class="kw">for </span>(id, s) <span class="kw">in </span><span class="self">self</span>.states.iter().enumerate() {
             <span class="kw">let </span><span class="kw-2">mut </span>trans = <span class="macro">vec!</span>[];
             s.trans.iter(|byte, next| {
                 <span class="comment">// The start state has a bunch of uninteresting transitions
-                // back into itself. It&#39;s questionable to hide them since they
+                // back into itself. It's questionable to hide them since they
                 // are critical to understanding the automaton, but they are
                 // very noisy without better formatting for contiugous ranges
                 // to the same state.
@@ -2672,21 +2673,21 @@
                 </span><span class="kw">if </span>id == dead_id() {
                     <span class="kw">return</span>;
                 }
-                trans.push(<span class="macro">format!</span>(<span class="string">&quot;{} =&gt; {}&quot;</span>, escape(byte), next.to_usize()));
+                trans.push(<span class="macro">format!</span>(<span class="string">"{} =&gt; {}"</span>, escape(byte), next.to_usize()));
             });
-            <span class="macro">writeln!</span>(f, <span class="string">&quot;{:04}: {}&quot;</span>, id, trans.join(<span class="string">&quot;, &quot;</span>))<span class="question-mark">?</span>;
+            <span class="macro">writeln!</span>(f, <span class="string">"{:04}: {}"</span>, id, trans.join(<span class="string">", "</span>))<span class="question-mark">?</span>;
 
             <span class="kw">let </span>matches: Vec&lt;String&gt; = s
                 .matches
                 .iter()
                 .map(|<span class="kw-2">&amp;</span>(pattern_id, <span class="kw">_</span>)| pattern_id.to_string())
                 .collect();
-            <span class="macro">writeln!</span>(f, <span class="string">&quot;  matches: {}&quot;</span>, matches.join(<span class="string">&quot;, &quot;</span>))<span class="question-mark">?</span>;
-            <span class="macro">writeln!</span>(f, <span class="string">&quot;     fail: {}&quot;</span>, s.fail.to_usize())<span class="question-mark">?</span>;
-            <span class="macro">writeln!</span>(f, <span class="string">&quot;    depth: {}&quot;</span>, s.depth)<span class="question-mark">?</span>;
+            <span class="macro">writeln!</span>(f, <span class="string">"  matches: {}"</span>, matches.join(<span class="string">", "</span>))<span class="question-mark">?</span>;
+            <span class="macro">writeln!</span>(f, <span class="string">"     fail: {}"</span>, s.fail.to_usize())<span class="question-mark">?</span>;
+            <span class="macro">writeln!</span>(f, <span class="string">"    depth: {}"</span>, s.depth)<span class="question-mark">?</span>;
         }
-        <span class="macro">writeln!</span>(f, <span class="string">&quot;{}&quot;</span>, <span class="string">&quot;-&quot;</span>.repeat(<span class="number">79</span>))<span class="question-mark">?</span>;
-        <span class="macro">writeln!</span>(f, <span class="string">&quot;)&quot;</span>)<span class="question-mark">?</span>;
+        <span class="macro">writeln!</span>(f, <span class="string">"{}"</span>, <span class="string">"-"</span>.repeat(<span class="number">79</span>))<span class="question-mark">?</span>;
+        <span class="macro">writeln!</span>(f, <span class="string">")"</span>)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(())
     }
 }
@@ -2712,7 +2713,7 @@
 ///
 /// This panics if i == j.
 </span><span class="kw">fn </span>get_two_mut&lt;T&gt;(xs: <span class="kw-2">&amp;mut </span>[T], i: usize, j: usize) -&gt; (<span class="kw-2">&amp;mut </span>T, <span class="kw-2">&amp;mut </span>T) {
-    <span class="macro">assert!</span>(i != j, <span class="string">&quot;{} must not be equal to {}&quot;</span>, i, j);
+    <span class="macro">assert!</span>(i != j, <span class="string">"{} must not be equal to {}"</span>, i, j);
     <span class="kw">if </span>i &lt; j {
         <span class="kw">let </span>(before, after) = xs.split_at_mut(j);
         (<span class="kw-2">&amp;mut </span>before[i], <span class="kw-2">&amp;mut </span>after[<span class="number">0</span>])
@@ -2740,16 +2741,16 @@
             <span class="comment">// .match_kind(MatchKind::LeftmostShortest)
             // .match_kind(MatchKind::LeftmostLongest)
             </span>.match_kind(MatchKind::LeftmostFirst)
-            <span class="comment">// .build(&amp;[&quot;abcd&quot;, &quot;ce&quot;, &quot;b&quot;])
-            // .build(&amp;[&quot;ab&quot;, &quot;bc&quot;])
-            // .build(&amp;[&quot;b&quot;, &quot;bcd&quot;, &quot;ce&quot;])
-            // .build(&amp;[&quot;abc&quot;, &quot;bx&quot;])
-            // .build(&amp;[&quot;abc&quot;, &quot;bd&quot;, &quot;ab&quot;])
-            // .build(&amp;[&quot;abcdefghi&quot;, &quot;hz&quot;, &quot;abcdefgh&quot;])
-            // .build(&amp;[&quot;abcd&quot;, &quot;bce&quot;, &quot;b&quot;])
-            </span>.build(<span class="kw-2">&amp;</span>[<span class="string">&quot;abcdefg&quot;</span>, <span class="string">&quot;bcde&quot;</span>, <span class="string">&quot;bcdef&quot;</span>])
+            <span class="comment">// .build(&amp;["abcd", "ce", "b"])
+            // .build(&amp;["ab", "bc"])
+            // .build(&amp;["b", "bcd", "ce"])
+            // .build(&amp;["abc", "bx"])
+            // .build(&amp;["abc", "bd", "ab"])
+            // .build(&amp;["abcdefghi", "hz", "abcdefgh"])
+            // .build(&amp;["abcd", "bce", "b"])
+            </span>.build(<span class="kw-2">&amp;</span>[<span class="string">"abcdefg"</span>, <span class="string">"bcde"</span>, <span class="string">"bcdef"</span>])
             .unwrap();
-        <span class="macro">println!</span>(<span class="string">&quot;{:?}&quot;</span>, nfa);
+        <span class="macro">println!</span>(<span class="string">"{:?}"</span>, nfa);
     }
 }
 </code></pre></div></section></main></body></html>

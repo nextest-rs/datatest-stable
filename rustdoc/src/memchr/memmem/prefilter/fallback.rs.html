@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/memchr-2.4.1/src/memmem/prefilter/fallback.rs`."><title>fallback.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="memchr" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0 (cc66ad468 2023-10-03)" data-channel="1.73.0" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-1596385f77d47ef2.css" data-theme-dark-css="dark-0a43001d3fc2282c.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../static.files/light-1596385f77d47ef2.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../static.files/dark-0a43001d3fc2282c.css"><link rel="stylesheet" href="../../../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../memchr/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/memchr-2.4.1/src/memmem/prefilter/fallback.rs`."><title>fallback.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-ac92e1bbe349e143.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="memchr" data-themes="" data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../../../static.files/src-script-39ed315d46fb705f.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -121,8 +122,8 @@
 <a href="#121" id="121">121</a>
 <a href="#122" id="122">122</a>
 </pre></div><pre class="rust"><code><span class="comment">/*
-This module implements a &quot;fallback&quot; prefilter that only relies on memchr to
-function. While memchr works best when it&#39;s explicitly vectorized, its
+This module implements a "fallback" prefilter that only relies on memchr to
+function. While memchr works best when it's explicitly vectorized, its
 fallback implementations are fast enough to make a prefilter like this
 worthwhile.
 
@@ -135,15 +136,15 @@ a naive memcmp to confirm the match.
 In practice, this formulation works amazingly well, primarily because of the
 heuristic use of a background frequency distribution. However, it does have a
 number of weaknesses where it can get quite slow when its background frequency
-distribution doesn&#39;t line up with the haystack being searched. This is why we
+distribution doesn't line up with the haystack being searched. This is why we
 have specialized vector routines that essentially take this idea and move the
 guard check into vectorized code. (Those specialized vector routines do still
 make use of the background frequency distribution of bytes though.)
 
 This fallback implementation was originally formulated in regex many moons ago:
 https://github.com/rust-lang/regex/blob/3db8722d0b204a85380fe2a65e13d7065d7dd968/src/literal/imp.rs#L370-L501
-Prior to that, I&#39;m not aware of anyone using this technique in any prominent
-substring search implementation. Although, I&#39;m sure folks have had this same
+Prior to that, I'm not aware of anyone using this technique in any prominent
+substring search implementation. Although, I'm sure folks have had this same
 insight long before me.
 
 Another version of this also appeared in bstr:
@@ -185,7 +186,7 @@ https://github.com/BurntSushi/bstr/blob/a444256ca7407fe180ee32534688549655b7a38e
         prestate.update(found);
         i += found;
 
-        <span class="comment">// If we can&#39;t align our first match with the haystack, then a
+        <span class="comment">// If we can't align our first match with the haystack, then a
         // match is impossible.
         </span><span class="kw">if </span>i &lt; rare1i {
             i += <span class="number">1</span>;
@@ -200,17 +201,17 @@ https://github.com/BurntSushi/bstr/blob/a444256ca7407fe180ee32534688549655b7a38e
             <span class="kw">continue</span>;
         }
 
-        <span class="comment">// We&#39;ve done what we can. There might be a match here.
+        <span class="comment">// We've done what we can. There might be a match here.
         </span><span class="kw">return </span><span class="prelude-val">Some</span>(i - rare1i);
     }
     <span class="comment">// The only way we get here is if we believe our skipping heuristic
-    // has become ineffective. We&#39;re allowed to return false positives,
+    // has become ineffective. We're allowed to return false positives,
     // so return the position at which we advanced to, aligned to the
     // haystack.
     </span><span class="prelude-val">Some</span>(i.saturating_sub(rare1i))
 }
 
-<span class="attr">#[cfg(all(test, feature = <span class="string">&quot;std&quot;</span>))]
+<span class="attr">#[cfg(all(test, feature = <span class="string">"std"</span>))]
 </span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
@@ -222,14 +223,14 @@ https://github.com/BurntSushi/bstr/blob/a444256ca7407fe180ee32534688549655b7a38e
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>freqy_forward() {
-        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">0</span>), freqy_find(<span class="string">b&quot;BARFOO&quot;</span>, <span class="string">b&quot;BAR&quot;</span>));
-        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">3</span>), freqy_find(<span class="string">b&quot;FOOBAR&quot;</span>, <span class="string">b&quot;BAR&quot;</span>));
-        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">0</span>), freqy_find(<span class="string">b&quot;zyzz&quot;</span>, <span class="string">b&quot;zyzy&quot;</span>));
-        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">2</span>), freqy_find(<span class="string">b&quot;zzzy&quot;</span>, <span class="string">b&quot;zyzy&quot;</span>));
-        <span class="macro">assert_eq!</span>(<span class="prelude-val">None</span>, freqy_find(<span class="string">b&quot;zazb&quot;</span>, <span class="string">b&quot;zyzy&quot;</span>));
-        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">0</span>), freqy_find(<span class="string">b&quot;yzyy&quot;</span>, <span class="string">b&quot;yzyz&quot;</span>));
-        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">2</span>), freqy_find(<span class="string">b&quot;yyyz&quot;</span>, <span class="string">b&quot;yzyz&quot;</span>));
-        <span class="macro">assert_eq!</span>(<span class="prelude-val">None</span>, freqy_find(<span class="string">b&quot;yayb&quot;</span>, <span class="string">b&quot;yzyz&quot;</span>));
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">0</span>), freqy_find(<span class="string">b"BARFOO"</span>, <span class="string">b"BAR"</span>));
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">3</span>), freqy_find(<span class="string">b"FOOBAR"</span>, <span class="string">b"BAR"</span>));
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">0</span>), freqy_find(<span class="string">b"zyzz"</span>, <span class="string">b"zyzy"</span>));
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">2</span>), freqy_find(<span class="string">b"zzzy"</span>, <span class="string">b"zyzy"</span>));
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">None</span>, freqy_find(<span class="string">b"zazb"</span>, <span class="string">b"zyzy"</span>));
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">0</span>), freqy_find(<span class="string">b"yzyy"</span>, <span class="string">b"yzyz"</span>));
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">2</span>), freqy_find(<span class="string">b"yyyz"</span>, <span class="string">b"yzyz"</span>));
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">None</span>, freqy_find(<span class="string">b"yayb"</span>, <span class="string">b"yzyz"</span>));
     }
 
     <span class="attr">#[test]

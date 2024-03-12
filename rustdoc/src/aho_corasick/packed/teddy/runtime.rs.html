@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/aho-corasick-0.7.18/src/packed/teddy/runtime.rs`."><title>runtime.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="aho_corasick" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0 (cc66ad468 2023-10-03)" data-channel="1.73.0" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-1596385f77d47ef2.css" data-theme-dark-css="dark-0a43001d3fc2282c.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../static.files/light-1596385f77d47ef2.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../static.files/dark-0a43001d3fc2282c.css"><link rel="stylesheet" href="../../../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../aho_corasick/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/aho-corasick-0.7.18/src/packed/teddy/runtime.rs`."><title>runtime.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-ac92e1bbe349e143.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="aho_corasick" data-themes="" data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../../../static.files/src-script-39ed315d46fb705f.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1224,7 +1225,7 @@
 // verification routine (for slim vs fat Teddy) and the candidate extraction
 // (based on the number of masks).
 //
-// In the code below, a &quot;candidate&quot; corresponds to a single vector with 8-bit
+// In the code below, a "candidate" corresponds to a single vector with 8-bit
 // lanes. Each lane is itself an 8-bit bitset, where the ith bit is set in the
 // jth lane if and only if the byte occurring at position `j` is in the
 // bucket `i` (where the `j`th position is the position in the current window
@@ -1248,7 +1249,7 @@
 // With respect to the repeated code, it would likely be possible to reduce
 // the number of copies of code below using polymorphism, but I find this
 // formulation clearer instead of needing to reason through generics. However,
-// I admit, there may be a simpler generic construction that I&#39;m missing.
+// I admit, there may be a simpler generic construction that I'm missing.
 //
 // All variants are fairly heavily tested in src/packed/tests.rs.
 
@@ -1310,7 +1311,7 @@
         haystack: <span class="kw-2">&amp;</span>[u8],
         at: usize,
     ) -&gt; <span class="prelude-ty">Option</span>&lt;Match&gt; {
-        <span class="comment">// This assert is a bit subtle, but it&#39;s an important guarantee.
+        <span class="comment">// This assert is a bit subtle, but it's an important guarantee.
         // Namely, if the maximum pattern ID seen by Teddy is the same as the
         // one in the patterns given, then we are guaranteed that every pattern
         // ID in all Teddy buckets are valid indices into `pats`. While this
@@ -1322,11 +1323,11 @@
         </span><span class="macro">assert_eq!</span>(
             <span class="self">self</span>.max_pattern_id,
             pats.max_pattern_id(),
-            <span class="string">&quot;teddy must be called with same patterns it was built with&quot;</span>,
+            <span class="string">"teddy must be called with same patterns it was built with"</span>,
         );
         <span class="comment">// SAFETY: The haystack must have at least a minimum number of bytes
         // for Teddy to be able to work. The minimum number varies depending on
-        // which matcher is used below. If this is violated, then it&#39;s possible
+        // which matcher is used below. If this is violated, then it's possible
         // for searching to do out-of-bounds writes.
         </span><span class="macro">assert!</span>(haystack[at..].len() &gt;= <span class="self">self</span>.minimum_len());
         <span class="comment">// SAFETY: The various Teddy matchers are always safe to call because
@@ -1566,7 +1567,7 @@
         bucket: usize,
         at: usize,
     ) -&gt; <span class="prelude-ty">Option</span>&lt;Match&gt; {
-        <span class="comment">// Forcing this function to not inline and be &quot;cold&quot; seems to help
+        <span class="comment">// Forcing this function to not inline and be "cold" seems to help
         // the codegen for Teddy overall. Interestingly, this is good for a
         // 16% boost in the sherlock/packed/teddy/name/alt1 benchmark (among
         // others). Overall, this seems like a problem with codegen, since
@@ -1633,7 +1634,7 @@
 }
 
 <span class="kw">impl </span>TeddySlim1Mask128 {
-    <span class="attr">#[target_feature(enable = <span class="string">&quot;ssse3&quot;</span>)]
+    <span class="attr">#[target_feature(enable = <span class="string">"ssse3"</span>)]
     </span><span class="kw">unsafe fn </span>find_at(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         pats: <span class="kw-2">&amp;</span>Patterns,
@@ -1683,7 +1684,7 @@
 }
 
 <span class="kw">impl </span>TeddySlim1Mask256 {
-    <span class="attr">#[target_feature(enable = <span class="string">&quot;avx2&quot;</span>)]
+    <span class="attr">#[target_feature(enable = <span class="string">"avx2"</span>)]
     </span><span class="kw">unsafe fn </span>find_at(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         pats: <span class="kw-2">&amp;</span>Patterns,
@@ -1733,7 +1734,7 @@
 }
 
 <span class="kw">impl </span>TeddyFat1Mask256 {
-    <span class="attr">#[target_feature(enable = <span class="string">&quot;avx2&quot;</span>)]
+    <span class="attr">#[target_feature(enable = <span class="string">"avx2"</span>)]
     </span><span class="kw">unsafe fn </span>find_at(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         pats: <span class="kw-2">&amp;</span>Patterns,
@@ -1784,7 +1785,7 @@
 }
 
 <span class="kw">impl </span>TeddySlim2Mask128 {
-    <span class="attr">#[target_feature(enable = <span class="string">&quot;ssse3&quot;</span>)]
+    <span class="attr">#[target_feature(enable = <span class="string">"ssse3"</span>)]
     </span><span class="kw">unsafe fn </span>find_at(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         pats: <span class="kw-2">&amp;</span>Patterns,
@@ -1846,7 +1847,7 @@
 }
 
 <span class="kw">impl </span>TeddySlim2Mask256 {
-    <span class="attr">#[target_feature(enable = <span class="string">&quot;avx2&quot;</span>)]
+    <span class="attr">#[target_feature(enable = <span class="string">"avx2"</span>)]
     </span><span class="kw">unsafe fn </span>find_at(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         pats: <span class="kw-2">&amp;</span>Patterns,
@@ -1910,7 +1911,7 @@
 }
 
 <span class="kw">impl </span>TeddyFat2Mask256 {
-    <span class="attr">#[target_feature(enable = <span class="string">&quot;avx2&quot;</span>)]
+    <span class="attr">#[target_feature(enable = <span class="string">"avx2"</span>)]
     </span><span class="kw">unsafe fn </span>find_at(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         pats: <span class="kw-2">&amp;</span>Patterns,
@@ -1977,7 +1978,7 @@
 }
 
 <span class="kw">impl </span>TeddySlim3Mask128 {
-    <span class="attr">#[target_feature(enable = <span class="string">&quot;ssse3&quot;</span>)]
+    <span class="attr">#[target_feature(enable = <span class="string">"ssse3"</span>)]
     </span><span class="kw">unsafe fn </span>find_at(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         pats: <span class="kw-2">&amp;</span>Patterns,
@@ -2047,7 +2048,7 @@
 }
 
 <span class="kw">impl </span>TeddySlim3Mask256 {
-    <span class="attr">#[target_feature(enable = <span class="string">&quot;avx2&quot;</span>)]
+    <span class="attr">#[target_feature(enable = <span class="string">"avx2"</span>)]
     </span><span class="kw">unsafe fn </span>find_at(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         pats: <span class="kw-2">&amp;</span>Patterns,
@@ -2118,7 +2119,7 @@
 }
 
 <span class="kw">impl </span>TeddyFat3Mask256 {
-    <span class="attr">#[target_feature(enable = <span class="string">&quot;avx2&quot;</span>)]
+    <span class="attr">#[target_feature(enable = <span class="string">"avx2"</span>)]
     </span><span class="kw">unsafe fn </span>find_at(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         pats: <span class="kw-2">&amp;</span>Patterns,
@@ -2218,8 +2219,8 @@
 ///
 /// For Fat Teddy, the bitsets are not repeated, but instead, the high 128
 /// bits correspond to buckets 8-15. So that a bitset `00100010` has buckets
-/// 1 and 5 set if it&#39;s in the lower 128 bits, but has buckets 9 and 13 set
-/// if it&#39;s in the higher 128 bits.
+/// 1 and 5 set if it's in the lower 128 bits, but has buckets 9 and 13 set
+/// if it's in the higher 128 bits.
 </span><span class="attr">#[derive(Clone, Copy, Debug)]
 </span><span class="kw">pub struct </span>Mask256 {
     lo: __m256i,
@@ -2240,22 +2241,22 @@
     }
 }
 
-<span class="comment">// The &quot;members&quot; routines below are responsible for taking a chunk of bytes,
+<span class="comment">// The "members" routines below are responsible for taking a chunk of bytes,
 // a number of nybble masks and returning the result of using the masks to
 // lookup bytes in the chunk. The results of the high and low nybble masks are
-// AND&#39;ed together, such that each candidate returned is a vector, with byte
+// AND'ed together, such that each candidate returned is a vector, with byte
 // sized lanes, and where each lane is an 8-bit bitset corresponding to the
 // buckets that contain the corresponding byte.
 //
 // In the case of masks of length greater than 1, callers will need to keep
-// the results from the previous haystack&#39;s window, and then shift the vectors
-// so that they all line up. Then they can be AND&#39;ed together.
+// the results from the previous haystack's window, and then shift the vectors
+// so that they all line up. Then they can be AND'ed together.
 
 </span><span class="doccomment">/// Return a candidate for Slim 128-bit Teddy, where `chunk` corresponds to a
 /// 16-byte window of the haystack (where the least significant byte
 /// corresponds to the start of the window), and `mask1` corresponds to a
 /// low/high mask for the first byte of all patterns that are being searched.
-</span><span class="attr">#[target_feature(enable = <span class="string">&quot;ssse3&quot;</span>)]
+</span><span class="attr">#[target_feature(enable = <span class="string">"ssse3"</span>)]
 </span><span class="kw">unsafe fn </span>members1m128(chunk: __m128i, mask1: Mask128) -&gt; __m128i {
     <span class="kw">let </span>lomask = _mm_set1_epi8(<span class="number">0xF</span>);
     <span class="kw">let </span>hlo = _mm_and_si128(chunk, lomask);
@@ -2274,7 +2275,7 @@
 /// Note that this can also be used for Fat Teddy, where the high 128 bits in
 /// `chunk` is the same as the low 128 bits, which corresponds to a 16 byte
 /// window in the haystack.
-</span><span class="attr">#[target_feature(enable = <span class="string">&quot;avx2&quot;</span>)]
+</span><span class="attr">#[target_feature(enable = <span class="string">"avx2"</span>)]
 </span><span class="kw">unsafe fn </span>members1m256(chunk: __m256i, mask1: Mask256) -&gt; __m256i {
     <span class="kw">let </span>lomask = _mm256_set1_epi8(<span class="number">0xF</span>);
     <span class="kw">let </span>hlo = _mm256_and_si256(chunk, lomask);
@@ -2291,7 +2292,7 @@
 /// low/high mask for the first and second bytes of all patterns that are being
 /// searched. The vectors returned correspond to candidates for the first and
 /// second bytes in the patterns represented by the masks.
-</span><span class="attr">#[target_feature(enable = <span class="string">&quot;ssse3&quot;</span>)]
+</span><span class="attr">#[target_feature(enable = <span class="string">"ssse3"</span>)]
 </span><span class="kw">unsafe fn </span>members2m128(
     chunk: __m128i,
     mask1: Mask128,
@@ -2321,7 +2322,7 @@
 /// Note that this can also be used for Fat Teddy, where the high 128 bits in
 /// `chunk` is the same as the low 128 bits, which corresponds to a 16 byte
 /// window in the haystack.
-</span><span class="attr">#[target_feature(enable = <span class="string">&quot;avx2&quot;</span>)]
+</span><span class="attr">#[target_feature(enable = <span class="string">"avx2"</span>)]
 </span><span class="kw">unsafe fn </span>members2m256(
     chunk: __m256i,
     mask1: Mask256,
@@ -2347,7 +2348,7 @@
 /// low/high mask for the first, second and third bytes of all patterns that
 /// are being searched. The vectors returned correspond to candidates for the
 /// first, second and third bytes in the patterns represented by the masks.
-</span><span class="attr">#[target_feature(enable = <span class="string">&quot;ssse3&quot;</span>)]
+</span><span class="attr">#[target_feature(enable = <span class="string">"ssse3"</span>)]
 </span><span class="kw">unsafe fn </span>members3m128(
     chunk: __m128i,
     mask1: Mask128,
@@ -2382,7 +2383,7 @@
 /// Note that this can also be used for Fat Teddy, where the high 128 bits in
 /// `chunk` is the same as the low 128 bits, which corresponds to a 16 byte
 /// window in the haystack.
-</span><span class="attr">#[target_feature(enable = <span class="string">&quot;avx2&quot;</span>)]
+</span><span class="attr">#[target_feature(enable = <span class="string">"avx2"</span>)]
 </span><span class="kw">unsafe fn </span>members3m256(
     chunk: __m256i,
     mask1: Mask256,

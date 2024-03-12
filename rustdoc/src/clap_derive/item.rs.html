@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/clap_derive-4.0.8/src/item.rs`."><title>item.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="clap_derive" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0 (cc66ad468 2023-10-03)" data-channel="1.73.0" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-1596385f77d47ef2.css" data-theme-dark-css="dark-0a43001d3fc2282c.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-1596385f77d47ef2.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-0a43001d3fc2282c.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../clap_derive/index.html"><img src="https://raw.githubusercontent.com/clap-rs/clap/master/assets/clap.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/clap_derive-4.0.8/src/item.rs`."><title>item.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-ac92e1bbe349e143.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="clap_derive" data-themes="" data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../static.files/src-script-39ed315d46fb705f.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><a class="sub-logo-container" href="../../clap_derive/index.html"><img src="https://raw.githubusercontent.com/clap-rs/clap/master/assets/clap.png" alt="clap_derive"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1494,7 +1495,7 @@
         <span class="kw">let </span>parsed_attrs = ClapAttr::parse_all(attrs);
         res.infer_kind(<span class="kw-2">&amp;</span>parsed_attrs);
         res.push_attrs(<span class="kw-2">&amp;</span>parsed_attrs);
-        res.push_doc_comment(attrs, <span class="string">&quot;about&quot;</span>, <span class="bool-val">true</span>);
+        res.push_doc_comment(attrs, <span class="string">"about"</span>, <span class="bool-val">true</span>);
 
         res
     }
@@ -1511,7 +1512,7 @@
         <span class="kw">let </span>parsed_attrs = ClapAttr::parse_all(attrs);
         res.infer_kind(<span class="kw-2">&amp;</span>parsed_attrs);
         res.push_attrs(<span class="kw-2">&amp;</span>parsed_attrs);
-        res.push_doc_comment(attrs, <span class="string">&quot;about&quot;</span>, <span class="bool-val">true</span>);
+        res.push_doc_comment(attrs, <span class="string">"about"</span>, <span class="bool-val">true</span>);
 
         res
     }
@@ -1534,7 +1535,7 @@
         </span><span class="kw">if </span>res.has_explicit_methods() {
             <span class="macro">abort!</span>(
                 res.methods[<span class="number">0</span>].name.span(),
-                <span class="string">&quot;{} doesn&#39;t exist for `ValueEnum` enums&quot;</span>,
+                <span class="string">"{} doesn't exist for `ValueEnum` enums"</span>,
                 res.methods[<span class="number">0</span>].name
             );
         }
@@ -1571,7 +1572,7 @@
         res.infer_kind(<span class="kw-2">&amp;</span>parsed_attrs);
         res.push_attrs(<span class="kw-2">&amp;</span>parsed_attrs);
         <span class="kw">if </span><span class="macro">matches!</span>(<span class="kw-2">&amp;*</span>res.kind, Kind::Command(<span class="kw">_</span>)) {
-            res.push_doc_comment(<span class="kw-2">&amp;</span>variant.attrs, <span class="string">&quot;about&quot;</span>, <span class="bool-val">true</span>);
+            res.push_doc_comment(<span class="kw-2">&amp;</span>variant.attrs, <span class="string">"about"</span>, <span class="bool-val">true</span>);
         }
 
         <span class="kw">match </span><span class="kw-2">&amp;*</span>res.kind {
@@ -1579,7 +1580,7 @@
                 <span class="kw">if </span>res.has_explicit_methods() {
                     <span class="macro">abort!</span>(
                         res.kind.span(),
-                        <span class="string">&quot;methods are not allowed for flattened entry&quot;
+                        <span class="string">"methods are not allowed for flattened entry"
                     </span>);
                 }
             }
@@ -1616,7 +1617,7 @@
         res.infer_kind(<span class="kw-2">&amp;</span>parsed_attrs);
         res.push_attrs(<span class="kw-2">&amp;</span>parsed_attrs);
         <span class="kw">if </span><span class="macro">matches!</span>(<span class="kw-2">&amp;*</span>res.kind, Kind::Value) {
-            res.push_doc_comment(<span class="kw-2">&amp;</span>variant.attrs, <span class="string">&quot;help&quot;</span>, <span class="bool-val">false</span>);
+            res.push_doc_comment(<span class="kw-2">&amp;</span>variant.attrs, <span class="string">"help"</span>, <span class="bool-val">false</span>);
         }
 
         res
@@ -1644,7 +1645,7 @@
         res.infer_kind(<span class="kw-2">&amp;</span>parsed_attrs);
         res.push_attrs(<span class="kw-2">&amp;</span>parsed_attrs);
         <span class="kw">if </span><span class="macro">matches!</span>(<span class="kw-2">&amp;*</span>res.kind, Kind::Arg(<span class="kw">_</span>)) {
-            res.push_doc_comment(<span class="kw-2">&amp;</span>field.attrs, <span class="string">&quot;help&quot;</span>, <span class="bool-val">true</span>);
+            res.push_doc_comment(<span class="kw-2">&amp;</span>field.attrs, <span class="string">"help"</span>, <span class="bool-val">true</span>);
         }
 
         <span class="kw">match </span><span class="kw-2">&amp;*</span>res.kind {
@@ -1652,7 +1653,7 @@
                 <span class="kw">if </span>res.has_explicit_methods() {
                     <span class="macro">abort!</span>(
                         res.kind.span(),
-                        <span class="string">&quot;methods are not allowed for flattened entry&quot;
+                        <span class="string">"methods are not allowed for flattened entry"
                     </span>);
                 }
             }
@@ -1661,7 +1662,7 @@
                 <span class="kw">if </span>res.has_explicit_methods() {
                     <span class="macro">abort!</span>(
                         res.kind.span(),
-                        <span class="string">&quot;methods in attributes are not allowed for subcommand&quot;
+                        <span class="string">"methods in attributes are not allowed for subcommand"
                     </span>);
                 }
             }
@@ -1706,15 +1707,15 @@
     }
 
     <span class="kw">fn </span>push_method(<span class="kw-2">&amp;mut </span><span class="self">self</span>, kind: AttrKind, name: Ident, arg: <span class="kw">impl </span>ToTokens) {
-        <span class="kw">if </span>name == <span class="string">&quot;id&quot; </span>{
+        <span class="kw">if </span>name == <span class="string">"id" </span>{
             <span class="kw">match </span>kind {
                 AttrKind::Command | AttrKind::Value =&gt; {
                     <span class="self">self</span>.deprecations.push(Deprecation {
                         span: name.span(),
-                        id: <span class="string">&quot;id_is_only_for_arg&quot;</span>,
-                        version: <span class="string">&quot;4.0.0&quot;</span>,
+                        id: <span class="string">"id_is_only_for_arg"</span>,
+                        version: <span class="string">"4.0.0"</span>,
                         description: <span class="macro">format!</span>(
-                            <span class="string">&quot;`#[{}(id)] was allowed by mistake, instead use `#[{}(name)]`&quot;</span>,
+                            <span class="string">"`#[{}(id)] was allowed by mistake, instead use `#[{}(name)]`"</span>,
                             kind.as_str(),
                             kind.as_str()
                         ),
@@ -1723,15 +1724,15 @@
                 AttrKind::Group | AttrKind::Arg | AttrKind::Clap | AttrKind::StructOpt =&gt; {}
             }
             <span class="self">self</span>.name = Name::Assigned(<span class="macro">quote!</span>(#arg));
-        } <span class="kw">else if </span>name == <span class="string">&quot;name&quot; </span>{
+        } <span class="kw">else if </span>name == <span class="string">"name" </span>{
             <span class="kw">match </span>kind {
                 AttrKind::Arg =&gt; {
                     <span class="self">self</span>.deprecations.push(Deprecation {
                         span: name.span(),
-                        id: <span class="string">&quot;id_is_only_for_arg&quot;</span>,
-                        version: <span class="string">&quot;4.0.0&quot;</span>,
+                        id: <span class="string">"id_is_only_for_arg"</span>,
+                        version: <span class="string">"4.0.0"</span>,
                         description: <span class="macro">format!</span>(
-                            <span class="string">&quot;`#[{}(name)] was allowed by mistake, instead use `#[{}(id)]` or `#[{}(value_name)]`&quot;</span>,
+                            <span class="string">"`#[{}(name)] was allowed by mistake, instead use `#[{}(id)]` or `#[{}(value_name)]`"</span>,
                             kind.as_str(),
                             kind.as_str(),
                             kind.as_str()
@@ -1745,12 +1746,12 @@
                 | AttrKind::StructOpt =&gt; {}
             }
             <span class="self">self</span>.name = Name::Assigned(<span class="macro">quote!</span>(#arg));
-        } <span class="kw">else if </span>name == <span class="string">&quot;value_parser&quot; </span>{
+        } <span class="kw">else if </span>name == <span class="string">"value_parser" </span>{
             <span class="self">self</span>.value_parser = <span class="prelude-val">Some</span>(ValueParser::Explicit(Method::new(name, <span class="macro">quote!</span>(#arg))));
-        } <span class="kw">else if </span>name == <span class="string">&quot;action&quot; </span>{
+        } <span class="kw">else if </span>name == <span class="string">"action" </span>{
             <span class="self">self</span>.action = <span class="prelude-val">Some</span>(Action::Explicit(Method::new(name, <span class="macro">quote!</span>(#arg))));
         } <span class="kw">else </span>{
-            <span class="kw">if </span>name == <span class="string">&quot;short&quot; </span>|| name == <span class="string">&quot;long&quot; </span>{
+            <span class="kw">if </span>name == <span class="string">"short" </span>|| name == <span class="string">"long" </span>{
                 <span class="self">self</span>.is_positional = <span class="bool-val">false</span>;
             }
             <span class="self">self</span>.methods.push(Method::new(name, <span class="macro">quote!</span>(#arg)));
@@ -1768,7 +1769,7 @@
                 <span class="prelude-val">Some</span>(MagicAttrName::FromGlobal) =&gt; {
                     <span class="kw">if </span>attr.value.is_some() {
                         <span class="kw">let </span>expr = attr.value_or_abort();
-                        <span class="macro">abort!</span>(expr, <span class="string">&quot;attribute `{}` does not accept a value&quot;</span>, attr.name);
+                        <span class="macro">abort!</span>(expr, <span class="string">"attribute `{}` does not accept a value"</span>, attr.name);
                     }
                     <span class="kw">let </span>ty = <span class="self">self
                         </span>.kind()
@@ -1781,7 +1782,7 @@
                 <span class="prelude-val">Some</span>(MagicAttrName::Subcommand) <span class="kw">if </span>attr.value.is_none() =&gt; {
                     <span class="kw">if </span>attr.value.is_some() {
                         <span class="kw">let </span>expr = attr.value_or_abort();
-                        <span class="macro">abort!</span>(expr, <span class="string">&quot;attribute `{}` does not accept a value&quot;</span>, attr.name);
+                        <span class="macro">abort!</span>(expr, <span class="string">"attribute `{}` does not accept a value"</span>, attr.name);
                     }
                     <span class="kw">let </span>ty = <span class="self">self
                         </span>.kind()
@@ -1794,7 +1795,7 @@
                 <span class="prelude-val">Some</span>(MagicAttrName::ExternalSubcommand) <span class="kw">if </span>attr.value.is_none() =&gt; {
                     <span class="kw">if </span>attr.value.is_some() {
                         <span class="kw">let </span>expr = attr.value_or_abort();
-                        <span class="macro">abort!</span>(expr, <span class="string">&quot;attribute `{}` does not accept a value&quot;</span>, attr.name);
+                        <span class="macro">abort!</span>(expr, <span class="string">"attribute `{}` does not accept a value"</span>, attr.name);
                     }
                     <span class="kw">let </span>kind = Sp::new(Kind::ExternalSubcommand, attr.name.clone().span());
                     <span class="prelude-val">Some</span>(kind)
@@ -1802,7 +1803,7 @@
                 <span class="prelude-val">Some</span>(MagicAttrName::Flatten) <span class="kw">if </span>attr.value.is_none() =&gt; {
                     <span class="kw">if </span>attr.value.is_some() {
                         <span class="kw">let </span>expr = attr.value_or_abort();
-                        <span class="macro">abort!</span>(expr, <span class="string">&quot;attribute `{}` does not accept a value&quot;</span>, attr.name);
+                        <span class="macro">abort!</span>(expr, <span class="string">"attribute `{}` does not accept a value"</span>, attr.name);
                     }
                     <span class="kw">let </span>kind = Sp::new(Kind::Flatten, attr.name.clone().span());
                     <span class="prelude-val">Some</span>(kind)
@@ -1831,7 +1832,7 @@
             <span class="kw">match </span>(actual_attr_kind, expected_attr_kind) {
                 (AttrKind::Clap, <span class="kw">_</span>) | (AttrKind::StructOpt, <span class="kw">_</span>) =&gt; {
                     <span class="self">self</span>.deprecations.push(Deprecation::attribute(
-                        <span class="string">&quot;4.0.0&quot;</span>,
+                        <span class="string">"4.0.0"</span>,
                         actual_attr_kind,
                         expected_attr_kind,
                         attr.kind.span(),
@@ -1843,7 +1844,7 @@
                 <span class="kw">_ if </span>attr.kind != expected_attr_kind =&gt; {
                     <span class="macro">abort!</span>(
                         attr.kind.span(),
-                        <span class="string">&quot;Expected `{}` attribute instead of `{}`&quot;</span>,
+                        <span class="string">"Expected `{}` attribute instead of `{}`"</span>,
                         expected_attr_kind.as_str(),
                         actual_attr_kind.as_str()
                     );
@@ -1880,9 +1881,9 @@
 
                     <span class="self">self</span>.deprecations.push(Deprecation {
                         span: attr.name.span(),
-                        id: <span class="string">&quot;bare_value_parser&quot;</span>,
-                        version: <span class="string">&quot;4.0.0&quot;</span>,
-                        description: <span class="string">&quot;`#[arg(value_parser)]` is now the default and is no longer needed`&quot;</span>.to_owned(),
+                        id: <span class="string">"bare_value_parser"</span>,
+                        version: <span class="string">"4.0.0"</span>,
+                        description: <span class="string">"`#[arg(value_parser)]` is now the default and is no longer needed`"</span>.to_owned(),
                     });
                     <span class="self">self</span>.value_parser = <span class="prelude-val">Some</span>(ValueParser::Implicit(attr.name.clone()));
                 }
@@ -1892,9 +1893,9 @@
 
                     <span class="self">self</span>.deprecations.push(Deprecation {
                         span: attr.name.span(),
-                        id: <span class="string">&quot;bare_action&quot;</span>,
-                        version: <span class="string">&quot;4.0.0&quot;</span>,
-                        description: <span class="string">&quot;`#[arg(action)]` is now the default and is no longer needed`&quot;</span>.to_owned(),
+                        id: <span class="string">"bare_action"</span>,
+                        version: <span class="string">"4.0.0"</span>,
+                        description: <span class="string">"`#[arg(action)]` is now the default and is no longer needed`"</span>.to_owned(),
                     });
                     <span class="self">self</span>.action = <span class="prelude-val">Some</span>(Action::Implicit(attr.name.clone()));
                 }
@@ -1923,7 +1924,7 @@
                     assert_attr_kind(attr, <span class="kw-2">&amp;</span>[AttrKind::Command]);
 
                     <span class="kw">if let </span><span class="prelude-val">Some</span>(method) =
-                        Method::from_env(attr.name.clone(), <span class="string">&quot;CARGO_PKG_DESCRIPTION&quot;</span>)
+                        Method::from_env(attr.name.clone(), <span class="string">"CARGO_PKG_DESCRIPTION"</span>)
                     {
                         <span class="self">self</span>.methods.push(method);
                     }
@@ -1932,7 +1933,7 @@
                 <span class="prelude-val">Some</span>(MagicAttrName::Author) <span class="kw">if </span>attr.value.is_none() =&gt; {
                     assert_attr_kind(attr, <span class="kw-2">&amp;</span>[AttrKind::Command]);
 
-                    <span class="kw">if let </span><span class="prelude-val">Some</span>(method) = Method::from_env(attr.name.clone(), <span class="string">&quot;CARGO_PKG_AUTHORS&quot;</span>) {
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(method) = Method::from_env(attr.name.clone(), <span class="string">"CARGO_PKG_AUTHORS"</span>) {
                         <span class="self">self</span>.methods.push(method);
                     }
                 }
@@ -1940,7 +1941,7 @@
                 <span class="prelude-val">Some</span>(MagicAttrName::Version) <span class="kw">if </span>attr.value.is_none() =&gt; {
                     assert_attr_kind(attr, <span class="kw-2">&amp;</span>[AttrKind::Command]);
 
-                    <span class="kw">if let </span><span class="prelude-val">Some</span>(method) = Method::from_env(attr.name.clone(), <span class="string">&quot;CARGO_PKG_VERSION&quot;</span>) {
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(method) = Method::from_env(attr.name.clone(), <span class="string">"CARGO_PKG_VERSION"</span>) {
                         <span class="self">self</span>.methods.push(method);
                     }
                 }
@@ -1953,11 +1954,11 @@
                     } <span class="kw">else </span>{
                         <span class="macro">abort!</span>(
                             attr.name.clone(),
-                            <span class="string">&quot;#[arg(default_value_t)] (without an argument) can be used \
-                            only on field level&quot;</span>;
+                            <span class="string">"#[arg(default_value_t)] (without an argument) can be used \
+                            only on field level"</span>;
 
-                            note = <span class="string">&quot;see \
-                                https://github.com/clap-rs/clap/blob/master/examples/derive_ref/README.md#magic-attributes&quot;</span>)
+                            note = <span class="string">"see \
+                                https://github.com/clap-rs/clap/blob/master/examples/derive_ref/README.md#magic-attributes"</span>)
                     };
 
                     <span class="kw">let </span>val = <span class="kw">if let </span><span class="prelude-val">Some</span>(expr) = <span class="kw-2">&amp;</span>attr.value {
@@ -1975,7 +1976,7 @@
                                 <span class="kw">let </span>val: #ty = #val;
                                 clap::ValueEnum::to_possible_value(<span class="kw-2">&amp;</span>val).unwrap().get_name().to_owned()
                             });
-                            <span class="kw">let </span>s: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="kw-2">&amp;*</span>DEFAULT_VALUE;
+                            <span class="kw">let </span>s: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = <span class="kw-2">&amp;*</span>DEFAULT_VALUE;
                             s
                         })
                     } <span class="kw">else </span>{
@@ -1984,12 +1985,12 @@
                                 <span class="kw">let </span>val: #ty = #val;
                                 ::std::string::ToString::to_string(<span class="kw-2">&amp;</span>val)
                             });
-                            <span class="kw">let </span>s: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="kw-2">&amp;*</span>DEFAULT_VALUE;
+                            <span class="kw">let </span>s: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = <span class="kw-2">&amp;*</span>DEFAULT_VALUE;
                             s
                         })
                     };
 
-                    <span class="kw">let </span>raw_ident = Ident::new(<span class="string">&quot;default_value&quot;</span>, attr.name.clone().span());
+                    <span class="kw">let </span>raw_ident = Ident::new(<span class="string">"default_value"</span>, attr.name.clone().span());
                     <span class="self">self</span>.methods.push(Method::new(raw_ident, val));
                 }
 
@@ -2001,11 +2002,11 @@
                     } <span class="kw">else </span>{
                         <span class="macro">abort!</span>(
                             attr.name.clone(),
-                            <span class="string">&quot;#[arg(default_values_t)] (without an argument) can be used \
-                            only on field level&quot;</span>;
+                            <span class="string">"#[arg(default_values_t)] (without an argument) can be used \
+                            only on field level"</span>;
 
-                            note = <span class="string">&quot;see \
-                                https://github.com/clap-rs/clap/blob/master/examples/derive_ref/README.md#magic-attributes&quot;</span>)
+                            note = <span class="string">"see \
+                                https://github.com/clap-rs/clap/blob/master/examples/derive_ref/README.md#magic-attributes"</span>)
                     };
                     <span class="kw">let </span>expr = attr.value_or_abort();
 
@@ -2013,10 +2014,10 @@
                     <span class="kw">if </span><span class="kw-2">*</span>container_type != Ty::Vec {
                         <span class="macro">abort!</span>(
                             attr.name.clone(),
-                            <span class="string">&quot;#[arg(default_values_t)] can be used only on Vec types&quot;</span>;
+                            <span class="string">"#[arg(default_values_t)] can be used only on Vec types"</span>;
 
-                            note = <span class="string">&quot;see \
-                                https://github.com/clap-rs/clap/blob/master/examples/derive_ref/README.md#magic-attributes&quot;</span>)
+                            note = <span class="string">"see \
+                                https://github.com/clap-rs/clap/blob/master/examples/derive_ref/README.md#magic-attributes"</span>)
                     }
                     <span class="kw">let </span>inner_type = inner_type(ty);
 
@@ -2072,7 +2073,7 @@
                     };
 
                     <span class="self">self</span>.methods.push(Method::new(
-                        Ident::new(<span class="string">&quot;default_values&quot;</span>, attr.name.clone().span()),
+                        Ident::new(<span class="string">"default_values"</span>, attr.name.clone().span()),
                         val,
                     ));
                 }
@@ -2085,11 +2086,11 @@
                     } <span class="kw">else </span>{
                         <span class="macro">abort!</span>(
                             attr.name.clone(),
-                            <span class="string">&quot;#[arg(default_value_os_t)] (without an argument) can be used \
-                            only on field level&quot;</span>;
+                            <span class="string">"#[arg(default_value_os_t)] (without an argument) can be used \
+                            only on field level"</span>;
 
-                            note = <span class="string">&quot;see \
-                                https://github.com/clap-rs/clap/blob/master/examples/derive_ref/README.md#magic-attributes&quot;</span>)
+                            note = <span class="string">"see \
+                                https://github.com/clap-rs/clap/blob/master/examples/derive_ref/README.md#magic-attributes"</span>)
                     };
 
                     <span class="kw">let </span>val = <span class="kw">if let </span><span class="prelude-val">Some</span>(expr) = <span class="kw-2">&amp;</span>attr.value {
@@ -2107,7 +2108,7 @@
                                 <span class="kw">let </span>val: #ty = #val;
                                 clap::ValueEnum::to_possible_value(<span class="kw-2">&amp;</span>val).unwrap().get_name().to_owned()
                             });
-                            <span class="kw">let </span>s: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>::std::ffi::OsStr = <span class="kw-2">&amp;*</span>DEFAULT_VALUE;
+                            <span class="kw">let </span>s: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>::std::ffi::OsStr = <span class="kw-2">&amp;*</span>DEFAULT_VALUE;
                             s
                         })
                     } <span class="kw">else </span>{
@@ -2116,12 +2117,12 @@
                                 <span class="kw">let </span>val: #ty = #val;
                                 ::std::ffi::OsString::from(val)
                             });
-                            <span class="kw">let </span>s: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>::std::ffi::OsStr = <span class="kw-2">&amp;*</span>DEFAULT_VALUE;
+                            <span class="kw">let </span>s: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>::std::ffi::OsStr = <span class="kw-2">&amp;*</span>DEFAULT_VALUE;
                             s
                         })
                     };
 
-                    <span class="kw">let </span>raw_ident = Ident::new(<span class="string">&quot;default_value&quot;</span>, attr.name.clone().span());
+                    <span class="kw">let </span>raw_ident = Ident::new(<span class="string">"default_value"</span>, attr.name.clone().span());
                     <span class="self">self</span>.methods.push(Method::new(raw_ident, val));
                 }
 
@@ -2133,11 +2134,11 @@
                     } <span class="kw">else </span>{
                         <span class="macro">abort!</span>(
                             attr.name.clone(),
-                            <span class="string">&quot;#[arg(default_values_os_t)] (without an argument) can be used \
-                            only on field level&quot;</span>;
+                            <span class="string">"#[arg(default_values_os_t)] (without an argument) can be used \
+                            only on field level"</span>;
 
-                            note = <span class="string">&quot;see \
-                                https://github.com/clap-rs/clap/blob/master/examples/derive_ref/README.md#magic-attributes&quot;</span>)
+                            note = <span class="string">"see \
+                                https://github.com/clap-rs/clap/blob/master/examples/derive_ref/README.md#magic-attributes"</span>)
                     };
                     <span class="kw">let </span>expr = attr.value_or_abort();
 
@@ -2145,10 +2146,10 @@
                     <span class="kw">if </span><span class="kw-2">*</span>container_type != Ty::Vec {
                         <span class="macro">abort!</span>(
                             attr.name.clone(),
-                            <span class="string">&quot;#[arg(default_values_os_t)] can be used only on Vec types&quot;</span>;
+                            <span class="string">"#[arg(default_values_os_t)] can be used only on Vec types"</span>;
 
-                            note = <span class="string">&quot;see \
-                                https://github.com/clap-rs/clap/blob/master/examples/derive_ref/README.md#magic-attributes&quot;</span>)
+                            note = <span class="string">"see \
+                                https://github.com/clap-rs/clap/blob/master/examples/derive_ref/README.md#magic-attributes"</span>)
                     }
                     <span class="kw">let </span>inner_type = inner_type(ty);
 
@@ -2204,7 +2205,7 @@
                     };
 
                     <span class="self">self</span>.methods.push(Method::new(
-                        Ident::new(<span class="string">&quot;default_values&quot;</span>, attr.name.clone().span()),
+                        Ident::new(<span class="string">"default_values"</span>, attr.name.clone().span()),
                         val,
                     ));
                 }
@@ -2262,7 +2263,7 @@
                 </span><span class="prelude-val">Some</span>(MagicAttrName::ValueEnum)
                 | <span class="prelude-val">Some</span>(MagicAttrName::VerbatimDocComment) =&gt; {
                     <span class="kw">let </span>expr = attr.value_or_abort();
-                    <span class="macro">abort!</span>(expr, <span class="string">&quot;attribute `{}` does not accept a value&quot;</span>, attr.name);
+                    <span class="macro">abort!</span>(expr, <span class="string">"attribute `{}` does not accept a value"</span>, attr.name);
                 }
 
                 <span class="comment">// Kinds
@@ -2279,7 +2280,7 @@
             <span class="kw">if let </span>Kind::Skip(<span class="kw">_</span>, attr) = <span class="kw-2">&amp;*</span><span class="self">self</span>.kind {
                 <span class="macro">abort!</span>(
                     <span class="self">self</span>.methods[<span class="number">0</span>].name.span(),
-                    <span class="string">&quot;`{}` cannot be used with `#[{}(skip)]&quot;</span>,
+                    <span class="string">"`{}` cannot be used with `#[{}(skip)]"</span>,
                     <span class="self">self</span>.methods[<span class="number">0</span>].name,
                     attr.as_str(),
                 );
@@ -2287,7 +2288,7 @@
             <span class="kw">if let </span>Kind::FromGlobal(<span class="kw">_</span>) = <span class="kw-2">&amp;*</span><span class="self">self</span>.kind {
                 <span class="macro">abort!</span>(
                     <span class="self">self</span>.methods[<span class="number">0</span>].name.span(),
-                    <span class="string">&quot;`{}` cannot be used with `#[arg(from_global)]&quot;</span>,
+                    <span class="string">"`{}` cannot be used with `#[arg(from_global)]"</span>,
                     <span class="self">self</span>.methods[<span class="number">0</span>].name,
                 );
             }
@@ -2300,12 +2301,12 @@
 
         <span class="kw">let </span>comment_parts: Vec&lt;<span class="kw">_</span>&gt; = attrs
             .iter()
-            .filter(|attr| attr.path.is_ident(<span class="string">&quot;doc&quot;</span>))
+            .filter(|attr| attr.path.is_ident(<span class="string">"doc"</span>))
             .filter_map(|attr| {
                 <span class="kw">if let </span><span class="prelude-val">Ok</span>(NameValue(MetaNameValue { lit: Str(s), .. })) = attr.parse_meta() {
                     <span class="prelude-val">Some</span>(s.value())
                 } <span class="kw">else </span>{
-                    <span class="comment">// non #[doc = &quot;...&quot;] attributes are not our concern
+                    <span class="comment">// non #[doc = "..."] attributes are not our concern
                     // we leave them for rustc to handle
                     </span><span class="prelude-val">None
                 </span>}
@@ -2336,7 +2337,7 @@
             (<span class="kw">_</span>, <span class="kw">_</span>) =&gt; {
                 <span class="kw">let </span>old = <span class="self">self</span>.kind.name();
                 <span class="kw">let </span>new = kind.name();
-                <span class="macro">abort!</span>(kind.span(), <span class="string">&quot;`{}` cannot be used with `{}`&quot;</span>, new, old);
+                <span class="macro">abort!</span>(kind.span(), <span class="string">"`{}` cannot be used with `{}`"</span>, new, old);
             }
         }
     }
@@ -2344,7 +2345,7 @@
     <span class="kw">pub fn </span>find_default_method(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Method&gt; {
         <span class="self">self</span>.methods
             .iter()
-            .find(|m| m.name == <span class="string">&quot;default_value&quot; </span>|| m.name == <span class="string">&quot;default_value_os&quot;</span>)
+            .find(|m| m.name == <span class="string">"default_value" </span>|| m.name == <span class="string">"default_value_os"</span>)
     }
 
     <span class="doccomment">/// generate methods from attributes on top of struct or enum
@@ -2463,7 +2464,7 @@
     <span class="kw">pub fn </span>has_explicit_methods(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.methods
             .iter()
-            .any(|m| m.name != <span class="string">&quot;help&quot; </span>&amp;&amp; m.name != <span class="string">&quot;long_help&quot;</span>)
+            .any(|m| m.name != <span class="string">"help" </span>&amp;&amp; m.name != <span class="string">"long_help"</span>)
     }
 
     <span class="kw">pub fn </span>skip_group(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
@@ -2494,7 +2495,7 @@
 }
 
 <span class="kw">fn </span>default_value_parser(inner_type: <span class="kw-2">&amp;</span>Type, span: Span) -&gt; Method {
-    <span class="kw">let </span>func = Ident::new(<span class="string">&quot;value_parser&quot;</span>, span);
+    <span class="kw">let </span>func = Ident::new(<span class="string">"value_parser"</span>, span);
     Method::new(
         func,
         <span class="macro">quote_spanned! </span>{ span=&gt;
@@ -2539,7 +2540,7 @@
             }
         }
         <span class="kw">_ </span>=&gt; {
-            <span class="kw">if </span>is_simple_ty(field_type, <span class="string">&quot;bool&quot;</span>) {
+            <span class="kw">if </span>is_simple_ty(field_type, <span class="string">"bool"</span>) {
                 <span class="macro">quote_spanned! </span>{ span=&gt;
                     clap::ArgAction::SetTrue
                 }
@@ -2551,7 +2552,7 @@
         }
     };
 
-    <span class="kw">let </span>func = Ident::new(<span class="string">&quot;action&quot;</span>, span);
+    <span class="kw">let </span>func = Ident::new(<span class="string">"action"</span>, span);
     Method::new(func, args)
 }
 
@@ -2569,16 +2570,16 @@
 }
 
 <span class="kw">impl </span>Kind {
-    <span class="kw">pub fn </span>name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str {
+    <span class="kw">pub fn </span>name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
         <span class="kw">match </span><span class="self">self </span>{
-            <span class="self">Self</span>::Arg(<span class="kw">_</span>) =&gt; <span class="string">&quot;arg&quot;</span>,
-            <span class="self">Self</span>::Command(<span class="kw">_</span>) =&gt; <span class="string">&quot;command&quot;</span>,
-            <span class="self">Self</span>::Value =&gt; <span class="string">&quot;value&quot;</span>,
-            <span class="self">Self</span>::FromGlobal(<span class="kw">_</span>) =&gt; <span class="string">&quot;from_global&quot;</span>,
-            <span class="self">Self</span>::Subcommand(<span class="kw">_</span>) =&gt; <span class="string">&quot;subcommand&quot;</span>,
-            <span class="self">Self</span>::Flatten =&gt; <span class="string">&quot;flatten&quot;</span>,
-            <span class="self">Self</span>::Skip(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; <span class="string">&quot;skip&quot;</span>,
-            <span class="self">Self</span>::ExternalSubcommand =&gt; <span class="string">&quot;external_subcommand&quot;</span>,
+            <span class="self">Self</span>::Arg(<span class="kw">_</span>) =&gt; <span class="string">"arg"</span>,
+            <span class="self">Self</span>::Command(<span class="kw">_</span>) =&gt; <span class="string">"command"</span>,
+            <span class="self">Self</span>::Value =&gt; <span class="string">"value"</span>,
+            <span class="self">Self</span>::FromGlobal(<span class="kw">_</span>) =&gt; <span class="string">"from_global"</span>,
+            <span class="self">Self</span>::Subcommand(<span class="kw">_</span>) =&gt; <span class="string">"subcommand"</span>,
+            <span class="self">Self</span>::Flatten =&gt; <span class="string">"flatten"</span>,
+            <span class="self">Self</span>::Skip(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; <span class="string">"skip"</span>,
+            <span class="self">Self</span>::ExternalSubcommand =&gt; <span class="string">"external_subcommand"</span>,
         }
     }
 
@@ -2626,14 +2627,14 @@
             }
             <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; {
                 <span class="macro">abort!</span>(ident,
-                    <span class="string">&quot;cannot derive `{}` from Cargo.toml&quot;</span>, ident;
-                    note = <span class="string">&quot;`{}` environment variable is not set&quot;</span>, env_var;
-                    help = <span class="string">&quot;use `{} = \&quot;...\&quot;` to set {} manually&quot;</span>, ident, ident;
+                    <span class="string">"cannot derive `{}` from Cargo.toml"</span>, ident;
+                    note = <span class="string">"`{}` environment variable is not set"</span>, env_var;
+                    help = <span class="string">"use `{} = \"...\"` to set {} manually"</span>, ident, ident;
                 );
             }
         };
 
-        <span class="kw">if </span>ident == <span class="string">&quot;author&quot; </span>{
+        <span class="kw">if </span>ident == <span class="string">"author" </span>{
             <span class="kw">let </span>edited = process_author_str(<span class="kw-2">&amp;</span>lit.value());
             lit = LitStr::new(<span class="kw-2">&amp;</span>edited, lit.span());
         }
@@ -2659,19 +2660,19 @@
 <span class="attr">#[derive(Clone)]
 </span><span class="kw">pub struct </span>Deprecation {
     <span class="kw">pub </span>span: Span,
-    <span class="kw">pub </span>id: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
-    <span class="kw">pub </span>version: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+    <span class="kw">pub </span>id: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
+    <span class="kw">pub </span>version: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
     <span class="kw">pub </span>description: String,
 }
 
 <span class="kw">impl </span>Deprecation {
-    <span class="kw">fn </span>attribute(version: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str, old: AttrKind, new: AttrKind, span: Span) -&gt; <span class="self">Self </span>{
+    <span class="kw">fn </span>attribute(version: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str, old: AttrKind, new: AttrKind, span: Span) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             span,
-            id: <span class="string">&quot;old_attribute&quot;</span>,
+            id: <span class="string">"old_attribute"</span>,
             version,
             description: <span class="macro">format!</span>(
-                <span class="string">&quot;Attribute `#[{}(...)]` has been deprecated in favor of `#[{}(...)]`&quot;</span>,
+                <span class="string">"Attribute `#[{}(...)]` has been deprecated in favor of `#[{}(...)]`"</span>,
                 old.as_str(),
                 new.as_str()
             ),
@@ -2681,7 +2682,7 @@
 
 <span class="kw">impl </span>ToTokens <span class="kw">for </span>Deprecation {
     <span class="kw">fn </span>to_tokens(<span class="kw-2">&amp;</span><span class="self">self</span>, ts: <span class="kw-2">&amp;mut </span>proc_macro2::TokenStream) {
-        <span class="kw">let </span>tokens = <span class="kw">if </span><span class="macro">cfg!</span>(feature = <span class="string">&quot;deprecated&quot;</span>) {
+        <span class="kw">let </span>tokens = <span class="kw">if </span><span class="macro">cfg!</span>(feature = <span class="string">"deprecated"</span>) {
             <span class="kw">let </span>Deprecation {
                 span,
                 id,
@@ -2710,35 +2711,35 @@
     </span>} <span class="kw">else if </span>!possible_kind.contains(attr.kind.get()) {
         <span class="kw">let </span>options = possible_kind
             .iter()
-            .map(|k| <span class="macro">format!</span>(<span class="string">&quot;`#[{}({})]`&quot;</span>, k.as_str(), attr.name))
+            .map(|k| <span class="macro">format!</span>(<span class="string">"`#[{}({})]`"</span>, k.as_str(), attr.name))
             .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">abort!</span>(
             attr.name,
-            <span class="string">&quot;Unknown `#[{}({})]` attribute ({} exists)&quot;</span>,
+            <span class="string">"Unknown `#[{}({})]` attribute ({} exists)"</span>,
             attr.kind.as_str(),
             attr.name,
-            options.join(<span class="string">&quot;, &quot;</span>)
+            options.join(<span class="string">", "</span>)
         );
     }
 }
 
 <span class="doccomment">/// replace all `:` with `, ` when not inside the `&lt;&gt;`
 ///
-/// `&quot;author1:author2:author3&quot; =&gt; &quot;author1, author2, author3&quot;`
-/// `&quot;author1 &lt;http://website1.com&gt;:author2&quot; =&gt; &quot;author1 &lt;http://website1.com&gt;, author2&quot;
+/// `"author1:author2:author3" =&gt; "author1, author2, author3"`
+/// `"author1 &lt;http://website1.com&gt;:author2" =&gt; "author1 &lt;http://website1.com&gt;, author2"
 </span><span class="kw">fn </span>process_author_str(author: <span class="kw-2">&amp;</span>str) -&gt; String {
     <span class="kw">let </span><span class="kw-2">mut </span>res = String::with_capacity(author.len());
     <span class="kw">let </span><span class="kw-2">mut </span>inside_angle_braces = <span class="number">0usize</span>;
 
     <span class="kw">for </span>ch <span class="kw">in </span>author.chars() {
-        <span class="kw">if </span>inside_angle_braces &gt; <span class="number">0 </span>&amp;&amp; ch == <span class="string">&#39;&gt;&#39; </span>{
+        <span class="kw">if </span>inside_angle_braces &gt; <span class="number">0 </span>&amp;&amp; ch == <span class="string">'&gt;' </span>{
             inside_angle_braces -= <span class="number">1</span>;
             res.push(ch);
-        } <span class="kw">else if </span>ch == <span class="string">&#39;&lt;&#39; </span>{
+        } <span class="kw">else if </span>ch == <span class="string">'&lt;' </span>{
             inside_angle_braces += <span class="number">1</span>;
             res.push(ch);
-        } <span class="kw">else if </span>inside_angle_braces == <span class="number">0 </span>&amp;&amp; ch == <span class="string">&#39;:&#39; </span>{
-            res.push_str(<span class="string">&quot;, &quot;</span>);
+        } <span class="kw">else if </span>inside_angle_braces == <span class="number">0 </span>&amp;&amp; ch == <span class="string">':' </span>{
+            res.push_str(<span class="string">", "</span>);
         } <span class="kw">else </span>{
             res.push(ch);
         }
@@ -2776,15 +2777,15 @@
         <span class="kw">let </span>cs = |kind| Sp::new(kind, name.span());
 
         <span class="kw">match </span>normalized.as_ref() {
-            <span class="string">&quot;camel&quot; </span>| <span class="string">&quot;camelcase&quot; </span>=&gt; cs(Camel),
-            <span class="string">&quot;kebab&quot; </span>| <span class="string">&quot;kebabcase&quot; </span>=&gt; cs(Kebab),
-            <span class="string">&quot;pascal&quot; </span>| <span class="string">&quot;pascalcase&quot; </span>=&gt; cs(Pascal),
-            <span class="string">&quot;screamingsnake&quot; </span>| <span class="string">&quot;screamingsnakecase&quot; </span>=&gt; cs(ScreamingSnake),
-            <span class="string">&quot;snake&quot; </span>| <span class="string">&quot;snakecase&quot; </span>=&gt; cs(Snake),
-            <span class="string">&quot;lower&quot; </span>| <span class="string">&quot;lowercase&quot; </span>=&gt; cs(Lower),
-            <span class="string">&quot;upper&quot; </span>| <span class="string">&quot;uppercase&quot; </span>=&gt; cs(Upper),
-            <span class="string">&quot;verbatim&quot; </span>| <span class="string">&quot;verbatimcase&quot; </span>=&gt; cs(Verbatim),
-            s =&gt; <span class="macro">abort!</span>(name, <span class="string">&quot;unsupported casing: `{}`&quot;</span>, s),
+            <span class="string">"camel" </span>| <span class="string">"camelcase" </span>=&gt; cs(Camel),
+            <span class="string">"kebab" </span>| <span class="string">"kebabcase" </span>=&gt; cs(Kebab),
+            <span class="string">"pascal" </span>| <span class="string">"pascalcase" </span>=&gt; cs(Pascal),
+            <span class="string">"screamingsnake" </span>| <span class="string">"screamingsnakecase" </span>=&gt; cs(ScreamingSnake),
+            <span class="string">"snake" </span>| <span class="string">"snakecase" </span>=&gt; cs(Snake),
+            <span class="string">"lower" </span>| <span class="string">"lowercase" </span>=&gt; cs(Lower),
+            <span class="string">"upper" </span>| <span class="string">"uppercase" </span>=&gt; cs(Upper),
+            <span class="string">"verbatim" </span>| <span class="string">"verbatimcase" </span>=&gt; cs(Verbatim),
+            s =&gt; <span class="macro">abort!</span>(name, <span class="string">"unsupported casing: `{}`"</span>, s),
         }
     }
 }
@@ -2819,8 +2820,8 @@
                     Camel =&gt; s.to_lower_camel_case(),
                     ScreamingSnake =&gt; s.to_shouty_snake_case(),
                     Snake =&gt; s.to_snake_case(),
-                    Lower =&gt; s.to_snake_case().replace(<span class="string">&#39;_&#39;</span>, <span class="string">&quot;&quot;</span>),
-                    Upper =&gt; s.to_shouty_snake_case().replace(<span class="string">&#39;_&#39;</span>, <span class="string">&quot;&quot;</span>),
+                    Lower =&gt; s.to_snake_case().replace(<span class="string">'_'</span>, <span class="string">""</span>),
+                    Upper =&gt; s.to_shouty_snake_case().replace(<span class="string">'_'</span>, <span class="string">""</span>),
                     Verbatim =&gt; s,
                 };
                 <span class="macro">quote_spanned!</span>(ident.span()=&gt; #s)

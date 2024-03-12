@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/clap-4.0.8/src/builder/arg_group.rs`."><title>arg_group.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="clap" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0 (cc66ad468 2023-10-03)" data-channel="1.73.0" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-1596385f77d47ef2.css" data-theme-dark-css="dark-0a43001d3fc2282c.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-1596385f77d47ef2.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-0a43001d3fc2282c.css"><link rel="stylesheet" href="../../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../clap/index.html"><img src="https://raw.githubusercontent.com/clap-rs/clap/master/assets/clap.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/clap-4.0.8/src/builder/arg_group.rs`."><title>arg_group.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-ac92e1bbe349e143.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="clap" data-themes="" data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../../static.files/src-script-39ed315d46fb705f.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><a class="sub-logo-container" href="../../../clap/index.html"><img src="https://raw.githubusercontent.com/clap-rs/clap/master/assets/clap.png" alt="clap"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -547,7 +548,7 @@
 ///
 /// By placing arguments in a logical group, you can create easier requirement and
 /// exclusion rules instead of having to list each argument individually, or when you want a rule
-/// to apply &quot;any but not all&quot; arguments.
+/// to apply "any but not all" arguments.
 ///
 /// For instance, you can make an entire `ArgGroup` required. If [`ArgGroup::multiple(true)`] is
 /// set, this means that at least one argument from that group must be present. If
@@ -559,15 +560,15 @@
 ///
 /// Perhaps the most common use of `ArgGroup`s is to require one and *only* one argument to be
 /// present out of a given set. Imagine that you had multiple arguments, and you want one of them
-/// to be required, but making all of them required isn&#39;t feasible because perhaps they conflict
+/// to be required, but making all of them required isn't feasible because perhaps they conflict
 /// with each other. For example, lets say that you were building an application where one could
 /// set a given version number by supplying a string with an option argument, i.e.
 /// `--set-ver v1.2.3`, you also wanted to support automatically using a previous version number
 /// and simply incrementing one of the three numbers. So you create three flags `--major`,
-/// `--minor`, and `--patch`. All of these arguments shouldn&#39;t be used at one time but you want to
+/// `--minor`, and `--patch`. All of these arguments shouldn't be used at one time but you want to
 /// specify that *at least one* of them is used. For this, you can create a group.
 ///
-/// Finally, you may use `ArgGroup`s to pull a value from a group of arguments when you don&#39;t care
+/// Finally, you may use `ArgGroup`s to pull a value from a group of arguments when you don't care
 /// exactly which argument was actually used at runtime.
 ///
 /// # Examples
@@ -577,16 +578,16 @@
 ///
 /// ```rust
 /// # use clap::{Command, arg, ArgGroup, error::ErrorKind};
-/// let result = Command::new(&quot;cmd&quot;)
-///     .arg(arg!(--&quot;set-ver&quot; &lt;ver&gt; &quot;set the version manually&quot;))
-///     .arg(arg!(--major           &quot;auto increase major&quot;))
-///     .arg(arg!(--minor           &quot;auto increase minor&quot;))
-///     .arg(arg!(--patch           &quot;auto increase patch&quot;))
-///     .group(ArgGroup::new(&quot;vers&quot;)
-///          .args([&quot;set-ver&quot;, &quot;major&quot;, &quot;minor&quot;, &quot;patch&quot;])
+/// let result = Command::new("cmd")
+///     .arg(arg!(--"set-ver" &lt;ver&gt; "set the version manually"))
+///     .arg(arg!(--major           "auto increase major"))
+///     .arg(arg!(--minor           "auto increase minor"))
+///     .arg(arg!(--patch           "auto increase patch"))
+///     .group(ArgGroup::new("vers")
+///          .args(["set-ver", "major", "minor", "patch"])
 ///          .required(true))
-///     .try_get_matches_from(vec![&quot;cmd&quot;, &quot;--major&quot;, &quot;--patch&quot;]);
-/// // Because we used two args in the group it&#39;s an error
+///     .try_get_matches_from(vec!["cmd", "--major", "--patch"]);
+/// // Because we used two args in the group it's an error
 /// assert!(result.is_err());
 /// let err = result.unwrap_err();
 /// assert_eq!(err.kind(), ErrorKind::ArgumentConflict);
@@ -595,25 +596,25 @@
 /// This next example shows a passing parse of the same scenario
 /// ```rust
 /// # use clap::{Command, arg, ArgGroup, Id};
-/// let result = Command::new(&quot;cmd&quot;)
-///     .arg(arg!(--&quot;set-ver&quot; &lt;ver&gt; &quot;set the version manually&quot;))
-///     .arg(arg!(--major           &quot;auto increase major&quot;))
-///     .arg(arg!(--minor           &quot;auto increase minor&quot;))
-///     .arg(arg!(--patch           &quot;auto increase patch&quot;))
-///     .group(ArgGroup::new(&quot;vers&quot;)
-///          .args([&quot;set-ver&quot;, &quot;major&quot;, &quot;minor&quot;,&quot;patch&quot;])
+/// let result = Command::new("cmd")
+///     .arg(arg!(--"set-ver" &lt;ver&gt; "set the version manually"))
+///     .arg(arg!(--major           "auto increase major"))
+///     .arg(arg!(--minor           "auto increase minor"))
+///     .arg(arg!(--patch           "auto increase patch"))
+///     .group(ArgGroup::new("vers")
+///          .args(["set-ver", "major", "minor","patch"])
 ///          .required(true))
-///     .try_get_matches_from(vec![&quot;cmd&quot;, &quot;--major&quot;]);
+///     .try_get_matches_from(vec!["cmd", "--major"]);
 /// assert!(result.is_ok());
 /// let matches = result.unwrap();
 /// // We may not know which of the args was used, so we can test for the group...
-/// assert!(matches.contains_id(&quot;vers&quot;));
+/// assert!(matches.contains_id("vers"));
 /// // We can also ask the group which arg was used
 /// assert_eq!(matches
-///     .get_one::&lt;Id&gt;(&quot;vers&quot;)
-///     .expect(&quot;`vers` is required&quot;)
+///     .get_one::&lt;Id&gt;("vers")
+///     .expect("`vers` is required")
 ///     .as_str(),
-///     &quot;major&quot;
+///     "major"
 /// );
 /// // we could also alternatively check each arg individually (not shown here)
 /// ```
@@ -644,7 +645,7 @@
     ///
     /// ```rust
     /// # use clap::{Command, ArgGroup};
-    /// ArgGroup::new(&quot;config&quot;)
+    /// ArgGroup::new("config")
     /// # ;
     /// ```
     </span><span class="kw">pub fn </span>new(id: <span class="kw">impl </span>Into&lt;Id&gt;) -&gt; <span class="self">Self </span>{
@@ -657,7 +658,7 @@
     ///
     /// ```rust
     /// # use clap::{Command, ArgGroup};
-    /// ArgGroup::default().id(&quot;config&quot;)
+    /// ArgGroup::default().id("config")
     /// # ;
     /// ```
     </span><span class="attr">#[must_use]
@@ -672,21 +673,21 @@
     ///
     /// ```rust
     /// # use clap::{Command, Arg, ArgGroup, ArgAction};
-    /// let m = Command::new(&quot;myprog&quot;)
-    ///     .arg(Arg::new(&quot;flag&quot;)
-    ///         .short(&#39;f&#39;)
+    /// let m = Command::new("myprog")
+    ///     .arg(Arg::new("flag")
+    ///         .short('f')
     ///         .action(ArgAction::SetTrue))
-    ///     .arg(Arg::new(&quot;color&quot;)
-    ///         .short(&#39;c&#39;)
+    ///     .arg(Arg::new("color")
+    ///         .short('c')
     ///         .action(ArgAction::SetTrue))
-    ///     .group(ArgGroup::new(&quot;req_flags&quot;)
-    ///         .arg(&quot;flag&quot;)
-    ///         .arg(&quot;color&quot;))
-    ///     .get_matches_from(vec![&quot;myprog&quot;, &quot;-f&quot;]);
-    /// // maybe we don&#39;t know which of the two flags was used...
-    /// assert!(m.contains_id(&quot;req_flags&quot;));
+    ///     .group(ArgGroup::new("req_flags")
+    ///         .arg("flag")
+    ///         .arg("color"))
+    ///     .get_matches_from(vec!["myprog", "-f"]);
+    /// // maybe we don't know which of the two flags was used...
+    /// assert!(m.contains_id("req_flags"));
     /// // but we can also check individually if needed
-    /// assert!(m.contains_id(&quot;flag&quot;));
+    /// assert!(m.contains_id("flag"));
     /// ```
     /// [argument]: crate::Arg
     </span><span class="attr">#[must_use]
@@ -705,20 +706,20 @@
     ///
     /// ```rust
     /// # use clap::{Command, Arg, ArgGroup, ArgAction};
-    /// let m = Command::new(&quot;myprog&quot;)
-    ///     .arg(Arg::new(&quot;flag&quot;)
-    ///         .short(&#39;f&#39;)
+    /// let m = Command::new("myprog")
+    ///     .arg(Arg::new("flag")
+    ///         .short('f')
     ///         .action(ArgAction::SetTrue))
-    ///     .arg(Arg::new(&quot;color&quot;)
-    ///         .short(&#39;c&#39;)
+    ///     .arg(Arg::new("color")
+    ///         .short('c')
     ///         .action(ArgAction::SetTrue))
-    ///     .group(ArgGroup::new(&quot;req_flags&quot;)
-    ///         .args([&quot;flag&quot;, &quot;color&quot;]))
-    ///     .get_matches_from(vec![&quot;myprog&quot;, &quot;-f&quot;]);
-    /// // maybe we don&#39;t know which of the two flags was used...
-    /// assert!(m.contains_id(&quot;req_flags&quot;));
+    ///     .group(ArgGroup::new("req_flags")
+    ///         .args(["flag", "color"]))
+    ///     .get_matches_from(vec!["myprog", "-f"]);
+    /// // maybe we don't know which of the two flags was used...
+    /// assert!(m.contains_id("req_flags"));
     /// // but we can also check individually if needed
-    /// assert!(m.contains_id(&quot;flag&quot;));
+    /// assert!(m.contains_id("flag"));
     /// ```
     /// [arguments]: crate::Arg
     </span><span class="attr">#[must_use]
@@ -738,36 +739,36 @@
     ///
     /// ```rust
     /// # use clap::{Command, Arg, ArgGroup, ArgAction};
-    /// let m = Command::new(&quot;myprog&quot;)
-    ///     .arg(Arg::new(&quot;flag&quot;)
-    ///         .short(&#39;f&#39;)
+    /// let m = Command::new("myprog")
+    ///     .arg(Arg::new("flag")
+    ///         .short('f')
     ///         .action(ArgAction::SetTrue))
-    ///     .arg(Arg::new(&quot;color&quot;)
-    ///         .short(&#39;c&#39;)
+    ///     .arg(Arg::new("color")
+    ///         .short('c')
     ///         .action(ArgAction::SetTrue))
-    ///     .group(ArgGroup::new(&quot;req_flags&quot;)
-    ///         .args([&quot;flag&quot;, &quot;color&quot;])
+    ///     .group(ArgGroup::new("req_flags")
+    ///         .args(["flag", "color"])
     ///         .multiple(true))
-    ///     .get_matches_from(vec![&quot;myprog&quot;, &quot;-f&quot;, &quot;-c&quot;]);
-    /// // maybe we don&#39;t know which of the two flags was used...
-    /// assert!(m.contains_id(&quot;req_flags&quot;));
+    ///     .get_matches_from(vec!["myprog", "-f", "-c"]);
+    /// // maybe we don't know which of the two flags was used...
+    /// assert!(m.contains_id("req_flags"));
     /// ```
     /// In this next example, we show the default behavior (i.e. `multiple(false)) which will throw
     /// an error if more than one of the args in the group was used.
     ///
     /// ```rust
     /// # use clap::{Command, Arg, ArgGroup, error::ErrorKind, ArgAction};
-    /// let result = Command::new(&quot;myprog&quot;)
-    ///     .arg(Arg::new(&quot;flag&quot;)
-    ///         .short(&#39;f&#39;)
+    /// let result = Command::new("myprog")
+    ///     .arg(Arg::new("flag")
+    ///         .short('f')
     ///         .action(ArgAction::SetTrue))
-    ///     .arg(Arg::new(&quot;color&quot;)
-    ///         .short(&#39;c&#39;)
+    ///     .arg(Arg::new("color")
+    ///         .short('c')
     ///         .action(ArgAction::SetTrue))
-    ///     .group(ArgGroup::new(&quot;req_flags&quot;)
-    ///         .args([&quot;flag&quot;, &quot;color&quot;]))
-    ///     .try_get_matches_from(vec![&quot;myprog&quot;, &quot;-f&quot;, &quot;-c&quot;]);
-    /// // Because we used both args in the group it&#39;s an error
+    ///     .group(ArgGroup::new("req_flags")
+    ///         .args(["flag", "color"]))
+    ///     .try_get_matches_from(vec!["myprog", "-f", "-c"]);
+    /// // Because we used both args in the group it's an error
     /// assert!(result.is_err());
     /// let err = result.unwrap_err();
     /// assert_eq!(err.kind(), ErrorKind::ArgumentConflict);
@@ -790,26 +791,26 @@
     /// globally.
     ///
     /// **NOTE:** By default, [`ArgGroup::multiple`] is set to `false` which when combined with
-    /// `ArgGroup::required(true)` states, &quot;One and *only one* arg must be used from this group.
-    /// Use of more than one arg is an error.&quot; Vice setting `ArgGroup::multiple(true)` which
-    /// states, &#39;*At least* one arg from this group must be used. Using multiple is OK.&quot;
+    /// `ArgGroup::required(true)` states, "One and *only one* arg must be used from this group.
+    /// Use of more than one arg is an error." Vice setting `ArgGroup::multiple(true)` which
+    /// states, '*At least* one arg from this group must be used. Using multiple is OK."
     ///
     /// # Examples
     ///
     /// ```rust
     /// # use clap::{Command, Arg, ArgGroup, error::ErrorKind, ArgAction};
-    /// let result = Command::new(&quot;myprog&quot;)
-    ///     .arg(Arg::new(&quot;flag&quot;)
-    ///         .short(&#39;f&#39;)
+    /// let result = Command::new("myprog")
+    ///     .arg(Arg::new("flag")
+    ///         .short('f')
     ///         .action(ArgAction::SetTrue))
-    ///     .arg(Arg::new(&quot;color&quot;)
-    ///         .short(&#39;c&#39;)
+    ///     .arg(Arg::new("color")
+    ///         .short('c')
     ///         .action(ArgAction::SetTrue))
-    ///     .group(ArgGroup::new(&quot;req_flags&quot;)
-    ///         .args([&quot;flag&quot;, &quot;color&quot;])
+    ///     .group(ArgGroup::new("req_flags")
+    ///         .args(["flag", "color"])
     ///         .required(true))
-    ///     .try_get_matches_from(vec![&quot;myprog&quot;]);
-    /// // Because we didn&#39;t use any of the args in the group, it&#39;s an error
+    ///     .try_get_matches_from(vec!["myprog"]);
+    /// // Because we didn't use any of the args in the group, it's an error
     /// assert!(result.is_err());
     /// let err = result.unwrap_err();
     /// assert_eq!(err.kind(), ErrorKind::MissingRequiredArgument);
@@ -837,21 +838,21 @@
     ///
     /// ```rust
     /// # use clap::{Command, Arg, ArgGroup, error::ErrorKind, ArgAction};
-    /// let result = Command::new(&quot;myprog&quot;)
-    ///     .arg(Arg::new(&quot;flag&quot;)
-    ///         .short(&#39;f&#39;)
+    /// let result = Command::new("myprog")
+    ///     .arg(Arg::new("flag")
+    ///         .short('f')
     ///         .action(ArgAction::SetTrue))
-    ///     .arg(Arg::new(&quot;color&quot;)
-    ///         .short(&#39;c&#39;)
+    ///     .arg(Arg::new("color")
+    ///         .short('c')
     ///         .action(ArgAction::SetTrue))
-    ///     .arg(Arg::new(&quot;debug&quot;)
-    ///         .short(&#39;d&#39;)
+    ///     .arg(Arg::new("debug")
+    ///         .short('d')
     ///         .action(ArgAction::SetTrue))
-    ///     .group(ArgGroup::new(&quot;req_flags&quot;)
-    ///         .args([&quot;flag&quot;, &quot;color&quot;])
-    ///         .requires(&quot;debug&quot;))
-    ///     .try_get_matches_from(vec![&quot;myprog&quot;, &quot;-c&quot;]);
-    /// // because we used an arg from the group, and the group requires &quot;-d&quot; to be used, it&#39;s an
+    ///     .group(ArgGroup::new("req_flags")
+    ///         .args(["flag", "color"])
+    ///         .requires("debug"))
+    ///     .try_get_matches_from(vec!["myprog", "-c"]);
+    /// // because we used an arg from the group, and the group requires "-d" to be used, it's an
     /// // error
     /// assert!(result.is_err());
     /// let err = result.unwrap_err();
@@ -881,25 +882,25 @@
     ///
     /// ```rust
     /// # use clap::{Command, Arg, ArgGroup, error::ErrorKind, ArgAction};
-    /// let result = Command::new(&quot;myprog&quot;)
-    ///     .arg(Arg::new(&quot;flag&quot;)
-    ///         .short(&#39;f&#39;)
+    /// let result = Command::new("myprog")
+    ///     .arg(Arg::new("flag")
+    ///         .short('f')
     ///         .action(ArgAction::SetTrue))
-    ///     .arg(Arg::new(&quot;color&quot;)
-    ///         .short(&#39;c&#39;)
+    ///     .arg(Arg::new("color")
+    ///         .short('c')
     ///         .action(ArgAction::SetTrue))
-    ///     .arg(Arg::new(&quot;debug&quot;)
-    ///         .short(&#39;d&#39;)
+    ///     .arg(Arg::new("debug")
+    ///         .short('d')
     ///         .action(ArgAction::SetTrue))
-    ///     .arg(Arg::new(&quot;verb&quot;)
-    ///         .short(&#39;v&#39;)
+    ///     .arg(Arg::new("verb")
+    ///         .short('v')
     ///         .action(ArgAction::SetTrue))
-    ///     .group(ArgGroup::new(&quot;req_flags&quot;)
-    ///         .args([&quot;flag&quot;, &quot;color&quot;])
-    ///         .requires_all([&quot;debug&quot;, &quot;verb&quot;]))
-    ///     .try_get_matches_from(vec![&quot;myprog&quot;, &quot;-c&quot;, &quot;-d&quot;]);
-    /// // because we used an arg from the group, and the group requires &quot;-d&quot; and &quot;-v&quot; to be used,
-    /// // yet we only used &quot;-d&quot; it&#39;s an error
+    ///     .group(ArgGroup::new("req_flags")
+    ///         .args(["flag", "color"])
+    ///         .requires_all(["debug", "verb"]))
+    ///     .try_get_matches_from(vec!["myprog", "-c", "-d"]);
+    /// // because we used an arg from the group, and the group requires "-d" and "-v" to be used,
+    /// // yet we only used "-d" it's an error
     /// assert!(result.is_err());
     /// let err = result.unwrap_err();
     /// assert_eq!(err.kind(), ErrorKind::MissingRequiredArgument);
@@ -926,21 +927,21 @@
     ///
     /// ```rust
     /// # use clap::{Command, Arg, ArgGroup, error::ErrorKind, ArgAction};
-    /// let result = Command::new(&quot;myprog&quot;)
-    ///     .arg(Arg::new(&quot;flag&quot;)
-    ///         .short(&#39;f&#39;)
+    /// let result = Command::new("myprog")
+    ///     .arg(Arg::new("flag")
+    ///         .short('f')
     ///         .action(ArgAction::SetTrue))
-    ///     .arg(Arg::new(&quot;color&quot;)
-    ///         .short(&#39;c&#39;)
+    ///     .arg(Arg::new("color")
+    ///         .short('c')
     ///         .action(ArgAction::SetTrue))
-    ///     .arg(Arg::new(&quot;debug&quot;)
-    ///         .short(&#39;d&#39;)
+    ///     .arg(Arg::new("debug")
+    ///         .short('d')
     ///         .action(ArgAction::SetTrue))
-    ///     .group(ArgGroup::new(&quot;req_flags&quot;)
-    ///         .args([&quot;flag&quot;, &quot;color&quot;])
-    ///         .conflicts_with(&quot;debug&quot;))
-    ///     .try_get_matches_from(vec![&quot;myprog&quot;, &quot;-c&quot;, &quot;-d&quot;]);
-    /// // because we used an arg from the group, and the group conflicts with &quot;-d&quot;, it&#39;s an error
+    ///     .group(ArgGroup::new("req_flags")
+    ///         .args(["flag", "color"])
+    ///         .conflicts_with("debug"))
+    ///     .try_get_matches_from(vec!["myprog", "-c", "-d"]);
+    /// // because we used an arg from the group, and the group conflicts with "-d", it's an error
     /// assert!(result.is_err());
     /// let err = result.unwrap_err();
     /// assert_eq!(err.kind(), ErrorKind::ArgumentConflict);
@@ -967,25 +968,25 @@
     ///
     /// ```rust
     /// # use clap::{Command, Arg, ArgGroup, error::ErrorKind, ArgAction};
-    /// let result = Command::new(&quot;myprog&quot;)
-    ///     .arg(Arg::new(&quot;flag&quot;)
-    ///         .short(&#39;f&#39;)
+    /// let result = Command::new("myprog")
+    ///     .arg(Arg::new("flag")
+    ///         .short('f')
     ///         .action(ArgAction::SetTrue))
-    ///     .arg(Arg::new(&quot;color&quot;)
-    ///         .short(&#39;c&#39;)
+    ///     .arg(Arg::new("color")
+    ///         .short('c')
     ///         .action(ArgAction::SetTrue))
-    ///     .arg(Arg::new(&quot;debug&quot;)
-    ///         .short(&#39;d&#39;)
+    ///     .arg(Arg::new("debug")
+    ///         .short('d')
     ///         .action(ArgAction::SetTrue))
-    ///     .arg(Arg::new(&quot;verb&quot;)
-    ///         .short(&#39;v&#39;)
+    ///     .arg(Arg::new("verb")
+    ///         .short('v')
     ///         .action(ArgAction::SetTrue))
-    ///     .group(ArgGroup::new(&quot;req_flags&quot;)
-    ///         .args([&quot;flag&quot;, &quot;color&quot;])
-    ///         .conflicts_with_all([&quot;debug&quot;, &quot;verb&quot;]))
-    ///     .try_get_matches_from(vec![&quot;myprog&quot;, &quot;-c&quot;, &quot;-v&quot;]);
-    /// // because we used an arg from the group, and the group conflicts with either &quot;-v&quot; or &quot;-d&quot;
-    /// // it&#39;s an error
+    ///     .group(ArgGroup::new("req_flags")
+    ///         .args(["flag", "color"])
+    ///         .conflicts_with_all(["debug", "verb"]))
+    ///     .try_get_matches_from(vec!["myprog", "-c", "-v"]);
+    /// // because we used an arg from the group, and the group conflicts with either "-v" or "-d"
+    /// // it's an error
     /// assert!(result.is_err());
     /// let err = result.unwrap_err();
     /// assert_eq!(err.kind(), ErrorKind::ArgumentConflict);
@@ -1016,7 +1017,7 @@
     }
 }
 
-<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;_ </span>ArgGroup&gt; <span class="kw">for </span>ArgGroup {
+<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span><span class="lifetime">'_ </span>ArgGroup&gt; <span class="kw">for </span>ArgGroup {
     <span class="kw">fn </span>from(g: <span class="kw-2">&amp;</span>ArgGroup) -&gt; <span class="self">Self </span>{
         g.clone()
     }
@@ -1028,21 +1029,21 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>groups() {
-        <span class="kw">let </span>g = ArgGroup::new(<span class="string">&quot;test&quot;</span>)
-            .arg(<span class="string">&quot;a1&quot;</span>)
-            .arg(<span class="string">&quot;a4&quot;</span>)
-            .args([<span class="string">&quot;a2&quot;</span>, <span class="string">&quot;a3&quot;</span>])
+        <span class="kw">let </span>g = ArgGroup::new(<span class="string">"test"</span>)
+            .arg(<span class="string">"a1"</span>)
+            .arg(<span class="string">"a4"</span>)
+            .args([<span class="string">"a2"</span>, <span class="string">"a3"</span>])
             .required(<span class="bool-val">true</span>)
-            .conflicts_with(<span class="string">&quot;c1&quot;</span>)
-            .conflicts_with_all([<span class="string">&quot;c2&quot;</span>, <span class="string">&quot;c3&quot;</span>])
-            .conflicts_with(<span class="string">&quot;c4&quot;</span>)
-            .requires(<span class="string">&quot;r1&quot;</span>)
-            .requires_all([<span class="string">&quot;r2&quot;</span>, <span class="string">&quot;r3&quot;</span>])
-            .requires(<span class="string">&quot;r4&quot;</span>);
+            .conflicts_with(<span class="string">"c1"</span>)
+            .conflicts_with_all([<span class="string">"c2"</span>, <span class="string">"c3"</span>])
+            .conflicts_with(<span class="string">"c4"</span>)
+            .requires(<span class="string">"r1"</span>)
+            .requires_all([<span class="string">"r2"</span>, <span class="string">"r3"</span>])
+            .requires(<span class="string">"r4"</span>);
 
-        <span class="kw">let </span>args: Vec&lt;Id&gt; = <span class="macro">vec!</span>[<span class="string">&quot;a1&quot;</span>.into(), <span class="string">&quot;a4&quot;</span>.into(), <span class="string">&quot;a2&quot;</span>.into(), <span class="string">&quot;a3&quot;</span>.into()];
-        <span class="kw">let </span>reqs: Vec&lt;Id&gt; = <span class="macro">vec!</span>[<span class="string">&quot;r1&quot;</span>.into(), <span class="string">&quot;r2&quot;</span>.into(), <span class="string">&quot;r3&quot;</span>.into(), <span class="string">&quot;r4&quot;</span>.into()];
-        <span class="kw">let </span>confs: Vec&lt;Id&gt; = <span class="macro">vec!</span>[<span class="string">&quot;c1&quot;</span>.into(), <span class="string">&quot;c2&quot;</span>.into(), <span class="string">&quot;c3&quot;</span>.into(), <span class="string">&quot;c4&quot;</span>.into()];
+        <span class="kw">let </span>args: Vec&lt;Id&gt; = <span class="macro">vec!</span>[<span class="string">"a1"</span>.into(), <span class="string">"a4"</span>.into(), <span class="string">"a2"</span>.into(), <span class="string">"a3"</span>.into()];
+        <span class="kw">let </span>reqs: Vec&lt;Id&gt; = <span class="macro">vec!</span>[<span class="string">"r1"</span>.into(), <span class="string">"r2"</span>.into(), <span class="string">"r3"</span>.into(), <span class="string">"r4"</span>.into()];
+        <span class="kw">let </span>confs: Vec&lt;Id&gt; = <span class="macro">vec!</span>[<span class="string">"c1"</span>.into(), <span class="string">"c2"</span>.into(), <span class="string">"c3"</span>.into(), <span class="string">"c4"</span>.into()];
 
         <span class="macro">assert_eq!</span>(g.args, args);
         <span class="macro">assert_eq!</span>(g.requires, reqs);
@@ -1051,21 +1052,21 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_from() {
-        <span class="kw">let </span>g = ArgGroup::new(<span class="string">&quot;test&quot;</span>)
-            .arg(<span class="string">&quot;a1&quot;</span>)
-            .arg(<span class="string">&quot;a4&quot;</span>)
-            .args([<span class="string">&quot;a2&quot;</span>, <span class="string">&quot;a3&quot;</span>])
+        <span class="kw">let </span>g = ArgGroup::new(<span class="string">"test"</span>)
+            .arg(<span class="string">"a1"</span>)
+            .arg(<span class="string">"a4"</span>)
+            .args([<span class="string">"a2"</span>, <span class="string">"a3"</span>])
             .required(<span class="bool-val">true</span>)
-            .conflicts_with(<span class="string">&quot;c1&quot;</span>)
-            .conflicts_with_all([<span class="string">&quot;c2&quot;</span>, <span class="string">&quot;c3&quot;</span>])
-            .conflicts_with(<span class="string">&quot;c4&quot;</span>)
-            .requires(<span class="string">&quot;r1&quot;</span>)
-            .requires_all([<span class="string">&quot;r2&quot;</span>, <span class="string">&quot;r3&quot;</span>])
-            .requires(<span class="string">&quot;r4&quot;</span>);
+            .conflicts_with(<span class="string">"c1"</span>)
+            .conflicts_with_all([<span class="string">"c2"</span>, <span class="string">"c3"</span>])
+            .conflicts_with(<span class="string">"c4"</span>)
+            .requires(<span class="string">"r1"</span>)
+            .requires_all([<span class="string">"r2"</span>, <span class="string">"r3"</span>])
+            .requires(<span class="string">"r4"</span>);
 
-        <span class="kw">let </span>args: Vec&lt;Id&gt; = <span class="macro">vec!</span>[<span class="string">&quot;a1&quot;</span>.into(), <span class="string">&quot;a4&quot;</span>.into(), <span class="string">&quot;a2&quot;</span>.into(), <span class="string">&quot;a3&quot;</span>.into()];
-        <span class="kw">let </span>reqs: Vec&lt;Id&gt; = <span class="macro">vec!</span>[<span class="string">&quot;r1&quot;</span>.into(), <span class="string">&quot;r2&quot;</span>.into(), <span class="string">&quot;r3&quot;</span>.into(), <span class="string">&quot;r4&quot;</span>.into()];
-        <span class="kw">let </span>confs: Vec&lt;Id&gt; = <span class="macro">vec!</span>[<span class="string">&quot;c1&quot;</span>.into(), <span class="string">&quot;c2&quot;</span>.into(), <span class="string">&quot;c3&quot;</span>.into(), <span class="string">&quot;c4&quot;</span>.into()];
+        <span class="kw">let </span>args: Vec&lt;Id&gt; = <span class="macro">vec!</span>[<span class="string">"a1"</span>.into(), <span class="string">"a4"</span>.into(), <span class="string">"a2"</span>.into(), <span class="string">"a3"</span>.into()];
+        <span class="kw">let </span>reqs: Vec&lt;Id&gt; = <span class="macro">vec!</span>[<span class="string">"r1"</span>.into(), <span class="string">"r2"</span>.into(), <span class="string">"r3"</span>.into(), <span class="string">"r4"</span>.into()];
+        <span class="kw">let </span>confs: Vec&lt;Id&gt; = <span class="macro">vec!</span>[<span class="string">"c1"</span>.into(), <span class="string">"c2"</span>.into(), <span class="string">"c3"</span>.into(), <span class="string">"c4"</span>.into()];
 
         <span class="kw">let </span>g2 = ArgGroup::from(<span class="kw-2">&amp;</span>g);
         <span class="macro">assert_eq!</span>(g2.args, args);
@@ -1077,7 +1078,7 @@
     </span><span class="attr">#[test]
     </span><span class="kw">fn </span>arg_group_send_sync() {
         <span class="kw">fn </span>foo&lt;T: Send + Sync&gt;(<span class="kw">_</span>: T) {}
-        foo(ArgGroup::new(<span class="string">&quot;test&quot;</span>))
+        foo(ArgGroup::new(<span class="string">"test"</span>))
     }
 }
 </code></pre></div></section></main></body></html>

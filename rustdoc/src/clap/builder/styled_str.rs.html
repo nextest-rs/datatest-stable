@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/clap-4.0.8/src/builder/styled_str.rs`."><title>styled_str.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="clap" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0 (cc66ad468 2023-10-03)" data-channel="1.73.0" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-1596385f77d47ef2.css" data-theme-dark-css="dark-0a43001d3fc2282c.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-1596385f77d47ef2.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-0a43001d3fc2282c.css"><link rel="stylesheet" href="../../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../clap/index.html"><img src="https://raw.githubusercontent.com/clap-rs/clap/master/assets/clap.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/clap-4.0.8/src/builder/styled_str.rs`."><title>styled_str.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-ac92e1bbe349e143.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="clap" data-themes="" data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../../static.files/src-script-39ed315d46fb705f.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><a class="sub-logo-container" href="../../../clap/index.html"><img src="https://raw.githubusercontent.com/clap-rs/clap/master/assets/clap.png" alt="clap"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -347,21 +348,21 @@
 </pre></div><pre class="rust"><code><span class="doccomment">/// Terminal-styling container
 </span><span class="attr">#[derive(Clone, Default, Debug, PartialEq, Eq)]
 </span><span class="kw">pub struct </span>StyledStr {
-    <span class="attr">#[cfg(feature = <span class="string">&quot;color&quot;</span>)]
+    <span class="attr">#[cfg(feature = <span class="string">"color"</span>)]
     </span>pieces: Vec&lt;(<span class="prelude-ty">Option</span>&lt;Style&gt;, String)&gt;,
-    <span class="attr">#[cfg(not(feature = <span class="string">&quot;color&quot;</span>))]
+    <span class="attr">#[cfg(not(feature = <span class="string">"color"</span>))]
     </span>pieces: String,
 }
 
 <span class="kw">impl </span>StyledStr {
     <span class="doccomment">/// Create an empty buffer
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;color&quot;</span>)]
+    </span><span class="attr">#[cfg(feature = <span class="string">"color"</span>)]
     </span><span class="kw">pub const fn </span>new() -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{ pieces: Vec::new() }
     }
 
     <span class="doccomment">/// Create an empty buffer
-    </span><span class="attr">#[cfg(not(feature = <span class="string">&quot;color&quot;</span>))]
+    </span><span class="attr">#[cfg(not(feature = <span class="string">"color"</span>))]
     </span><span class="kw">pub const fn </span>new() -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             pieces: String::new(),
@@ -369,8 +370,8 @@
     }
 
     <span class="doccomment">/// Display using [ANSI Escape Code](https://en.wikipedia.org/wiki/ANSI_escape_code) styling
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;color&quot;</span>)]
-    </span><span class="kw">pub fn </span>ansi(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>std::fmt::Display + <span class="lifetime">&#39;_ </span>{
+    </span><span class="attr">#[cfg(feature = <span class="string">"color"</span>)]
+    </span><span class="kw">pub fn </span>ansi(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>std::fmt::Display + <span class="lifetime">'_ </span>{
         AnsiDisplay { styled: <span class="self">self </span>}
     }
 
@@ -386,12 +387,12 @@
         <span class="self">self</span>.stylize_(<span class="prelude-val">Some</span>(Style::Placeholder), msg.into());
     }
 
-    <span class="attr">#[cfg_attr(not(feature = <span class="string">&quot;error-context&quot;</span>), allow(dead_code))]
+    <span class="attr">#[cfg_attr(not(feature = <span class="string">"error-context"</span>), allow(dead_code))]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>good(<span class="kw-2">&amp;mut </span><span class="self">self</span>, msg: <span class="kw">impl </span>Into&lt;String&gt;) {
         <span class="self">self</span>.stylize_(<span class="prelude-val">Some</span>(Style::Good), msg.into());
     }
 
-    <span class="attr">#[cfg_attr(not(feature = <span class="string">&quot;error-context&quot;</span>), allow(dead_code))]
+    <span class="attr">#[cfg_attr(not(feature = <span class="string">"error-context"</span>), allow(dead_code))]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>warning(<span class="kw-2">&amp;mut </span><span class="self">self</span>, msg: <span class="kw">impl </span>Into&lt;String&gt;) {
         <span class="self">self</span>.stylize_(<span class="prelude-val">Some</span>(Style::Warning), msg.into());
     }
@@ -424,39 +425,39 @@
         }
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;color&quot;</span>)]
+    <span class="attr">#[cfg(feature = <span class="string">"color"</span>)]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>trim_end(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="kw">if let </span><span class="prelude-val">Some</span>((<span class="kw">_</span>, item)) = <span class="self">self</span>.pieces.last_mut() {
             <span class="kw-2">*</span>item = item.trim_end().to_owned();
         }
     }
 
-    <span class="attr">#[cfg(not(feature = <span class="string">&quot;color&quot;</span>))]
+    <span class="attr">#[cfg(not(feature = <span class="string">"color"</span>))]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>trim_end(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="self">self</span>.pieces = <span class="self">self</span>.pieces.trim_end().to_owned();
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;help&quot;</span>)]
+    <span class="attr">#[cfg(feature = <span class="string">"help"</span>)]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>indent(<span class="kw-2">&amp;mut </span><span class="self">self</span>, initial: <span class="kw-2">&amp;</span>str, trailing: <span class="kw-2">&amp;</span>str) {
         <span class="kw">if let </span><span class="prelude-val">Some</span>((<span class="kw">_</span>, first)) = <span class="self">self</span>.iter_mut().next() {
             first.insert_str(<span class="number">0</span>, initial);
         }
-        <span class="kw">let </span><span class="kw-2">mut </span>line_sep = <span class="string">&quot;\n&quot;</span>.to_owned();
+        <span class="kw">let </span><span class="kw-2">mut </span>line_sep = <span class="string">"\n"</span>.to_owned();
         line_sep.push_str(trailing);
         <span class="kw">for </span>(<span class="kw">_</span>, content) <span class="kw">in </span><span class="self">self</span>.iter_mut() {
-            <span class="kw-2">*</span>content = content.replace(<span class="string">&#39;\n&#39;</span>, <span class="kw-2">&amp;</span>line_sep);
+            <span class="kw-2">*</span>content = content.replace(<span class="string">'\n'</span>, <span class="kw-2">&amp;</span>line_sep);
         }
     }
 
-    <span class="attr">#[cfg(all(not(feature = <span class="string">&quot;wrap_help&quot;</span>), feature = <span class="string">&quot;help&quot;</span>))]
+    <span class="attr">#[cfg(all(not(feature = <span class="string">"wrap_help"</span>), feature = <span class="string">"help"</span>))]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>wrap(<span class="kw-2">&amp;mut </span><span class="self">self</span>, _hard_width: usize) {}
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;wrap_help&quot;</span>)]
+    <span class="attr">#[cfg(feature = <span class="string">"wrap_help"</span>)]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>wrap(<span class="kw-2">&amp;mut </span><span class="self">self</span>, hard_width: usize) {
         <span class="kw">let </span><span class="kw-2">mut </span>wrapper = <span class="kw">crate</span>::output::textwrap::wrap_algorithms::LineWrapper::new(hard_width);
         <span class="kw">for </span>(<span class="kw">_</span>, content) <span class="kw">in </span><span class="self">self</span>.iter_mut() {
             <span class="kw">let </span><span class="kw-2">mut </span>total = Vec::new();
-            <span class="kw">for </span>(i, line) <span class="kw">in </span>content.split_inclusive(<span class="string">&#39;\n&#39;</span>).enumerate() {
+            <span class="kw">for </span>(i, line) <span class="kw">in </span>content.split_inclusive(<span class="string">'\n'</span>).enumerate() {
                 <span class="kw">if </span><span class="number">0 </span>&lt; i {
                     <span class="comment">// start of a section does not imply newline
                     </span>wrapper.reset();
@@ -465,27 +466,27 @@
                     .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
                 total.extend(wrapper.wrap(line));
             }
-            <span class="kw">let </span>total = total.join(<span class="string">&quot;&quot;</span>);
+            <span class="kw">let </span>total = total.join(<span class="string">""</span>);
             <span class="kw-2">*</span>content = total;
         }
 
         <span class="self">self</span>.trim_end();
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;color&quot;</span>)]
+    <span class="attr">#[cfg(feature = <span class="string">"color"</span>)]
     </span><span class="kw">fn </span>stylize_(<span class="kw-2">&amp;mut </span><span class="self">self</span>, style: <span class="prelude-ty">Option</span>&lt;Style&gt;, msg: String) {
         <span class="kw">if </span>!msg.is_empty() {
             <span class="self">self</span>.pieces.push((style, msg));
         }
     }
 
-    <span class="attr">#[cfg(not(feature = <span class="string">&quot;color&quot;</span>))]
+    <span class="attr">#[cfg(not(feature = <span class="string">"color"</span>))]
     </span><span class="kw">fn </span>stylize_(<span class="kw-2">&amp;mut </span><span class="self">self</span>, _style: <span class="prelude-ty">Option</span>&lt;Style&gt;, msg: String) {
         <span class="self">self</span>.pieces.push_str(<span class="kw-2">&amp;</span>msg);
     }
 
     <span class="attr">#[inline(never)]
-    #[cfg(feature = <span class="string">&quot;help&quot;</span>)]
+    #[cfg(feature = <span class="string">"help"</span>)]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>display_width(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
         <span class="kw">let </span><span class="kw-2">mut </span>width = <span class="number">0</span>;
         <span class="kw">for </span>(<span class="kw">_</span>, c) <span class="kw">in </span><span class="self">self</span>.iter() {
@@ -494,37 +495,37 @@
         width
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;help&quot;</span>)]
+    <span class="attr">#[cfg(feature = <span class="string">"help"</span>)]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.pieces.is_empty()
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;color&quot;</span>)]
+    <span class="attr">#[cfg(feature = <span class="string">"color"</span>)]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>iter(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (<span class="prelude-ty">Option</span>&lt;Style&gt;, <span class="kw-2">&amp;</span>str)&gt; {
         <span class="self">self</span>.pieces.iter().map(|(s, c)| (<span class="kw-2">*</span>s, c.as_str()))
     }
 
-    <span class="attr">#[cfg(not(feature = <span class="string">&quot;color&quot;</span>))]
+    <span class="attr">#[cfg(not(feature = <span class="string">"color"</span>))]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>iter(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (<span class="prelude-ty">Option</span>&lt;Style&gt;, <span class="kw-2">&amp;</span>str)&gt; {
         [(<span class="prelude-val">None</span>, <span class="self">self</span>.pieces.as_str())].into_iter()
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;color&quot;</span>)]
+    <span class="attr">#[cfg(feature = <span class="string">"color"</span>)]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>iter_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (<span class="prelude-ty">Option</span>&lt;Style&gt;, <span class="kw-2">&amp;mut </span>String)&gt; {
         <span class="self">self</span>.pieces.iter_mut().map(|(s, c)| (<span class="kw-2">*</span>s, c))
     }
 
-    <span class="attr">#[cfg(not(feature = <span class="string">&quot;color&quot;</span>))]
+    <span class="attr">#[cfg(not(feature = <span class="string">"color"</span>))]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>iter_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (<span class="prelude-ty">Option</span>&lt;Style&gt;, <span class="kw-2">&amp;mut </span>String)&gt; {
         [(<span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span><span class="self">self</span>.pieces)].into_iter()
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;color&quot;</span>)]
+    <span class="attr">#[cfg(feature = <span class="string">"color"</span>)]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>into_iter(<span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (<span class="prelude-ty">Option</span>&lt;Style&gt;, String)&gt; {
         <span class="self">self</span>.pieces.into_iter()
     }
 
-    <span class="attr">#[cfg(not(feature = <span class="string">&quot;color&quot;</span>))]
+    <span class="attr">#[cfg(not(feature = <span class="string">"color"</span>))]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>into_iter(<span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (<span class="prelude-ty">Option</span>&lt;Style&gt;, String)&gt; {
         [(<span class="prelude-val">None</span>, <span class="self">self</span>.pieces)].into_iter()
     }
@@ -538,7 +539,7 @@
         }
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;color&quot;</span>)]
+    <span class="attr">#[cfg(feature = <span class="string">"color"</span>)]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>write_colored(<span class="kw-2">&amp;</span><span class="self">self</span>, buffer: <span class="kw-2">&amp;mut </span>termcolor::Buffer) -&gt; std::io::Result&lt;()&gt; {
         <span class="kw">use </span>std::io::Write;
         <span class="kw">use </span>termcolor::WriteColor;
@@ -579,7 +580,7 @@
     }
 }
 
-<span class="kw">impl </span>Default <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;_ </span>StyledStr {
+<span class="kw">impl </span>Default <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'_ </span>StyledStr {
     <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         <span class="kw">static </span>DEFAULT: StyledStr = StyledStr::new();
         <span class="kw-2">&amp;</span>DEFAULT
@@ -594,24 +595,24 @@
     }
 }
 
-<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;_ </span>std::string::String&gt; <span class="kw">for </span>StyledStr {
-    <span class="kw">fn </span>from(name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;_ </span>std::string::String) -&gt; <span class="self">Self </span>{
+<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span><span class="lifetime">'_ </span>std::string::String&gt; <span class="kw">for </span>StyledStr {
+    <span class="kw">fn </span>from(name: <span class="kw-2">&amp;</span><span class="lifetime">'_ </span>std::string::String) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span><span class="kw-2">mut </span>styled = StyledStr::new();
         styled.none(name);
         styled
     }
 }
 
-<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str&gt; <span class="kw">for </span>StyledStr {
-    <span class="kw">fn </span>from(name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str) -&gt; <span class="self">Self </span>{
+<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str&gt; <span class="kw">for </span>StyledStr {
+    <span class="kw">fn </span>from(name: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span><span class="kw-2">mut </span>styled = StyledStr::new();
         styled.none(name);
         styled
     }
 }
 
-<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;_ </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str&gt; <span class="kw">for </span>StyledStr {
-    <span class="kw">fn </span>from(name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;_ </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str) -&gt; <span class="self">Self </span>{
+<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span><span class="lifetime">'_ </span><span class="kw-2">&amp;</span><span class="lifetime">'static </span>str&gt; <span class="kw">for </span>StyledStr {
+    <span class="kw">fn </span>from(name: <span class="kw-2">&amp;</span><span class="lifetime">'_ </span><span class="kw-2">&amp;</span><span class="lifetime">'static </span>str) -&gt; <span class="self">Self </span>{
         StyledStr::from(<span class="kw-2">*</span>name)
     }
 }
@@ -645,13 +646,13 @@
     }
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;color&quot;</span>)]
-</span><span class="kw">struct </span>AnsiDisplay&lt;<span class="lifetime">&#39;s</span>&gt; {
-    styled: <span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span>StyledStr,
+<span class="attr">#[cfg(feature = <span class="string">"color"</span>)]
+</span><span class="kw">struct </span>AnsiDisplay&lt;<span class="lifetime">'s</span>&gt; {
+    styled: <span class="kw-2">&amp;</span><span class="lifetime">'s </span>StyledStr,
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;color&quot;</span>)]
-</span><span class="kw">impl </span>std::fmt::Display <span class="kw">for </span>AnsiDisplay&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="attr">#[cfg(feature = <span class="string">"color"</span>)]
+</span><span class="kw">impl </span>std::fmt::Display <span class="kw">for </span>AnsiDisplay&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter) -&gt; std::fmt::Result {
         <span class="kw">let </span><span class="kw-2">mut </span>buffer = termcolor::Buffer::ansi();
         <span class="macro">ok!</span>(<span class="self">self

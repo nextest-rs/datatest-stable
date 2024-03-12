@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/memchr-2.4.1/src/memmem/genericsimd.rs`."><title>genericsimd.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="memchr" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0 (cc66ad468 2023-10-03)" data-channel="1.73.0" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-1596385f77d47ef2.css" data-theme-dark-css="dark-0a43001d3fc2282c.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-1596385f77d47ef2.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-0a43001d3fc2282c.css"><link rel="stylesheet" href="../../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../memchr/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/memchr-2.4.1/src/memmem/genericsimd.rs`."><title>genericsimd.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-ac92e1bbe349e143.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="memchr" data-themes="" data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../../static.files/src-script-39ed315d46fb705f.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -269,7 +270,7 @@
 <span class="kw">use </span><span class="kw">crate</span>::memmem::{util::memcmp, vector::Vector, NeedleInfo};
 
 <span class="doccomment">/// The minimum length of a needle required for this algorithm. The minimum
-/// is 2 since a length of 1 should just use memchr and a length of 0 isn&#39;t
+/// is 2 since a length of 1 should just use memchr and a length of 0 isn't
 /// a case handled by this searcher.
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>MIN_NEEDLE_LEN: usize = <span class="number">2</span>;
 
@@ -286,14 +287,14 @@
 ///
 /// It is a bound because the worst case behavior with memcmp is multiplicative
 /// in the size of the needle and haystack, and we want to keep that additive.
-/// This bound ensures we still meet that bound theoretically, since it&#39;s just
-/// a constant. We aren&#39;t acting in bad faith here, memcmp on tiny needles
+/// This bound ensures we still meet that bound theoretically, since it's just
+/// a constant. We aren't acting in bad faith here, memcmp on tiny needles
 /// is so fast that even in pathological cases (see pathological vector
 /// benchmarks), this is still just as fast or faster in practice.
 ///
 /// This specific number was chosen by tweaking a bit and running benchmarks.
 /// The rare-medium-needle, for example, gets about 5% faster by using this
-/// algorithm instead of a prefilter-accelerated Two-Way. There&#39;s also a
+/// algorithm instead of a prefilter-accelerated Two-Way. There's also a
 /// theoretical desire to keep this number reasonably low, to mitigate the
 /// impact of pathological cases. I did try 64, and some benchmarks got a
 /// little better, and others (particularly the pathological ones), got a lot
@@ -325,7 +326,7 @@
 }
 
 <span class="kw">impl </span>Forward {
-    <span class="doccomment">/// Create a new &quot;generic simd&quot; forward searcher. If one could not be
+    <span class="doccomment">/// Create a new "generic simd" forward searcher. If one could not be
     /// created from the given inputs, then None is returned.
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(ninfo: <span class="kw-2">&amp;</span>NeedleInfo, needle: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Option</span>&lt;Forward&gt; {
         <span class="kw">let </span>(rare1i, rare2i) = ninfo.rarebytes.as_rare_ordered_u8();
@@ -371,25 +372,25 @@
     haystack: <span class="kw-2">&amp;</span>[u8],
     needle: <span class="kw-2">&amp;</span>[u8],
 ) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
-    <span class="comment">// It would be nice if we didn&#39;t have this check here, since the meta
-    // searcher should handle it for us. But without this, I don&#39;t think we
-    // guarantee that end_ptr.sub(needle.len()) won&#39;t result in UB. We could
+    <span class="comment">// It would be nice if we didn't have this check here, since the meta
+    // searcher should handle it for us. But without this, I don't think we
+    // guarantee that end_ptr.sub(needle.len()) won't result in UB. We could
     // put it as part of the safety contract, but it makes it more complicated
     // than necessary.
     </span><span class="kw">if </span>haystack.len() &lt; needle.len() {
         <span class="kw">return </span><span class="prelude-val">None</span>;
     }
     <span class="kw">let </span>min_haystack_len = fwd.min_haystack_len::&lt;V&gt;();
-    <span class="macro">assert!</span>(haystack.len() &gt;= min_haystack_len, <span class="string">&quot;haystack too small&quot;</span>);
+    <span class="macro">assert!</span>(haystack.len() &gt;= min_haystack_len, <span class="string">"haystack too small"</span>);
     <span class="macro">debug_assert!</span>(needle.len() &lt;= haystack.len());
     <span class="macro">debug_assert!</span>(
         needle.len() &gt;= MIN_NEEDLE_LEN,
-        <span class="string">&quot;needle must be at least {} bytes&quot;</span>,
+        <span class="string">"needle must be at least {} bytes"</span>,
         MIN_NEEDLE_LEN,
     );
     <span class="macro">debug_assert!</span>(
         needle.len() &lt;= MAX_NEEDLE_LEN,
-        <span class="string">&quot;needle must be at most {} bytes&quot;</span>,
+        <span class="string">"needle must be at most {} bytes"</span>,
         MAX_NEEDLE_LEN,
     );
 
@@ -405,7 +406,7 @@
     <span class="comment">// N.B. I did experiment with unrolling the loop to deal with size(V)
     // bytes at a time and 2*size(V) bytes at a time. The double unroll was
     // marginally faster while the quadruple unroll was unambiguously slower.
-    // In the end, I decided the complexity from unrolling wasn&#39;t worth it. I
+    // In the end, I decided the complexity from unrolling wasn't worth it. I
     // used the memmem/krate/prebuilt/huge-en/ benchmarks to compare.
     </span><span class="kw">while </span>ptr &lt;= max_ptr {
         <span class="kw">let </span>m = fwd_find_in_chunk(
@@ -420,8 +421,8 @@
         <span class="kw">let </span>remaining = diff(end_ptr, ptr);
         <span class="macro">debug_assert!</span>(
             remaining &lt; min_haystack_len,
-            <span class="string">&quot;remaining bytes should be smaller than the minimum haystack \
-             length of {}, but there are {} bytes remaining&quot;</span>,
+            <span class="string">"remaining bytes should be smaller than the minimum haystack \
+             length of {}, but there are {} bytes remaining"</span>,
             min_haystack_len,
             remaining,
         );
@@ -430,17 +431,17 @@
         }
         <span class="macro">debug_assert!</span>(
             max_ptr &lt; ptr,
-            <span class="string">&quot;after main loop, ptr should have exceeded max_ptr&quot;</span>,
+            <span class="string">"after main loop, ptr should have exceeded max_ptr"</span>,
         );
         <span class="kw">let </span>overlap = diff(ptr, max_ptr);
         <span class="macro">debug_assert!</span>(
             overlap &gt; <span class="number">0</span>,
-            <span class="string">&quot;overlap ({}) must always be non-zero&quot;</span>,
+            <span class="string">"overlap ({}) must always be non-zero"</span>,
             overlap,
         );
         <span class="macro">debug_assert!</span>(
             overlap &lt; size_of::&lt;V&gt;(),
-            <span class="string">&quot;overlap ({}) cannot possibly be &gt;= than a vector ({})&quot;</span>,
+            <span class="string">"overlap ({}) cannot possibly be &gt;= than a vector ({})"</span>,
             overlap,
             size_of::&lt;V&gt;(),
         );
@@ -515,7 +516,7 @@
 /// after updating the prefilter state.
 ///
 /// See the same function with the same name in the prefilter variant of this
-/// algorithm to learned why it&#39;s tagged with inline(never). Even here, where
+/// algorithm to learned why it's tagged with inline(never). Even here, where
 /// the function is simpler, inlining it leads to poorer codegen. (Although
 /// it does improve some benchmarks, like prebuiltiter/huge-en/common-you.)
 </span><span class="attr">#[cold]

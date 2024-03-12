@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/clap-4.0.8/src/macros.rs`."><title>macros.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="clap" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0 (cc66ad468 2023-10-03)" data-channel="1.73.0" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-1596385f77d47ef2.css" data-theme-dark-css="dark-0a43001d3fc2282c.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-1596385f77d47ef2.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-0a43001d3fc2282c.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../clap/index.html"><img src="https://raw.githubusercontent.com/clap-rs/clap/master/assets/clap.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/clap-4.0.8/src/macros.rs`."><title>macros.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-ac92e1bbe349e143.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="clap" data-themes="" data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../static.files/src-script-39ed315d46fb705f.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><a class="sub-logo-container" href="../../clap/index.html"><img src="https://raw.githubusercontent.com/clap-rs/clap/master/assets/clap.png" alt="clap"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -693,27 +694,27 @@
 /// # extern crate clap;
 /// # use clap::Command;
 /// # fn main() {
-/// let m = Command::new(&quot;cmd&quot;)
+/// let m = Command::new("cmd")
 ///             .version(crate_version!())
 ///             .get_matches();
 /// # }
 /// ```
-</span><span class="attr">#[cfg(feature = <span class="string">&quot;cargo&quot;</span>)]
+</span><span class="attr">#[cfg(feature = <span class="string">"cargo"</span>)]
 #[macro_export]
 </span><span class="macro">macro_rules! </span>crate_version {
     () =&gt; {
-        <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>)
+        <span class="macro">env!</span>(<span class="string">"CARGO_PKG_VERSION"</span>)
     };
 }
 
 <span class="doccomment">/// Allows you to pull the authors for the command from your Cargo.toml at
 /// compile time in the form:
-/// `&quot;author1 lastname &lt;author1@example.com&gt;:author2 lastname &lt;author2@example.com&gt;&quot;`
+/// `"author1 lastname &lt;author1@example.com&gt;:author2 lastname &lt;author2@example.com&gt;"`
 ///
 /// You can replace the colons with a custom separator by supplying a
 /// replacement string, so, for example,
-/// `crate_authors!(&quot;,\n&quot;)` would become
-/// `&quot;author1 lastname &lt;author1@example.com&gt;,\nauthor2 lastname &lt;author2@example.com&gt;,\nauthor3 lastname &lt;author3@example.com&gt;&quot;`
+/// `crate_authors!(",\n")` would become
+/// `"author1 lastname &lt;author1@example.com&gt;,\nauthor2 lastname &lt;author2@example.com&gt;,\nauthor3 lastname &lt;author3@example.com&gt;"`
 ///
 /// # Examples
 ///
@@ -722,27 +723,27 @@
 /// # extern crate clap;
 /// # use clap::Command;
 /// # fn main() {
-/// let m = Command::new(&quot;cmd&quot;)
-///             .author(crate_authors!(&quot;\n&quot;))
+/// let m = Command::new("cmd")
+///             .author(crate_authors!("\n"))
 ///             .get_matches();
 /// # }
 /// ```
-</span><span class="attr">#[cfg(feature = <span class="string">&quot;cargo&quot;</span>)]
+</span><span class="attr">#[cfg(feature = <span class="string">"cargo"</span>)]
 #[macro_export]
 </span><span class="macro">macro_rules! </span>crate_authors {
     (<span class="macro-nonterminal">$sep</span>:expr) =&gt; {{
-        <span class="kw">static </span>authors: <span class="kw-2">&amp;</span>str = <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_AUTHORS&quot;</span>);
-        <span class="kw">if </span>authors.contains(<span class="string">&#39;:&#39;</span>) {
+        <span class="kw">static </span>authors: <span class="kw-2">&amp;</span>str = <span class="macro">env!</span>(<span class="string">"CARGO_PKG_AUTHORS"</span>);
+        <span class="kw">if </span>authors.contains(<span class="string">':'</span>) {
             <span class="kw">static </span>CACHED: clap::__macro_refs::once_cell::sync::Lazy&lt;String&gt; =
-                clap::__macro_refs::once_cell::sync::Lazy::new(|| authors.replace(<span class="string">&#39;:&#39;</span>, <span class="macro-nonterminal">$sep</span>));
-            <span class="kw">let </span>s: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="kw-2">&amp;*</span>CACHED;
+                clap::__macro_refs::once_cell::sync::Lazy::new(|| authors.replace(<span class="string">':'</span>, <span class="macro-nonterminal">$sep</span>));
+            <span class="kw">let </span>s: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = <span class="kw-2">&amp;*</span>CACHED;
             s
         } <span class="kw">else </span>{
             authors
         }
     }};
     () =&gt; {
-        <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_AUTHORS&quot;</span>)
+        <span class="macro">env!</span>(<span class="string">"CARGO_PKG_AUTHORS"</span>)
     };
 }
 
@@ -755,16 +756,16 @@
 /// # extern crate clap;
 /// # use clap::Command;
 /// # fn main() {
-/// let m = Command::new(&quot;cmd&quot;)
+/// let m = Command::new("cmd")
 ///             .about(crate_description!())
 ///             .get_matches();
 /// # }
 /// ```
-</span><span class="attr">#[cfg(feature = <span class="string">&quot;cargo&quot;</span>)]
+</span><span class="attr">#[cfg(feature = <span class="string">"cargo"</span>)]
 #[macro_export]
 </span><span class="macro">macro_rules! </span>crate_description {
     () =&gt; {
-        <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_DESCRIPTION&quot;</span>)
+        <span class="macro">env!</span>(<span class="string">"CARGO_PKG_DESCRIPTION"</span>)
     };
 }
 
@@ -781,22 +782,22 @@
 ///             .get_matches();
 /// # }
 /// ```
-</span><span class="attr">#[cfg(feature = <span class="string">&quot;cargo&quot;</span>)]
+</span><span class="attr">#[cfg(feature = <span class="string">"cargo"</span>)]
 #[macro_export]
 </span><span class="macro">macro_rules! </span>crate_name {
     () =&gt; {
-        <span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_NAME&quot;</span>)
+        <span class="macro">env!</span>(<span class="string">"CARGO_PKG_NAME"</span>)
     };
 }
 
 <span class="doccomment">/// Allows you to build the `Command` instance from your Cargo.toml at compile time.
 ///
 /// **NOTE:** Changing the values in your `Cargo.toml` does not trigger a re-build automatically,
-/// and therefore won&#39;t change the generated output until you recompile.
+/// and therefore won't change the generated output until you recompile.
 ///
-/// In some cases you can &quot;trick&quot; the compiler into triggering a rebuild when your
+/// In some cases you can "trick" the compiler into triggering a rebuild when your
 /// `Cargo.toml` is changed by including this in your `src/main.rs` file
-/// `include_str!(&quot;../Cargo.toml&quot;);`
+/// `include_str!("../Cargo.toml");`
 ///
 /// # Examples
 ///
@@ -807,7 +808,7 @@
 /// let m = command!().get_matches();
 /// # }
 /// ```
-</span><span class="attr">#[cfg(feature = <span class="string">&quot;cargo&quot;</span>)]
+</span><span class="attr">#[cfg(feature = <span class="string">"cargo"</span>)]
 #[macro_export]
 </span><span class="macro">macro_rules! </span>command {
     () =&gt; {{
@@ -831,14 +832,14 @@
 }
 
 <span class="doccomment">/// Requires `cargo` feature flag to be enabled.
-</span><span class="attr">#[cfg(not(feature = <span class="string">&quot;cargo&quot;</span>))]
+</span><span class="attr">#[cfg(not(feature = <span class="string">"cargo"</span>))]
 #[macro_export]
 </span><span class="macro">macro_rules! </span>command {
     () =&gt; {{
-        <span class="macro">compile_error!</span>(<span class="string">&quot;`cargo` feature flag is required&quot;</span>);
+        <span class="macro">compile_error!</span>(<span class="string">"`cargo` feature flag is required"</span>);
     }};
     (<span class="macro-nonterminal">$name</span>:expr) =&gt; {{
-        <span class="macro">compile_error!</span>(<span class="string">&quot;`cargo` feature flag is required&quot;</span>);
+        <span class="macro">compile_error!</span>(<span class="string">"`cargo` feature flag is required"</span>);
     }};
 }
 
@@ -853,7 +854,7 @@
         ident_or_string_literal
     }};
     ( @string <span class="macro-nonterminal">$val</span>:tt ) =&gt; {
-        <span class="macro">::std::compile_error!</span>(<span class="string">&quot;Only identifiers or string literals supported&quot;</span>);
+        <span class="macro">::std::compile_error!</span>(<span class="string">"Only identifiers or string literals supported"</span>);
     };
     ( @string ) =&gt; {
         <span class="prelude-val">None
@@ -864,7 +865,7 @@
         <span class="macro">debug_assert_eq!</span>(
             ident_or_char_literal.len(),
             <span class="number">1</span>,
-            <span class="string">&quot;Single-letter identifier expected, got {}&quot;</span>,
+            <span class="string">"Single-letter identifier expected, got {}"</span>,
             ident_or_char_literal
         );
         ident_or_char_literal.chars().next().unwrap()
@@ -886,12 +887,12 @@
         <span class="macro-nonterminal">$</span><span class="macro">crate::arg_impl! </span>{
             @<span class="macro-nonterminal">arg
             </span>({
-                <span class="macro">debug_assert_eq!</span>(<span class="macro-nonterminal">$arg</span>.get_value_names(), <span class="prelude-val">None</span>, <span class="string">&quot;Flags should precede values&quot;</span>);
-                <span class="macro">debug_assert!</span>(!<span class="macro">matches!</span>(<span class="macro-nonterminal">$arg</span>.get_action(), <span class="macro-nonterminal">$crate::ArgAction::Append</span>), <span class="string">&quot;Flags should precede `...`&quot;</span>);
+                <span class="macro">debug_assert_eq!</span>(<span class="macro-nonterminal">$arg</span>.get_value_names(), <span class="prelude-val">None</span>, <span class="string">"Flags should precede values"</span>);
+                <span class="macro">debug_assert!</span>(!<span class="macro">matches!</span>(<span class="macro-nonterminal">$arg</span>.get_action(), <span class="macro-nonterminal">$crate::ArgAction::Append</span>), <span class="string">"Flags should precede `...`"</span>);
 
                 <span class="kw">let </span><span class="kw-2">mut </span>arg = <span class="macro-nonterminal">$arg</span>;
                 <span class="kw">let </span>long = <span class="macro-nonterminal">$</span><span class="macro">crate::arg_impl! </span>{ @<span class="macro-nonterminal">string $long </span>};
-                <span class="kw">if </span>arg.get_id() == <span class="string">&quot;&quot; </span>{
+                <span class="kw">if </span>arg.get_id() == <span class="string">"" </span>{
                     arg = arg.id(long);
                 }
                 <span class="kw">let </span>action = <span class="macro-nonterminal">$crate::ArgAction::SetTrue</span>;
@@ -911,12 +912,12 @@
         <span class="macro-nonterminal">$</span><span class="macro">crate::arg_impl! </span>{
             @<span class="macro-nonterminal">arg
             </span>({
-                <span class="macro">debug_assert_eq!</span>(<span class="macro-nonterminal">$arg</span>.get_value_names(), <span class="prelude-val">None</span>, <span class="string">&quot;Flags should precede values&quot;</span>);
-                <span class="macro">debug_assert!</span>(!<span class="macro">matches!</span>(<span class="macro-nonterminal">$arg</span>.get_action(), <span class="macro-nonterminal">$crate::ArgAction::Append</span>), <span class="string">&quot;Flags should precede `...`&quot;</span>);
+                <span class="macro">debug_assert_eq!</span>(<span class="macro-nonterminal">$arg</span>.get_value_names(), <span class="prelude-val">None</span>, <span class="string">"Flags should precede values"</span>);
+                <span class="macro">debug_assert!</span>(!<span class="macro">matches!</span>(<span class="macro-nonterminal">$arg</span>.get_action(), <span class="macro-nonterminal">$crate::ArgAction::Append</span>), <span class="string">"Flags should precede `...`"</span>);
 
                 <span class="kw">let </span><span class="kw-2">mut </span>arg = <span class="macro-nonterminal">$arg</span>;
                 <span class="kw">let </span>long = <span class="macro-nonterminal">$</span><span class="macro">crate::arg_impl! </span>{ @<span class="macro-nonterminal">string $long </span>};
-                <span class="kw">if </span>arg.get_id() == <span class="string">&quot;&quot; </span>{
+                <span class="kw">if </span>arg.get_id() == <span class="string">"" </span>{
                     arg = arg.id(long);
                 }
                 <span class="kw">let </span>action = <span class="macro-nonterminal">$crate::ArgAction::SetTrue</span>;
@@ -936,9 +937,9 @@
         <span class="macro-nonterminal">$</span><span class="macro">crate::arg_impl! </span>{
             @<span class="macro-nonterminal">arg
             </span>({
-                <span class="macro">debug_assert_eq!</span>(<span class="macro-nonterminal">$arg</span>.get_long(), <span class="prelude-val">None</span>, <span class="string">&quot;Short flags should precede long flags&quot;</span>);
-                <span class="macro">debug_assert_eq!</span>(<span class="macro-nonterminal">$arg</span>.get_value_names(), <span class="prelude-val">None</span>, <span class="string">&quot;Flags should precede values&quot;</span>);
-                <span class="macro">debug_assert!</span>(!<span class="macro">matches!</span>(<span class="macro-nonterminal">$arg</span>.get_action(), <span class="macro-nonterminal">$crate::ArgAction::Append</span>), <span class="string">&quot;Flags should precede `...`&quot;</span>);
+                <span class="macro">debug_assert_eq!</span>(<span class="macro-nonterminal">$arg</span>.get_long(), <span class="prelude-val">None</span>, <span class="string">"Short flags should precede long flags"</span>);
+                <span class="macro">debug_assert_eq!</span>(<span class="macro-nonterminal">$arg</span>.get_value_names(), <span class="prelude-val">None</span>, <span class="string">"Flags should precede values"</span>);
+                <span class="macro">debug_assert!</span>(!<span class="macro">matches!</span>(<span class="macro-nonterminal">$arg</span>.get_action(), <span class="macro-nonterminal">$crate::ArgAction::Append</span>), <span class="string">"Flags should precede `...`"</span>);
 
                 <span class="kw">let </span>action = <span class="macro-nonterminal">$crate::ArgAction::SetTrue</span>;
                 <span class="macro-nonterminal">$arg
@@ -957,9 +958,9 @@
         <span class="macro-nonterminal">$</span><span class="macro">crate::arg_impl! </span>{
             @<span class="macro-nonterminal">arg
             </span>({
-                <span class="macro">debug_assert_eq!</span>(<span class="macro-nonterminal">$arg</span>.get_long(), <span class="prelude-val">None</span>, <span class="string">&quot;Short flags should precede long flags&quot;</span>);
-                <span class="macro">debug_assert_eq!</span>(<span class="macro-nonterminal">$arg</span>.get_value_names(), <span class="prelude-val">None</span>, <span class="string">&quot;Flags should precede values&quot;</span>);
-                <span class="macro">debug_assert!</span>(!<span class="macro">matches!</span>(<span class="macro-nonterminal">$arg</span>.get_action(), <span class="macro-nonterminal">$crate::ArgAction::Append</span>), <span class="string">&quot;Flags should precede `...`&quot;</span>);
+                <span class="macro">debug_assert_eq!</span>(<span class="macro-nonterminal">$arg</span>.get_long(), <span class="prelude-val">None</span>, <span class="string">"Short flags should precede long flags"</span>);
+                <span class="macro">debug_assert_eq!</span>(<span class="macro-nonterminal">$arg</span>.get_value_names(), <span class="prelude-val">None</span>, <span class="string">"Flags should precede values"</span>);
+                <span class="macro">debug_assert!</span>(!<span class="macro">matches!</span>(<span class="macro-nonterminal">$arg</span>.get_action(), <span class="macro-nonterminal">$crate::ArgAction::Append</span>), <span class="string">"Flags should precede `...`"</span>);
 
                 <span class="kw">let </span>action = <span class="macro-nonterminal">$crate::ArgAction::SetTrue</span>;
                 <span class="macro-nonterminal">$arg
@@ -978,8 +979,8 @@
         <span class="macro-nonterminal">$</span><span class="macro">crate::arg_impl! </span>{
             @<span class="macro-nonterminal">arg
             </span>({
-                <span class="macro">debug_assert!</span>(!<span class="macro">matches!</span>(<span class="macro-nonterminal">$arg</span>.get_action(), <span class="macro-nonterminal">$crate::ArgAction::Append</span>), <span class="string">&quot;Flags should precede `...`&quot;</span>);
-                <span class="macro">debug_assert_eq!</span>(<span class="macro-nonterminal">$arg</span>.get_value_names(), <span class="prelude-val">None</span>, <span class="string">&quot;Multiple values not yet supported&quot;</span>);
+                <span class="macro">debug_assert!</span>(!<span class="macro">matches!</span>(<span class="macro-nonterminal">$arg</span>.get_action(), <span class="macro-nonterminal">$crate::ArgAction::Append</span>), <span class="string">"Flags should precede `...`"</span>);
+                <span class="macro">debug_assert_eq!</span>(<span class="macro-nonterminal">$arg</span>.get_value_names(), <span class="prelude-val">None</span>, <span class="string">"Multiple values not yet supported"</span>);
 
                 <span class="kw">let </span><span class="kw-2">mut </span>arg = <span class="macro-nonterminal">$arg</span>;
 
@@ -988,7 +989,7 @@
                 }
 
                 <span class="kw">let </span>value_name = <span class="macro-nonterminal">$</span><span class="macro">crate::arg_impl! </span>{ @<span class="macro-nonterminal">string $value_name </span>};
-                <span class="kw">if </span>arg.get_id() == <span class="string">&quot;&quot; </span>{
+                <span class="kw">if </span>arg.get_id() == <span class="string">"" </span>{
                     arg = arg.id(value_name);
                 }
                 arg
@@ -1007,8 +1008,8 @@
         <span class="macro-nonterminal">$</span><span class="macro">crate::arg_impl! </span>{
             @<span class="macro-nonterminal">arg
             </span>({
-                <span class="macro">debug_assert!</span>(!<span class="macro">matches!</span>(<span class="macro-nonterminal">$arg</span>.get_action(), <span class="macro-nonterminal">$crate::ArgAction::Append</span>), <span class="string">&quot;Flags should precede `...`&quot;</span>);
-                <span class="macro">debug_assert_eq!</span>(<span class="macro-nonterminal">$arg</span>.get_value_names(), <span class="prelude-val">None</span>, <span class="string">&quot;Multiple values not yet supported&quot;</span>);
+                <span class="macro">debug_assert!</span>(!<span class="macro">matches!</span>(<span class="macro-nonterminal">$arg</span>.get_action(), <span class="macro-nonterminal">$crate::ArgAction::Append</span>), <span class="string">"Flags should precede `...`"</span>);
+                <span class="macro">debug_assert_eq!</span>(<span class="macro-nonterminal">$arg</span>.get_value_names(), <span class="prelude-val">None</span>, <span class="string">"Multiple values not yet supported"</span>);
 
                 <span class="kw">let </span><span class="kw-2">mut </span>arg = <span class="macro-nonterminal">$arg</span>;
 
@@ -1017,7 +1018,7 @@
                 }
 
                 <span class="kw">let </span>value_name = <span class="macro-nonterminal">$</span><span class="macro">crate::arg_impl! </span>{ @<span class="macro-nonterminal">string $value_name </span>};
-                <span class="kw">if </span>arg.get_id() == <span class="string">&quot;&quot; </span>{
+                <span class="kw">if </span>arg.get_id() == <span class="string">"" </span>{
                     arg = arg.id(value_name);
                 }
                 arg
@@ -1036,8 +1037,8 @@
         <span class="macro-nonterminal">$</span><span class="macro">crate::arg_impl! </span>{
             @<span class="macro-nonterminal">arg
             </span>({
-                <span class="macro">debug_assert!</span>(!<span class="macro">matches!</span>(<span class="macro-nonterminal">$arg</span>.get_action(), <span class="macro-nonterminal">$crate::ArgAction::Append</span>), <span class="string">&quot;Flags should precede `...`&quot;</span>);
-                <span class="macro">debug_assert_eq!</span>(<span class="macro-nonterminal">$arg</span>.get_value_names(), <span class="prelude-val">None</span>, <span class="string">&quot;Multiple values not yet supported&quot;</span>);
+                <span class="macro">debug_assert!</span>(!<span class="macro">matches!</span>(<span class="macro-nonterminal">$arg</span>.get_action(), <span class="macro-nonterminal">$crate::ArgAction::Append</span>), <span class="string">"Flags should precede `...`"</span>);
+                <span class="macro">debug_assert_eq!</span>(<span class="macro-nonterminal">$arg</span>.get_value_names(), <span class="prelude-val">None</span>, <span class="string">"Multiple values not yet supported"</span>);
 
                 <span class="kw">let </span><span class="kw-2">mut </span>arg = <span class="macro-nonterminal">$arg</span>;
 
@@ -1048,7 +1049,7 @@
                 }
 
                 <span class="kw">let </span>value_name = <span class="macro-nonterminal">$</span><span class="macro">crate::arg_impl! </span>{ @<span class="macro-nonterminal">string $value_name </span>};
-                <span class="kw">if </span>arg.get_id() == <span class="string">&quot;&quot; </span>{
+                <span class="kw">if </span>arg.get_id() == <span class="string">"" </span>{
                     arg = arg.id(value_name);
                 }
                 arg
@@ -1067,8 +1068,8 @@
         <span class="macro-nonterminal">$</span><span class="macro">crate::arg_impl! </span>{
             @<span class="macro-nonterminal">arg
             </span>({
-                <span class="macro">debug_assert!</span>(!<span class="macro">matches!</span>(<span class="macro-nonterminal">$arg</span>.get_action(), <span class="macro-nonterminal">$crate::ArgAction::Append</span>), <span class="string">&quot;Flags should precede `...`&quot;</span>);
-                <span class="macro">debug_assert_eq!</span>(<span class="macro-nonterminal">$arg</span>.get_value_names(), <span class="prelude-val">None</span>, <span class="string">&quot;Multiple values not yet supported&quot;</span>);
+                <span class="macro">debug_assert!</span>(!<span class="macro">matches!</span>(<span class="macro-nonterminal">$arg</span>.get_action(), <span class="macro-nonterminal">$crate::ArgAction::Append</span>), <span class="string">"Flags should precede `...`"</span>);
+                <span class="macro">debug_assert_eq!</span>(<span class="macro-nonterminal">$arg</span>.get_value_names(), <span class="prelude-val">None</span>, <span class="string">"Multiple values not yet supported"</span>);
 
                 <span class="kw">let </span><span class="kw-2">mut </span>arg = <span class="macro-nonterminal">$arg</span>;
 
@@ -1079,7 +1080,7 @@
                 }
 
                 <span class="kw">let </span>value_name = <span class="macro-nonterminal">$</span><span class="macro">crate::arg_impl! </span>{ @<span class="macro-nonterminal">string $value_name </span>};
-                <span class="kw">if </span>arg.get_id() == <span class="string">&quot;&quot; </span>{
+                <span class="kw">if </span>arg.get_id() == <span class="string">"" </span>{
                     arg = arg.id(value_name);
                 }
                 arg
@@ -1112,7 +1113,7 @@
                         <span class="macro-nonterminal">$arg</span>.action(<span class="macro-nonterminal">$crate::ArgAction::Count</span>)
                     }
                     action =&gt; {
-                        <span class="macro">panic!</span>(<span class="string">&quot;Unexpected action {:?}&quot;</span>, action)
+                        <span class="macro">panic!</span>(<span class="string">"Unexpected action {:?}"</span>, action)
                     }
                 }
             })
@@ -1152,9 +1153,9 @@
 /// ### Explicit Name
 ///
 /// The name may be either a bare-word or a string, followed by a `:`, like `name:` or
-/// `&quot;name&quot;:`.
+/// `"name":`.
 ///
-/// *Note:* This is an optional field, if it&#39;s omitted the argument will use one of the additional
+/// *Note:* This is an optional field, if it's omitted the argument will use one of the additional
 /// fields as the name using the following priority order:
 ///
 ///  1. Explicit Name
@@ -1166,17 +1167,17 @@
 /// ### Short
 ///
 /// A short flag is a `-` followed by either a bare-character or quoted character, like `-f` or
-/// `-&#39;f&#39;`.
+/// `-'f'`.
 ///
 /// See [`Arg::short`][crate::Arg::short].
 ///
 /// ### Long
 ///
 /// A long flag is a `--` followed by either a bare-word or a string, like `--foo` or
-/// `--&quot;foo&quot;`.
+/// `--"foo"`.
 ///
 /// **NOTE:** Dashes in the long name (e.g. `--foo-bar`) is not supported and quoting is required
-/// (e.g. `--&quot;foo-bar&quot;`).
+/// (e.g. `--"foo-bar"`).
 ///
 /// See [`Arg::long`][crate::Arg::long].
 ///
@@ -1199,24 +1200,24 @@
 ///
 /// ### Help String
 ///
-/// The help string is denoted between a pair of double quotes `&quot;&quot;` and may contain any
+/// The help string is denoted between a pair of double quotes `""` and may contain any
 /// characters.
 ///
 /// # Examples
 ///
 /// ```rust
 /// # use clap::{Command, Arg, arg};
-/// let cmd = Command::new(&quot;prog&quot;)
+/// let cmd = Command::new("prog")
 ///     .args(&amp;[
-///         arg!(--config &lt;FILE&gt; &quot;a required file for the configuration and no short&quot;),
-///         arg!(-d --debug ... &quot;turns on debugging information and allows multiples&quot;),
-///         arg!([input] &quot;an optional input file to use&quot;)
+///         arg!(--config &lt;FILE&gt; "a required file for the configuration and no short"),
+///         arg!(-d --debug ... "turns on debugging information and allows multiples"),
+///         arg!([input] "an optional input file to use")
 ///     ]);
 ///
-/// let m = cmd.try_get_matches_from([&quot;prog&quot;, &quot;--config&quot;, &quot;file.toml&quot;]).unwrap();
-/// assert_eq!(m.get_one::&lt;String&gt;(&quot;config&quot;).unwrap(), &quot;file.toml&quot;);
-/// assert_eq!(*m.get_one::&lt;u8&gt;(&quot;debug&quot;).unwrap(), 0);
-/// assert_eq!(m.get_one::&lt;String&gt;(&quot;input&quot;), None);
+/// let m = cmd.try_get_matches_from(["prog", "--config", "file.toml"]).unwrap();
+/// assert_eq!(m.get_one::&lt;String&gt;("config").unwrap(), "file.toml");
+/// assert_eq!(*m.get_one::&lt;u8&gt;("debug").unwrap(), 0);
+/// assert_eq!(m.get_one::&lt;String&gt;("input"), None);
 /// ```
 /// [`Arg`]: crate::Arg
 </span><span class="attr">#[macro_export]
@@ -1230,7 +1231,7 @@
         <span class="kw">let </span>arg = <span class="macro-nonterminal">$</span><span class="macro">crate::arg_impl! </span>{
             @<span class="macro-nonterminal">arg </span>(<span class="macro-nonterminal">$crate::Arg::default</span>()) $(<span class="macro-nonterminal">$tail</span>)+
         };
-        <span class="macro">debug_assert_ne!</span>(arg.get_id(), <span class="string">&quot;&quot;</span>, <span class="string">&quot;Without a value or long flag, the `name:` prefix is required&quot;</span>);
+        <span class="macro">debug_assert_ne!</span>(arg.get_id(), <span class="string">""</span>, <span class="string">"Without a value or long flag, the `name:` prefix is required"</span>);
         arg
     }};
 }
@@ -1328,21 +1329,21 @@
     }
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;debug&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">"debug"</span>)]
 </span><span class="macro">macro_rules! </span>debug {
     ($(<span class="macro-nonterminal">$arg</span>:tt)<span class="kw-2">*</span>) =&gt; ({
-        <span class="kw">let </span>prefix = <span class="macro">format!</span>(<span class="string">&quot;[{:&gt;w$}] \t&quot;</span>, <span class="macro">module_path!</span>(), w = <span class="number">28</span>);
+        <span class="kw">let </span>prefix = <span class="macro">format!</span>(<span class="string">"[{:&gt;w$}] \t"</span>, <span class="macro">module_path!</span>(), w = <span class="number">28</span>);
         <span class="kw">let </span>body = <span class="macro">format!</span>($(<span class="macro-nonterminal">$arg</span>)<span class="kw-2">*</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>styled = <span class="macro-nonterminal">$crate::builder::StyledStr::new</span>();
         styled.hint(prefix);
         styled.hint(body);
-        styled.none(<span class="string">&quot;\n&quot;</span>);
+        styled.none(<span class="string">"\n"</span>);
         <span class="kw">let </span>color = <span class="macro-nonterminal">$crate::output::fmt::Colorizer::new</span>(<span class="macro-nonterminal">$crate::output::fmt::Stream::Stderr</span>, <span class="macro-nonterminal">$crate::ColorChoice::Auto</span>).with_content(styled);
         <span class="kw">let _ </span>= color.print();
     })
 }
 
-<span class="attr">#[cfg(not(feature = <span class="string">&quot;debug&quot;</span>))]
+<span class="attr">#[cfg(not(feature = <span class="string">"debug"</span>))]
 </span><span class="macro">macro_rules! </span>debug {
     ($(<span class="macro-nonterminal">$arg</span>:tt)<span class="kw-2">*</span>) =&gt; {};
 }

@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/regex-syntax-0.6.25/src/hir/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="regex_syntax" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0 (cc66ad468 2023-10-03)" data-channel="1.73.0" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-1596385f77d47ef2.css" data-theme-dark-css="dark-0a43001d3fc2282c.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-1596385f77d47ef2.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-0a43001d3fc2282c.css"><link rel="stylesheet" href="../../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../regex_syntax/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/regex-syntax-0.6.25/src/hir/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-ac92e1bbe349e143.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="regex_syntax" data-themes="" data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../../static.files/src-script-39ed315d46fb705f.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -2318,7 +2319,7 @@ Defines a high-level intermediate representation for regular expressions.
 </span><span class="kw">pub struct </span>Error {
     <span class="doccomment">/// The kind of error.
     </span>kind: ErrorKind,
-    <span class="doccomment">/// The original pattern that the translator&#39;s Ast was parsed from. Every
+    <span class="doccomment">/// The original pattern that the translator's Ast was parsed from. Every
     /// span in an error is a valid range into this string.
     </span>pattern: String,
     <span class="doccomment">/// The span of this error, derived from the Ast given to the translator.
@@ -2351,7 +2352,7 @@ Defines a high-level intermediate representation for regular expressions.
     /// support is disabled. For example `(?-u:\pL)` would trigger this error.
     </span>UnicodeNotAllowed,
     <span class="doccomment">/// This error occurs when translating a pattern that could match a byte
-    /// sequence that isn&#39;t UTF-8 and `allow_invalid_utf8` was disabled.
+    /// sequence that isn't UTF-8 and `allow_invalid_utf8` was disabled.
     </span>InvalidUtf8,
     <span class="doccomment">/// This occurs when an unrecognized Unicode property name could not
     /// be found.
@@ -2376,7 +2377,7 @@ Defines a high-level intermediate representation for regular expressions.
     <span class="doccomment">/// Hints that destructuring should not be exhaustive.
     ///
     /// This enum may grow additional variants, so this makes sure clients
-    /// don&#39;t count on exhaustive matching. (Otherwise, adding a new variant
+    /// don't count on exhaustive matching. (Otherwise, adding a new variant
     /// could break existing code.)
     </span><span class="attr">#[doc(hidden)]
     </span>__Nonexhaustive,
@@ -2388,19 +2389,19 @@ Defines a high-level intermediate representation for regular expressions.
     </span><span class="kw">fn </span>description(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
         <span class="kw">use </span><span class="self">self</span>::ErrorKind::<span class="kw-2">*</span>;
         <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
-            UnicodeNotAllowed =&gt; <span class="string">&quot;Unicode not allowed here&quot;</span>,
-            InvalidUtf8 =&gt; <span class="string">&quot;pattern can match invalid UTF-8&quot;</span>,
-            UnicodePropertyNotFound =&gt; <span class="string">&quot;Unicode property not found&quot;</span>,
-            UnicodePropertyValueNotFound =&gt; <span class="string">&quot;Unicode property value not found&quot;</span>,
+            UnicodeNotAllowed =&gt; <span class="string">"Unicode not allowed here"</span>,
+            InvalidUtf8 =&gt; <span class="string">"pattern can match invalid UTF-8"</span>,
+            UnicodePropertyNotFound =&gt; <span class="string">"Unicode property not found"</span>,
+            UnicodePropertyValueNotFound =&gt; <span class="string">"Unicode property value not found"</span>,
             UnicodePerlClassNotFound =&gt; {
-                <span class="string">&quot;Unicode-aware Perl class not found \
-                 (make sure the unicode-perl feature is enabled)&quot;
+                <span class="string">"Unicode-aware Perl class not found \
+                 (make sure the unicode-perl feature is enabled)"
             </span>}
             UnicodeCaseUnavailable =&gt; {
-                <span class="string">&quot;Unicode-aware case insensitivity matching is not available \
-                 (make sure the unicode-case feature is enabled)&quot;
+                <span class="string">"Unicode-aware case insensitivity matching is not available \
+                 (make sure the unicode-case feature is enabled)"
             </span>}
-            EmptyClassNotAllowed =&gt; <span class="string">&quot;empty character classes are not allowed&quot;</span>,
+            EmptyClassNotAllowed =&gt; <span class="string">"empty character classes are not allowed"</span>,
             __Nonexhaustive =&gt; <span class="macro">unreachable!</span>(),
         }
     }
@@ -2415,13 +2416,13 @@ Defines a high-level intermediate representation for regular expressions.
 }
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>Error {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="kw">crate</span>::error::Formatter::from(<span class="self">self</span>).fmt(f)
     }
 }
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>ErrorKind {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="comment">// TODO: Remove this on the next breaking semver release.
         </span><span class="attr">#[allow(deprecated)]
         </span>f.write_str(<span class="self">self</span>.description())
@@ -2436,7 +2437,7 @@ Defines a high-level intermediate representation for regular expressions.
 /// easier to analyze. In particular, the AST is much more complex than the
 /// HIR. For example, while an AST supports arbitrarily nested character
 /// classes, the HIR will flatten all nested classes into a single set. The HIR
-/// will also &quot;compile away&quot; every flag present in the concrete syntax. For
+/// will also "compile away" every flag present in the concrete syntax. For
 /// example, users of HIR expressions never need to worry about case folding;
 /// it is handled automatically by the translator (e.g., by translating `(?i)A`
 /// to `[aA]`).
@@ -2453,14 +2454,14 @@ Defines a high-level intermediate representation for regular expressions.
 ///
 /// 1. Construction of an HIR expression *must* use the constructor methods
 ///    on this `Hir` type instead of building the `HirKind` values directly.
-///    This permits construction to enforce invariants like &quot;concatenations
-///    always consist of two or more sub-expressions.&quot;
+///    This permits construction to enforce invariants like "concatenations
+///    always consist of two or more sub-expressions."
 /// 2. Every HIR expression contains attributes that are defined inductively,
 ///    and can be computed cheaply during the construction process. For
 ///    example, one such attribute is whether the expression must match at the
 ///    beginning of the text.
 ///
-/// Also, an `Hir`&#39;s `fmt::Display` implementation prints an HIR as a regular
+/// Also, an `Hir`'s `fmt::Display` implementation prints an HIR as a regular
 /// expression pattern string, and uses constant stack space and heap space
 /// proportional to the size of the `Hir`.
 </span><span class="attr">#[derive(Clone, Debug, Eq, PartialEq)]
@@ -2725,11 +2726,11 @@ Defines a high-level intermediate representation for regular expressions.
                 }
                 <span class="comment">// Anchored attributes require something slightly more
                 // sophisticated. Normally, WLOG, to determine whether an
-                // expression is anchored to the start, we&#39;d only need to check
+                // expression is anchored to the start, we'd only need to check
                 // the first expression of a concatenation. However,
                 // expressions like `$\b^` are still anchored to the start,
-                // but the first expression in the concatenation *isn&#39;t*
-                // anchored to the start. So the &quot;first&quot; expression to look at
+                // but the first expression in the concatenation *isn't*
+                // anchored to the start. So the "first" expression to look at
                 // is actually one that is either not an assertion or is
                 // specifically the StartText assertion.
                 </span>info.set_anchored_start(
@@ -2846,13 +2847,13 @@ Defines a high-level intermediate representation for regular expressions.
     </span><span class="kw">pub fn </span>dot(bytes: bool) -&gt; Hir {
         <span class="kw">if </span>bytes {
             <span class="kw">let </span><span class="kw-2">mut </span>cls = ClassBytes::empty();
-            cls.push(ClassBytesRange::new(<span class="string">b&#39;\0&#39;</span>, <span class="string">b&#39;\x09&#39;</span>));
-            cls.push(ClassBytesRange::new(<span class="string">b&#39;\x0B&#39;</span>, <span class="string">b&#39;\xFF&#39;</span>));
+            cls.push(ClassBytesRange::new(<span class="string">b'\0'</span>, <span class="string">b'\x09'</span>));
+            cls.push(ClassBytesRange::new(<span class="string">b'\x0B'</span>, <span class="string">b'\xFF'</span>));
             Hir::class(Class::Bytes(cls))
         } <span class="kw">else </span>{
             <span class="kw">let </span><span class="kw-2">mut </span>cls = ClassUnicode::empty();
-            cls.push(ClassUnicodeRange::new(<span class="string">&#39;\0&#39;</span>, <span class="string">&#39;\x09&#39;</span>));
-            cls.push(ClassUnicodeRange::new(<span class="string">&#39;\x0B&#39;</span>, <span class="string">&#39;\u{10FFFF}&#39;</span>));
+            cls.push(ClassUnicodeRange::new(<span class="string">'\0'</span>, <span class="string">'\x09'</span>));
+            cls.push(ClassUnicodeRange::new(<span class="string">'\x0B'</span>, <span class="string">'\u{10FFFF}'</span>));
             Hir::class(Class::Unicode(cls))
         }
     }
@@ -2868,11 +2869,11 @@ Defines a high-level intermediate representation for regular expressions.
     </span><span class="kw">pub fn </span>any(bytes: bool) -&gt; Hir {
         <span class="kw">if </span>bytes {
             <span class="kw">let </span><span class="kw-2">mut </span>cls = ClassBytes::empty();
-            cls.push(ClassBytesRange::new(<span class="string">b&#39;\0&#39;</span>, <span class="string">b&#39;\xFF&#39;</span>));
+            cls.push(ClassBytesRange::new(<span class="string">b'\0'</span>, <span class="string">b'\xFF'</span>));
             Hir::class(Class::Bytes(cls))
         } <span class="kw">else </span>{
             <span class="kw">let </span><span class="kw-2">mut </span>cls = ClassUnicode::empty();
-            cls.push(ClassUnicodeRange::new(<span class="string">&#39;\0&#39;</span>, <span class="string">&#39;\u{10FFFF}&#39;</span>));
+            cls.push(ClassUnicodeRange::new(<span class="string">'\0'</span>, <span class="string">'\u{10FFFF}'</span>));
             Hir::class(Class::Unicode(cls))
         }
     }
@@ -3019,7 +3020,7 @@ Defines a high-level intermediate representation for regular expressions.
 /// This implementation uses constant stack space and heap space proportional
 /// to the size of the `Hir`.
 </span><span class="kw">impl </span>fmt::Display <span class="kw">for </span>Hir {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="kw">use </span><span class="kw">crate</span>::hir::print::Printer;
         Printer::new().print(<span class="self">self</span>, f)
     }
@@ -3093,7 +3094,7 @@ Defines a high-level intermediate representation for regular expressions.
     <span class="doccomment">/// Negate this character class in place.
     ///
     /// After completion, this character class will contain precisely the
-    /// characters that weren&#39;t previously in the class.
+    /// characters that weren't previously in the class.
     </span><span class="kw">pub fn </span>negate(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
             Class::Unicode(<span class="kw-2">ref mut </span>x) =&gt; x.negate(),
@@ -3151,7 +3152,7 @@ Defines a high-level intermediate representation for regular expressions.
     <span class="doccomment">/// Return an iterator over all ranges in this class.
     ///
     /// The iterator yields ranges in ascending order.
-    </span><span class="kw">pub fn </span>iter(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; ClassUnicodeIter&lt;<span class="lifetime">&#39;_</span>&gt; {
+    </span><span class="kw">pub fn </span>iter(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; ClassUnicodeIter&lt;<span class="lifetime">'_</span>&gt; {
         ClassUnicodeIter(<span class="self">self</span>.set.iter())
     }
 
@@ -3161,7 +3162,7 @@ Defines a high-level intermediate representation for regular expressions.
     }
 
     <span class="doccomment">/// Expand this character class such that it contains all case folded
-    /// characters, according to Unicode&#39;s &quot;simple&quot; mapping. For example, if
+    /// characters, according to Unicode's "simple" mapping. For example, if
     /// this class consists of the range `a-z`, then applying case folding will
     /// result in the class containing both the ranges `a-z` and `A-Z`.
     ///
@@ -3176,11 +3177,11 @@ Defines a high-level intermediate representation for regular expressions.
     </span><span class="kw">pub fn </span>case_fold_simple(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="self">self</span>.set
             .case_fold_simple()
-            .expect(<span class="string">&quot;unicode-case feature must be enabled&quot;</span>);
+            .expect(<span class="string">"unicode-case feature must be enabled"</span>);
     }
 
     <span class="doccomment">/// Expand this character class such that it contains all case folded
-    /// characters, according to Unicode&#39;s &quot;simple&quot; mapping. For example, if
+    /// characters, according to Unicode's "simple" mapping. For example, if
     /// this class consists of the range `a-z`, then applying case folding will
     /// result in the class containing both the ranges `a-z` and `A-Z`.
     ///
@@ -3224,7 +3225,7 @@ Defines a high-level intermediate representation for regular expressions.
     ///
     /// This computes the symmetric difference of two character classes. This
     /// removes all elements in this class that are also in the given class,
-    /// but all adds all elements from the given class that aren&#39;t in this
+    /// but all adds all elements from the given class that aren't in this
     /// class. That is, the class will contain all elements in either class,
     /// but will not contain any elements that are in both classes.
     </span><span class="kw">pub fn </span>symmetric_difference(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>ClassUnicode) {
@@ -3235,20 +3236,20 @@ Defines a high-level intermediate representation for regular expressions.
     /// nothing or only ASCII bytes. Stated differently, this returns false
     /// if and only if this class contains a non-ASCII codepoint.
     </span><span class="kw">pub fn </span>is_all_ascii(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        <span class="self">self</span>.set.intervals().last().map_or(<span class="bool-val">true</span>, |r| r.end &lt;= <span class="string">&#39;\x7F&#39;</span>)
+        <span class="self">self</span>.set.intervals().last().map_or(<span class="bool-val">true</span>, |r| r.end &lt;= <span class="string">'\x7F'</span>)
     }
 }
 
 <span class="doccomment">/// An iterator over all ranges in a Unicode character class.
 ///
-/// The lifetime `&#39;a` refers to the lifetime of the underlying class.
+/// The lifetime `'a` refers to the lifetime of the underlying class.
 </span><span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>ClassUnicodeIter&lt;<span class="lifetime">&#39;a</span>&gt;(IntervalSetIter&lt;<span class="lifetime">&#39;a</span>, ClassUnicodeRange&gt;);
+</span><span class="kw">pub struct </span>ClassUnicodeIter&lt;<span class="lifetime">'a</span>&gt;(IntervalSetIter&lt;<span class="lifetime">'a</span>, ClassUnicodeRange&gt;);
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Iterator <span class="kw">for </span>ClassUnicodeIter&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">type </span>Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>ClassUnicodeRange;
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Iterator <span class="kw">for </span>ClassUnicodeIter&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="kw">type </span>Item = <span class="kw-2">&amp;</span><span class="lifetime">'a </span>ClassUnicodeRange;
 
-    <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>ClassUnicodeRange&gt; {
+    <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>ClassUnicodeRange&gt; {
         <span class="self">self</span>.<span class="number">0</span>.next()
     }
 }
@@ -3264,21 +3265,21 @@ Defines a high-level intermediate representation for regular expressions.
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>ClassUnicodeRange {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="kw">let </span>start = <span class="kw">if </span>!<span class="self">self</span>.start.is_whitespace() &amp;&amp; !<span class="self">self</span>.start.is_control()
         {
             <span class="self">self</span>.start.to_string()
         } <span class="kw">else </span>{
-            <span class="macro">format!</span>(<span class="string">&quot;0x{:X}&quot;</span>, <span class="self">self</span>.start <span class="kw">as </span>u32)
+            <span class="macro">format!</span>(<span class="string">"0x{:X}"</span>, <span class="self">self</span>.start <span class="kw">as </span>u32)
         };
         <span class="kw">let </span>end = <span class="kw">if </span>!<span class="self">self</span>.end.is_whitespace() &amp;&amp; !<span class="self">self</span>.end.is_control() {
             <span class="self">self</span>.end.to_string()
         } <span class="kw">else </span>{
-            <span class="macro">format!</span>(<span class="string">&quot;0x{:X}&quot;</span>, <span class="self">self</span>.end <span class="kw">as </span>u32)
+            <span class="macro">format!</span>(<span class="string">"0x{:X}"</span>, <span class="self">self</span>.end <span class="kw">as </span>u32)
         };
-        f.debug_struct(<span class="string">&quot;ClassUnicodeRange&quot;</span>)
-            .field(<span class="string">&quot;start&quot;</span>, <span class="kw-2">&amp;</span>start)
-            .field(<span class="string">&quot;end&quot;</span>, <span class="kw-2">&amp;</span>end)
+        f.debug_struct(<span class="string">"ClassUnicodeRange"</span>)
+            .field(<span class="string">"start"</span>, <span class="kw-2">&amp;</span>start)
+            .field(<span class="string">"end"</span>, <span class="kw-2">&amp;</span>end)
             .finish()
     }
 }
@@ -3394,7 +3395,7 @@ Defines a high-level intermediate representation for regular expressions.
     <span class="doccomment">/// Return an iterator over all ranges in this class.
     ///
     /// The iterator yields ranges in ascending order.
-    </span><span class="kw">pub fn </span>iter(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; ClassBytesIter&lt;<span class="lifetime">&#39;_</span>&gt; {
+    </span><span class="kw">pub fn </span>iter(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; ClassBytesIter&lt;<span class="lifetime">'_</span>&gt; {
         ClassBytesIter(<span class="self">self</span>.set.iter())
     }
 
@@ -3411,7 +3412,7 @@ Defines a high-level intermediate representation for regular expressions.
     /// Note that this only applies ASCII case folding, which is limited to the
     /// characters `a-z` and `A-Z`.
     </span><span class="kw">pub fn </span>case_fold_simple(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
-        <span class="self">self</span>.set.case_fold_simple().expect(<span class="string">&quot;ASCII case folding never fails&quot;</span>);
+        <span class="self">self</span>.set.case_fold_simple().expect(<span class="string">"ASCII case folding never fails"</span>);
     }
 
     <span class="doccomment">/// Negate this byte class.
@@ -3441,7 +3442,7 @@ Defines a high-level intermediate representation for regular expressions.
     ///
     /// This computes the symmetric difference of two byte classes. This
     /// removes all elements in this class that are also in the given class,
-    /// but all adds all elements from the given class that aren&#39;t in this
+    /// but all adds all elements from the given class that aren't in this
     /// class. That is, the class will contain all elements in either class,
     /// but will not contain any elements that are in both classes.
     </span><span class="kw">pub fn </span>symmetric_difference(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>ClassBytes) {
@@ -3458,14 +3459,14 @@ Defines a high-level intermediate representation for regular expressions.
 
 <span class="doccomment">/// An iterator over all ranges in a byte character class.
 ///
-/// The lifetime `&#39;a` refers to the lifetime of the underlying class.
+/// The lifetime `'a` refers to the lifetime of the underlying class.
 </span><span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>ClassBytesIter&lt;<span class="lifetime">&#39;a</span>&gt;(IntervalSetIter&lt;<span class="lifetime">&#39;a</span>, ClassBytesRange&gt;);
+</span><span class="kw">pub struct </span>ClassBytesIter&lt;<span class="lifetime">'a</span>&gt;(IntervalSetIter&lt;<span class="lifetime">'a</span>, ClassBytesRange&gt;);
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Iterator <span class="kw">for </span>ClassBytesIter&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">type </span>Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>ClassBytesRange;
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Iterator <span class="kw">for </span>ClassBytesIter&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="kw">type </span>Item = <span class="kw-2">&amp;</span><span class="lifetime">'a </span>ClassBytesRange;
 
-    <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>ClassBytesRange&gt; {
+    <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>ClassBytesRange&gt; {
         <span class="self">self</span>.<span class="number">0</span>.next()
     }
 }
@@ -3509,14 +3510,14 @@ Defines a high-level intermediate representation for regular expressions.
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         ranges: <span class="kw-2">&amp;mut </span>Vec&lt;ClassBytesRange&gt;,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;(), unicode::CaseFoldError&gt; {
-        <span class="kw">if </span>!ClassBytesRange::new(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;z&#39;</span>).is_intersection_empty(<span class="self">self</span>) {
-            <span class="kw">let </span>lower = cmp::max(<span class="self">self</span>.start, <span class="string">b&#39;a&#39;</span>);
-            <span class="kw">let </span>upper = cmp::min(<span class="self">self</span>.end, <span class="string">b&#39;z&#39;</span>);
+        <span class="kw">if </span>!ClassBytesRange::new(<span class="string">b'a'</span>, <span class="string">b'z'</span>).is_intersection_empty(<span class="self">self</span>) {
+            <span class="kw">let </span>lower = cmp::max(<span class="self">self</span>.start, <span class="string">b'a'</span>);
+            <span class="kw">let </span>upper = cmp::min(<span class="self">self</span>.end, <span class="string">b'z'</span>);
             ranges.push(ClassBytesRange::new(lower - <span class="number">32</span>, upper - <span class="number">32</span>));
         }
-        <span class="kw">if </span>!ClassBytesRange::new(<span class="string">b&#39;A&#39;</span>, <span class="string">b&#39;Z&#39;</span>).is_intersection_empty(<span class="self">self</span>) {
-            <span class="kw">let </span>lower = cmp::max(<span class="self">self</span>.start, <span class="string">b&#39;A&#39;</span>);
-            <span class="kw">let </span>upper = cmp::min(<span class="self">self</span>.end, <span class="string">b&#39;Z&#39;</span>);
+        <span class="kw">if </span>!ClassBytesRange::new(<span class="string">b'A'</span>, <span class="string">b'Z'</span>).is_intersection_empty(<span class="self">self</span>) {
+            <span class="kw">let </span>lower = cmp::max(<span class="self">self</span>.start, <span class="string">b'A'</span>);
+            <span class="kw">let </span>upper = cmp::min(<span class="self">self</span>.end, <span class="string">b'Z'</span>);
             ranges.push(ClassBytesRange::new(lower + <span class="number">32</span>, upper + <span class="number">32</span>));
         }
         <span class="prelude-val">Ok</span>(())
@@ -3550,17 +3551,17 @@ Defines a high-level intermediate representation for regular expressions.
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>ClassBytesRange {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        <span class="kw">let </span><span class="kw-2">mut </span>debug = f.debug_struct(<span class="string">&quot;ClassBytesRange&quot;</span>);
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        <span class="kw">let </span><span class="kw-2">mut </span>debug = f.debug_struct(<span class="string">"ClassBytesRange"</span>);
         <span class="kw">if </span><span class="self">self</span>.start &lt;= <span class="number">0x7F </span>{
-            debug.field(<span class="string">&quot;start&quot;</span>, <span class="kw-2">&amp;</span>(<span class="self">self</span>.start <span class="kw">as </span>char));
+            debug.field(<span class="string">"start"</span>, <span class="kw-2">&amp;</span>(<span class="self">self</span>.start <span class="kw">as </span>char));
         } <span class="kw">else </span>{
-            debug.field(<span class="string">&quot;start&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.start);
+            debug.field(<span class="string">"start"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.start);
         }
         <span class="kw">if </span><span class="self">self</span>.end &lt;= <span class="number">0x7F </span>{
-            debug.field(<span class="string">&quot;end&quot;</span>, <span class="kw-2">&amp;</span>(<span class="self">self</span>.end <span class="kw">as </span>char));
+            debug.field(<span class="string">"end"</span>, <span class="kw-2">&amp;</span>(<span class="self">self</span>.end <span class="kw">as </span>char));
         } <span class="kw">else </span>{
-            debug.field(<span class="string">&quot;end&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.end);
+            debug.field(<span class="string">"end"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.end);
         }
         debug.finish()
     }
@@ -3665,7 +3666,7 @@ Defines a high-level intermediate representation for regular expressions.
     ///
     /// Typically, operators are greedy by default and are only non-greedy when
     /// a `?` suffix is used, e.g., `(expr)*` is greedy while `(expr)*?` is
-    /// not. However, this can be inverted via the `U` &quot;ungreedy&quot; flag.
+    /// not. However, this can be inverted via the `U` "ungreedy" flag.
     </span><span class="kw">pub </span>greedy: bool,
     <span class="doccomment">/// The expression being repeated.
     </span><span class="kw">pub </span>hir: Box&lt;Hir&gt;,
@@ -3831,7 +3832,7 @@ Defines a high-level intermediate representation for regular expressions.
         cls.iter().map(|x| (x.start(), x.end())).collect()
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;unicode-case&quot;</span>)]
+    <span class="attr">#[cfg(feature = <span class="string">"unicode-case"</span>)]
     </span><span class="kw">fn </span>ucasefold(cls: <span class="kw-2">&amp;</span>ClassUnicode) -&gt; ClassUnicode {
         <span class="kw">let </span><span class="kw-2">mut </span>cls_ = cls.clone();
         cls_.case_fold_simple();
@@ -3913,180 +3914,180 @@ Defines a high-level intermediate representation for regular expressions.
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>class_range_canonical_unicode() {
-        <span class="kw">let </span>range = ClassUnicodeRange::new(<span class="string">&#39;\u{00FF}&#39;</span>, <span class="string">&#39;\0&#39;</span>);
-        <span class="macro">assert_eq!</span>(<span class="string">&#39;\0&#39;</span>, range.start());
-        <span class="macro">assert_eq!</span>(<span class="string">&#39;\u{00FF}&#39;</span>, range.end());
+        <span class="kw">let </span>range = ClassUnicodeRange::new(<span class="string">'\u{00FF}'</span>, <span class="string">'\0'</span>);
+        <span class="macro">assert_eq!</span>(<span class="string">'\0'</span>, range.start());
+        <span class="macro">assert_eq!</span>(<span class="string">'\u{00FF}'</span>, range.end());
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>class_range_canonical_bytes() {
-        <span class="kw">let </span>range = ClassBytesRange::new(<span class="string">b&#39;\xFF&#39;</span>, <span class="string">b&#39;\0&#39;</span>);
-        <span class="macro">assert_eq!</span>(<span class="string">b&#39;\0&#39;</span>, range.start());
-        <span class="macro">assert_eq!</span>(<span class="string">b&#39;\xFF&#39;</span>, range.end());
+        <span class="kw">let </span>range = ClassBytesRange::new(<span class="string">b'\xFF'</span>, <span class="string">b'\0'</span>);
+        <span class="macro">assert_eq!</span>(<span class="string">b'\0'</span>, range.start());
+        <span class="macro">assert_eq!</span>(<span class="string">b'\xFF'</span>, range.end());
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>class_canonicalize_unicode() {
-        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;c&#39;</span>), (<span class="string">&#39;x&#39;</span>, <span class="string">&#39;z&#39;</span>)]);
-        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;c&#39;</span>), (<span class="string">&#39;x&#39;</span>, <span class="string">&#39;z&#39;</span>)];
+        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'c'</span>), (<span class="string">'x'</span>, <span class="string">'z'</span>)]);
+        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">'a'</span>, <span class="string">'c'</span>), (<span class="string">'x'</span>, <span class="string">'z'</span>)];
         <span class="macro">assert_eq!</span>(expected, uranges(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;x&#39;</span>, <span class="string">&#39;z&#39;</span>), (<span class="string">&#39;a&#39;</span>, <span class="string">&#39;c&#39;</span>)]);
-        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;c&#39;</span>), (<span class="string">&#39;x&#39;</span>, <span class="string">&#39;z&#39;</span>)];
+        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'x'</span>, <span class="string">'z'</span>), (<span class="string">'a'</span>, <span class="string">'c'</span>)]);
+        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">'a'</span>, <span class="string">'c'</span>), (<span class="string">'x'</span>, <span class="string">'z'</span>)];
         <span class="macro">assert_eq!</span>(expected, uranges(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;x&#39;</span>, <span class="string">&#39;z&#39;</span>), (<span class="string">&#39;w&#39;</span>, <span class="string">&#39;y&#39;</span>)]);
-        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">&#39;w&#39;</span>, <span class="string">&#39;z&#39;</span>)];
+        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'x'</span>, <span class="string">'z'</span>), (<span class="string">'w'</span>, <span class="string">'y'</span>)]);
+        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">'w'</span>, <span class="string">'z'</span>)];
         <span class="macro">assert_eq!</span>(expected, uranges(<span class="kw-2">&amp;</span>cls));
 
         <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[
-            (<span class="string">&#39;c&#39;</span>, <span class="string">&#39;f&#39;</span>),
-            (<span class="string">&#39;a&#39;</span>, <span class="string">&#39;g&#39;</span>),
-            (<span class="string">&#39;d&#39;</span>, <span class="string">&#39;j&#39;</span>),
-            (<span class="string">&#39;a&#39;</span>, <span class="string">&#39;c&#39;</span>),
-            (<span class="string">&#39;m&#39;</span>, <span class="string">&#39;p&#39;</span>),
-            (<span class="string">&#39;l&#39;</span>, <span class="string">&#39;s&#39;</span>),
+            (<span class="string">'c'</span>, <span class="string">'f'</span>),
+            (<span class="string">'a'</span>, <span class="string">'g'</span>),
+            (<span class="string">'d'</span>, <span class="string">'j'</span>),
+            (<span class="string">'a'</span>, <span class="string">'c'</span>),
+            (<span class="string">'m'</span>, <span class="string">'p'</span>),
+            (<span class="string">'l'</span>, <span class="string">'s'</span>),
         ]);
-        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;j&#39;</span>), (<span class="string">&#39;l&#39;</span>, <span class="string">&#39;s&#39;</span>)];
+        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">'a'</span>, <span class="string">'j'</span>), (<span class="string">'l'</span>, <span class="string">'s'</span>)];
         <span class="macro">assert_eq!</span>(expected, uranges(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;x&#39;</span>, <span class="string">&#39;z&#39;</span>), (<span class="string">&#39;u&#39;</span>, <span class="string">&#39;w&#39;</span>)]);
-        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">&#39;u&#39;</span>, <span class="string">&#39;z&#39;</span>)];
+        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'x'</span>, <span class="string">'z'</span>), (<span class="string">'u'</span>, <span class="string">'w'</span>)]);
+        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">'u'</span>, <span class="string">'z'</span>)];
         <span class="macro">assert_eq!</span>(expected, uranges(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;\x00&#39;</span>, <span class="string">&#39;\u{10FFFF}&#39;</span>), (<span class="string">&#39;\x00&#39;</span>, <span class="string">&#39;\u{10FFFF}&#39;</span>)]);
-        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">&#39;\x00&#39;</span>, <span class="string">&#39;\u{10FFFF}&#39;</span>)];
+        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'\x00'</span>, <span class="string">'\u{10FFFF}'</span>), (<span class="string">'\x00'</span>, <span class="string">'\u{10FFFF}'</span>)]);
+        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">'\x00'</span>, <span class="string">'\u{10FFFF}'</span>)];
         <span class="macro">assert_eq!</span>(expected, uranges(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;a&#39;</span>), (<span class="string">&#39;b&#39;</span>, <span class="string">&#39;b&#39;</span>)]);
-        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;b&#39;</span>)];
+        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'a'</span>), (<span class="string">'b'</span>, <span class="string">'b'</span>)]);
+        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">'a'</span>, <span class="string">'b'</span>)];
         <span class="macro">assert_eq!</span>(expected, uranges(<span class="kw-2">&amp;</span>cls));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>class_canonicalize_bytes() {
-        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;c&#39;</span>), (<span class="string">b&#39;x&#39;</span>, <span class="string">b&#39;z&#39;</span>)]);
-        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;c&#39;</span>), (<span class="string">b&#39;x&#39;</span>, <span class="string">b&#39;z&#39;</span>)];
+        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'c'</span>), (<span class="string">b'x'</span>, <span class="string">b'z'</span>)]);
+        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">b'a'</span>, <span class="string">b'c'</span>), (<span class="string">b'x'</span>, <span class="string">b'z'</span>)];
         <span class="macro">assert_eq!</span>(expected, branges(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;x&#39;</span>, <span class="string">b&#39;z&#39;</span>), (<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;c&#39;</span>)]);
-        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;c&#39;</span>), (<span class="string">b&#39;x&#39;</span>, <span class="string">b&#39;z&#39;</span>)];
+        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'x'</span>, <span class="string">b'z'</span>), (<span class="string">b'a'</span>, <span class="string">b'c'</span>)]);
+        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">b'a'</span>, <span class="string">b'c'</span>), (<span class="string">b'x'</span>, <span class="string">b'z'</span>)];
         <span class="macro">assert_eq!</span>(expected, branges(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;x&#39;</span>, <span class="string">b&#39;z&#39;</span>), (<span class="string">b&#39;w&#39;</span>, <span class="string">b&#39;y&#39;</span>)]);
-        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">b&#39;w&#39;</span>, <span class="string">b&#39;z&#39;</span>)];
+        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'x'</span>, <span class="string">b'z'</span>), (<span class="string">b'w'</span>, <span class="string">b'y'</span>)]);
+        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">b'w'</span>, <span class="string">b'z'</span>)];
         <span class="macro">assert_eq!</span>(expected, branges(<span class="kw-2">&amp;</span>cls));
 
         <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[
-            (<span class="string">b&#39;c&#39;</span>, <span class="string">b&#39;f&#39;</span>),
-            (<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;g&#39;</span>),
-            (<span class="string">b&#39;d&#39;</span>, <span class="string">b&#39;j&#39;</span>),
-            (<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;c&#39;</span>),
-            (<span class="string">b&#39;m&#39;</span>, <span class="string">b&#39;p&#39;</span>),
-            (<span class="string">b&#39;l&#39;</span>, <span class="string">b&#39;s&#39;</span>),
+            (<span class="string">b'c'</span>, <span class="string">b'f'</span>),
+            (<span class="string">b'a'</span>, <span class="string">b'g'</span>),
+            (<span class="string">b'd'</span>, <span class="string">b'j'</span>),
+            (<span class="string">b'a'</span>, <span class="string">b'c'</span>),
+            (<span class="string">b'm'</span>, <span class="string">b'p'</span>),
+            (<span class="string">b'l'</span>, <span class="string">b's'</span>),
         ]);
-        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;j&#39;</span>), (<span class="string">b&#39;l&#39;</span>, <span class="string">b&#39;s&#39;</span>)];
+        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">b'a'</span>, <span class="string">b'j'</span>), (<span class="string">b'l'</span>, <span class="string">b's'</span>)];
         <span class="macro">assert_eq!</span>(expected, branges(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;x&#39;</span>, <span class="string">b&#39;z&#39;</span>), (<span class="string">b&#39;u&#39;</span>, <span class="string">b&#39;w&#39;</span>)]);
-        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">b&#39;u&#39;</span>, <span class="string">b&#39;z&#39;</span>)];
+        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'x'</span>, <span class="string">b'z'</span>), (<span class="string">b'u'</span>, <span class="string">b'w'</span>)]);
+        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">b'u'</span>, <span class="string">b'z'</span>)];
         <span class="macro">assert_eq!</span>(expected, branges(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;\x00&#39;</span>, <span class="string">b&#39;\xFF&#39;</span>), (<span class="string">b&#39;\x00&#39;</span>, <span class="string">b&#39;\xFF&#39;</span>)]);
-        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">b&#39;\x00&#39;</span>, <span class="string">b&#39;\xFF&#39;</span>)];
+        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'\x00'</span>, <span class="string">b'\xFF'</span>), (<span class="string">b'\x00'</span>, <span class="string">b'\xFF'</span>)]);
+        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">b'\x00'</span>, <span class="string">b'\xFF'</span>)];
         <span class="macro">assert_eq!</span>(expected, branges(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;a&#39;</span>), (<span class="string">b&#39;b&#39;</span>, <span class="string">b&#39;b&#39;</span>)]);
-        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;b&#39;</span>)];
+        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'a'</span>), (<span class="string">b'b'</span>, <span class="string">b'b'</span>)]);
+        <span class="kw">let </span>expected = <span class="macro">vec!</span>[(<span class="string">b'a'</span>, <span class="string">b'b'</span>)];
         <span class="macro">assert_eq!</span>(expected, branges(<span class="kw-2">&amp;</span>cls));
     }
 
     <span class="attr">#[test]
-    #[cfg(feature = <span class="string">&quot;unicode-case&quot;</span>)]
+    #[cfg(feature = <span class="string">"unicode-case"</span>)]
     </span><span class="kw">fn </span>class_case_fold_unicode() {
         <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[
-            (<span class="string">&#39;C&#39;</span>, <span class="string">&#39;F&#39;</span>),
-            (<span class="string">&#39;A&#39;</span>, <span class="string">&#39;G&#39;</span>),
-            (<span class="string">&#39;D&#39;</span>, <span class="string">&#39;J&#39;</span>),
-            (<span class="string">&#39;A&#39;</span>, <span class="string">&#39;C&#39;</span>),
-            (<span class="string">&#39;M&#39;</span>, <span class="string">&#39;P&#39;</span>),
-            (<span class="string">&#39;L&#39;</span>, <span class="string">&#39;S&#39;</span>),
-            (<span class="string">&#39;c&#39;</span>, <span class="string">&#39;f&#39;</span>),
+            (<span class="string">'C'</span>, <span class="string">'F'</span>),
+            (<span class="string">'A'</span>, <span class="string">'G'</span>),
+            (<span class="string">'D'</span>, <span class="string">'J'</span>),
+            (<span class="string">'A'</span>, <span class="string">'C'</span>),
+            (<span class="string">'M'</span>, <span class="string">'P'</span>),
+            (<span class="string">'L'</span>, <span class="string">'S'</span>),
+            (<span class="string">'c'</span>, <span class="string">'f'</span>),
         ]);
         <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[
-            (<span class="string">&#39;A&#39;</span>, <span class="string">&#39;J&#39;</span>),
-            (<span class="string">&#39;L&#39;</span>, <span class="string">&#39;S&#39;</span>),
-            (<span class="string">&#39;a&#39;</span>, <span class="string">&#39;j&#39;</span>),
-            (<span class="string">&#39;l&#39;</span>, <span class="string">&#39;s&#39;</span>),
-            (<span class="string">&#39;\u{17F}&#39;</span>, <span class="string">&#39;\u{17F}&#39;</span>),
+            (<span class="string">'A'</span>, <span class="string">'J'</span>),
+            (<span class="string">'L'</span>, <span class="string">'S'</span>),
+            (<span class="string">'a'</span>, <span class="string">'j'</span>),
+            (<span class="string">'l'</span>, <span class="string">'s'</span>),
+            (<span class="string">'\u{17F}'</span>, <span class="string">'\u{17F}'</span>),
         ]);
         <span class="macro">assert_eq!</span>(expected, ucasefold(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;A&#39;</span>, <span class="string">&#39;Z&#39;</span>)]);
+        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'A'</span>, <span class="string">'Z'</span>)]);
         <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[
-            (<span class="string">&#39;A&#39;</span>, <span class="string">&#39;Z&#39;</span>),
-            (<span class="string">&#39;a&#39;</span>, <span class="string">&#39;z&#39;</span>),
-            (<span class="string">&#39;\u{17F}&#39;</span>, <span class="string">&#39;\u{17F}&#39;</span>),
-            (<span class="string">&#39;\u{212A}&#39;</span>, <span class="string">&#39;\u{212A}&#39;</span>),
+            (<span class="string">'A'</span>, <span class="string">'Z'</span>),
+            (<span class="string">'a'</span>, <span class="string">'z'</span>),
+            (<span class="string">'\u{17F}'</span>, <span class="string">'\u{17F}'</span>),
+            (<span class="string">'\u{212A}'</span>, <span class="string">'\u{212A}'</span>),
         ]);
         <span class="macro">assert_eq!</span>(expected, ucasefold(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;z&#39;</span>)]);
+        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'z'</span>)]);
         <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[
-            (<span class="string">&#39;A&#39;</span>, <span class="string">&#39;Z&#39;</span>),
-            (<span class="string">&#39;a&#39;</span>, <span class="string">&#39;z&#39;</span>),
-            (<span class="string">&#39;\u{17F}&#39;</span>, <span class="string">&#39;\u{17F}&#39;</span>),
-            (<span class="string">&#39;\u{212A}&#39;</span>, <span class="string">&#39;\u{212A}&#39;</span>),
+            (<span class="string">'A'</span>, <span class="string">'Z'</span>),
+            (<span class="string">'a'</span>, <span class="string">'z'</span>),
+            (<span class="string">'\u{17F}'</span>, <span class="string">'\u{17F}'</span>),
+            (<span class="string">'\u{212A}'</span>, <span class="string">'\u{212A}'</span>),
         ]);
         <span class="macro">assert_eq!</span>(expected, ucasefold(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;A&#39;</span>, <span class="string">&#39;A&#39;</span>), (<span class="string">&#39;_&#39;</span>, <span class="string">&#39;_&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;A&#39;</span>, <span class="string">&#39;A&#39;</span>), (<span class="string">&#39;_&#39;</span>, <span class="string">&#39;_&#39;</span>), (<span class="string">&#39;a&#39;</span>, <span class="string">&#39;a&#39;</span>)]);
+        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'A'</span>, <span class="string">'A'</span>), (<span class="string">'_'</span>, <span class="string">'_'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'A'</span>, <span class="string">'A'</span>), (<span class="string">'_'</span>, <span class="string">'_'</span>), (<span class="string">'a'</span>, <span class="string">'a'</span>)]);
         <span class="macro">assert_eq!</span>(expected, ucasefold(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;A&#39;</span>, <span class="string">&#39;A&#39;</span>), (<span class="string">&#39;=&#39;</span>, <span class="string">&#39;=&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;=&#39;</span>, <span class="string">&#39;=&#39;</span>), (<span class="string">&#39;A&#39;</span>, <span class="string">&#39;A&#39;</span>), (<span class="string">&#39;a&#39;</span>, <span class="string">&#39;a&#39;</span>)]);
+        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'A'</span>, <span class="string">'A'</span>), (<span class="string">'='</span>, <span class="string">'='</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'='</span>, <span class="string">'='</span>), (<span class="string">'A'</span>, <span class="string">'A'</span>), (<span class="string">'a'</span>, <span class="string">'a'</span>)]);
         <span class="macro">assert_eq!</span>(expected, ucasefold(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;\x00&#39;</span>, <span class="string">&#39;\x10&#39;</span>)]);
+        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'\x00'</span>, <span class="string">'\x10'</span>)]);
         <span class="macro">assert_eq!</span>(cls, ucasefold(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;k&#39;</span>, <span class="string">&#39;k&#39;</span>)]);
+        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'k'</span>, <span class="string">'k'</span>)]);
         <span class="kw">let </span>expected =
-            uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;K&#39;</span>, <span class="string">&#39;K&#39;</span>), (<span class="string">&#39;k&#39;</span>, <span class="string">&#39;k&#39;</span>), (<span class="string">&#39;\u{212A}&#39;</span>, <span class="string">&#39;\u{212A}&#39;</span>)]);
+            uclass(<span class="kw-2">&amp;</span>[(<span class="string">'K'</span>, <span class="string">'K'</span>), (<span class="string">'k'</span>, <span class="string">'k'</span>), (<span class="string">'\u{212A}'</span>, <span class="string">'\u{212A}'</span>)]);
         <span class="macro">assert_eq!</span>(expected, ucasefold(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;@&#39;</span>, <span class="string">&#39;@&#39;</span>)]);
+        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'@'</span>, <span class="string">'@'</span>)]);
         <span class="macro">assert_eq!</span>(cls, ucasefold(<span class="kw-2">&amp;</span>cls));
     }
 
     <span class="attr">#[test]
-    #[cfg(not(feature = <span class="string">&quot;unicode-case&quot;</span>))]
+    #[cfg(not(feature = <span class="string">"unicode-case"</span>))]
     </span><span class="kw">fn </span>class_case_fold_unicode_disabled() {
         <span class="kw">let </span><span class="kw-2">mut </span>cls = uclass(<span class="kw-2">&amp;</span>[
-            (<span class="string">&#39;C&#39;</span>, <span class="string">&#39;F&#39;</span>),
-            (<span class="string">&#39;A&#39;</span>, <span class="string">&#39;G&#39;</span>),
-            (<span class="string">&#39;D&#39;</span>, <span class="string">&#39;J&#39;</span>),
-            (<span class="string">&#39;A&#39;</span>, <span class="string">&#39;C&#39;</span>),
-            (<span class="string">&#39;M&#39;</span>, <span class="string">&#39;P&#39;</span>),
-            (<span class="string">&#39;L&#39;</span>, <span class="string">&#39;S&#39;</span>),
-            (<span class="string">&#39;c&#39;</span>, <span class="string">&#39;f&#39;</span>),
+            (<span class="string">'C'</span>, <span class="string">'F'</span>),
+            (<span class="string">'A'</span>, <span class="string">'G'</span>),
+            (<span class="string">'D'</span>, <span class="string">'J'</span>),
+            (<span class="string">'A'</span>, <span class="string">'C'</span>),
+            (<span class="string">'M'</span>, <span class="string">'P'</span>),
+            (<span class="string">'L'</span>, <span class="string">'S'</span>),
+            (<span class="string">'c'</span>, <span class="string">'f'</span>),
         ]);
         <span class="macro">assert!</span>(cls.try_case_fold_simple().is_err());
     }
 
     <span class="attr">#[test]
     #[should_panic]
-    #[cfg(not(feature = <span class="string">&quot;unicode-case&quot;</span>))]
+    #[cfg(not(feature = <span class="string">"unicode-case"</span>))]
     </span><span class="kw">fn </span>class_case_fold_unicode_disabled_panics() {
         <span class="kw">let </span><span class="kw-2">mut </span>cls = uclass(<span class="kw-2">&amp;</span>[
-            (<span class="string">&#39;C&#39;</span>, <span class="string">&#39;F&#39;</span>),
-            (<span class="string">&#39;A&#39;</span>, <span class="string">&#39;G&#39;</span>),
-            (<span class="string">&#39;D&#39;</span>, <span class="string">&#39;J&#39;</span>),
-            (<span class="string">&#39;A&#39;</span>, <span class="string">&#39;C&#39;</span>),
-            (<span class="string">&#39;M&#39;</span>, <span class="string">&#39;P&#39;</span>),
-            (<span class="string">&#39;L&#39;</span>, <span class="string">&#39;S&#39;</span>),
-            (<span class="string">&#39;c&#39;</span>, <span class="string">&#39;f&#39;</span>),
+            (<span class="string">'C'</span>, <span class="string">'F'</span>),
+            (<span class="string">'A'</span>, <span class="string">'G'</span>),
+            (<span class="string">'D'</span>, <span class="string">'J'</span>),
+            (<span class="string">'A'</span>, <span class="string">'C'</span>),
+            (<span class="string">'M'</span>, <span class="string">'P'</span>),
+            (<span class="string">'L'</span>, <span class="string">'S'</span>),
+            (<span class="string">'c'</span>, <span class="string">'f'</span>),
         ]);
         cls.case_fold_simple();
     }
@@ -4094,448 +4095,448 @@ Defines a high-level intermediate representation for regular expressions.
     <span class="attr">#[test]
     </span><span class="kw">fn </span>class_case_fold_bytes() {
         <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[
-            (<span class="string">b&#39;C&#39;</span>, <span class="string">b&#39;F&#39;</span>),
-            (<span class="string">b&#39;A&#39;</span>, <span class="string">b&#39;G&#39;</span>),
-            (<span class="string">b&#39;D&#39;</span>, <span class="string">b&#39;J&#39;</span>),
-            (<span class="string">b&#39;A&#39;</span>, <span class="string">b&#39;C&#39;</span>),
-            (<span class="string">b&#39;M&#39;</span>, <span class="string">b&#39;P&#39;</span>),
-            (<span class="string">b&#39;L&#39;</span>, <span class="string">b&#39;S&#39;</span>),
-            (<span class="string">b&#39;c&#39;</span>, <span class="string">b&#39;f&#39;</span>),
+            (<span class="string">b'C'</span>, <span class="string">b'F'</span>),
+            (<span class="string">b'A'</span>, <span class="string">b'G'</span>),
+            (<span class="string">b'D'</span>, <span class="string">b'J'</span>),
+            (<span class="string">b'A'</span>, <span class="string">b'C'</span>),
+            (<span class="string">b'M'</span>, <span class="string">b'P'</span>),
+            (<span class="string">b'L'</span>, <span class="string">b'S'</span>),
+            (<span class="string">b'c'</span>, <span class="string">b'f'</span>),
         ]);
         <span class="kw">let </span>expected =
-            bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;A&#39;</span>, <span class="string">b&#39;J&#39;</span>), (<span class="string">b&#39;L&#39;</span>, <span class="string">b&#39;S&#39;</span>), (<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;j&#39;</span>), (<span class="string">b&#39;l&#39;</span>, <span class="string">b&#39;s&#39;</span>)]);
+            bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'A'</span>, <span class="string">b'J'</span>), (<span class="string">b'L'</span>, <span class="string">b'S'</span>), (<span class="string">b'a'</span>, <span class="string">b'j'</span>), (<span class="string">b'l'</span>, <span class="string">b's'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bcasefold(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;A&#39;</span>, <span class="string">b&#39;Z&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;A&#39;</span>, <span class="string">b&#39;Z&#39;</span>), (<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;z&#39;</span>)]);
+        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'A'</span>, <span class="string">b'Z'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'A'</span>, <span class="string">b'Z'</span>), (<span class="string">b'a'</span>, <span class="string">b'z'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bcasefold(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;z&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;A&#39;</span>, <span class="string">b&#39;Z&#39;</span>), (<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;z&#39;</span>)]);
+        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'z'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'A'</span>, <span class="string">b'Z'</span>), (<span class="string">b'a'</span>, <span class="string">b'z'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bcasefold(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;A&#39;</span>, <span class="string">b&#39;A&#39;</span>), (<span class="string">b&#39;_&#39;</span>, <span class="string">b&#39;_&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;A&#39;</span>, <span class="string">b&#39;A&#39;</span>), (<span class="string">b&#39;_&#39;</span>, <span class="string">b&#39;_&#39;</span>), (<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;a&#39;</span>)]);
+        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'A'</span>, <span class="string">b'A'</span>), (<span class="string">b'_'</span>, <span class="string">b'_'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'A'</span>, <span class="string">b'A'</span>), (<span class="string">b'_'</span>, <span class="string">b'_'</span>), (<span class="string">b'a'</span>, <span class="string">b'a'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bcasefold(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;A&#39;</span>, <span class="string">b&#39;A&#39;</span>), (<span class="string">b&#39;=&#39;</span>, <span class="string">b&#39;=&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;=&#39;</span>, <span class="string">b&#39;=&#39;</span>), (<span class="string">b&#39;A&#39;</span>, <span class="string">b&#39;A&#39;</span>), (<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;a&#39;</span>)]);
+        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'A'</span>, <span class="string">b'A'</span>), (<span class="string">b'='</span>, <span class="string">b'='</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'='</span>, <span class="string">b'='</span>), (<span class="string">b'A'</span>, <span class="string">b'A'</span>), (<span class="string">b'a'</span>, <span class="string">b'a'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bcasefold(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;\x00&#39;</span>, <span class="string">b&#39;\x10&#39;</span>)]);
+        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'\x00'</span>, <span class="string">b'\x10'</span>)]);
         <span class="macro">assert_eq!</span>(cls, bcasefold(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;k&#39;</span>, <span class="string">b&#39;k&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;K&#39;</span>, <span class="string">b&#39;K&#39;</span>), (<span class="string">b&#39;k&#39;</span>, <span class="string">b&#39;k&#39;</span>)]);
+        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'k'</span>, <span class="string">b'k'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'K'</span>, <span class="string">b'K'</span>), (<span class="string">b'k'</span>, <span class="string">b'k'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bcasefold(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;@&#39;</span>, <span class="string">b&#39;@&#39;</span>)]);
+        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'@'</span>, <span class="string">b'@'</span>)]);
         <span class="macro">assert_eq!</span>(cls, bcasefold(<span class="kw-2">&amp;</span>cls));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>class_negate_unicode() {
-        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;a&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;\x00&#39;</span>, <span class="string">&#39;\x60&#39;</span>), (<span class="string">&#39;\x62&#39;</span>, <span class="string">&#39;\u{10FFFF}&#39;</span>)]);
+        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'a'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'\x00'</span>, <span class="string">'\x60'</span>), (<span class="string">'\x62'</span>, <span class="string">'\u{10FFFF}'</span>)]);
         <span class="macro">assert_eq!</span>(expected, unegate(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;a&#39;</span>), (<span class="string">&#39;b&#39;</span>, <span class="string">&#39;b&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;\x00&#39;</span>, <span class="string">&#39;\x60&#39;</span>), (<span class="string">&#39;\x63&#39;</span>, <span class="string">&#39;\u{10FFFF}&#39;</span>)]);
+        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'a'</span>), (<span class="string">'b'</span>, <span class="string">'b'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'\x00'</span>, <span class="string">'\x60'</span>), (<span class="string">'\x63'</span>, <span class="string">'\u{10FFFF}'</span>)]);
         <span class="macro">assert_eq!</span>(expected, unegate(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;c&#39;</span>), (<span class="string">&#39;x&#39;</span>, <span class="string">&#39;z&#39;</span>)]);
+        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'c'</span>), (<span class="string">'x'</span>, <span class="string">'z'</span>)]);
         <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[
-            (<span class="string">&#39;\x00&#39;</span>, <span class="string">&#39;\x60&#39;</span>),
-            (<span class="string">&#39;\x64&#39;</span>, <span class="string">&#39;\x77&#39;</span>),
-            (<span class="string">&#39;\x7B&#39;</span>, <span class="string">&#39;\u{10FFFF}&#39;</span>),
+            (<span class="string">'\x00'</span>, <span class="string">'\x60'</span>),
+            (<span class="string">'\x64'</span>, <span class="string">'\x77'</span>),
+            (<span class="string">'\x7B'</span>, <span class="string">'\u{10FFFF}'</span>),
         ]);
         <span class="macro">assert_eq!</span>(expected, unegate(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;\x00&#39;</span>, <span class="string">&#39;a&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;\x62&#39;</span>, <span class="string">&#39;\u{10FFFF}&#39;</span>)]);
+        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'\x00'</span>, <span class="string">'a'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'\x62'</span>, <span class="string">'\u{10FFFF}'</span>)]);
         <span class="macro">assert_eq!</span>(expected, unegate(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;\u{10FFFF}&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;\x00&#39;</span>, <span class="string">&#39;\x60&#39;</span>)]);
+        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'\u{10FFFF}'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'\x00'</span>, <span class="string">'\x60'</span>)]);
         <span class="macro">assert_eq!</span>(expected, unegate(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;\x00&#39;</span>, <span class="string">&#39;\u{10FFFF}&#39;</span>)]);
+        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'\x00'</span>, <span class="string">'\u{10FFFF}'</span>)]);
         <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[]);
         <span class="macro">assert_eq!</span>(expected, unegate(<span class="kw-2">&amp;</span>cls));
 
         <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;\x00&#39;</span>, <span class="string">&#39;\u{10FFFF}&#39;</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'\x00'</span>, <span class="string">'\u{10FFFF}'</span>)]);
         <span class="macro">assert_eq!</span>(expected, unegate(<span class="kw-2">&amp;</span>cls));
 
         <span class="kw">let </span>cls =
-            uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;\x00&#39;</span>, <span class="string">&#39;\u{10FFFD}&#39;</span>), (<span class="string">&#39;\u{10FFFF}&#39;</span>, <span class="string">&#39;\u{10FFFF}&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;\u{10FFFE}&#39;</span>, <span class="string">&#39;\u{10FFFE}&#39;</span>)]);
+            uclass(<span class="kw-2">&amp;</span>[(<span class="string">'\x00'</span>, <span class="string">'\u{10FFFD}'</span>), (<span class="string">'\u{10FFFF}'</span>, <span class="string">'\u{10FFFF}'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'\u{10FFFE}'</span>, <span class="string">'\u{10FFFE}'</span>)]);
         <span class="macro">assert_eq!</span>(expected, unegate(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;\x00&#39;</span>, <span class="string">&#39;\u{D7FF}&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;\u{E000}&#39;</span>, <span class="string">&#39;\u{10FFFF}&#39;</span>)]);
+        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'\x00'</span>, <span class="string">'\u{D7FF}'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'\u{E000}'</span>, <span class="string">'\u{10FFFF}'</span>)]);
         <span class="macro">assert_eq!</span>(expected, unegate(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;\x00&#39;</span>, <span class="string">&#39;\u{D7FE}&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;\u{D7FF}&#39;</span>, <span class="string">&#39;\u{10FFFF}&#39;</span>)]);
+        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'\x00'</span>, <span class="string">'\u{D7FE}'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'\u{D7FF}'</span>, <span class="string">'\u{10FFFF}'</span>)]);
         <span class="macro">assert_eq!</span>(expected, unegate(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;\u{E000}&#39;</span>, <span class="string">&#39;\u{10FFFF}&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;\x00&#39;</span>, <span class="string">&#39;\u{D7FF}&#39;</span>)]);
+        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'\u{E000}'</span>, <span class="string">'\u{10FFFF}'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'\x00'</span>, <span class="string">'\u{D7FF}'</span>)]);
         <span class="macro">assert_eq!</span>(expected, unegate(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;\u{E001}&#39;</span>, <span class="string">&#39;\u{10FFFF}&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;\x00&#39;</span>, <span class="string">&#39;\u{E000}&#39;</span>)]);
+        <span class="kw">let </span>cls = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'\u{E001}'</span>, <span class="string">'\u{10FFFF}'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'\x00'</span>, <span class="string">'\u{E000}'</span>)]);
         <span class="macro">assert_eq!</span>(expected, unegate(<span class="kw-2">&amp;</span>cls));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>class_negate_bytes() {
-        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;a&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;\x00&#39;</span>, <span class="string">b&#39;\x60&#39;</span>), (<span class="string">b&#39;\x62&#39;</span>, <span class="string">b&#39;\xFF&#39;</span>)]);
+        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'a'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'\x00'</span>, <span class="string">b'\x60'</span>), (<span class="string">b'\x62'</span>, <span class="string">b'\xFF'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bnegate(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;a&#39;</span>), (<span class="string">b&#39;b&#39;</span>, <span class="string">b&#39;b&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;\x00&#39;</span>, <span class="string">b&#39;\x60&#39;</span>), (<span class="string">b&#39;\x63&#39;</span>, <span class="string">b&#39;\xFF&#39;</span>)]);
+        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'a'</span>), (<span class="string">b'b'</span>, <span class="string">b'b'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'\x00'</span>, <span class="string">b'\x60'</span>), (<span class="string">b'\x63'</span>, <span class="string">b'\xFF'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bnegate(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;c&#39;</span>), (<span class="string">b&#39;x&#39;</span>, <span class="string">b&#39;z&#39;</span>)]);
+        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'c'</span>), (<span class="string">b'x'</span>, <span class="string">b'z'</span>)]);
         <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[
-            (<span class="string">b&#39;\x00&#39;</span>, <span class="string">b&#39;\x60&#39;</span>),
-            (<span class="string">b&#39;\x64&#39;</span>, <span class="string">b&#39;\x77&#39;</span>),
-            (<span class="string">b&#39;\x7B&#39;</span>, <span class="string">b&#39;\xFF&#39;</span>),
+            (<span class="string">b'\x00'</span>, <span class="string">b'\x60'</span>),
+            (<span class="string">b'\x64'</span>, <span class="string">b'\x77'</span>),
+            (<span class="string">b'\x7B'</span>, <span class="string">b'\xFF'</span>),
         ]);
         <span class="macro">assert_eq!</span>(expected, bnegate(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;\x00&#39;</span>, <span class="string">b&#39;a&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;\x62&#39;</span>, <span class="string">b&#39;\xFF&#39;</span>)]);
+        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'\x00'</span>, <span class="string">b'a'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'\x62'</span>, <span class="string">b'\xFF'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bnegate(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;\xFF&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;\x00&#39;</span>, <span class="string">b&#39;\x60&#39;</span>)]);
+        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'\xFF'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'\x00'</span>, <span class="string">b'\x60'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bnegate(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;\x00&#39;</span>, <span class="string">b&#39;\xFF&#39;</span>)]);
+        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'\x00'</span>, <span class="string">b'\xFF'</span>)]);
         <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[]);
         <span class="macro">assert_eq!</span>(expected, bnegate(<span class="kw-2">&amp;</span>cls));
 
         <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;\x00&#39;</span>, <span class="string">b&#39;\xFF&#39;</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'\x00'</span>, <span class="string">b'\xFF'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bnegate(<span class="kw-2">&amp;</span>cls));
 
-        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;\x00&#39;</span>, <span class="string">b&#39;\xFD&#39;</span>), (<span class="string">b&#39;\xFF&#39;</span>, <span class="string">b&#39;\xFF&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;\xFE&#39;</span>, <span class="string">b&#39;\xFE&#39;</span>)]);
+        <span class="kw">let </span>cls = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'\x00'</span>, <span class="string">b'\xFD'</span>), (<span class="string">b'\xFF'</span>, <span class="string">b'\xFF'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'\xFE'</span>, <span class="string">b'\xFE'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bnegate(<span class="kw-2">&amp;</span>cls));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>class_union_unicode() {
-        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;g&#39;</span>), (<span class="string">&#39;m&#39;</span>, <span class="string">&#39;t&#39;</span>), (<span class="string">&#39;A&#39;</span>, <span class="string">&#39;C&#39;</span>)]);
-        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;z&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;z&#39;</span>), (<span class="string">&#39;A&#39;</span>, <span class="string">&#39;C&#39;</span>)]);
+        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'g'</span>), (<span class="string">'m'</span>, <span class="string">'t'</span>), (<span class="string">'A'</span>, <span class="string">'C'</span>)]);
+        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'z'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'z'</span>), (<span class="string">'A'</span>, <span class="string">'C'</span>)]);
         <span class="macro">assert_eq!</span>(expected, uunion(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>class_union_bytes() {
-        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;g&#39;</span>), (<span class="string">b&#39;m&#39;</span>, <span class="string">b&#39;t&#39;</span>), (<span class="string">b&#39;A&#39;</span>, <span class="string">b&#39;C&#39;</span>)]);
-        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;z&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;z&#39;</span>), (<span class="string">b&#39;A&#39;</span>, <span class="string">b&#39;C&#39;</span>)]);
+        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'g'</span>), (<span class="string">b'm'</span>, <span class="string">b't'</span>), (<span class="string">b'A'</span>, <span class="string">b'C'</span>)]);
+        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'z'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'z'</span>), (<span class="string">b'A'</span>, <span class="string">b'C'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bunion(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>class_intersect_unicode() {
         <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[]);
-        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;a&#39;</span>)]);
+        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'a'</span>)]);
         <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[]);
         <span class="macro">assert_eq!</span>(expected, uintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;a&#39;</span>)]);
-        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;a&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;a&#39;</span>)]);
+        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'a'</span>)]);
+        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'a'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'a'</span>)]);
         <span class="macro">assert_eq!</span>(expected, uintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;a&#39;</span>)]);
-        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;b&#39;</span>, <span class="string">&#39;b&#39;</span>)]);
+        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'a'</span>)]);
+        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'b'</span>, <span class="string">'b'</span>)]);
         <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[]);
         <span class="macro">assert_eq!</span>(expected, uintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;a&#39;</span>)]);
-        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;c&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;a&#39;</span>)]);
+        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'a'</span>)]);
+        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'c'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'a'</span>)]);
         <span class="macro">assert_eq!</span>(expected, uintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;b&#39;</span>)]);
-        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;c&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;b&#39;</span>)]);
+        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'b'</span>)]);
+        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'c'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'b'</span>)]);
         <span class="macro">assert_eq!</span>(expected, uintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;b&#39;</span>)]);
-        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;b&#39;</span>, <span class="string">&#39;c&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;b&#39;</span>, <span class="string">&#39;b&#39;</span>)]);
+        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'b'</span>)]);
+        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'b'</span>, <span class="string">'c'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'b'</span>, <span class="string">'b'</span>)]);
         <span class="macro">assert_eq!</span>(expected, uintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;b&#39;</span>)]);
-        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;c&#39;</span>, <span class="string">&#39;d&#39;</span>)]);
+        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'b'</span>)]);
+        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'c'</span>, <span class="string">'d'</span>)]);
         <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[]);
         <span class="macro">assert_eq!</span>(expected, uintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;b&#39;</span>, <span class="string">&#39;c&#39;</span>)]);
-        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;d&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;b&#39;</span>, <span class="string">&#39;c&#39;</span>)]);
+        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'b'</span>, <span class="string">'c'</span>)]);
+        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'d'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'b'</span>, <span class="string">'c'</span>)]);
         <span class="macro">assert_eq!</span>(expected, uintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;b&#39;</span>), (<span class="string">&#39;d&#39;</span>, <span class="string">&#39;e&#39;</span>), (<span class="string">&#39;g&#39;</span>, <span class="string">&#39;h&#39;</span>)]);
-        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;h&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;b&#39;</span>), (<span class="string">&#39;d&#39;</span>, <span class="string">&#39;e&#39;</span>), (<span class="string">&#39;g&#39;</span>, <span class="string">&#39;h&#39;</span>)]);
+        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'b'</span>), (<span class="string">'d'</span>, <span class="string">'e'</span>), (<span class="string">'g'</span>, <span class="string">'h'</span>)]);
+        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'h'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'b'</span>), (<span class="string">'d'</span>, <span class="string">'e'</span>), (<span class="string">'g'</span>, <span class="string">'h'</span>)]);
         <span class="macro">assert_eq!</span>(expected, uintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;b&#39;</span>), (<span class="string">&#39;d&#39;</span>, <span class="string">&#39;e&#39;</span>), (<span class="string">&#39;g&#39;</span>, <span class="string">&#39;h&#39;</span>)]);
-        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;b&#39;</span>), (<span class="string">&#39;d&#39;</span>, <span class="string">&#39;e&#39;</span>), (<span class="string">&#39;g&#39;</span>, <span class="string">&#39;h&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;b&#39;</span>), (<span class="string">&#39;d&#39;</span>, <span class="string">&#39;e&#39;</span>), (<span class="string">&#39;g&#39;</span>, <span class="string">&#39;h&#39;</span>)]);
+        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'b'</span>), (<span class="string">'d'</span>, <span class="string">'e'</span>), (<span class="string">'g'</span>, <span class="string">'h'</span>)]);
+        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'b'</span>), (<span class="string">'d'</span>, <span class="string">'e'</span>), (<span class="string">'g'</span>, <span class="string">'h'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'b'</span>), (<span class="string">'d'</span>, <span class="string">'e'</span>), (<span class="string">'g'</span>, <span class="string">'h'</span>)]);
         <span class="macro">assert_eq!</span>(expected, uintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;b&#39;</span>), (<span class="string">&#39;g&#39;</span>, <span class="string">&#39;h&#39;</span>)]);
-        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;d&#39;</span>, <span class="string">&#39;e&#39;</span>), (<span class="string">&#39;k&#39;</span>, <span class="string">&#39;l&#39;</span>)]);
+        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'b'</span>), (<span class="string">'g'</span>, <span class="string">'h'</span>)]);
+        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'d'</span>, <span class="string">'e'</span>), (<span class="string">'k'</span>, <span class="string">'l'</span>)]);
         <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[]);
         <span class="macro">assert_eq!</span>(expected, uintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;b&#39;</span>), (<span class="string">&#39;d&#39;</span>, <span class="string">&#39;e&#39;</span>), (<span class="string">&#39;g&#39;</span>, <span class="string">&#39;h&#39;</span>)]);
-        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;h&#39;</span>, <span class="string">&#39;h&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;h&#39;</span>, <span class="string">&#39;h&#39;</span>)]);
+        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'b'</span>), (<span class="string">'d'</span>, <span class="string">'e'</span>), (<span class="string">'g'</span>, <span class="string">'h'</span>)]);
+        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'h'</span>, <span class="string">'h'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'h'</span>, <span class="string">'h'</span>)]);
         <span class="macro">assert_eq!</span>(expected, uintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;b&#39;</span>), (<span class="string">&#39;e&#39;</span>, <span class="string">&#39;f&#39;</span>), (<span class="string">&#39;i&#39;</span>, <span class="string">&#39;j&#39;</span>)]);
-        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;c&#39;</span>, <span class="string">&#39;d&#39;</span>), (<span class="string">&#39;g&#39;</span>, <span class="string">&#39;h&#39;</span>), (<span class="string">&#39;k&#39;</span>, <span class="string">&#39;l&#39;</span>)]);
+        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'b'</span>), (<span class="string">'e'</span>, <span class="string">'f'</span>), (<span class="string">'i'</span>, <span class="string">'j'</span>)]);
+        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'c'</span>, <span class="string">'d'</span>), (<span class="string">'g'</span>, <span class="string">'h'</span>), (<span class="string">'k'</span>, <span class="string">'l'</span>)]);
         <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[]);
         <span class="macro">assert_eq!</span>(expected, uintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;b&#39;</span>), (<span class="string">&#39;c&#39;</span>, <span class="string">&#39;d&#39;</span>), (<span class="string">&#39;e&#39;</span>, <span class="string">&#39;f&#39;</span>)]);
-        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;b&#39;</span>, <span class="string">&#39;c&#39;</span>), (<span class="string">&#39;d&#39;</span>, <span class="string">&#39;e&#39;</span>), (<span class="string">&#39;f&#39;</span>, <span class="string">&#39;g&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;b&#39;</span>, <span class="string">&#39;f&#39;</span>)]);
+        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'b'</span>), (<span class="string">'c'</span>, <span class="string">'d'</span>), (<span class="string">'e'</span>, <span class="string">'f'</span>)]);
+        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'b'</span>, <span class="string">'c'</span>), (<span class="string">'d'</span>, <span class="string">'e'</span>), (<span class="string">'f'</span>, <span class="string">'g'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'b'</span>, <span class="string">'f'</span>)]);
         <span class="macro">assert_eq!</span>(expected, uintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>class_intersect_bytes() {
         <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[]);
-        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;a&#39;</span>)]);
+        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'a'</span>)]);
         <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[]);
         <span class="macro">assert_eq!</span>(expected, bintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;a&#39;</span>)]);
-        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;a&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;a&#39;</span>)]);
+        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'a'</span>)]);
+        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'a'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'a'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;a&#39;</span>)]);
-        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;b&#39;</span>, <span class="string">b&#39;b&#39;</span>)]);
+        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'a'</span>)]);
+        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'b'</span>, <span class="string">b'b'</span>)]);
         <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[]);
         <span class="macro">assert_eq!</span>(expected, bintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;a&#39;</span>)]);
-        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;c&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;a&#39;</span>)]);
+        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'a'</span>)]);
+        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'c'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'a'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;b&#39;</span>)]);
-        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;c&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;b&#39;</span>)]);
+        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'b'</span>)]);
+        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'c'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'b'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;b&#39;</span>)]);
-        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;b&#39;</span>, <span class="string">b&#39;c&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;b&#39;</span>, <span class="string">b&#39;b&#39;</span>)]);
+        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'b'</span>)]);
+        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'b'</span>, <span class="string">b'c'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'b'</span>, <span class="string">b'b'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;b&#39;</span>)]);
-        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;c&#39;</span>, <span class="string">b&#39;d&#39;</span>)]);
+        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'b'</span>)]);
+        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'c'</span>, <span class="string">b'd'</span>)]);
         <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[]);
         <span class="macro">assert_eq!</span>(expected, bintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;b&#39;</span>, <span class="string">b&#39;c&#39;</span>)]);
-        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;d&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;b&#39;</span>, <span class="string">b&#39;c&#39;</span>)]);
+        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'b'</span>, <span class="string">b'c'</span>)]);
+        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'd'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'b'</span>, <span class="string">b'c'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;b&#39;</span>), (<span class="string">b&#39;d&#39;</span>, <span class="string">b&#39;e&#39;</span>), (<span class="string">b&#39;g&#39;</span>, <span class="string">b&#39;h&#39;</span>)]);
-        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;h&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;b&#39;</span>), (<span class="string">b&#39;d&#39;</span>, <span class="string">b&#39;e&#39;</span>), (<span class="string">b&#39;g&#39;</span>, <span class="string">b&#39;h&#39;</span>)]);
+        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'b'</span>), (<span class="string">b'd'</span>, <span class="string">b'e'</span>), (<span class="string">b'g'</span>, <span class="string">b'h'</span>)]);
+        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'h'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'b'</span>), (<span class="string">b'd'</span>, <span class="string">b'e'</span>), (<span class="string">b'g'</span>, <span class="string">b'h'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;b&#39;</span>), (<span class="string">b&#39;d&#39;</span>, <span class="string">b&#39;e&#39;</span>), (<span class="string">b&#39;g&#39;</span>, <span class="string">b&#39;h&#39;</span>)]);
-        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;b&#39;</span>), (<span class="string">b&#39;d&#39;</span>, <span class="string">b&#39;e&#39;</span>), (<span class="string">b&#39;g&#39;</span>, <span class="string">b&#39;h&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;b&#39;</span>), (<span class="string">b&#39;d&#39;</span>, <span class="string">b&#39;e&#39;</span>), (<span class="string">b&#39;g&#39;</span>, <span class="string">b&#39;h&#39;</span>)]);
+        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'b'</span>), (<span class="string">b'd'</span>, <span class="string">b'e'</span>), (<span class="string">b'g'</span>, <span class="string">b'h'</span>)]);
+        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'b'</span>), (<span class="string">b'd'</span>, <span class="string">b'e'</span>), (<span class="string">b'g'</span>, <span class="string">b'h'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'b'</span>), (<span class="string">b'd'</span>, <span class="string">b'e'</span>), (<span class="string">b'g'</span>, <span class="string">b'h'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;b&#39;</span>), (<span class="string">b&#39;g&#39;</span>, <span class="string">b&#39;h&#39;</span>)]);
-        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;d&#39;</span>, <span class="string">b&#39;e&#39;</span>), (<span class="string">b&#39;k&#39;</span>, <span class="string">b&#39;l&#39;</span>)]);
+        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'b'</span>), (<span class="string">b'g'</span>, <span class="string">b'h'</span>)]);
+        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'd'</span>, <span class="string">b'e'</span>), (<span class="string">b'k'</span>, <span class="string">b'l'</span>)]);
         <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[]);
         <span class="macro">assert_eq!</span>(expected, bintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;b&#39;</span>), (<span class="string">b&#39;d&#39;</span>, <span class="string">b&#39;e&#39;</span>), (<span class="string">b&#39;g&#39;</span>, <span class="string">b&#39;h&#39;</span>)]);
-        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;h&#39;</span>, <span class="string">b&#39;h&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;h&#39;</span>, <span class="string">b&#39;h&#39;</span>)]);
+        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'b'</span>), (<span class="string">b'd'</span>, <span class="string">b'e'</span>), (<span class="string">b'g'</span>, <span class="string">b'h'</span>)]);
+        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'h'</span>, <span class="string">b'h'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'h'</span>, <span class="string">b'h'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;b&#39;</span>), (<span class="string">b&#39;e&#39;</span>, <span class="string">b&#39;f&#39;</span>), (<span class="string">b&#39;i&#39;</span>, <span class="string">b&#39;j&#39;</span>)]);
-        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;c&#39;</span>, <span class="string">b&#39;d&#39;</span>), (<span class="string">b&#39;g&#39;</span>, <span class="string">b&#39;h&#39;</span>), (<span class="string">b&#39;k&#39;</span>, <span class="string">b&#39;l&#39;</span>)]);
+        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'b'</span>), (<span class="string">b'e'</span>, <span class="string">b'f'</span>), (<span class="string">b'i'</span>, <span class="string">b'j'</span>)]);
+        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'c'</span>, <span class="string">b'd'</span>), (<span class="string">b'g'</span>, <span class="string">b'h'</span>), (<span class="string">b'k'</span>, <span class="string">b'l'</span>)]);
         <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[]);
         <span class="macro">assert_eq!</span>(expected, bintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;b&#39;</span>), (<span class="string">b&#39;c&#39;</span>, <span class="string">b&#39;d&#39;</span>), (<span class="string">b&#39;e&#39;</span>, <span class="string">b&#39;f&#39;</span>)]);
-        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;b&#39;</span>, <span class="string">b&#39;c&#39;</span>), (<span class="string">b&#39;d&#39;</span>, <span class="string">b&#39;e&#39;</span>), (<span class="string">b&#39;f&#39;</span>, <span class="string">b&#39;g&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;b&#39;</span>, <span class="string">b&#39;f&#39;</span>)]);
+        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'b'</span>), (<span class="string">b'c'</span>, <span class="string">b'd'</span>), (<span class="string">b'e'</span>, <span class="string">b'f'</span>)]);
+        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'b'</span>, <span class="string">b'c'</span>), (<span class="string">b'd'</span>, <span class="string">b'e'</span>), (<span class="string">b'f'</span>, <span class="string">b'g'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'b'</span>, <span class="string">b'f'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bintersect(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>class_difference_unicode() {
-        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;a&#39;</span>)]);
-        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;a&#39;</span>)]);
+        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'a'</span>)]);
+        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'a'</span>)]);
         <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[]);
         <span class="macro">assert_eq!</span>(expected, udifference(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;a&#39;</span>)]);
+        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'a'</span>)]);
         <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;a&#39;</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'a'</span>)]);
         <span class="macro">assert_eq!</span>(expected, udifference(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
         <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[]);
-        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;a&#39;</span>)]);
+        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'a'</span>)]);
         <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[]);
         <span class="macro">assert_eq!</span>(expected, udifference(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;z&#39;</span>)]);
-        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;a&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;b&#39;</span>, <span class="string">&#39;z&#39;</span>)]);
+        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'z'</span>)]);
+        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'a'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'b'</span>, <span class="string">'z'</span>)]);
         <span class="macro">assert_eq!</span>(expected, udifference(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;z&#39;</span>)]);
-        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;z&#39;</span>, <span class="string">&#39;z&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;y&#39;</span>)]);
+        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'z'</span>)]);
+        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'z'</span>, <span class="string">'z'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'y'</span>)]);
         <span class="macro">assert_eq!</span>(expected, udifference(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;z&#39;</span>)]);
-        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;m&#39;</span>, <span class="string">&#39;m&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;l&#39;</span>), (<span class="string">&#39;n&#39;</span>, <span class="string">&#39;z&#39;</span>)]);
+        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'z'</span>)]);
+        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'m'</span>, <span class="string">'m'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'l'</span>), (<span class="string">'n'</span>, <span class="string">'z'</span>)]);
         <span class="macro">assert_eq!</span>(expected, udifference(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;c&#39;</span>), (<span class="string">&#39;g&#39;</span>, <span class="string">&#39;i&#39;</span>), (<span class="string">&#39;r&#39;</span>, <span class="string">&#39;t&#39;</span>)]);
-        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;z&#39;</span>)]);
+        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'c'</span>), (<span class="string">'g'</span>, <span class="string">'i'</span>), (<span class="string">'r'</span>, <span class="string">'t'</span>)]);
+        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'z'</span>)]);
         <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[]);
         <span class="macro">assert_eq!</span>(expected, udifference(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;c&#39;</span>), (<span class="string">&#39;g&#39;</span>, <span class="string">&#39;i&#39;</span>), (<span class="string">&#39;r&#39;</span>, <span class="string">&#39;t&#39;</span>)]);
-        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;d&#39;</span>, <span class="string">&#39;v&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;c&#39;</span>)]);
+        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'c'</span>), (<span class="string">'g'</span>, <span class="string">'i'</span>), (<span class="string">'r'</span>, <span class="string">'t'</span>)]);
+        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'d'</span>, <span class="string">'v'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'c'</span>)]);
         <span class="macro">assert_eq!</span>(expected, udifference(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;c&#39;</span>), (<span class="string">&#39;g&#39;</span>, <span class="string">&#39;i&#39;</span>), (<span class="string">&#39;r&#39;</span>, <span class="string">&#39;t&#39;</span>)]);
-        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;b&#39;</span>, <span class="string">&#39;g&#39;</span>), (<span class="string">&#39;s&#39;</span>, <span class="string">&#39;u&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;a&#39;</span>), (<span class="string">&#39;h&#39;</span>, <span class="string">&#39;i&#39;</span>), (<span class="string">&#39;r&#39;</span>, <span class="string">&#39;r&#39;</span>)]);
+        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'c'</span>), (<span class="string">'g'</span>, <span class="string">'i'</span>), (<span class="string">'r'</span>, <span class="string">'t'</span>)]);
+        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'b'</span>, <span class="string">'g'</span>), (<span class="string">'s'</span>, <span class="string">'u'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'a'</span>), (<span class="string">'h'</span>, <span class="string">'i'</span>), (<span class="string">'r'</span>, <span class="string">'r'</span>)]);
         <span class="macro">assert_eq!</span>(expected, udifference(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;c&#39;</span>), (<span class="string">&#39;g&#39;</span>, <span class="string">&#39;i&#39;</span>), (<span class="string">&#39;r&#39;</span>, <span class="string">&#39;t&#39;</span>)]);
-        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;b&#39;</span>, <span class="string">&#39;d&#39;</span>), (<span class="string">&#39;e&#39;</span>, <span class="string">&#39;g&#39;</span>), (<span class="string">&#39;s&#39;</span>, <span class="string">&#39;u&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;a&#39;</span>), (<span class="string">&#39;h&#39;</span>, <span class="string">&#39;i&#39;</span>), (<span class="string">&#39;r&#39;</span>, <span class="string">&#39;r&#39;</span>)]);
+        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'c'</span>), (<span class="string">'g'</span>, <span class="string">'i'</span>), (<span class="string">'r'</span>, <span class="string">'t'</span>)]);
+        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'b'</span>, <span class="string">'d'</span>), (<span class="string">'e'</span>, <span class="string">'g'</span>), (<span class="string">'s'</span>, <span class="string">'u'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'a'</span>), (<span class="string">'h'</span>, <span class="string">'i'</span>), (<span class="string">'r'</span>, <span class="string">'r'</span>)]);
         <span class="macro">assert_eq!</span>(expected, udifference(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;x&#39;</span>, <span class="string">&#39;z&#39;</span>)]);
-        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;c&#39;</span>), (<span class="string">&#39;e&#39;</span>, <span class="string">&#39;g&#39;</span>), (<span class="string">&#39;s&#39;</span>, <span class="string">&#39;u&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;x&#39;</span>, <span class="string">&#39;z&#39;</span>)]);
+        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'x'</span>, <span class="string">'z'</span>)]);
+        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'c'</span>), (<span class="string">'e'</span>, <span class="string">'g'</span>), (<span class="string">'s'</span>, <span class="string">'u'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'x'</span>, <span class="string">'z'</span>)]);
         <span class="macro">assert_eq!</span>(expected, udifference(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;z&#39;</span>)]);
-        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;c&#39;</span>), (<span class="string">&#39;e&#39;</span>, <span class="string">&#39;g&#39;</span>), (<span class="string">&#39;s&#39;</span>, <span class="string">&#39;u&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;d&#39;</span>, <span class="string">&#39;d&#39;</span>), (<span class="string">&#39;h&#39;</span>, <span class="string">&#39;r&#39;</span>), (<span class="string">&#39;v&#39;</span>, <span class="string">&#39;z&#39;</span>)]);
+        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'z'</span>)]);
+        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'c'</span>), (<span class="string">'e'</span>, <span class="string">'g'</span>), (<span class="string">'s'</span>, <span class="string">'u'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'d'</span>, <span class="string">'d'</span>), (<span class="string">'h'</span>, <span class="string">'r'</span>), (<span class="string">'v'</span>, <span class="string">'z'</span>)]);
         <span class="macro">assert_eq!</span>(expected, udifference(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>class_difference_bytes() {
-        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;a&#39;</span>)]);
-        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;a&#39;</span>)]);
+        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'a'</span>)]);
+        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'a'</span>)]);
         <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[]);
         <span class="macro">assert_eq!</span>(expected, bdifference(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;a&#39;</span>)]);
+        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'a'</span>)]);
         <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;a&#39;</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'a'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bdifference(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
         <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[]);
-        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;a&#39;</span>)]);
+        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'a'</span>)]);
         <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[]);
         <span class="macro">assert_eq!</span>(expected, bdifference(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;z&#39;</span>)]);
-        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;a&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;b&#39;</span>, <span class="string">b&#39;z&#39;</span>)]);
+        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'z'</span>)]);
+        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'a'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'b'</span>, <span class="string">b'z'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bdifference(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;z&#39;</span>)]);
-        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;z&#39;</span>, <span class="string">b&#39;z&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;y&#39;</span>)]);
+        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'z'</span>)]);
+        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'z'</span>, <span class="string">b'z'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'y'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bdifference(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;z&#39;</span>)]);
-        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;m&#39;</span>, <span class="string">b&#39;m&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;l&#39;</span>), (<span class="string">b&#39;n&#39;</span>, <span class="string">b&#39;z&#39;</span>)]);
+        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'z'</span>)]);
+        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'm'</span>, <span class="string">b'm'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'l'</span>), (<span class="string">b'n'</span>, <span class="string">b'z'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bdifference(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;c&#39;</span>), (<span class="string">b&#39;g&#39;</span>, <span class="string">b&#39;i&#39;</span>), (<span class="string">b&#39;r&#39;</span>, <span class="string">b&#39;t&#39;</span>)]);
-        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;z&#39;</span>)]);
+        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'c'</span>), (<span class="string">b'g'</span>, <span class="string">b'i'</span>), (<span class="string">b'r'</span>, <span class="string">b't'</span>)]);
+        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'z'</span>)]);
         <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[]);
         <span class="macro">assert_eq!</span>(expected, bdifference(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;c&#39;</span>), (<span class="string">b&#39;g&#39;</span>, <span class="string">b&#39;i&#39;</span>), (<span class="string">b&#39;r&#39;</span>, <span class="string">b&#39;t&#39;</span>)]);
-        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;d&#39;</span>, <span class="string">b&#39;v&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;c&#39;</span>)]);
+        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'c'</span>), (<span class="string">b'g'</span>, <span class="string">b'i'</span>), (<span class="string">b'r'</span>, <span class="string">b't'</span>)]);
+        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'd'</span>, <span class="string">b'v'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'c'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bdifference(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;c&#39;</span>), (<span class="string">b&#39;g&#39;</span>, <span class="string">b&#39;i&#39;</span>), (<span class="string">b&#39;r&#39;</span>, <span class="string">b&#39;t&#39;</span>)]);
-        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;b&#39;</span>, <span class="string">b&#39;g&#39;</span>), (<span class="string">b&#39;s&#39;</span>, <span class="string">b&#39;u&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;a&#39;</span>), (<span class="string">b&#39;h&#39;</span>, <span class="string">b&#39;i&#39;</span>), (<span class="string">b&#39;r&#39;</span>, <span class="string">b&#39;r&#39;</span>)]);
+        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'c'</span>), (<span class="string">b'g'</span>, <span class="string">b'i'</span>), (<span class="string">b'r'</span>, <span class="string">b't'</span>)]);
+        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'b'</span>, <span class="string">b'g'</span>), (<span class="string">b's'</span>, <span class="string">b'u'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'a'</span>), (<span class="string">b'h'</span>, <span class="string">b'i'</span>), (<span class="string">b'r'</span>, <span class="string">b'r'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bdifference(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;c&#39;</span>), (<span class="string">b&#39;g&#39;</span>, <span class="string">b&#39;i&#39;</span>), (<span class="string">b&#39;r&#39;</span>, <span class="string">b&#39;t&#39;</span>)]);
-        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;b&#39;</span>, <span class="string">b&#39;d&#39;</span>), (<span class="string">b&#39;e&#39;</span>, <span class="string">b&#39;g&#39;</span>), (<span class="string">b&#39;s&#39;</span>, <span class="string">b&#39;u&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;a&#39;</span>), (<span class="string">b&#39;h&#39;</span>, <span class="string">b&#39;i&#39;</span>), (<span class="string">b&#39;r&#39;</span>, <span class="string">b&#39;r&#39;</span>)]);
+        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'c'</span>), (<span class="string">b'g'</span>, <span class="string">b'i'</span>), (<span class="string">b'r'</span>, <span class="string">b't'</span>)]);
+        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'b'</span>, <span class="string">b'd'</span>), (<span class="string">b'e'</span>, <span class="string">b'g'</span>), (<span class="string">b's'</span>, <span class="string">b'u'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'a'</span>), (<span class="string">b'h'</span>, <span class="string">b'i'</span>), (<span class="string">b'r'</span>, <span class="string">b'r'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bdifference(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;x&#39;</span>, <span class="string">b&#39;z&#39;</span>)]);
-        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;c&#39;</span>), (<span class="string">b&#39;e&#39;</span>, <span class="string">b&#39;g&#39;</span>), (<span class="string">b&#39;s&#39;</span>, <span class="string">b&#39;u&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;x&#39;</span>, <span class="string">b&#39;z&#39;</span>)]);
+        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'x'</span>, <span class="string">b'z'</span>)]);
+        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'c'</span>), (<span class="string">b'e'</span>, <span class="string">b'g'</span>), (<span class="string">b's'</span>, <span class="string">b'u'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'x'</span>, <span class="string">b'z'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bdifference(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
 
-        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;z&#39;</span>)]);
-        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;c&#39;</span>), (<span class="string">b&#39;e&#39;</span>, <span class="string">b&#39;g&#39;</span>), (<span class="string">b&#39;s&#39;</span>, <span class="string">b&#39;u&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;d&#39;</span>, <span class="string">b&#39;d&#39;</span>), (<span class="string">b&#39;h&#39;</span>, <span class="string">b&#39;r&#39;</span>), (<span class="string">b&#39;v&#39;</span>, <span class="string">b&#39;z&#39;</span>)]);
+        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'z'</span>)]);
+        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'c'</span>), (<span class="string">b'e'</span>, <span class="string">b'g'</span>), (<span class="string">b's'</span>, <span class="string">b'u'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'd'</span>, <span class="string">b'd'</span>), (<span class="string">b'h'</span>, <span class="string">b'r'</span>), (<span class="string">b'v'</span>, <span class="string">b'z'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bdifference(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>class_symmetric_difference_unicode() {
-        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;m&#39;</span>)]);
-        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;g&#39;</span>, <span class="string">&#39;t&#39;</span>)]);
-        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">&#39;a&#39;</span>, <span class="string">&#39;f&#39;</span>), (<span class="string">&#39;n&#39;</span>, <span class="string">&#39;t&#39;</span>)]);
+        <span class="kw">let </span>cls1 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'m'</span>)]);
+        <span class="kw">let </span>cls2 = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'g'</span>, <span class="string">'t'</span>)]);
+        <span class="kw">let </span>expected = uclass(<span class="kw-2">&amp;</span>[(<span class="string">'a'</span>, <span class="string">'f'</span>), (<span class="string">'n'</span>, <span class="string">'t'</span>)]);
         <span class="macro">assert_eq!</span>(expected, usymdifference(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>class_symmetric_difference_bytes() {
-        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;m&#39;</span>)]);
-        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;g&#39;</span>, <span class="string">b&#39;t&#39;</span>)]);
-        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;f&#39;</span>), (<span class="string">b&#39;n&#39;</span>, <span class="string">b&#39;t&#39;</span>)]);
+        <span class="kw">let </span>cls1 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'm'</span>)]);
+        <span class="kw">let </span>cls2 = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'g'</span>, <span class="string">b't'</span>)]);
+        <span class="kw">let </span>expected = bclass(<span class="kw-2">&amp;</span>[(<span class="string">b'a'</span>, <span class="string">b'f'</span>), (<span class="string">b'n'</span>, <span class="string">b't'</span>)]);
         <span class="macro">assert_eq!</span>(expected, bsymdifference(<span class="kw-2">&amp;</span>cls1, <span class="kw-2">&amp;</span>cls2));
     }
 
     <span class="attr">#[test]
     #[should_panic]
     </span><span class="kw">fn </span>hir_byte_literal_non_ascii() {
-        Hir::literal(Literal::Byte(<span class="string">b&#39;a&#39;</span>));
+        Hir::literal(Literal::Byte(<span class="string">b'a'</span>));
     }
 
     <span class="comment">// We use a thread with an explicit stack size to test that our destructor

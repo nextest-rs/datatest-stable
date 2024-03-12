@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/aho-corasick-0.7.18/src/ahocorasick.rs`."><title>ahocorasick.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="aho_corasick" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0 (cc66ad468 2023-10-03)" data-channel="1.73.0" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-1596385f77d47ef2.css" data-theme-dark-css="dark-0a43001d3fc2282c.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-1596385f77d47ef2.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-0a43001d3fc2282c.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../aho_corasick/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/aho-corasick-0.7.18/src/ahocorasick.rs`."><title>ahocorasick.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-ac92e1bbe349e143.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="aho_corasick" data-themes="" data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../static.files/src-script-39ed315d46fb705f.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -2168,7 +2169,7 @@
 /// various knobs for controlling the space-vs-time trade offs taken when
 /// building the automaton.
 ///
-/// If you aren&#39;t sure where to start, try beginning with
+/// If you aren't sure where to start, try beginning with
 /// [`AhoCorasick::new_auto_configured`](struct.AhoCorasick.html#method.new_auto_configured).
 ///
 /// # Resource usage
@@ -2178,7 +2179,7 @@
 /// building an automaton can be fairly costly because of high constant
 /// factors, particularly when enabling the
 /// [DFA](struct.AhoCorasickBuilder.html#method.dfa)
-/// option (which is disabled by default). For this reason, it&#39;s generally a
+/// option (which is disabled by default). For this reason, it's generally a
 /// good idea to build an automaton once and reuse it as much as possible.
 ///
 /// Aho-Corasick automatons can also use a fair bit of memory. To get a
@@ -2195,8 +2196,8 @@
 /// ```
 /// use aho_corasick::AhoCorasickBuilder;
 ///
-/// let patterns = &amp;[&quot;apple&quot;, &quot;maple&quot;, &quot;snapple&quot;];
-/// let haystack = &quot;Nobody likes maple in their apple flavored Snapple.&quot;;
+/// let patterns = &amp;["apple", "maple", "snapple"];
+/// let haystack = "Nobody likes maple in their apple flavored Snapple.";
 ///
 /// let ac = AhoCorasickBuilder::new()
 ///     .ascii_case_insensitive(true)
@@ -2217,13 +2218,13 @@
 /// ```
 /// use aho_corasick::AhoCorasick;
 ///
-/// let patterns = &amp;[&quot;fox&quot;, &quot;brown&quot;, &quot;quick&quot;];
-/// let haystack = &quot;The quick brown fox.&quot;;
-/// let replace_with = &amp;[&quot;sloth&quot;, &quot;grey&quot;, &quot;slow&quot;];
+/// let patterns = &amp;["fox", "brown", "quick"];
+/// let haystack = "The quick brown fox.";
+/// let replace_with = &amp;["sloth", "grey", "slow"];
 ///
 /// let ac = AhoCorasick::new(patterns);
 /// let result = ac.replace_all(haystack, replace_with);
-/// assert_eq!(result, &quot;The slow grey sloth.&quot;);
+/// assert_eq!(result, "The slow grey sloth.");
 /// ```
 </span><span class="attr">#[derive(Clone, Debug)]
 </span><span class="kw">pub struct </span>AhoCorasick&lt;S: StateID = usize&gt; {
@@ -2239,7 +2240,7 @@
     /// [`AhoCorasickBuilder`](struct.AhoCorasickBuilder.html)
     /// for fine-grained control, or
     /// [`AhoCorasick::new_auto_configured`](struct.AhoCorasick.html#method.new_auto_configured)
-    /// for automatic configuration if you aren&#39;t sure which settings to pick.
+    /// for automatic configuration if you aren't sure which settings to pick.
     ///
     /// This uses the default
     /// [`MatchKind::Standard`](enum.MatchKind.html#variant.Standard)
@@ -2255,9 +2256,9 @@
     /// use aho_corasick::AhoCorasick;
     ///
     /// let ac = AhoCorasick::new(&amp;[
-    ///     &quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;,
+    ///     "foo", "bar", "baz",
     /// ]);
-    /// assert_eq!(Some(1), ac.find(&quot;xxx bar xxx&quot;).map(|m| m.pattern()));
+    /// assert_eq!(Some(1), ac.find("xxx bar xxx").map(|m| m.pattern()));
     /// ```
     </span><span class="kw">pub fn </span>new&lt;I, P&gt;(patterns: I) -&gt; AhoCorasick
     <span class="kw">where
@@ -2290,9 +2291,9 @@
     /// use aho_corasick::AhoCorasick;
     ///
     /// let ac = AhoCorasick::new_auto_configured(&amp;[
-    ///     &quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;,
+    ///     "foo", "bar", "baz",
     /// ]);
-    /// assert_eq!(Some(1), ac.find(&quot;xxx bar xxx&quot;).map(|m| m.pattern()));
+    /// assert_eq!(Some(1), ac.find("xxx bar xxx").map(|m| m.pattern()));
     /// ```
     </span><span class="kw">pub fn </span>new_auto_configured&lt;B&gt;(patterns: <span class="kw-2">&amp;</span>[B]) -&gt; AhoCorasick
     <span class="kw">where
@@ -2318,10 +2319,10 @@
     /// use aho_corasick::AhoCorasick;
     ///
     /// let ac = AhoCorasick::new(&amp;[
-    ///     &quot;foo&quot;, &quot;bar&quot;, &quot;quux&quot;, &quot;baz&quot;,
+    ///     "foo", "bar", "quux", "baz",
     /// ]);
-    /// assert!(ac.is_match(&quot;xxx bar xxx&quot;));
-    /// assert!(!ac.is_match(&quot;xxx qux xxx&quot;));
+    /// assert!(ac.is_match("xxx bar xxx"));
+    /// assert!(!ac.is_match("xxx qux xxx"));
     /// ```
     </span><span class="kw">pub fn </span>is_match&lt;B: AsRef&lt;[u8]&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, haystack: B) -&gt; bool {
         <span class="self">self</span>.earliest_find(haystack).is_some()
@@ -2345,9 +2346,9 @@
     /// use aho_corasick::AhoCorasick;
     ///
     /// let ac = AhoCorasick::new(&amp;[
-    ///     &quot;abc&quot;, &quot;b&quot;,
+    ///     "abc", "b",
     /// ]);
-    /// let mat = ac.earliest_find(&quot;abcd&quot;).expect(&quot;should have match&quot;);
+    /// let mat = ac.earliest_find("abcd").expect("should have match");
     /// assert_eq!(1, mat.pattern());
     /// assert_eq!((1, 2), (mat.start(), mat.end()));
     /// ```
@@ -2384,14 +2385,14 @@
     /// ```
     /// use aho_corasick::{AhoCorasickBuilder, MatchKind};
     ///
-    /// let patterns = &amp;[&quot;b&quot;, &quot;abc&quot;, &quot;abcd&quot;];
-    /// let haystack = &quot;abcd&quot;;
+    /// let patterns = &amp;["b", "abc", "abcd"];
+    /// let haystack = "abcd";
     ///
     /// let ac = AhoCorasickBuilder::new()
     ///     .match_kind(MatchKind::Standard) // default, not necessary
     ///     .build(patterns);
-    /// let mat = ac.find(haystack).expect(&quot;should have a match&quot;);
-    /// assert_eq!(&quot;b&quot;, &amp;haystack[mat.start()..mat.end()]);
+    /// let mat = ac.find(haystack).expect("should have a match");
+    /// assert_eq!("b", &amp;haystack[mat.start()..mat.end()]);
     /// ```
     ///
     /// Now with leftmost-first semantics:
@@ -2399,14 +2400,14 @@
     /// ```
     /// use aho_corasick::{AhoCorasickBuilder, MatchKind};
     ///
-    /// let patterns = &amp;[&quot;b&quot;, &quot;abc&quot;, &quot;abcd&quot;];
-    /// let haystack = &quot;abcd&quot;;
+    /// let patterns = &amp;["b", "abc", "abcd"];
+    /// let haystack = "abcd";
     ///
     /// let ac = AhoCorasickBuilder::new()
     ///     .match_kind(MatchKind::LeftmostFirst)
     ///     .build(patterns);
-    /// let mat = ac.find(haystack).expect(&quot;should have a match&quot;);
-    /// assert_eq!(&quot;abc&quot;, &amp;haystack[mat.start()..mat.end()]);
+    /// let mat = ac.find(haystack).expect("should have a match");
+    /// assert_eq!("abc", &amp;haystack[mat.start()..mat.end()]);
     /// ```
     ///
     /// And finally, leftmost-longest semantics:
@@ -2414,14 +2415,14 @@
     /// ```
     /// use aho_corasick::{AhoCorasickBuilder, MatchKind};
     ///
-    /// let patterns = &amp;[&quot;b&quot;, &quot;abc&quot;, &quot;abcd&quot;];
-    /// let haystack = &quot;abcd&quot;;
+    /// let patterns = &amp;["b", "abc", "abcd"];
+    /// let haystack = "abcd";
     ///
     /// let ac = AhoCorasickBuilder::new()
     ///     .match_kind(MatchKind::LeftmostLongest)
     ///     .build(patterns);
-    /// let mat = ac.find(haystack).expect(&quot;should have a match&quot;);
-    /// assert_eq!(&quot;abcd&quot;, &amp;haystack[mat.start()..mat.end()]);
+    /// let mat = ac.find(haystack).expect("should have a match");
+    /// assert_eq!("abcd", &amp;haystack[mat.start()..mat.end()]);
     /// ```
     </span><span class="kw">pub fn </span>find&lt;B: AsRef&lt;[u8]&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, haystack: B) -&gt; <span class="prelude-ty">Option</span>&lt;Match&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>prestate = PrefilterState::new(<span class="self">self</span>.max_pattern_len());
@@ -2442,8 +2443,8 @@
     /// ```
     /// use aho_corasick::{AhoCorasickBuilder, MatchKind};
     ///
-    /// let patterns = &amp;[&quot;append&quot;, &quot;appendage&quot;, &quot;app&quot;];
-    /// let haystack = &quot;append the app to the appendage&quot;;
+    /// let patterns = &amp;["append", "appendage", "app"];
+    /// let haystack = "append the app to the appendage";
     ///
     /// let ac = AhoCorasickBuilder::new()
     ///     .match_kind(MatchKind::Standard) // default, not necessary
@@ -2460,8 +2461,8 @@
     /// ```
     /// use aho_corasick::{AhoCorasickBuilder, MatchKind};
     ///
-    /// let patterns = &amp;[&quot;append&quot;, &quot;appendage&quot;, &quot;app&quot;];
-    /// let haystack = &quot;append the app to the appendage&quot;;
+    /// let patterns = &amp;["append", "appendage", "app"];
+    /// let haystack = "append the app to the appendage";
     ///
     /// let ac = AhoCorasickBuilder::new()
     ///     .match_kind(MatchKind::LeftmostFirst)
@@ -2478,8 +2479,8 @@
     /// ```
     /// use aho_corasick::{AhoCorasickBuilder, MatchKind};
     ///
-    /// let patterns = &amp;[&quot;append&quot;, &quot;appendage&quot;, &quot;app&quot;];
-    /// let haystack = &quot;append the app to the appendage&quot;;
+    /// let patterns = &amp;["append", "appendage", "app"];
+    /// let haystack = "append the app to the appendage";
     ///
     /// let ac = AhoCorasickBuilder::new()
     ///     .match_kind(MatchKind::LeftmostLongest)
@@ -2490,10 +2491,10 @@
     ///     .collect();
     /// assert_eq!(vec![0, 2, 1], matches);
     /// ```
-    </span><span class="kw">pub fn </span>find_iter&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, B: <span class="question-mark">?</span>Sized + AsRef&lt;[u8]&gt;&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>,
-        haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>B,
-    ) -&gt; FindIter&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, S&gt; {
+    </span><span class="kw">pub fn </span>find_iter&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>, B: <span class="question-mark">?</span>Sized + AsRef&lt;[u8]&gt;&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>,
+        haystack: <span class="kw-2">&amp;</span><span class="lifetime">'b </span>B,
+    ) -&gt; FindIter&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>, S&gt; {
         FindIter::new(<span class="self">self</span>, haystack.as_ref())
     }
 
@@ -2513,7 +2514,7 @@
     /// # Panics
     ///
     /// This panics when `AhoCorasick::supports_overlapping` returns `false`.
-    /// That is, this panics when this automaton&#39;s match semantics are not
+    /// That is, this panics when this automaton's match semantics are not
     /// `MatchKind::Standard`.
     ///
     /// # Examples
@@ -2523,8 +2524,8 @@
     /// ```
     /// use aho_corasick::AhoCorasick;
     ///
-    /// let patterns = &amp;[&quot;append&quot;, &quot;appendage&quot;, &quot;app&quot;];
-    /// let haystack = &quot;append the app to the appendage&quot;;
+    /// let patterns = &amp;["append", "appendage", "app"];
+    /// let haystack = "append the app to the appendage";
     ///
     /// let ac = AhoCorasick::new(patterns);
     /// let matches: Vec&lt;usize&gt; = ac
@@ -2533,10 +2534,10 @@
     ///     .collect();
     /// assert_eq!(vec![2, 0, 2, 2, 0, 1], matches);
     /// ```
-    </span><span class="kw">pub fn </span>find_overlapping_iter&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, B: <span class="question-mark">?</span>Sized + AsRef&lt;[u8]&gt;&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>,
-        haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>B,
-    ) -&gt; FindOverlappingIter&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, S&gt; {
+    </span><span class="kw">pub fn </span>find_overlapping_iter&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>, B: <span class="question-mark">?</span>Sized + AsRef&lt;[u8]&gt;&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>,
+        haystack: <span class="kw-2">&amp;</span><span class="lifetime">'b </span>B,
+    ) -&gt; FindOverlappingIter&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>, S&gt; {
         FindOverlappingIter::new(<span class="self">self</span>, haystack.as_ref())
     }
 
@@ -2560,14 +2561,14 @@
     /// ```
     /// use aho_corasick::{AhoCorasickBuilder, MatchKind};
     ///
-    /// let patterns = &amp;[&quot;append&quot;, &quot;appendage&quot;, &quot;app&quot;];
-    /// let haystack = &quot;append the app to the appendage&quot;;
+    /// let patterns = &amp;["append", "appendage", "app"];
+    /// let haystack = "append the app to the appendage";
     ///
     /// let ac = AhoCorasickBuilder::new()
     ///     .match_kind(MatchKind::LeftmostFirst)
     ///     .build(patterns);
-    /// let result = ac.replace_all(haystack, &amp;[&quot;x&quot;, &quot;y&quot;, &quot;z&quot;]);
-    /// assert_eq!(&quot;x the z to the xage&quot;, result);
+    /// let result = ac.replace_all(haystack, &amp;["x", "y", "z"]);
+    /// assert_eq!("x the z to the xage", result);
     /// ```
     </span><span class="kw">pub fn </span>replace_all&lt;B&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, haystack: <span class="kw-2">&amp;</span>str, replace_with: <span class="kw-2">&amp;</span>[B]) -&gt; String
     <span class="kw">where
@@ -2576,8 +2577,8 @@
         <span class="macro">assert_eq!</span>(
             replace_with.len(),
             <span class="self">self</span>.pattern_count(),
-            <span class="string">&quot;replace_all requires a replacement for every pattern \
-             in the automaton&quot;
+            <span class="string">"replace_all requires a replacement for every pattern \
+             in the automaton"
         </span>);
         <span class="kw">let </span><span class="kw-2">mut </span>dst = String::with_capacity(haystack.len());
         <span class="self">self</span>.replace_all_with(haystack, <span class="kw-2">&amp;mut </span>dst, |mat, <span class="kw">_</span>, dst| {
@@ -2607,14 +2608,14 @@
     /// ```
     /// use aho_corasick::{AhoCorasickBuilder, MatchKind};
     ///
-    /// let patterns = &amp;[&quot;append&quot;, &quot;appendage&quot;, &quot;app&quot;];
-    /// let haystack = b&quot;append the app to the appendage&quot;;
+    /// let patterns = &amp;["append", "appendage", "app"];
+    /// let haystack = b"append the app to the appendage";
     ///
     /// let ac = AhoCorasickBuilder::new()
     ///     .match_kind(MatchKind::LeftmostFirst)
     ///     .build(patterns);
-    /// let result = ac.replace_all_bytes(haystack, &amp;[&quot;x&quot;, &quot;y&quot;, &quot;z&quot;]);
-    /// assert_eq!(b&quot;x the z to the xage&quot;.to_vec(), result);
+    /// let result = ac.replace_all_bytes(haystack, &amp;["x", "y", "z"]);
+    /// assert_eq!(b"x the z to the xage".to_vec(), result);
     /// ```
     </span><span class="kw">pub fn </span>replace_all_bytes&lt;B&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
@@ -2627,8 +2628,8 @@
         <span class="macro">assert_eq!</span>(
             replace_with.len(),
             <span class="self">self</span>.pattern_count(),
-            <span class="string">&quot;replace_all_bytes requires a replacement for every pattern \
-             in the automaton&quot;
+            <span class="string">"replace_all_bytes requires a replacement for every pattern \
+             in the automaton"
         </span>);
         <span class="kw">let </span><span class="kw-2">mut </span>dst = Vec::with_capacity(haystack.len());
         <span class="self">self</span>.replace_all_with_bytes(haystack, <span class="kw-2">&amp;mut </span>dst, |mat, <span class="kw">_</span>, dst| {
@@ -2654,8 +2655,8 @@
     /// ```
     /// use aho_corasick::{AhoCorasickBuilder, MatchKind};
     ///
-    /// let patterns = &amp;[&quot;append&quot;, &quot;appendage&quot;, &quot;app&quot;];
-    /// let haystack = &quot;append the app to the appendage&quot;;
+    /// let patterns = &amp;["append", "appendage", "app"];
+    /// let haystack = "append the app to the appendage";
     ///
     /// let ac = AhoCorasickBuilder::new()
     ///     .match_kind(MatchKind::LeftmostFirst)
@@ -2665,7 +2666,7 @@
     ///     dst.push_str(&amp;mat.pattern().to_string());
     ///     true
     /// });
-    /// assert_eq!(&quot;0 the 2 to the 0age&quot;, result);
+    /// assert_eq!("0 the 2 to the 0age", result);
     /// ```
     ///
     /// Stopping the replacement by returning `false` (continued from the
@@ -2673,8 +2674,8 @@
     ///
     /// ```
     /// # use aho_corasick::{AhoCorasickBuilder, MatchKind};
-    /// # let patterns = &amp;[&quot;append&quot;, &quot;appendage&quot;, &quot;app&quot;];
-    /// # let haystack = &quot;append the app to the appendage&quot;;
+    /// # let patterns = &amp;["append", "appendage", "app"];
+    /// # let haystack = "append the app to the appendage";
     /// # let ac = AhoCorasickBuilder::new()
     /// #    .match_kind(MatchKind::LeftmostFirst)
     /// #    .build(patterns);
@@ -2683,7 +2684,7 @@
     ///     dst.push_str(&amp;mat.pattern().to_string());
     ///     mat.pattern() != 2
     /// });
-    /// assert_eq!(&quot;0 the 2 to the appendage&quot;, result);
+    /// assert_eq!("0 the 2 to the appendage", result);
     /// ```
     </span><span class="kw">pub fn </span>replace_all_with&lt;F&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
@@ -2720,8 +2721,8 @@
     /// ```
     /// use aho_corasick::{AhoCorasickBuilder, MatchKind};
     ///
-    /// let patterns = &amp;[&quot;append&quot;, &quot;appendage&quot;, &quot;app&quot;];
-    /// let haystack = b&quot;append the app to the appendage&quot;;
+    /// let patterns = &amp;["append", "appendage", "app"];
+    /// let haystack = b"append the app to the appendage";
     ///
     /// let ac = AhoCorasickBuilder::new()
     ///     .match_kind(MatchKind::LeftmostFirst)
@@ -2731,7 +2732,7 @@
     ///     dst.extend(mat.pattern().to_string().bytes());
     ///     true
     /// });
-    /// assert_eq!(b&quot;0 the 2 to the 0age&quot;.to_vec(), result);
+    /// assert_eq!(b"0 the 2 to the 0age".to_vec(), result);
     /// ```
     ///
     /// Stopping the replacement by returning `false` (continued from the
@@ -2739,8 +2740,8 @@
     ///
     /// ```
     /// # use aho_corasick::{AhoCorasickBuilder, MatchKind};
-    /// # let patterns = &amp;[&quot;append&quot;, &quot;appendage&quot;, &quot;app&quot;];
-    /// # let haystack = b&quot;append the app to the appendage&quot;;
+    /// # let patterns = &amp;["append", "appendage", "app"];
+    /// # let haystack = b"append the app to the appendage";
     /// # let ac = AhoCorasickBuilder::new()
     /// #    .match_kind(MatchKind::LeftmostFirst)
     /// #    .build(patterns);
@@ -2749,7 +2750,7 @@
     ///     dst.extend(mat.pattern().to_string().bytes());
     ///     mat.pattern() != 2
     /// });
-    /// assert_eq!(b&quot;0 the 2 to the appendage&quot;.to_vec(), result);
+    /// assert_eq!(b"0 the 2 to the appendage".to_vec(), result);
     /// ```
     </span><span class="kw">pub fn </span>replace_all_with_bytes&lt;F&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
@@ -2802,7 +2803,7 @@
     /// # Panics
     ///
     /// This panics when `AhoCorasick::supports_stream` returns `false`.
-    /// That is, this panics when this automaton&#39;s match semantics are not
+    /// That is, this panics when this automaton's match semantics are not
     /// `MatchKind::Standard`. This restriction may be lifted in the future.
     ///
     /// # Examples
@@ -2813,8 +2814,8 @@
     /// use aho_corasick::AhoCorasick;
     ///
     /// # fn example() -&gt; Result&lt;(), ::std::io::Error&gt; {
-    /// let patterns = &amp;[&quot;append&quot;, &quot;appendage&quot;, &quot;app&quot;];
-    /// let haystack = &quot;append the app to the appendage&quot;;
+    /// let patterns = &amp;["append", "appendage", "app"];
+    /// let haystack = "append the app to the appendage";
     ///
     /// let ac = AhoCorasick::new(patterns);
     /// let mut matches = vec![];
@@ -2825,10 +2826,10 @@
     /// assert_eq!(vec![2, 2, 2], matches);
     /// # Ok(()) }; example().unwrap()
     /// ```
-    </span><span class="kw">pub fn </span>stream_find_iter&lt;<span class="lifetime">&#39;a</span>, R: io::Read&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>,
+    </span><span class="kw">pub fn </span>stream_find_iter&lt;<span class="lifetime">'a</span>, R: io::Read&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>,
         rdr: R,
-    ) -&gt; StreamFindIter&lt;<span class="lifetime">&#39;a</span>, R, S&gt; {
+    ) -&gt; StreamFindIter&lt;<span class="lifetime">'a</span>, R, S&gt; {
         StreamFindIter::new(<span class="self">self</span>, rdr)
     }
 
@@ -2869,7 +2870,7 @@
     /// # Panics
     ///
     /// This panics when `AhoCorasick::supports_stream` returns `false`.
-    /// That is, this panics when this automaton&#39;s match semantics are not
+    /// That is, this panics when this automaton's match semantics are not
     /// `MatchKind::Standard`. This restriction may be lifted in the future.
     ///
     /// # Examples
@@ -2880,14 +2881,14 @@
     /// use aho_corasick::AhoCorasick;
     ///
     /// # fn example() -&gt; Result&lt;(), ::std::io::Error&gt; {
-    /// let patterns = &amp;[&quot;fox&quot;, &quot;brown&quot;, &quot;quick&quot;];
-    /// let haystack = &quot;The quick brown fox.&quot;;
-    /// let replace_with = &amp;[&quot;sloth&quot;, &quot;grey&quot;, &quot;slow&quot;];
+    /// let patterns = &amp;["fox", "brown", "quick"];
+    /// let haystack = "The quick brown fox.";
+    /// let replace_with = &amp;["sloth", "grey", "slow"];
     ///
     /// let ac = AhoCorasick::new(patterns);
     /// let mut result = vec![];
     /// ac.stream_replace_all(haystack.as_bytes(), &amp;mut result, replace_with)?;
-    /// assert_eq!(b&quot;The slow grey sloth.&quot;.to_vec(), result);
+    /// assert_eq!(b"The slow grey sloth.".to_vec(), result);
     /// # Ok(()) }; example().unwrap()
     /// ```
     </span><span class="kw">pub fn </span>stream_replace_all&lt;R, W, B&gt;(
@@ -2904,8 +2905,8 @@
         <span class="macro">assert_eq!</span>(
             replace_with.len(),
             <span class="self">self</span>.pattern_count(),
-            <span class="string">&quot;stream_replace_all requires a replacement for every pattern \
-             in the automaton&quot;
+            <span class="string">"stream_replace_all requires a replacement for every pattern \
+             in the automaton"
         </span>);
         <span class="self">self</span>.stream_replace_all_with(rdr, wtr, |mat, <span class="kw">_</span>, wtr| {
             wtr.write_all(replace_with[mat.pattern()].as_ref())
@@ -2948,7 +2949,7 @@
     /// # Panics
     ///
     /// This panics when `AhoCorasick::supports_stream` returns `false`.
-    /// That is, this panics when this automaton&#39;s match semantics are not
+    /// That is, this panics when this automaton's match semantics are not
     /// `MatchKind::Standard`. This restriction may be lifted in the future.
     ///
     /// # Examples
@@ -2960,8 +2961,8 @@
     /// use aho_corasick::AhoCorasick;
     ///
     /// # fn example() -&gt; Result&lt;(), ::std::io::Error&gt; {
-    /// let patterns = &amp;[&quot;fox&quot;, &quot;brown&quot;, &quot;quick&quot;];
-    /// let haystack = &quot;The quick brown fox.&quot;;
+    /// let patterns = &amp;["fox", "brown", "quick"];
+    /// let haystack = "The quick brown fox.";
     ///
     /// let ac = AhoCorasick::new(patterns);
     /// let mut result = vec![];
@@ -2972,7 +2973,7 @@
     ///         wtr.write_all(mat.pattern().to_string().as_bytes())
     ///     },
     /// )?;
-    /// assert_eq!(b&quot;The 2 1 0.&quot;.to_vec(), result);
+    /// assert_eq!(b"The 2 1 0.".to_vec(), result);
     /// # Ok(()) }; example().unwrap()
     /// ```
     </span><span class="kw">pub fn </span>stream_replace_all_with&lt;R, W, F&gt;(
@@ -3011,7 +3012,7 @@
     /// use aho_corasick::{AhoCorasick, MatchKind};
     ///
     /// let ac = AhoCorasick::new(&amp;[
-    ///     &quot;foo&quot;, &quot;bar&quot;, &quot;quux&quot;, &quot;baz&quot;,
+    ///     "foo", "bar", "quux", "baz",
     /// ]);
     /// assert_eq!(&amp;MatchKind::Standard, ac.match_kind());
     /// ```
@@ -3029,7 +3030,7 @@
     /// use aho_corasick::AhoCorasick;
     ///
     /// let ac = AhoCorasick::new(&amp;[
-    ///     &quot;foo&quot;, &quot;bar&quot;, &quot;quux&quot;, &quot;baz&quot;,
+    ///     "foo", "bar", "quux", "baz",
     /// ]);
     /// assert_eq!(4, ac.max_pattern_len());
     /// ```
@@ -3054,7 +3055,7 @@
     /// use aho_corasick::AhoCorasick;
     ///
     /// let ac = AhoCorasick::new(&amp;[
-    ///     &quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;,
+    ///     "foo", "bar", "baz",
     /// ]);
     /// assert_eq!(3, ac.pattern_count());
     /// ```
@@ -3082,12 +3083,12 @@
     ///
     /// let ac = AhoCorasickBuilder::new()
     ///     .match_kind(MatchKind::Standard)
-    ///     .build(&amp;[&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]);
+    ///     .build(&amp;["foo", "bar", "baz"]);
     /// assert!(ac.supports_overlapping());
     ///
     /// let ac = AhoCorasickBuilder::new()
     ///     .match_kind(MatchKind::LeftmostFirst)
-    ///     .build(&amp;[&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]);
+    ///     .build(&amp;["foo", "bar", "baz"]);
     /// assert!(!ac.supports_overlapping());
     /// ```
     </span><span class="kw">pub fn </span>supports_overlapping(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
@@ -3112,12 +3113,12 @@
     ///
     /// let ac = AhoCorasickBuilder::new()
     ///     .match_kind(MatchKind::Standard)
-    ///     .build(&amp;[&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]);
+    ///     .build(&amp;["foo", "bar", "baz"]);
     /// assert!(ac.supports_stream());
     ///
     /// let ac = AhoCorasickBuilder::new()
     ///     .match_kind(MatchKind::LeftmostFirst)
-    ///     .build(&amp;[&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]);
+    ///     .build(&amp;["foo", "bar", "baz"]);
     /// assert!(!ac.supports_stream());
     /// ```
     </span><span class="kw">pub fn </span>supports_stream(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
@@ -3137,19 +3138,19 @@
     ///
     /// let ac = AhoCorasickBuilder::new()
     ///     .dfa(false) // default
-    ///     .build(&amp;[&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]);
+    ///     .build(&amp;["foo", "bar", "baz"]);
     /// assert_eq!(10_336, ac.heap_bytes());
     ///
     /// let ac = AhoCorasickBuilder::new()
     ///     .dfa(false) // default
     ///     .ascii_case_insensitive(true)
-    ///     .build(&amp;[&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]);
+    ///     .build(&amp;["foo", "bar", "baz"]);
     /// assert_eq!(10_384, ac.heap_bytes());
     ///
     /// let ac = AhoCorasickBuilder::new()
     ///     .dfa(true)
     ///     .ascii_case_insensitive(true)
-    ///     .build(&amp;[&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]);
+    ///     .build(&amp;["foo", "bar", "baz"]);
     /// assert_eq!(1_248, ac.heap_bytes());
     /// ```
     </span><span class="kw">pub fn </span>heap_bytes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
@@ -3296,25 +3297,25 @@
 /// The type variable `S` refers to the representation used for state
 /// identifiers. (By default, this is `usize`.)
 ///
-/// The lifetime `&#39;a` refers to the lifetime of the `AhoCorasick` automaton.
+/// The lifetime `'a` refers to the lifetime of the `AhoCorasick` automaton.
 ///
-/// The lifetime `&#39;b` refers to the lifetime of the haystack being searched.
+/// The lifetime `'b` refers to the lifetime of the haystack being searched.
 </span><span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>FindIter&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, S: StateID&gt; {
-    fsm: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Imp&lt;S&gt;,
+</span><span class="kw">pub struct </span>FindIter&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>, S: StateID&gt; {
+    fsm: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Imp&lt;S&gt;,
     prestate: PrefilterState,
-    haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>[u8],
+    haystack: <span class="kw-2">&amp;</span><span class="lifetime">'b </span>[u8],
     pos: usize,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, S: StateID&gt; FindIter&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, S&gt; {
-    <span class="kw">fn </span>new(ac: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>AhoCorasick&lt;S&gt;, haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>[u8]) -&gt; FindIter&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, S&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>, S: StateID&gt; FindIter&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>, S&gt; {
+    <span class="kw">fn </span>new(ac: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>AhoCorasick&lt;S&gt;, haystack: <span class="kw-2">&amp;</span><span class="lifetime">'b </span>[u8]) -&gt; FindIter&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>, S&gt; {
         <span class="kw">let </span>prestate = PrefilterState::new(ac.max_pattern_len());
         FindIter { fsm: <span class="kw-2">&amp;</span>ac.imp, prestate, haystack, pos: <span class="number">0 </span>}
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, S: StateID&gt; Iterator <span class="kw">for </span>FindIter&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, S&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>, S: StateID&gt; Iterator <span class="kw">for </span>FindIter&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>, S&gt; {
     <span class="kw">type </span>Item = Match;
 
     <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Match&gt; {
@@ -3353,28 +3354,28 @@
 /// The type variable `S` refers to the representation used for state
 /// identifiers. (By default, this is `usize`.)
 ///
-/// The lifetime `&#39;a` refers to the lifetime of the `AhoCorasick` automaton.
+/// The lifetime `'a` refers to the lifetime of the `AhoCorasick` automaton.
 ///
-/// The lifetime `&#39;b` refers to the lifetime of the haystack being searched.
+/// The lifetime `'b` refers to the lifetime of the haystack being searched.
 </span><span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>FindOverlappingIter&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, S: StateID&gt; {
-    fsm: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Imp&lt;S&gt;,
+</span><span class="kw">pub struct </span>FindOverlappingIter&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>, S: StateID&gt; {
+    fsm: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Imp&lt;S&gt;,
     prestate: PrefilterState,
-    haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>[u8],
+    haystack: <span class="kw-2">&amp;</span><span class="lifetime">'b </span>[u8],
     pos: usize,
     last_match_end: usize,
     state_id: S,
     match_index: usize,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, S: StateID&gt; FindOverlappingIter&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, S&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>, S: StateID&gt; FindOverlappingIter&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>, S&gt; {
     <span class="kw">fn </span>new(
-        ac: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>AhoCorasick&lt;S&gt;,
-        haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>[u8],
-    ) -&gt; FindOverlappingIter&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, S&gt; {
+        ac: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>AhoCorasick&lt;S&gt;,
+        haystack: <span class="kw-2">&amp;</span><span class="lifetime">'b </span>[u8],
+    ) -&gt; FindOverlappingIter&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>, S&gt; {
         <span class="macro">assert!</span>(
             ac.supports_overlapping(),
-            <span class="string">&quot;automaton does not support overlapping searches&quot;
+            <span class="string">"automaton does not support overlapping searches"
         </span>);
         <span class="kw">let </span>prestate = PrefilterState::new(ac.max_pattern_len());
         FindOverlappingIter {
@@ -3389,7 +3390,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, S: StateID&gt; Iterator <span class="kw">for </span>FindOverlappingIter&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, S&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>, S: StateID&gt; Iterator <span class="kw">for </span>FindOverlappingIter&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>, S&gt; {
     <span class="kw">type </span>Item = Match;
 
     <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Match&gt; {
@@ -3426,19 +3427,19 @@
 /// The type variable `S` refers to the representation used for state
 /// identifiers. (By default, this is `usize`.)
 ///
-/// The lifetime `&#39;a` refers to the lifetime of the `AhoCorasick` automaton.
+/// The lifetime `'a` refers to the lifetime of the `AhoCorasick` automaton.
 </span><span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>StreamFindIter&lt;<span class="lifetime">&#39;a</span>, R, S: StateID&gt; {
-    it: StreamChunkIter&lt;<span class="lifetime">&#39;a</span>, R, S&gt;,
+</span><span class="kw">pub struct </span>StreamFindIter&lt;<span class="lifetime">'a</span>, R, S: StateID&gt; {
+    it: StreamChunkIter&lt;<span class="lifetime">'a</span>, R, S&gt;,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, R: io::Read, S: StateID&gt; StreamFindIter&lt;<span class="lifetime">&#39;a</span>, R, S&gt; {
-    <span class="kw">fn </span>new(ac: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>AhoCorasick&lt;S&gt;, rdr: R) -&gt; StreamFindIter&lt;<span class="lifetime">&#39;a</span>, R, S&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, R: io::Read, S: StateID&gt; StreamFindIter&lt;<span class="lifetime">'a</span>, R, S&gt; {
+    <span class="kw">fn </span>new(ac: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>AhoCorasick&lt;S&gt;, rdr: R) -&gt; StreamFindIter&lt;<span class="lifetime">'a</span>, R, S&gt; {
         StreamFindIter { it: StreamChunkIter::new(ac, rdr) }
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, R: io::Read, S: StateID&gt; Iterator <span class="kw">for </span>StreamFindIter&lt;<span class="lifetime">&#39;a</span>, R, S&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, R: io::Read, S: StateID&gt; Iterator <span class="kw">for </span>StreamFindIter&lt;<span class="lifetime">'a</span>, R, S&gt; {
     <span class="kw">type </span>Item = io::Result&lt;Match&gt;;
 
     <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;io::Result&lt;Match&gt;&gt; {
@@ -3461,21 +3462,21 @@
 /// number of non-matching chunks before seeing a matching chunk.
 ///
 /// N.B. This does not actually implement Iterator because we need to borrow
-/// from the underlying reader. But conceptually, it&#39;s still an iterator.
+/// from the underlying reader. But conceptually, it's still an iterator.
 </span><span class="attr">#[derive(Debug)]
-</span><span class="kw">struct </span>StreamChunkIter&lt;<span class="lifetime">&#39;a</span>, R, S: StateID&gt; {
+</span><span class="kw">struct </span>StreamChunkIter&lt;<span class="lifetime">'a</span>, R, S: StateID&gt; {
     <span class="doccomment">/// The AC automaton.
-    </span>fsm: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Imp&lt;S&gt;,
-    <span class="doccomment">/// State associated with this automaton&#39;s prefilter. It is a heuristic
-    /// for stopping the prefilter if it&#39;s deemed ineffective.
+    </span>fsm: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Imp&lt;S&gt;,
+    <span class="doccomment">/// State associated with this automaton's prefilter. It is a heuristic
+    /// for stopping the prefilter if it's deemed ineffective.
     </span>prestate: PrefilterState,
     <span class="doccomment">/// The source of bytes we read from.
     </span>rdr: R,
     <span class="doccomment">/// A fixed size buffer. This is what we actually search. There are some
-    /// invariants around the buffer&#39;s size, namely, it must be big enough to
+    /// invariants around the buffer's size, namely, it must be big enough to
     /// contain the longest possible match.
     </span>buf: Buffer,
-    <span class="doccomment">/// The ID of the FSM state we&#39;re currently in.
+    <span class="doccomment">/// The ID of the FSM state we're currently in.
     </span>state_id: S,
     <span class="doccomment">/// The current position at which to start the next search in `buf`.
     </span>search_pos: usize,
@@ -3496,20 +3497,20 @@
 
 <span class="doccomment">/// A single chunk yielded by the stream chunk iterator.
 ///
-/// The `&#39;r` lifetime refers to the lifetime of the stream chunk iterator.
+/// The `'r` lifetime refers to the lifetime of the stream chunk iterator.
 </span><span class="attr">#[derive(Debug)]
-</span><span class="kw">enum </span>StreamChunk&lt;<span class="lifetime">&#39;r</span>&gt; {
+</span><span class="kw">enum </span>StreamChunk&lt;<span class="lifetime">'r</span>&gt; {
     <span class="doccomment">/// A chunk that does not contain any matches.
-    </span>NonMatch { bytes: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>[u8], start: usize },
+    </span>NonMatch { bytes: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>[u8], start: usize },
     <span class="doccomment">/// A chunk that precisely contains a match.
-    </span>Match { bytes: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>[u8], mat: Match },
+    </span>Match { bytes: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>[u8], mat: Match },
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, R: io::Read, S: StateID&gt; StreamChunkIter&lt;<span class="lifetime">&#39;a</span>, R, S&gt; {
-    <span class="kw">fn </span>new(ac: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>AhoCorasick&lt;S&gt;, rdr: R) -&gt; StreamChunkIter&lt;<span class="lifetime">&#39;a</span>, R, S&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, R: io::Read, S: StateID&gt; StreamChunkIter&lt;<span class="lifetime">'a</span>, R, S&gt; {
+    <span class="kw">fn </span>new(ac: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>AhoCorasick&lt;S&gt;, rdr: R) -&gt; StreamChunkIter&lt;<span class="lifetime">'a</span>, R, S&gt; {
         <span class="macro">assert!</span>(
             ac.supports_stream(),
-            <span class="string">&quot;stream searching is only supported for Standard match semantics&quot;
+            <span class="string">"stream searching is only supported for Standard match semantics"
         </span>);
 
         <span class="kw">let </span>prestate = <span class="kw">if </span>ac.imp.use_prefilter() {
@@ -3529,11 +3530,11 @@
             report_pos: <span class="number">0</span>,
             search_pos: <span class="number">0</span>,
             pending_match: <span class="prelude-val">None</span>,
-            has_empty_match_at_end: ac.is_match(<span class="string">&quot;&quot;</span>),
+            has_empty_match_at_end: ac.is_match(<span class="string">""</span>),
         }
     }
 
-    <span class="kw">fn </span>next&lt;<span class="lifetime">&#39;r</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span><span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;io::Result&lt;StreamChunk&lt;<span class="lifetime">&#39;r</span>&gt;&gt;&gt; {
+    <span class="kw">fn </span>next&lt;<span class="lifetime">'r</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'r </span><span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;io::Result&lt;StreamChunk&lt;<span class="lifetime">'r</span>&gt;&gt;&gt; {
         <span class="kw">loop </span>{
             <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">mut </span>mat) = <span class="self">self</span>.pending_match.take() {
                 <span class="kw">let </span>bytes = <span class="kw-2">&amp;</span><span class="self">self</span>.buf.buffer()[mat.start()..mat.end()];
@@ -3565,7 +3566,7 @@
                 <span class="kw">match </span><span class="self">self</span>.buf.fill(<span class="kw-2">&amp;mut </span><span class="self">self</span>.rdr) {
                     <span class="prelude-val">Err</span>(err) =&gt; <span class="kw">return </span><span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(err)),
                     <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>) =&gt; {
-                        <span class="comment">// We&#39;ve hit EOF, but if there are still some
+                        <span class="comment">// We've hit EOF, but if there are still some
                         // unreported bytes remaining, return them now.
                         </span><span class="kw">if </span><span class="self">self</span>.report_pos &lt; <span class="self">self</span>.buf.len() {
                             <span class="kw">let </span>bytes = <span class="kw-2">&amp;</span><span class="self">self</span>.buf.buffer()[<span class="self">self</span>.report_pos..];
@@ -3575,7 +3576,7 @@
                             <span class="kw">let </span>chunk = StreamChunk::NonMatch { bytes, start };
                             <span class="kw">return </span><span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(chunk));
                         } <span class="kw">else </span>{
-                            <span class="comment">// We&#39;ve reported everything, but there might still
+                            <span class="comment">// We've reported everything, but there might still
                             // be a match at the very last position.
                             </span><span class="kw">if </span>!<span class="self">self</span>.has_empty_match_at_end {
                                 <span class="kw">return </span><span class="prelude-val">None</span>;
@@ -3650,7 +3651,7 @@
 <span class="kw">impl </span>AhoCorasickBuilder {
     <span class="doccomment">/// Create a new builder for configuring an Aho-Corasick automaton.
     ///
-    /// If you don&#39;t need fine grained configuration or aren&#39;t sure which knobs
+    /// If you don't need fine grained configuration or aren't sure which knobs
     /// to set, try using
     /// [`AhoCorasick::new_auto_configured`](struct.AhoCorasick.html#method.new_auto_configured)
     /// instead.
@@ -3680,10 +3681,10 @@
     /// ```
     /// use aho_corasick::AhoCorasickBuilder;
     ///
-    /// let patterns = &amp;[&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;];
+    /// let patterns = &amp;["foo", "bar", "baz"];
     /// let ac = AhoCorasickBuilder::new()
     ///     .build(patterns);
-    /// assert_eq!(Some(1), ac.find(&quot;xxx bar xxx&quot;).map(|m| m.pattern()));
+    /// assert_eq!(Some(1), ac.find("xxx bar xxx").map(|m| m.pattern()));
     /// ```
     </span><span class="kw">pub fn </span>build&lt;I, P&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, patterns: I) -&gt; AhoCorasick
     <span class="kw">where
@@ -3693,10 +3694,10 @@
         <span class="comment">// The builder only returns an error if the chosen state ID
         // representation is too small to fit all of the given patterns. In
         // this case, since we fix the representation to usize, it will always
-        // work because it&#39;s impossible to overflow usize since the underlying
+        // work because it's impossible to overflow usize since the underlying
         // storage would OOM long before that happens.
         </span><span class="self">self</span>.build_with_size::&lt;usize, I, P&gt;(patterns)
-            .expect(<span class="string">&quot;usize state ID type should always work&quot;</span>)
+            .expect(<span class="string">"usize state ID type should always work"</span>)
     }
 
     <span class="doccomment">/// Build an Aho-Corasick automaton using the configuration set on this
@@ -3708,7 +3709,7 @@
     /// The advantage of choosing a smaller state identifier representation
     /// is that the automaton produced will be smaller. This might be
     /// beneficial for just generally using less space, or might even allow it
-    /// to fit more of the automaton in your CPU&#39;s cache, leading to overall
+    /// to fit more of the automaton in your CPU's cache, leading to overall
     /// better search performance.
     ///
     /// Unlike the standard `build` method, this can report an error if the
@@ -3728,10 +3729,10 @@
     /// use aho_corasick::{AhoCorasick, AhoCorasickBuilder};
     ///
     /// # fn example() -&gt; Result&lt;(), ::aho_corasick::Error&gt; {
-    /// let patterns = &amp;[&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;];
+    /// let patterns = &amp;["foo", "bar", "baz"];
     /// let ac: AhoCorasick&lt;u8&gt; = AhoCorasickBuilder::new()
     ///     .build_with_size(patterns)?;
-    /// assert_eq!(Some(1), ac.find(&quot;xxx bar xxx&quot;).map(|m| m.pattern()));
+    /// assert_eq!(Some(1), ac.find("xxx bar xxx").map(|m| m.pattern()));
     /// # Ok(()) }; example().unwrap()
     /// ```
     ///
@@ -3741,10 +3742,10 @@
     /// use aho_corasick::AhoCorasickBuilder;
     ///
     /// # fn example() -&gt; Result&lt;(), ::aho_corasick::Error&gt; {
-    /// let patterns = &amp;[&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;];
+    /// let patterns = &amp;["foo", "bar", "baz"];
     /// let ac = AhoCorasickBuilder::new()
     ///     .build_with_size::&lt;u8, _, _&gt;(patterns)?;
-    /// assert_eq!(Some(1), ac.find(&quot;xxx bar xxx&quot;).map(|m| m.pattern()));
+    /// assert_eq!(Some(1), ac.find("xxx bar xxx").map(|m| m.pattern()));
     /// # Ok(()) }; example().unwrap()
     /// ```
     </span><span class="kw">pub fn </span>build_with_size&lt;S, I, P&gt;(
@@ -3786,11 +3787,11 @@
     /// ```
     /// use aho_corasick::AhoCorasickBuilder;
     ///
-    /// let patterns = &amp;[&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;];
+    /// let patterns = &amp;["foo", "bar", "baz"];
     /// let ac = AhoCorasickBuilder::new()
     ///     .auto_configure(patterns)
     ///     .build(patterns);
-    /// assert_eq!(Some(1), ac.find(&quot;xxx bar xxx&quot;).map(|m| m.pattern()));
+    /// assert_eq!(Some(1), ac.find("xxx bar xxx").map(|m| m.pattern()));
     /// ```
     </span><span class="kw">pub fn </span>auto_configure&lt;B: AsRef&lt;[u8]&gt;&gt;(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
@@ -3798,7 +3799,7 @@
     ) -&gt; <span class="kw-2">&amp;mut </span>AhoCorasickBuilder {
         <span class="comment">// N.B. Currently we only use the length of `patterns` to make a
         // decision here, and could therefore ask for an `ExactSizeIterator`
-        // instead. But it&#39;s conceivable that we might adapt this to look at
+        // instead. But it's conceivable that we might adapt this to look at
         // the total number of bytes, which would requires a second pass.
         //
         // The logic here is fairly rudimentary at the moment, but probably
@@ -3811,7 +3812,7 @@
         </span><span class="kw">if </span>patterns.len() &lt;= <span class="number">100 </span>{
             <span class="comment">// N.B. Using byte classes can actually be faster by improving
             // locality, but this only really applies for multi-megabyte
-            // automata (i.e., automata that don&#39;t fit in your CPU&#39;s cache).
+            // automata (i.e., automata that don't fit in your CPU's cache).
             </span><span class="self">self</span>.dfa(<span class="bool-val">true</span>);
         } <span class="kw">else if </span>patterns.len() &lt;= <span class="number">5000 </span>{
             <span class="self">self</span>.dfa(<span class="bool-val">true</span>);
@@ -3850,14 +3851,14 @@
     /// ```
     /// use aho_corasick::{AhoCorasickBuilder, MatchKind};
     ///
-    /// let patterns = &amp;[&quot;b&quot;, &quot;abc&quot;, &quot;abcd&quot;];
-    /// let haystack = &quot;abcd&quot;;
+    /// let patterns = &amp;["b", "abc", "abcd"];
+    /// let haystack = "abcd";
     ///
     /// let ac = AhoCorasickBuilder::new()
     ///     .match_kind(MatchKind::Standard) // default, not necessary
     ///     .build(patterns);
-    /// let mat = ac.find(haystack).expect(&quot;should have a match&quot;);
-    /// assert_eq!(&quot;b&quot;, &amp;haystack[mat.start()..mat.end()]);
+    /// let mat = ac.find(haystack).expect("should have a match");
+    /// assert_eq!("b", &amp;haystack[mat.start()..mat.end()]);
     /// ```
     ///
     /// Leftmost-first semantics:
@@ -3865,14 +3866,14 @@
     /// ```
     /// use aho_corasick::{AhoCorasickBuilder, MatchKind};
     ///
-    /// let patterns = &amp;[&quot;b&quot;, &quot;abc&quot;, &quot;abcd&quot;];
-    /// let haystack = &quot;abcd&quot;;
+    /// let patterns = &amp;["b", "abc", "abcd"];
+    /// let haystack = "abcd";
     ///
     /// let ac = AhoCorasickBuilder::new()
     ///     .match_kind(MatchKind::LeftmostFirst)
     ///     .build(patterns);
-    /// let mat = ac.find(haystack).expect(&quot;should have a match&quot;);
-    /// assert_eq!(&quot;abc&quot;, &amp;haystack[mat.start()..mat.end()]);
+    /// let mat = ac.find(haystack).expect("should have a match");
+    /// assert_eq!("abc", &amp;haystack[mat.start()..mat.end()]);
     /// ```
     ///
     /// Leftmost-longest semantics:
@@ -3880,14 +3881,14 @@
     /// ```
     /// use aho_corasick::{AhoCorasickBuilder, MatchKind};
     ///
-    /// let patterns = &amp;[&quot;b&quot;, &quot;abc&quot;, &quot;abcd&quot;];
-    /// let haystack = &quot;abcd&quot;;
+    /// let patterns = &amp;["b", "abc", "abcd"];
+    /// let haystack = "abcd";
     ///
     /// let ac = AhoCorasickBuilder::new()
     ///     .match_kind(MatchKind::LeftmostLongest)
     ///     .build(patterns);
-    /// let mat = ac.find(haystack).expect(&quot;should have a match&quot;);
-    /// assert_eq!(&quot;abcd&quot;, &amp;haystack[mat.start()..mat.end()]);
+    /// let mat = ac.find(haystack).expect("should have a match");
+    /// assert_eq!("abcd", &amp;haystack[mat.start()..mat.end()]);
     /// ```
     </span><span class="kw">pub fn </span>match_kind(<span class="kw-2">&amp;mut </span><span class="self">self</span>, kind: MatchKind) -&gt; <span class="kw-2">&amp;mut </span>AhoCorasickBuilder {
         <span class="self">self</span>.nfa_builder.match_kind(kind);
@@ -3906,8 +3907,8 @@
     /// ```
     /// use aho_corasick::AhoCorasickBuilder;
     ///
-    /// let patterns = &amp;[&quot;foo&quot;, &quot;bar&quot;];
-    /// let haystack = &quot;foobar&quot;;
+    /// let patterns = &amp;["foo", "bar"];
+    /// let haystack = "foobar";
     ///
     /// let ac = AhoCorasickBuilder::new()
     ///     .anchored(true)
@@ -3921,8 +3922,8 @@
     /// ```
     /// use aho_corasick::AhoCorasickBuilder;
     ///
-    /// let patterns = &amp;[&quot;foo&quot;, &quot;foofoo&quot;];
-    /// let haystack = &quot;foofoo&quot;;
+    /// let patterns = &amp;["foo", "foofoo"];
+    /// let haystack = "foofoo";
     ///
     /// let ac = AhoCorasickBuilder::new()
     ///     .anchored(true)
@@ -3954,8 +3955,8 @@
     /// ```
     /// use aho_corasick::AhoCorasickBuilder;
     ///
-    /// let patterns = &amp;[&quot;FOO&quot;, &quot;bAr&quot;, &quot;BaZ&quot;];
-    /// let haystack = &quot;foo bar baz&quot;;
+    /// let patterns = &amp;["FOO", "bAr", "BaZ"];
+    /// let haystack = "foo bar baz";
     ///
     /// let ac = AhoCorasickBuilder::new()
     ///     .ascii_case_insensitive(true)
@@ -4010,7 +4011,7 @@
     /// searches from `O(n + p)` to `O(n)`, where `n` is the length of the
     /// haystack.
     ///
-    /// In general, it&#39;s a good idea to enable this if you&#39;re searching a
+    /// In general, it's a good idea to enable this if you're searching a
     /// small number of fairly short patterns (~1000), or if you want the
     /// fastest possible search without regard to compilation time or space
     /// usage.
@@ -4060,8 +4061,8 @@
     ///
     /// This option is enabled by default.
     </span><span class="attr">#[deprecated(
-        since = <span class="string">&quot;0.7.16&quot;</span>,
-        note = <span class="string">&quot;not carrying its weight, will be always enabled, see: https://github.com/BurntSushi/aho-corasick/issues/57&quot;
+        since = <span class="string">"0.7.16"</span>,
+        note = <span class="string">"not carrying its weight, will be always enabled, see: https://github.com/BurntSushi/aho-corasick/issues/57"
     </span>)]
     </span><span class="kw">pub fn </span>byte_classes(<span class="kw-2">&amp;mut </span><span class="self">self</span>, yes: bool) -&gt; <span class="kw-2">&amp;mut </span>AhoCorasickBuilder {
         <span class="self">self</span>.dfa_builder.byte_classes(yes);
@@ -4092,8 +4093,8 @@
     ///
     /// This option is enabled by default.
     </span><span class="attr">#[deprecated(
-        since = <span class="string">&quot;0.7.16&quot;</span>,
-        note = <span class="string">&quot;not carrying its weight, will be always enabled, see: https://github.com/BurntSushi/aho-corasick/issues/57&quot;
+        since = <span class="string">"0.7.16"</span>,
+        note = <span class="string">"not carrying its weight, will be always enabled, see: https://github.com/BurntSushi/aho-corasick/issues/57"
     </span>)]
     </span><span class="kw">pub fn </span>premultiply(<span class="kw-2">&amp;mut </span><span class="self">self</span>, yes: bool) -&gt; <span class="kw-2">&amp;mut </span>AhoCorasickBuilder {
         <span class="self">self</span>.dfa_builder.premultiply(yes);
@@ -4104,7 +4105,7 @@
 <span class="doccomment">/// A knob for controlling the match semantics of an Aho-Corasick automaton.
 ///
 /// There are two generally different ways that Aho-Corasick automatons can
-/// report matches. The first way is the &quot;standard&quot; approach that results from
+/// report matches. The first way is the "standard" approach that results from
 /// implementing most textbook explanations of Aho-Corasick. The second way is
 /// to report only the leftmost non-overlapping matches. The leftmost approach
 /// is in turn split into two different ways of resolving ambiguous matches:
@@ -4142,7 +4143,7 @@
 /// that appears before a pattern `B` is a prefix of `B`, then it is impossible
 /// to ever observe a match of `B`.
 ///
-/// If you&#39;re not sure which match kind to pick, then stick with the standard
+/// If you're not sure which match kind to pick, then stick with the standard
 /// kind, which is the default. In particular, if you need overlapping or
 /// streaming matches, then you _must_ use the standard kind. The leftmost
 /// kinds are useful in specific circumstances. For example, leftmost-first can
@@ -4155,13 +4156,13 @@
 /// Understanding match semantics can be a little tricky, and one easy way
 /// to conceptualize non-overlapping matches from an Aho-Corasick automaton
 /// is to think about them as a simple alternation of literals in a regular
-/// expression. For example, let&#39;s say we wanted to match the strings
+/// expression. For example, let's say we wanted to match the strings
 /// `Sam` and `Samwise`, which would turn into the regex `Sam|Samwise`. It
 /// turns out that regular expression engines have two different ways of
 /// matching this alternation. The first way, leftmost-longest, is commonly
 /// found in POSIX compatible implementations of regular expressions (such as
 /// `grep`). The second way, leftmost-first, is commonly found in backtracking
-/// implementations such as Perl. (Some regex engines, such as RE2 and Rust&#39;s
+/// implementations such as Perl. (Some regex engines, such as RE2 and Rust's
 /// regex engine do not use backtracking, but still implement leftmost-first
 /// semantics in an effort to match the behavior of dominant backtracking
 /// regex engines such as those found in Perl, Ruby, Python, Javascript and
@@ -4176,9 +4177,9 @@
 /// a match of `Samwise` in both POSIX and Perl-like regexes since `Samwise` is
 /// still longest match, but it also appears earlier than `Sam`.
 ///
-/// The &quot;standard&quot; match semantics of Aho-Corasick generally don&#39;t correspond
+/// The "standard" match semantics of Aho-Corasick generally don't correspond
 /// to the match semantics of any large group of regex implementations, so
-/// there&#39;s no direct analogy that can be made here. Standard match semantics
+/// there's no direct analogy that can be made here. Standard match semantics
 /// are generally useful for overlapping matches, or if you just want to see
 /// matches as they are detected.
 ///
@@ -4211,7 +4212,7 @@
     <span class="doccomment">/// Hints that destructuring should not be exhaustive.
     ///
     /// This enum may grow additional variants, so this makes sure clients
-    /// don&#39;t count on exhaustive matching. (Otherwise, adding a new variant
+    /// don't count on exhaustive matching. (Otherwise, adding a new variant
     /// could break existing code.)
     </span><span class="attr">#[doc(hidden)]
     </span>__Nonexhaustive,
@@ -4230,7 +4231,7 @@
     }
 
     <span class="kw">fn </span>supports_stream(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        <span class="comment">// TODO: It may be possible to support this. It&#39;s hard.
+        <span class="comment">// TODO: It may be possible to support this. It's hard.
         //
         // See: https://github.com/rust-lang/regex/issues/425#issuecomment-471367838
         </span><span class="self">self</span>.is_standard()

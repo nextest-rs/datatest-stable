@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/regex-1.5.5/src/dfa.rs`."><title>dfa.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="regex" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0 (cc66ad468 2023-10-03)" data-channel="1.73.0" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-1596385f77d47ef2.css" data-theme-dark-css="dark-0a43001d3fc2282c.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-1596385f77d47ef2.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-0a43001d3fc2282c.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../regex/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/regex-1.5.5/src/dfa.rs`."><title>dfa.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-ac92e1bbe349e143.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="regex" data-themes="" data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../static.files/src-script-39ed315d46fb705f.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1964,22 +1965,22 @@ DFA can grow exponentially. To mitigate this space problem, we do two things:
    during a search. When a new state is computed, it is stored in a cache so
    that it may be reused. An important consequence of this implementation
    is that states that are never reached for a particular input are never
-   computed. (This is impossible in an &quot;offline&quot; DFA which needs to compute
+   computed. (This is impossible in an "offline" DFA which needs to compute
    all possible states up front.)
 2. If the cache gets too big, we wipe it and continue matching.
 
 In pathological cases, a new state can be created for every byte of input.
-(e.g., The regex `(a|b)*a(a|b){20}` on a long sequence of a&#39;s and b&#39;s.)
+(e.g., The regex `(a|b)*a(a|b){20}` on a long sequence of a's and b's.)
 In this case, performance regresses to slightly slower than the full NFA
 simulation, in large part because the cache becomes useless. If the cache
 is wiped too frequently, the DFA quits and control falls back to one of the
 NFA simulations.
 
-Because of the &quot;lazy&quot; nature of this DFA, the inner matching loop is
+Because of the "lazy" nature of this DFA, the inner matching loop is
 considerably more complex than one might expect out of a DFA. A number of
 tricks are employed to make it fast. Tread carefully.
 
-N.B. While this implementation is heavily commented, Russ Cox&#39;s series of
+N.B. While this implementation is heavily commented, Russ Cox's series of
 articles on regexes is strongly recommended: https://swtch.com/~rsc/regexp/
 (As is the DFA implementation in RE2, which heavily influenced this
 implementation.)
@@ -2006,7 +2007,7 @@ implementation.)
 </span><span class="kw">pub fn </span>can_exec(insts: <span class="kw-2">&amp;</span>Program) -&gt; bool {
     <span class="kw">use </span><span class="kw">crate</span>::prog::Inst::<span class="kw-2">*</span>;
     <span class="comment">// If for some reason we manage to allocate a regex program with more
-    // than i32::MAX instructions, then we can&#39;t execute the DFA because we
+    // than i32::MAX instructions, then we can't execute the DFA because we
     // use 32 bit instruction pointer deltas for memory savings.
     // If i32::MAX is the largest positive delta,
     // then -i32::MAX == i32::MIN + 1 is the largest negative delta,
@@ -2045,7 +2046,7 @@ implementation.)
 }
 
 <span class="doccomment">/// `CacheInner` is logically just a part of Cache, but groups together fields
-/// that aren&#39;t passed as function parameters throughout search. (This split
+/// that aren't passed as function parameters throughout search. (This split
 /// is mostly an artifact of the borrow checker. It is happily paid.)
 </span><span class="attr">#[derive(Debug)]
 </span><span class="kw">struct </span>CacheInner {
@@ -2066,7 +2067,7 @@ implementation.)
     /// `s * 256 + b`.
     ///
     /// This is, of course, a lie. A StatePtr is actually a pointer to the
-    /// *start* of a row in this table. When indexing in the DFA&#39;s inner loop,
+    /// *start* of a row in this table. When indexing in the DFA's inner loop,
     /// this removes the need to multiply the StatePtr by the stride. Yes, it
     /// matters. This reduces the number of states we can store, but: the
     /// stride is rarely 256 since we define transitions in terms of
@@ -2078,7 +2079,7 @@ implementation.)
     /// permutations of flags set just before the initial byte of input. (The
     /// index into this vec is a `EmptyFlags`.)
     ///
-    /// N.B. A start state can be &quot;dead&quot; (i.e., no possible match), so we
+    /// N.B. A start state can be "dead" (i.e., no possible match), so we
     /// represent it with a StatePtr.
     </span>start_states: Vec&lt;StatePtr&gt;,
     <span class="doccomment">/// Stack scratch space used to follow epsilon transitions in the NFA.
@@ -2089,7 +2090,7 @@ implementation.)
     <span class="doccomment">/// The total number of times this cache has been flushed by the DFA
     /// because of space constraints.
     </span>flush_count: u64,
-    <span class="doccomment">/// The total heap size of the DFA&#39;s cache. We use this to determine when
+    <span class="doccomment">/// The total heap size of the DFA's cache. We use this to determine when
     /// we should flush the cache.
     </span>size: usize,
     <span class="doccomment">/// Scratch space used when building instruction pointer lists for new
@@ -2116,12 +2117,12 @@ implementation.)
 
 <span class="doccomment">/// Fsm encapsulates the actual execution of the DFA.
 </span><span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>Fsm&lt;<span class="lifetime">&#39;a</span>&gt; {
+</span><span class="kw">pub struct </span>Fsm&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// prog contains the NFA instruction opcodes. DFA execution uses either
     /// the `dfa` instructions or the `dfa_reverse` instructions from
     /// `exec::ExecReadOnly`. (It never uses `ExecReadOnly.nfa`, which may have
     /// Unicode opcodes that cannot be executed by the DFA.)
-    </span>prog: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Program,
+    </span>prog: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Program,
     <span class="doccomment">/// The start state. We record it here because the pointer may change
     /// when the cache is wiped.
     </span>start: StatePtr,
@@ -2139,11 +2140,11 @@ implementation.)
     /// thereby allowing us to enumerate which regexes in the set matched.
     </span>last_match_si: StatePtr,
     <span class="doccomment">/// The input position of the last cache flush. We use this to determine
-    /// if we&#39;re thrashing in the cache too often. If so, the DFA quits so
+    /// if we're thrashing in the cache too often. If so, the DFA quits so
     /// that we can fall back to the NFA algorithm.
     </span>last_cache_flush: usize,
     <span class="doccomment">/// All cached DFA information that is persisted between searches.
-    </span>cache: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>CacheInner,
+    </span>cache: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>CacheInner,
 }
 
 <span class="doccomment">/// The result of running the DFA.
@@ -2172,8 +2173,8 @@ implementation.)
 
     <span class="doccomment">/// Maps the given function onto T and returns the result.
     ///
-    /// If this isn&#39;t a match, then this is a no-op.
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;perf-literal&quot;</span>)]
+    /// If this isn't a match, then this is a no-op.
+    </span><span class="attr">#[cfg(feature = <span class="string">"perf-literal"</span>)]
     </span><span class="kw">pub fn </span>map&lt;U, F: FnMut(T) -&gt; U&gt;(<span class="self">self</span>, <span class="kw-2">mut </span>f: F) -&gt; <span class="prelude-ty">Result</span>&lt;U&gt; {
         <span class="kw">match </span><span class="self">self </span>{
             Result::Match(t) =&gt; Result::Match(f(t)),
@@ -2184,7 +2185,7 @@ implementation.)
 
     <span class="doccomment">/// Sets the non-match position.
     ///
-    /// If this isn&#39;t a non-match, then this is a no-op.
+    /// If this isn't a non-match, then this is a no-op.
     </span><span class="kw">fn </span>set_non_match(<span class="self">self</span>, at: usize) -&gt; <span class="prelude-ty">Result</span>&lt;T&gt; {
         <span class="kw">match </span><span class="self">self </span>{
             Result::NoMatch(<span class="kw">_</span>) =&gt; Result::NoMatch(at),
@@ -2198,7 +2199,7 @@ implementation.)
 ///
 /// The flags are packed into the first byte of data.
 ///
-/// States don&#39;t carry their transitions. Instead, transitions are stored in
+/// States don't carry their transitions. Instead, transitions are stored in
 /// a single row-major table.
 ///
 /// Delta encoding is used to store the instruction pointers.
@@ -2228,12 +2229,12 @@ implementation.)
     <span class="kw-2">*</span>prev = ip;
 }
 
-<span class="kw">struct </span>InstPtrs&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">struct </span>InstPtrs&lt;<span class="lifetime">'a</span>&gt; {
     base: usize,
-    data: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8],
+    data: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8],
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Iterator <span class="kw">for </span>InstPtrs&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Iterator <span class="kw">for </span>InstPtrs&lt;<span class="lifetime">'a</span>&gt; {
     <span class="kw">type </span>Item = usize;
 
     <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
@@ -2255,7 +2256,7 @@ implementation.)
         StateFlags(<span class="self">self</span>.data[<span class="number">0</span>])
     }
 
-    <span class="kw">fn </span>inst_ptrs(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; InstPtrs&lt;<span class="lifetime">&#39;_</span>&gt; {
+    <span class="kw">fn </span>inst_ptrs(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; InstPtrs&lt;<span class="lifetime">'_</span>&gt; {
         InstPtrs { base: <span class="number">0</span>, data: <span class="kw-2">&amp;</span><span class="self">self</span>.data[<span class="number">1</span>..] }
     }
 }
@@ -2269,10 +2270,10 @@ implementation.)
 /// Sentinels corresponds to special states that carry some kind of
 /// significance. There are three such states: unknown, dead and quit states.
 ///
-/// Unknown states are states that haven&#39;t been computed yet. They indicate
+/// Unknown states are states that haven't been computed yet. They indicate
 /// that a transition should be filled in that points to either an existing
 /// cached state or a new state altogether. In general, an unknown state means
-/// &quot;follow the NFA&#39;s epsilon transitions.&quot;
+/// "follow the NFA's epsilon transitions."
 ///
 /// Dead states are states that can never lead to a match, no matter what
 /// subsequent input is observed. This means that the DFA should quit
@@ -2284,7 +2285,7 @@ implementation.)
 ///
 /// The other type of state pointer is a state pointer with special flag bits.
 /// There are two flags: a start flag and a match flag. The lower bits of both
-/// kinds always contain a &quot;valid&quot; `StatePtr` (indicated by the `STATE_MAX`
+/// kinds always contain a "valid" `StatePtr` (indicated by the `STATE_MAX`
 /// mask).
 ///
 /// The start flag means that the state is a start state, and therefore may be
@@ -2314,7 +2315,7 @@ implementation.)
 /// once it is entered, no future match can ever occur.
 </span><span class="kw">const </span>STATE_DEAD: StatePtr = STATE_UNKNOWN + <span class="number">1</span>;
 
-<span class="doccomment">/// A quit state means that the DFA came across some input that it doesn&#39;t
+<span class="doccomment">/// A quit state means that the DFA came across some input that it doesn't
 /// know how to process correctly. The DFA should quit and another matching
 /// engine should be run in its place.
 </span><span class="kw">const </span>STATE_QUIT: StatePtr = STATE_DEAD + <span class="number">1</span>;
@@ -2329,10 +2330,10 @@ implementation.)
 /// Note that match states have their lower bits set to a state pointer.
 </span><span class="kw">const </span>STATE_MATCH: StatePtr = <span class="number">1 </span>&lt;&lt; <span class="number">29</span>;
 
-<span class="doccomment">/// The maximum state pointer. This is useful to mask out the &quot;valid&quot; state
-/// pointer from a state with the &quot;start&quot; or &quot;match&quot; bits set.
+<span class="doccomment">/// The maximum state pointer. This is useful to mask out the "valid" state
+/// pointer from a state with the "start" or "match" bits set.
 ///
-/// It doesn&#39;t make sense to use this with unknown, dead or quit state
+/// It doesn't make sense to use this with unknown, dead or quit state
 /// pointers, since those pointers are sentinels and never have their lower
 /// bits set to anything meaningful.
 </span><span class="kw">const </span>STATE_MAX: StatePtr = STATE_MATCH - <span class="number">1</span>;
@@ -2391,10 +2392,10 @@ implementation.)
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Fsm&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="attr">#[cfg_attr(feature = <span class="string">&quot;perf-inline&quot;</span>, inline(always))]
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Fsm&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="attr">#[cfg_attr(feature = <span class="string">"perf-inline"</span>, inline(always))]
     </span><span class="kw">pub fn </span>forward(
-        prog: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Program,
+        prog: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Program,
         cache: <span class="kw-2">&amp;</span>ProgramCache,
         quit_after_match: bool,
         text: <span class="kw-2">&amp;</span>[u8],
@@ -2422,9 +2423,9 @@ implementation.)
         dfa.exec_at(<span class="kw-2">&amp;mut </span>cache.qcur, <span class="kw-2">&amp;mut </span>cache.qnext, text)
     }
 
-    <span class="attr">#[cfg_attr(feature = <span class="string">&quot;perf-inline&quot;</span>, inline(always))]
+    <span class="attr">#[cfg_attr(feature = <span class="string">"perf-inline"</span>, inline(always))]
     </span><span class="kw">pub fn </span>reverse(
-        prog: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Program,
+        prog: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Program,
         cache: <span class="kw-2">&amp;</span>ProgramCache,
         quit_after_match: bool,
         text: <span class="kw-2">&amp;</span>[u8],
@@ -2452,9 +2453,9 @@ implementation.)
         dfa.exec_at_reverse(<span class="kw-2">&amp;mut </span>cache.qcur, <span class="kw-2">&amp;mut </span>cache.qnext, text)
     }
 
-    <span class="attr">#[cfg_attr(feature = <span class="string">&quot;perf-inline&quot;</span>, inline(always))]
+    <span class="attr">#[cfg_attr(feature = <span class="string">"perf-inline"</span>, inline(always))]
     </span><span class="kw">pub fn </span>forward_many(
-        prog: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Program,
+        prog: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Program,
         cache: <span class="kw-2">&amp;</span>ProgramCache,
         matches: <span class="kw-2">&amp;mut </span>[bool],
         text: <span class="kw-2">&amp;</span>[u8],
@@ -2500,7 +2501,7 @@ implementation.)
     <span class="doccomment">/// Executes the DFA on a forward NFA.
     ///
     /// {qcur,qnext} are scratch ordered sets which may be non-empty.
-    </span><span class="attr">#[cfg_attr(feature = <span class="string">&quot;perf-inline&quot;</span>, inline(always))]
+    </span><span class="attr">#[cfg_attr(feature = <span class="string">"perf-inline"</span>, inline(always))]
     </span><span class="kw">fn </span>exec_at(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
         qcur: <span class="kw-2">&amp;mut </span>SparseSet,
@@ -2518,25 +2519,25 @@ implementation.)
         //
         // However, we need to deal with a few things:
         //
-        //   1. This is an *online* DFA, so the current state&#39;s next list
+        //   1. This is an *online* DFA, so the current state's next list
         //      may not point to anywhere yet, so we must go out and compute
-        //      them. (They are then cached into the current state&#39;s next list
+        //      them. (They are then cached into the current state's next list
         //      to avoid re-computation.)
         //   2. If we come across a state that is known to be dead (i.e., never
         //      leads to a match), then we can quit early.
         //   3. If the caller just wants to know if a match occurs, then we
         //      can quit as soon as we know we have a match. (Full leftmost
         //      first semantics require continuing on.)
-        //   4. If we&#39;re in the start state, then we can use a pre-computed set
+        //   4. If we're in the start state, then we can use a pre-computed set
         //      of prefix literals to skip quickly along the input.
         //   5. After the input is exhausted, we run the DFA on one symbol
         //      that stands for EOF. This is useful for handling empty width
         //      assertions.
-        //   6. We can&#39;t actually do state.next[byte]. Instead, we have to do
+        //   6. We can't actually do state.next[byte]. Instead, we have to do
         //      state.next[byte_classes[byte]], which permits us to keep the
-        //      &#39;next&#39; list very small.
+        //      'next' list very small.
         //
-        // Since there&#39;s a bunch of extra stuff we need to consider, we do some
+        // Since there's a bunch of extra stuff we need to consider, we do some
         // pretty hairy tricks to get the inner loop to run as fast as
         // possible.
         </span><span class="macro">debug_assert!</span>(!<span class="self">self</span>.prog.is_reverse);
@@ -2551,16 +2552,16 @@ implementation.)
         <span class="kw">while </span>at &lt; text.len() {
             <span class="comment">// This is the real inner loop. We take advantage of special bits
             // set in the state pointer to determine whether a state is in the
-            // &quot;common&quot; case or not. Specifically, the common case is a
+            // "common" case or not. Specifically, the common case is a
             // non-match non-start non-dead state that has already been
             // computed. So long as we remain in the common case, this inner
             // loop will chew through the input.
             //
             // We also unroll the loop 4 times to amortize the cost of checking
-            // whether we&#39;ve consumed the entire input. We are also careful
+            // whether we've consumed the entire input. We are also careful
             // to make sure that `prev_si` always represents the previous state
             // and `next_si` always represents the next state after the loop
-            // exits, even if it isn&#39;t always true inside the loop.
+            // exits, even if it isn't always true inside the loop.
             </span><span class="kw">while </span>next_si &lt;= STATE_MAX &amp;&amp; at &lt; text.len() {
                 <span class="comment">// Argument for safety is in the definition of next_si.
                 </span>prev_si = <span class="kw">unsafe </span>{ <span class="self">self</span>.next_si(next_si, text, at) };
@@ -2587,7 +2588,7 @@ implementation.)
                 <span class="comment">// A match state is outside of the common case because it needs
                 // special case analysis. In particular, we need to record the
                 // last position as having matched and possibly quit the DFA if
-                // we don&#39;t need to keep matching.
+                // we don't need to keep matching.
                 </span>next_si &amp;= !STATE_MATCH;
                 result = Result::Match(at - <span class="number">1</span>);
                 <span class="kw">if </span><span class="self">self</span>.quit_after_match {
@@ -2598,7 +2599,7 @@ implementation.)
 
                 <span class="comment">// This permits short-circuiting when matching a regex set.
                 // In particular, if this DFA state contains only match states,
-                // then it&#39;s impossible to extend the set of matches since
+                // then it's impossible to extend the set of matches since
                 // match states are final. Therefore, we can quit.
                 </span><span class="kw">if </span><span class="self">self</span>.prog.matches.len() &gt; <span class="number">1 </span>{
                     <span class="kw">let </span>state = <span class="self">self</span>.state(next_si);
@@ -2612,7 +2613,7 @@ implementation.)
                 <span class="comment">// Another inner loop! If the DFA stays in this particular
                 // match state, then we can rip through all of the input
                 // very quickly, and only recording the match location once
-                // we&#39;ve left this particular state.
+                // we've left this particular state.
                 </span><span class="kw">let </span>cur = at;
                 <span class="kw">while </span>(next_si &amp; !STATE_MATCH) == prev_si
                     &amp;&amp; at + <span class="number">2 </span>&lt; text.len()
@@ -2627,8 +2628,8 @@ implementation.)
                     result = Result::Match(at - <span class="number">2</span>);
                 }
             } <span class="kw">else if </span>next_si &amp; STATE_START &gt; <span class="number">0 </span>{
-                <span class="comment">// A start state isn&#39;t in the common case because we may
-                // want to do quick prefix scanning. If the program doesn&#39;t
+                <span class="comment">// A start state isn't in the common case because we may
+                // want to do quick prefix scanning. If the program doesn't
                 // have a detected prefix, then start states are actually
                 // considered common and this case is never reached.
                 </span><span class="macro">debug_assert!</span>(<span class="self">self</span>.has_prefix());
@@ -2644,14 +2645,14 @@ implementation.)
                 }
                 <span class="comment">// Finally, this corresponds to the case where the transition
                 // entered a state that can never lead to a match or a state
-                // that hasn&#39;t been computed yet. The latter being the &quot;slow&quot;
+                // that hasn't been computed yet. The latter being the "slow"
                 // path.
                 </span><span class="kw">let </span>byte = Byte::byte(text[at - <span class="number">1</span>]);
                 <span class="comment">// We no longer care about the special bits in the state
                 // pointer.
                 </span>prev_si &amp;= STATE_MAX;
                 <span class="comment">// Record where we are. This is used to track progress for
-                // determining whether we should quit if we&#39;ve flushed the
+                // determining whether we should quit if we've flushed the
                 // cache too much.
                 </span><span class="self">self</span>.at = at;
                 next_si = <span class="kw">match </span><span class="self">self</span>.next_state(qcur, qnext, prev_si, byte) {
@@ -2675,7 +2676,7 @@ implementation.)
         }
 
         <span class="comment">// Run the DFA once more on the special EOF sentinel value.
-        // We don&#39;t care about the special bits in the state pointer any more,
+        // We don't care about the special bits in the state pointer any more,
         // so get rid of them.
         </span>prev_si &amp;= STATE_MAX;
         prev_si = <span class="kw">match </span><span class="self">self</span>.next_state(qcur, qnext, prev_si, Byte::eof()) {
@@ -2693,7 +2694,7 @@ implementation.)
     }
 
     <span class="doccomment">/// Executes the DFA on a reverse NFA.
-    </span><span class="attr">#[cfg_attr(feature = <span class="string">&quot;perf-inline&quot;</span>, inline(always))]
+    </span><span class="attr">#[cfg_attr(feature = <span class="string">"perf-inline"</span>, inline(always))]
     </span><span class="kw">fn </span>exec_at_reverse(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
         qcur: <span class="kw-2">&amp;mut </span>SparseSet,
@@ -2798,7 +2799,7 @@ implementation.)
     /// corresponds to text[i].
     ///
     /// This elides bounds checks, and is therefore not safe.
-    </span><span class="attr">#[cfg_attr(feature = <span class="string">&quot;perf-inline&quot;</span>, inline(always))]
+    </span><span class="attr">#[cfg_attr(feature = <span class="string">"perf-inline"</span>, inline(always))]
     </span><span class="kw">unsafe fn </span>next_si(<span class="kw-2">&amp;</span><span class="self">self</span>, si: StatePtr, text: <span class="kw-2">&amp;</span>[u8], i: usize) -&gt; StatePtr {
         <span class="comment">// What is the argument for safety here?
         // We have three unchecked accesses that could possibly violate safety:
@@ -2818,7 +2819,7 @@ implementation.)
         // of every state are defined to have length equal to the number of
         // byte classes in the program. Therefore, a valid class leads to a
         // valid transition. (All possible transitions are valid lookups, even
-        // if it points to a state that hasn&#39;t been computed yet.) (3) also
+        // if it points to a state that hasn't been computed yet.) (3) also
         // relies on `si` being correct, but StatePtrs should only ever be
         // retrieved from the transition table, which ensures they are correct.
         </span><span class="macro">debug_assert!</span>(i &lt; text.len());
@@ -2845,7 +2846,7 @@ implementation.)
     ) -&gt; <span class="prelude-ty">Option</span>&lt;StatePtr&gt; {
         <span class="kw">use </span><span class="kw">crate</span>::prog::Inst::<span class="kw-2">*</span>;
 
-        <span class="comment">// Initialize a queue with the current DFA state&#39;s NFA states.
+        <span class="comment">// Initialize a queue with the current DFA state's NFA states.
         </span>qcur.clear();
         <span class="kw">for </span>ip <span class="kw">in </span><span class="self">self</span>.state(si).inst_ptrs() {
             qcur.insert(ip);
@@ -2861,14 +2862,14 @@ implementation.)
         <span class="kw">let </span>is_word = b.is_ascii_word();
         <span class="kw">if </span><span class="self">self</span>.state(si).flags().has_empty() {
             <span class="comment">// Compute the flags immediately preceding the current byte.
-            // This means we only care about the &quot;end&quot; or &quot;end line&quot; flags.
-            // (The &quot;start&quot; flags are computed immediately following the
+            // This means we only care about the "end" or "end line" flags.
+            // (The "start" flags are computed immediately following the
             // current byte and are handled below.)
             </span><span class="kw">let </span><span class="kw-2">mut </span>flags = EmptyFlags::default();
             <span class="kw">if </span>b.is_eof() {
                 flags.end = <span class="bool-val">true</span>;
                 flags.end_line = <span class="bool-val">true</span>;
-            } <span class="kw">else if </span>b.as_byte().map_or(<span class="bool-val">false</span>, |b| b == <span class="string">b&#39;\n&#39;</span>) {
+            } <span class="kw">else if </span>b.as_byte().map_or(<span class="bool-val">false</span>, |b| b == <span class="string">b'\n'</span>) {
                 flags.end_line = <span class="bool-val">true</span>;
             }
             <span class="kw">if </span>is_word_last == is_word {
@@ -2897,7 +2898,7 @@ implementation.)
         // then it is the *next* DFA state that is marked as a match.
         </span><span class="kw">let </span><span class="kw-2">mut </span>empty_flags = EmptyFlags::default();
         <span class="kw">let </span><span class="kw-2">mut </span>state_flags = StateFlags::default();
-        empty_flags.start_line = b.as_byte().map_or(<span class="bool-val">false</span>, |b| b == <span class="string">b&#39;\n&#39;</span>);
+        empty_flags.start_line = b.as_byte().map_or(<span class="bool-val">false</span>, |b| b == <span class="string">b'\n'</span>);
         <span class="kw">if </span>b.is_ascii_word() {
             state_flags.set_word();
         }
@@ -2918,7 +2919,7 @@ implementation.)
                         </span>&amp;&amp; !qnext.contains(ip <span class="kw">as </span>usize)
                     {
                         <span class="comment">// If we are continuing on to find other matches,
-                        // then keep a record of the match states we&#39;ve seen.
+                        // then keep a record of the match states we've seen.
                         </span>qnext.insert(ip);
                     }
                 }
@@ -2935,19 +2936,19 @@ implementation.)
         }
 
         <span class="kw">let </span>cache = <span class="kw">if </span>b.is_eof() &amp;&amp; <span class="self">self</span>.prog.matches.len() &gt; <span class="number">1 </span>{
-            <span class="comment">// If we&#39;re processing the last byte of the input and we&#39;re
+            <span class="comment">// If we're processing the last byte of the input and we're
             // matching a regex set, then make the next state contain the
             // previous states transitions. We do this so that the main
             // matching loop can extract all of the match instructions.
             </span>mem::swap(qcur, qnext);
-            <span class="comment">// And don&#39;t cache this state because it&#39;s totally bunk.
+            <span class="comment">// And don't cache this state because it's totally bunk.
             </span><span class="bool-val">false
         </span>} <span class="kw">else </span>{
             <span class="bool-val">true
         </span>};
 
-        <span class="comment">// We&#39;ve now built up the set of NFA states that ought to comprise the
-        // next DFA state, so try to find it in the cache, and if it doesn&#39;t
+        <span class="comment">// We've now built up the set of NFA states that ought to comprise the
+        // next DFA state, so try to find it in the cache, and if it doesn't
         // exist, cache it.
         //
         // N.B. We pass `&amp;mut si` here because the cache may clear itself if
@@ -2968,7 +2969,7 @@ implementation.)
             next |= STATE_MATCH;
         }
         <span class="macro">debug_assert!</span>(next != STATE_UNKNOWN);
-        <span class="comment">// And now store our state in the current state&#39;s next list.
+        <span class="comment">// And now store our state in the current state's next list.
         </span><span class="kw">if </span>cache {
             <span class="kw">let </span>cls = <span class="self">self</span>.byte_class(b);
             <span class="self">self</span>.cache.trans.set_next(si, cls, next);
@@ -3015,7 +3016,7 @@ implementation.)
             <span class="comment">// Try to munch through as many states as possible without
             // pushes/pops to the stack.
             </span><span class="kw">loop </span>{
-                <span class="comment">// Don&#39;t visit states we&#39;ve already added.
+                <span class="comment">// Don't visit states we've already added.
                 </span><span class="kw">if </span>q.contains(ip <span class="kw">as </span>usize) {
                     <span class="kw">break</span>;
                 }
@@ -3090,7 +3091,7 @@ implementation.)
     /// The current state should be specified if it exists, since it will need
     /// to be preserved if the cache clears itself. (Start states are
     /// always saved, so they should not be passed here.) It takes a mutable
-    /// pointer to the index because if the cache is cleared, the state&#39;s
+    /// pointer to the index because if the cache is cleared, the state's
     /// location may change.
     </span><span class="kw">fn </span>cached_state(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
@@ -3098,7 +3099,7 @@ implementation.)
         <span class="kw-2">mut </span>state_flags: StateFlags,
         current_state: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;mut </span>StatePtr&gt;,
     ) -&gt; <span class="prelude-ty">Option</span>&lt;StatePtr&gt; {
-        <span class="comment">// If we couldn&#39;t come up with a non-empty key to represent this state,
+        <span class="comment">// If we couldn't come up with a non-empty key to represent this state,
         // then it is dead and can never lead to a match.
         //
         // Note that inst_flags represent the set of empty width assertions
@@ -3147,7 +3148,7 @@ implementation.)
         // Save and Split instructions.
         //
         // Empty width assertions are also epsilon transitions, but since they
-        // are conditional, we need to make them part of a state&#39;s key in the
+        // are conditional, we need to make them part of a state's key in the
         // cache.
 
         </span><span class="kw">let </span><span class="kw-2">mut </span>insts =
@@ -3175,7 +3176,7 @@ implementation.)
                 }
             }
         }
-        <span class="comment">// If we couldn&#39;t transition to any other instructions and we didn&#39;t
+        <span class="comment">// If we couldn't transition to any other instructions and we didn't
         // see a match when expanding NFA states previously, then this is a
         // dead state and no amount of additional input can transition out
         // of this state.
@@ -3214,7 +3215,7 @@ implementation.)
                     <span class="kw">return </span><span class="bool-val">false</span>;
                 }
                 <span class="comment">// The unwrap is OK because we just cleared the cache and
-                // therefore know that the next state pointer won&#39;t exceed
+                // therefore know that the next state pointer won't exceed
                 // STATE_MAX.
                 </span><span class="kw-2">*</span>si = <span class="self">self</span>.restore_state(cur).unwrap();
                 <span class="bool-val">true
@@ -3227,7 +3228,7 @@ implementation.)
     /// This returns false if the cache is not cleared and the DFA should
     /// give up.
     </span><span class="kw">fn </span>clear_cache(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; bool {
-        <span class="comment">// Bail out of the DFA if we&#39;re moving too &quot;slowly.&quot;
+        <span class="comment">// Bail out of the DFA if we're moving too "slowly."
         // A heuristic from RE2: assume the DFA is too slow if it is processing
         // 10 or fewer bytes per state.
         // Additionally, we permit the cache to be flushed a few times before
@@ -3257,7 +3258,7 @@ implementation.)
             <span class="kw-2">*</span>s = STATE_UNKNOWN;
         }
         <span class="comment">// The unwraps are OK because we just cleared the cache and therefore
-        // know that the next state pointer won&#39;t exceed STATE_MAX.
+        // know that the next state pointer won't exceed STATE_MAX.
         </span><span class="kw">let </span>start_ptr = <span class="self">self</span>.restore_state(start).unwrap();
         <span class="self">self</span>.start = <span class="self">self</span>.start_ptr(start_ptr);
         <span class="kw">if let </span><span class="prelude-val">Some</span>(last_match) = last_match {
@@ -3269,7 +3270,7 @@ implementation.)
     <span class="doccomment">/// Restores the given state back into the cache, and returns a pointer
     /// to it.
     </span><span class="kw">fn </span>restore_state(<span class="kw-2">&amp;mut </span><span class="self">self</span>, state: State) -&gt; <span class="prelude-ty">Option</span>&lt;StatePtr&gt; {
-        <span class="comment">// If we&#39;ve already stored this state, just return a pointer to it.
+        <span class="comment">// If we've already stored this state, just return a pointer to it.
         // None will be the wiser.
         </span><span class="kw">if let </span><span class="prelude-val">Some</span>(si) = <span class="self">self</span>.cache.compiled.get_ptr(<span class="kw-2">&amp;</span>state) {
             <span class="kw">return </span><span class="prelude-val">Some</span>(si);
@@ -3288,7 +3289,7 @@ implementation.)
     /// STATE_UNKNOWN cannot be returned.
     ///
     /// None is returned if a new state could not be allocated (i.e., the DFA
-    /// ran out of space and thinks it&#39;s running too slowly).
+    /// ran out of space and thinks it's running too slowly).
     </span><span class="kw">fn </span>next_state(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
         qcur: <span class="kw-2">&amp;mut </span>SparseSet,
@@ -3308,11 +3309,11 @@ implementation.)
 
     <span class="doccomment">/// Computes and returns the start state, where searching begins at
     /// position `at` in `text`. If the state has already been computed,
-    /// then it is pulled from the cache. If the state hasn&#39;t been cached,
+    /// then it is pulled from the cache. If the state hasn't been cached,
     /// then it is computed, cached and a pointer to it is returned.
     ///
     /// This may return STATE_DEAD but never STATE_UNKNOWN.
-    </span><span class="attr">#[cfg_attr(feature = <span class="string">&quot;perf-inline&quot;</span>, inline(always))]
+    </span><span class="attr">#[cfg_attr(feature = <span class="string">"perf-inline"</span>, inline(always))]
     </span><span class="kw">fn </span>start_state(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
         q: <span class="kw-2">&amp;mut </span>SparseSet,
@@ -3321,7 +3322,7 @@ implementation.)
     ) -&gt; <span class="prelude-ty">Option</span>&lt;StatePtr&gt; {
         <span class="comment">// Compute an index into our cache of start states based on the set
         // of empty/state flags set at the current position in the input. We
-        // don&#39;t use every flag since not all flags matter. For example, since
+        // don't use every flag since not all flags matter. For example, since
         // matches are delayed by one byte, start states can never be match
         // states.
         </span><span class="kw">let </span>flagi = {
@@ -3342,7 +3343,7 @@ implementation.)
         <span class="self">self</span>.follow_epsilons(start, q, empty_flags);
         <span class="comment">// Start states can never be match states because we delay every match
         // by one byte. Given an empty string and an empty match, the match
-        // won&#39;t actually occur until the DFA processes the special EOF
+        // won't actually occur until the DFA processes the special EOF
         // sentinel byte.
         </span><span class="kw">let </span>sp = <span class="kw">match </span><span class="self">self</span>.cached_state(q, state_flags, <span class="prelude-val">None</span>) {
             <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
@@ -3361,7 +3362,7 @@ implementation.)
         <span class="kw">let </span><span class="kw-2">mut </span>state_flags = StateFlags::default();
         empty_flags.start = at == <span class="number">0</span>;
         empty_flags.end = text.is_empty();
-        empty_flags.start_line = at == <span class="number">0 </span>|| text[at - <span class="number">1</span>] == <span class="string">b&#39;\n&#39;</span>;
+        empty_flags.start_line = at == <span class="number">0 </span>|| text[at - <span class="number">1</span>] == <span class="string">b'\n'</span>;
         empty_flags.end_line = text.is_empty();
 
         <span class="kw">let </span>is_word_last = at &gt; <span class="number">0 </span>&amp;&amp; Byte::byte(text[at - <span class="number">1</span>]).is_ascii_word();
@@ -3390,7 +3391,7 @@ implementation.)
         <span class="kw">let </span><span class="kw-2">mut </span>state_flags = StateFlags::default();
         empty_flags.start = at == text.len();
         empty_flags.end = text.is_empty();
-        empty_flags.start_line = at == text.len() || text[at] == <span class="string">b&#39;\n&#39;</span>;
+        empty_flags.start_line = at == text.len() || text[at] == <span class="string">b'\n'</span>;
         empty_flags.end_line = text.is_empty();
 
         <span class="kw">let </span>is_word_last =
@@ -3473,7 +3474,7 @@ implementation.)
 
     <span class="doccomment">/// Given an input byte or the special EOF sentinel, return its
     /// corresponding byte class.
-    </span><span class="attr">#[cfg_attr(feature = <span class="string">&quot;perf-inline&quot;</span>, inline(always))]
+    </span><span class="attr">#[cfg_attr(feature = <span class="string">"perf-inline"</span>, inline(always))]
     </span><span class="kw">fn </span>byte_class(<span class="kw-2">&amp;</span><span class="self">self</span>, b: Byte) -&gt; usize {
         <span class="kw">match </span>b.as_byte() {
             <span class="prelude-val">None </span>=&gt; <span class="self">self</span>.num_byte_classes() - <span class="number">1</span>,
@@ -3482,7 +3483,7 @@ implementation.)
     }
 
     <span class="doccomment">/// Like byte_class, but explicitly for u8s.
-    </span><span class="attr">#[cfg_attr(feature = <span class="string">&quot;perf-inline&quot;</span>, inline(always))]
+    </span><span class="attr">#[cfg_attr(feature = <span class="string">"perf-inline"</span>, inline(always))]
     </span><span class="kw">fn </span>u8_class(<span class="kw-2">&amp;</span><span class="self">self</span>, b: u8) -&gt; usize {
         <span class="self">self</span>.prog.byte_classes[b <span class="kw">as </span>usize] <span class="kw">as </span>usize
     }
@@ -3509,7 +3510,7 @@ implementation.)
     <span class="doccomment">/// Sets the STATE_START bit in the given state pointer if and only if
     /// we have a prefix to scan for.
     ///
-    /// If there&#39;s no prefix, then it&#39;s a waste to treat the start state
+    /// If there's no prefix, then it's a waste to treat the start state
     /// specially.
     </span><span class="kw">fn </span>start_ptr(<span class="kw-2">&amp;</span><span class="self">self</span>, si: StatePtr) -&gt; StatePtr {
         <span class="kw">if </span><span class="self">self</span>.has_prefix() {
@@ -3520,7 +3521,7 @@ implementation.)
     }
 
     <span class="doccomment">/// Approximate size returns the approximate heap space currently used by
-    /// the DFA. It is used to determine whether the DFA&#39;s state cache needs to
+    /// the DFA. It is used to determine whether the DFA's state cache needs to
     /// be wiped. Namely, it is possible that for certain regexes on certain
     /// inputs, a new state could be created for every byte of input. (This is
     /// bad for memory use, so we bound it with a cache.)
@@ -3531,7 +3532,7 @@ implementation.)
 
 <span class="doccomment">/// An abstraction for representing a map of states. The map supports two
 /// different ways of state lookup. One is fast constant time access via a
-/// state pointer. The other is a hashmap lookup based on the DFA&#39;s
+/// state pointer. The other is a hashmap lookup based on the DFA's
 /// constituent NFA states.
 ///
 /// A DFA state internally uses an Arc such that we only need to store the
@@ -3605,7 +3606,7 @@ implementation.)
 
     <span class="doccomment">/// Allocates room for one additional state and returns a pointer to it.
     ///
-    /// If there&#39;s no more room, None is returned.
+    /// If there's no more room, None is returned.
     </span><span class="kw">fn </span>add(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;StatePtr&gt; {
         <span class="kw">let </span>si = <span class="self">self</span>.table.len();
         <span class="kw">if </span>si &gt; STATE_MAX <span class="kw">as </span>usize {
@@ -3686,7 +3687,7 @@ implementation.)
             <span class="prelude-val">Some</span>(b) =&gt; b,
         };
         <span class="kw">match </span>b {
-            <span class="string">b&#39;A&#39;</span>..=<span class="string">b&#39;Z&#39; </span>| <span class="string">b&#39;a&#39;</span>..=<span class="string">b&#39;z&#39; </span>| <span class="string">b&#39;0&#39;</span>..=<span class="string">b&#39;9&#39; </span>| <span class="string">b&#39;_&#39; </span>=&gt; <span class="bool-val">true</span>,
+            <span class="string">b'A'</span>..=<span class="string">b'Z' </span>| <span class="string">b'a'</span>..=<span class="string">b'z' </span>| <span class="string">b'0'</span>..=<span class="string">b'9' </span>| <span class="string">b'_' </span>=&gt; <span class="bool-val">true</span>,
             <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
         }
     }
@@ -3701,17 +3702,17 @@ implementation.)
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>State {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="kw">let </span>ips: Vec&lt;usize&gt; = <span class="self">self</span>.inst_ptrs().collect();
-        f.debug_struct(<span class="string">&quot;State&quot;</span>)
-            .field(<span class="string">&quot;flags&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.flags())
-            .field(<span class="string">&quot;insts&quot;</span>, <span class="kw-2">&amp;</span>ips)
+        f.debug_struct(<span class="string">"State"</span>)
+            .field(<span class="string">"flags"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.flags())
+            .field(<span class="string">"insts"</span>, <span class="kw-2">&amp;</span>ips)
             .finish()
     }
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Transitions {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="kw">let </span><span class="kw-2">mut </span>fmtd = f.debug_map();
         <span class="kw">for </span>si <span class="kw">in </span><span class="number">0</span>..<span class="self">self</span>.num_states() {
             <span class="kw">let </span>s = si * <span class="self">self</span>.num_byte_classes;
@@ -3722,16 +3723,16 @@ implementation.)
     }
 }
 
-<span class="kw">struct </span>TransitionsRow&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[StatePtr]);
+<span class="kw">struct </span>TransitionsRow&lt;<span class="lifetime">'a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[StatePtr]);
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; fmt::Debug <span class="kw">for </span>TransitionsRow&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; fmt::Debug <span class="kw">for </span>TransitionsRow&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="kw">let </span><span class="kw-2">mut </span>fmtd = f.debug_map();
         <span class="kw">for </span>(b, si) <span class="kw">in </span><span class="self">self</span>.<span class="number">0</span>.iter().enumerate() {
             <span class="kw">match </span><span class="kw-2">*</span>si {
                 STATE_UNKNOWN =&gt; {}
                 STATE_DEAD =&gt; {
-                    fmtd.entry(<span class="kw-2">&amp;</span>vb(b <span class="kw">as </span>usize), <span class="kw-2">&amp;</span><span class="string">&quot;DEAD&quot;</span>);
+                    fmtd.entry(<span class="kw-2">&amp;</span>vb(b <span class="kw">as </span>usize), <span class="kw-2">&amp;</span><span class="string">"DEAD"</span>);
                 }
                 si =&gt; {
                     fmtd.entry(<span class="kw-2">&amp;</span>vb(b <span class="kw">as </span>usize), <span class="kw-2">&amp;</span>si.to_string());
@@ -3743,11 +3744,11 @@ implementation.)
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>StateFlags {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        f.debug_struct(<span class="string">&quot;StateFlags&quot;</span>)
-            .field(<span class="string">&quot;is_match&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.is_match())
-            .field(<span class="string">&quot;is_word&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.is_word())
-            .field(<span class="string">&quot;has_empty&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.has_empty())
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        f.debug_struct(<span class="string">"StateFlags"</span>)
+            .field(<span class="string">"is_match"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.is_match())
+            .field(<span class="string">"is_word"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.is_word())
+            .field(<span class="string">"has_empty"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.has_empty())
             .finish()
     }
 }
@@ -3757,7 +3758,7 @@ implementation.)
     <span class="kw">use </span>std::ascii::escape_default;
 
     <span class="kw">if </span>b &gt; ::std::u8::MAX <span class="kw">as </span>usize {
-        <span class="string">&quot;EOF&quot;</span>.to_owned()
+        <span class="string">"EOF"</span>.to_owned()
     } <span class="kw">else </span>{
         <span class="kw">let </span>escaped = escape_default(b <span class="kw">as </span>u8).collect::&lt;Vec&lt;u8&gt;&gt;();
         String::from_utf8_lossy(<span class="kw-2">&amp;</span>escaped).into_owned()
@@ -3766,28 +3767,28 @@ implementation.)
 
 <span class="kw">fn </span>usize_to_u32(n: usize) -&gt; u32 {
     <span class="kw">if </span>(n <span class="kw">as </span>u64) &gt; (::std::u32::MAX <span class="kw">as </span>u64) {
-        <span class="macro">panic!</span>(<span class="string">&quot;BUG: {} is too big to fit into u32&quot;</span>, n)
+        <span class="macro">panic!</span>(<span class="string">"BUG: {} is too big to fit into u32"</span>, n)
     }
     n <span class="kw">as </span>u32
 }
 
 <span class="attr">#[allow(dead_code)] </span><span class="comment">// useful for debugging
 </span><span class="kw">fn </span>show_state_ptr(si: StatePtr) -&gt; String {
-    <span class="kw">let </span><span class="kw-2">mut </span>s = <span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, si &amp; STATE_MAX);
+    <span class="kw">let </span><span class="kw-2">mut </span>s = <span class="macro">format!</span>(<span class="string">"{:?}"</span>, si &amp; STATE_MAX);
     <span class="kw">if </span>si == STATE_UNKNOWN {
-        s = <span class="macro">format!</span>(<span class="string">&quot;{} (unknown)&quot;</span>, s);
+        s = <span class="macro">format!</span>(<span class="string">"{} (unknown)"</span>, s);
     }
     <span class="kw">if </span>si == STATE_DEAD {
-        s = <span class="macro">format!</span>(<span class="string">&quot;{} (dead)&quot;</span>, s);
+        s = <span class="macro">format!</span>(<span class="string">"{} (dead)"</span>, s);
     }
     <span class="kw">if </span>si == STATE_QUIT {
-        s = <span class="macro">format!</span>(<span class="string">&quot;{} (quit)&quot;</span>, s);
+        s = <span class="macro">format!</span>(<span class="string">"{} (quit)"</span>, s);
     }
     <span class="kw">if </span>si &amp; STATE_START &gt; <span class="number">0 </span>{
-        s = <span class="macro">format!</span>(<span class="string">&quot;{} (start)&quot;</span>, s);
+        s = <span class="macro">format!</span>(<span class="string">"{} (start)"</span>, s);
     }
     <span class="kw">if </span>si &amp; STATE_MATCH &gt; <span class="number">0 </span>{
-        s = <span class="macro">format!</span>(<span class="string">&quot;{} (match)&quot;</span>, s);
+        s = <span class="macro">format!</span>(<span class="string">"{} (match)"</span>, s);
     }
     s
 }
@@ -3847,7 +3848,7 @@ implementation.)
     <span class="attr">#[test]
     </span><span class="kw">fn </span>prop_state_encode_decode() {
         <span class="kw">fn </span>p(<span class="kw-2">mut </span>ips: Vec&lt;u32&gt;, flags: u8) -&gt; bool {
-            <span class="comment">// It looks like our encoding scheme can&#39;t handle instruction
+            <span class="comment">// It looks like our encoding scheme can't handle instruction
             // pointers at or above 2**31. We should fix that, but it seems
             // unlikely to occur in real code due to the amount of memory
             // required for such a state machine. So for now, we just clamp

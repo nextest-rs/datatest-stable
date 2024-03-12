@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/regex-syntax-0.6.25/src/ast/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="regex_syntax" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0 (cc66ad468 2023-10-03)" data-channel="1.73.0" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-1596385f77d47ef2.css" data-theme-dark-css="dark-0a43001d3fc2282c.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-1596385f77d47ef2.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-0a43001d3fc2282c.css"><link rel="stylesheet" href="../../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../regex_syntax/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/regex-syntax-0.6.25/src/ast/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-ac92e1bbe349e143.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="regex_syntax" data-themes="" data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../../static.files/src-script-39ed315d46fb705f.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1552,7 +1553,7 @@ Defines an abstract syntax for regular expressions.
 
     <span class="doccomment">/// Return an auxiliary span. This span exists only for some errors that
     /// benefit from being able to point to two locations in the original
-    /// regular expression. For example, &quot;duplicate&quot; errors will have the
+    /// regular expression. For example, "duplicate" errors will have the
     /// main error position set to the duplicate occurrence while its
     /// auxiliary span will be set to the initial occurrence.
     </span><span class="kw">pub fn </span>auxiliary_span(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Span&gt; {
@@ -1665,7 +1666,7 @@ Defines an abstract syntax for regular expressions.
     /// escape is used. The octal escape is assumed to be an invocation of
     /// a backreference, which is the common case.
     </span>UnsupportedBackreference,
-    <span class="doccomment">/// When syntax similar to PCRE&#39;s look-around is used, this error is
+    <span class="doccomment">/// When syntax similar to PCRE's look-around is used, this error is
     /// returned. Some example syntaxes that are rejected include, but are
     /// not necessarily limited to, `(?=re)`, `(?!re)`, `(?&lt;=re)` and
     /// `(?&lt;!re)`. Note that all of these syntaxes are otherwise invalid; this
@@ -1674,7 +1675,7 @@ Defines an abstract syntax for regular expressions.
     <span class="doccomment">/// Hints that destructuring should not be exhaustive.
     ///
     /// This enum may grow additional variants, so this makes sure clients
-    /// don&#39;t count on exhaustive matching. (Otherwise, adding a new variant
+    /// don't count on exhaustive matching. (Otherwise, adding a new variant
     /// could break existing code.)
     </span><span class="attr">#[doc(hidden)]
     </span>__Nonexhaustive,
@@ -1686,131 +1687,131 @@ Defines an abstract syntax for regular expressions.
     </span><span class="kw">fn </span>description(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
         <span class="kw">use </span><span class="self">self</span>::ErrorKind::<span class="kw-2">*</span>;
         <span class="kw">match </span><span class="self">self</span>.kind {
-            CaptureLimitExceeded =&gt; <span class="string">&quot;capture group limit exceeded&quot;</span>,
-            ClassEscapeInvalid =&gt; <span class="string">&quot;invalid escape sequence in character class&quot;</span>,
-            ClassRangeInvalid =&gt; <span class="string">&quot;invalid character class range&quot;</span>,
-            ClassRangeLiteral =&gt; <span class="string">&quot;invalid range boundary, must be a literal&quot;</span>,
-            ClassUnclosed =&gt; <span class="string">&quot;unclosed character class&quot;</span>,
-            DecimalEmpty =&gt; <span class="string">&quot;empty decimal literal&quot;</span>,
-            DecimalInvalid =&gt; <span class="string">&quot;invalid decimal literal&quot;</span>,
-            EscapeHexEmpty =&gt; <span class="string">&quot;empty hexadecimal literal&quot;</span>,
-            EscapeHexInvalid =&gt; <span class="string">&quot;invalid hexadecimal literal&quot;</span>,
-            EscapeHexInvalidDigit =&gt; <span class="string">&quot;invalid hexadecimal digit&quot;</span>,
-            EscapeUnexpectedEof =&gt; <span class="string">&quot;unexpected eof (escape sequence)&quot;</span>,
-            EscapeUnrecognized =&gt; <span class="string">&quot;unrecognized escape sequence&quot;</span>,
-            FlagDanglingNegation =&gt; <span class="string">&quot;dangling flag negation operator&quot;</span>,
-            FlagDuplicate { .. } =&gt; <span class="string">&quot;duplicate flag&quot;</span>,
-            FlagRepeatedNegation { .. } =&gt; <span class="string">&quot;repeated negation&quot;</span>,
-            FlagUnexpectedEof =&gt; <span class="string">&quot;unexpected eof (flag)&quot;</span>,
-            FlagUnrecognized =&gt; <span class="string">&quot;unrecognized flag&quot;</span>,
-            GroupNameDuplicate { .. } =&gt; <span class="string">&quot;duplicate capture group name&quot;</span>,
-            GroupNameEmpty =&gt; <span class="string">&quot;empty capture group name&quot;</span>,
-            GroupNameInvalid =&gt; <span class="string">&quot;invalid capture group name&quot;</span>,
-            GroupNameUnexpectedEof =&gt; <span class="string">&quot;unclosed capture group name&quot;</span>,
-            GroupUnclosed =&gt; <span class="string">&quot;unclosed group&quot;</span>,
-            GroupUnopened =&gt; <span class="string">&quot;unopened group&quot;</span>,
-            NestLimitExceeded(<span class="kw">_</span>) =&gt; <span class="string">&quot;nest limit exceeded&quot;</span>,
-            RepetitionCountInvalid =&gt; <span class="string">&quot;invalid repetition count range&quot;</span>,
-            RepetitionCountUnclosed =&gt; <span class="string">&quot;unclosed counted repetition&quot;</span>,
-            RepetitionMissing =&gt; <span class="string">&quot;repetition operator missing expression&quot;</span>,
-            UnicodeClassInvalid =&gt; <span class="string">&quot;invalid Unicode character class&quot;</span>,
-            UnsupportedBackreference =&gt; <span class="string">&quot;backreferences are not supported&quot;</span>,
-            UnsupportedLookAround =&gt; <span class="string">&quot;look-around is not supported&quot;</span>,
+            CaptureLimitExceeded =&gt; <span class="string">"capture group limit exceeded"</span>,
+            ClassEscapeInvalid =&gt; <span class="string">"invalid escape sequence in character class"</span>,
+            ClassRangeInvalid =&gt; <span class="string">"invalid character class range"</span>,
+            ClassRangeLiteral =&gt; <span class="string">"invalid range boundary, must be a literal"</span>,
+            ClassUnclosed =&gt; <span class="string">"unclosed character class"</span>,
+            DecimalEmpty =&gt; <span class="string">"empty decimal literal"</span>,
+            DecimalInvalid =&gt; <span class="string">"invalid decimal literal"</span>,
+            EscapeHexEmpty =&gt; <span class="string">"empty hexadecimal literal"</span>,
+            EscapeHexInvalid =&gt; <span class="string">"invalid hexadecimal literal"</span>,
+            EscapeHexInvalidDigit =&gt; <span class="string">"invalid hexadecimal digit"</span>,
+            EscapeUnexpectedEof =&gt; <span class="string">"unexpected eof (escape sequence)"</span>,
+            EscapeUnrecognized =&gt; <span class="string">"unrecognized escape sequence"</span>,
+            FlagDanglingNegation =&gt; <span class="string">"dangling flag negation operator"</span>,
+            FlagDuplicate { .. } =&gt; <span class="string">"duplicate flag"</span>,
+            FlagRepeatedNegation { .. } =&gt; <span class="string">"repeated negation"</span>,
+            FlagUnexpectedEof =&gt; <span class="string">"unexpected eof (flag)"</span>,
+            FlagUnrecognized =&gt; <span class="string">"unrecognized flag"</span>,
+            GroupNameDuplicate { .. } =&gt; <span class="string">"duplicate capture group name"</span>,
+            GroupNameEmpty =&gt; <span class="string">"empty capture group name"</span>,
+            GroupNameInvalid =&gt; <span class="string">"invalid capture group name"</span>,
+            GroupNameUnexpectedEof =&gt; <span class="string">"unclosed capture group name"</span>,
+            GroupUnclosed =&gt; <span class="string">"unclosed group"</span>,
+            GroupUnopened =&gt; <span class="string">"unopened group"</span>,
+            NestLimitExceeded(<span class="kw">_</span>) =&gt; <span class="string">"nest limit exceeded"</span>,
+            RepetitionCountInvalid =&gt; <span class="string">"invalid repetition count range"</span>,
+            RepetitionCountUnclosed =&gt; <span class="string">"unclosed counted repetition"</span>,
+            RepetitionMissing =&gt; <span class="string">"repetition operator missing expression"</span>,
+            UnicodeClassInvalid =&gt; <span class="string">"invalid Unicode character class"</span>,
+            UnsupportedBackreference =&gt; <span class="string">"backreferences are not supported"</span>,
+            UnsupportedLookAround =&gt; <span class="string">"look-around is not supported"</span>,
             <span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>(),
         }
     }
 }
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>Error {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="kw">crate</span>::error::Formatter::from(<span class="self">self</span>).fmt(f)
     }
 }
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>ErrorKind {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="kw">use </span><span class="self">self</span>::ErrorKind::<span class="kw-2">*</span>;
         <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
             CaptureLimitExceeded =&gt; <span class="macro">write!</span>(
                 f,
-                <span class="string">&quot;exceeded the maximum number of \
-                 capturing groups ({})&quot;</span>,
+                <span class="string">"exceeded the maximum number of \
+                 capturing groups ({})"</span>,
                 ::std::u32::MAX
             ),
             ClassEscapeInvalid =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;invalid escape sequence found in character class&quot;</span>)
+                <span class="macro">write!</span>(f, <span class="string">"invalid escape sequence found in character class"</span>)
             }
             ClassRangeInvalid =&gt; <span class="macro">write!</span>(
                 f,
-                <span class="string">&quot;invalid character class range, \
-                 the start must be &lt;= the end&quot;
+                <span class="string">"invalid character class range, \
+                 the start must be &lt;= the end"
             </span>),
             ClassRangeLiteral =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;invalid range boundary, must be a literal&quot;</span>)
+                <span class="macro">write!</span>(f, <span class="string">"invalid range boundary, must be a literal"</span>)
             }
-            ClassUnclosed =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;unclosed character class&quot;</span>),
-            DecimalEmpty =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;decimal literal empty&quot;</span>),
-            DecimalInvalid =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;decimal literal invalid&quot;</span>),
-            EscapeHexEmpty =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;hexadecimal literal empty&quot;</span>),
+            ClassUnclosed =&gt; <span class="macro">write!</span>(f, <span class="string">"unclosed character class"</span>),
+            DecimalEmpty =&gt; <span class="macro">write!</span>(f, <span class="string">"decimal literal empty"</span>),
+            DecimalInvalid =&gt; <span class="macro">write!</span>(f, <span class="string">"decimal literal invalid"</span>),
+            EscapeHexEmpty =&gt; <span class="macro">write!</span>(f, <span class="string">"hexadecimal literal empty"</span>),
             EscapeHexInvalid =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;hexadecimal literal is not a Unicode scalar value&quot;</span>)
+                <span class="macro">write!</span>(f, <span class="string">"hexadecimal literal is not a Unicode scalar value"</span>)
             }
-            EscapeHexInvalidDigit =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;invalid hexadecimal digit&quot;</span>),
+            EscapeHexInvalidDigit =&gt; <span class="macro">write!</span>(f, <span class="string">"invalid hexadecimal digit"</span>),
             EscapeUnexpectedEof =&gt; <span class="macro">write!</span>(
                 f,
-                <span class="string">&quot;incomplete escape sequence, \
-                 reached end of pattern prematurely&quot;
+                <span class="string">"incomplete escape sequence, \
+                 reached end of pattern prematurely"
             </span>),
-            EscapeUnrecognized =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;unrecognized escape sequence&quot;</span>),
+            EscapeUnrecognized =&gt; <span class="macro">write!</span>(f, <span class="string">"unrecognized escape sequence"</span>),
             FlagDanglingNegation =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;dangling flag negation operator&quot;</span>)
+                <span class="macro">write!</span>(f, <span class="string">"dangling flag negation operator"</span>)
             }
-            FlagDuplicate { .. } =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;duplicate flag&quot;</span>),
+            FlagDuplicate { .. } =&gt; <span class="macro">write!</span>(f, <span class="string">"duplicate flag"</span>),
             FlagRepeatedNegation { .. } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;flag negation operator repeated&quot;</span>)
+                <span class="macro">write!</span>(f, <span class="string">"flag negation operator repeated"</span>)
             }
             FlagUnexpectedEof =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;expected flag but got end of regex&quot;</span>)
+                <span class="macro">write!</span>(f, <span class="string">"expected flag but got end of regex"</span>)
             }
-            FlagUnrecognized =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;unrecognized flag&quot;</span>),
+            FlagUnrecognized =&gt; <span class="macro">write!</span>(f, <span class="string">"unrecognized flag"</span>),
             GroupNameDuplicate { .. } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;duplicate capture group name&quot;</span>)
+                <span class="macro">write!</span>(f, <span class="string">"duplicate capture group name"</span>)
             }
-            GroupNameEmpty =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;empty capture group name&quot;</span>),
-            GroupNameInvalid =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;invalid capture group character&quot;</span>),
-            GroupNameUnexpectedEof =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;unclosed capture group name&quot;</span>),
-            GroupUnclosed =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;unclosed group&quot;</span>),
-            GroupUnopened =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;unopened group&quot;</span>),
+            GroupNameEmpty =&gt; <span class="macro">write!</span>(f, <span class="string">"empty capture group name"</span>),
+            GroupNameInvalid =&gt; <span class="macro">write!</span>(f, <span class="string">"invalid capture group character"</span>),
+            GroupNameUnexpectedEof =&gt; <span class="macro">write!</span>(f, <span class="string">"unclosed capture group name"</span>),
+            GroupUnclosed =&gt; <span class="macro">write!</span>(f, <span class="string">"unclosed group"</span>),
+            GroupUnopened =&gt; <span class="macro">write!</span>(f, <span class="string">"unopened group"</span>),
             NestLimitExceeded(limit) =&gt; <span class="macro">write!</span>(
                 f,
-                <span class="string">&quot;exceed the maximum number of \
-                 nested parentheses/brackets ({})&quot;</span>,
+                <span class="string">"exceed the maximum number of \
+                 nested parentheses/brackets ({})"</span>,
                 limit
             ),
             RepetitionCountInvalid =&gt; <span class="macro">write!</span>(
                 f,
-                <span class="string">&quot;invalid repetition count range, \
-                 the start must be &lt;= the end&quot;
+                <span class="string">"invalid repetition count range, \
+                 the start must be &lt;= the end"
             </span>),
             RepetitionCountDecimalEmpty =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;repetition quantifier expects a valid decimal&quot;</span>)
+                <span class="macro">write!</span>(f, <span class="string">"repetition quantifier expects a valid decimal"</span>)
             }
             RepetitionCountUnclosed =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;unclosed counted repetition&quot;</span>)
+                <span class="macro">write!</span>(f, <span class="string">"unclosed counted repetition"</span>)
             }
             RepetitionMissing =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;repetition operator missing expression&quot;</span>)
+                <span class="macro">write!</span>(f, <span class="string">"repetition operator missing expression"</span>)
             }
             UnicodeClassInvalid =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;invalid Unicode character class&quot;</span>)
+                <span class="macro">write!</span>(f, <span class="string">"invalid Unicode character class"</span>)
             }
             UnsupportedBackreference =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;backreferences are not supported&quot;</span>)
+                <span class="macro">write!</span>(f, <span class="string">"backreferences are not supported"</span>)
             }
             UnsupportedLookAround =&gt; <span class="macro">write!</span>(
                 f,
-                <span class="string">&quot;look-around, including look-ahead and look-behind, \
-                 is not supported&quot;
+                <span class="string">"look-around, including look-ahead and look-behind, \
+                 is not supported"
             </span>),
             <span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>(),
         }
@@ -1830,8 +1831,8 @@ Defines an abstract syntax for regular expressions.
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Span {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        <span class="macro">write!</span>(f, <span class="string">&quot;Span({:?}, {:?})&quot;</span>, <span class="self">self</span>.start, <span class="self">self</span>.end)
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">"Span({:?}, {:?})"</span>, <span class="self">self</span>.start, <span class="self">self</span>.end)
     }
 }
 
@@ -1863,10 +1864,10 @@ Defines an abstract syntax for regular expressions.
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Position {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="macro">write!</span>(
             f,
-            <span class="string">&quot;Position(o: {:?}, l: {:?}, c: {:?})&quot;</span>,
+            <span class="string">"Position(o: {:?}, l: {:?}, c: {:?})"</span>,
             <span class="self">self</span>.offset, <span class="self">self</span>.line, <span class="self">self</span>.column
         )
     }
@@ -1962,7 +1963,7 @@ Defines an abstract syntax for regular expressions.
 
 <span class="doccomment">/// An abstract syntax tree for a single regular expression.
 ///
-/// An `Ast`&#39;s `fmt::Display` implementation uses constant stack space and heap
+/// An `Ast`'s `fmt::Display` implementation uses constant stack space and heap
 /// space proportional to the size of the `Ast`.
 ///
 /// This type defines its own destructor that uses constant stack space and
@@ -1975,7 +1976,7 @@ Defines an abstract syntax for regular expressions.
     </span>Flags(SetFlags),
     <span class="doccomment">/// A single character literal, which includes escape sequences.
     </span>Literal(Literal),
-    <span class="doccomment">/// The &quot;any character&quot; class.
+    <span class="doccomment">/// The "any character" class.
     </span>Dot(Span),
     <span class="doccomment">/// A single zero-width assertion.
     </span>Assertion(Assertion),
@@ -2044,7 +2045,7 @@ Defines an abstract syntax for regular expressions.
 /// This implementation uses constant stack space and heap space proportional
 /// to the size of the `Ast`.
 </span><span class="kw">impl </span>fmt::Display <span class="kw">for </span>Ast {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="kw">use </span><span class="kw">crate</span>::ast::print::Printer;
         Printer::new().print(<span class="self">self</span>, f)
     }
@@ -2306,20 +2307,20 @@ Defines an abstract syntax for regular expressions.
     </span><span class="kw">pub fn </span>from_name(name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;ClassAsciiKind&gt; {
         <span class="kw">use </span><span class="self">self</span>::ClassAsciiKind::<span class="kw-2">*</span>;
         <span class="kw">match </span>name {
-            <span class="string">&quot;alnum&quot; </span>=&gt; <span class="prelude-val">Some</span>(Alnum),
-            <span class="string">&quot;alpha&quot; </span>=&gt; <span class="prelude-val">Some</span>(Alpha),
-            <span class="string">&quot;ascii&quot; </span>=&gt; <span class="prelude-val">Some</span>(Ascii),
-            <span class="string">&quot;blank&quot; </span>=&gt; <span class="prelude-val">Some</span>(Blank),
-            <span class="string">&quot;cntrl&quot; </span>=&gt; <span class="prelude-val">Some</span>(Cntrl),
-            <span class="string">&quot;digit&quot; </span>=&gt; <span class="prelude-val">Some</span>(Digit),
-            <span class="string">&quot;graph&quot; </span>=&gt; <span class="prelude-val">Some</span>(Graph),
-            <span class="string">&quot;lower&quot; </span>=&gt; <span class="prelude-val">Some</span>(Lower),
-            <span class="string">&quot;print&quot; </span>=&gt; <span class="prelude-val">Some</span>(Print),
-            <span class="string">&quot;punct&quot; </span>=&gt; <span class="prelude-val">Some</span>(Punct),
-            <span class="string">&quot;space&quot; </span>=&gt; <span class="prelude-val">Some</span>(Space),
-            <span class="string">&quot;upper&quot; </span>=&gt; <span class="prelude-val">Some</span>(Upper),
-            <span class="string">&quot;word&quot; </span>=&gt; <span class="prelude-val">Some</span>(Word),
-            <span class="string">&quot;xdigit&quot; </span>=&gt; <span class="prelude-val">Some</span>(Xdigit),
+            <span class="string">"alnum" </span>=&gt; <span class="prelude-val">Some</span>(Alnum),
+            <span class="string">"alpha" </span>=&gt; <span class="prelude-val">Some</span>(Alpha),
+            <span class="string">"ascii" </span>=&gt; <span class="prelude-val">Some</span>(Ascii),
+            <span class="string">"blank" </span>=&gt; <span class="prelude-val">Some</span>(Blank),
+            <span class="string">"cntrl" </span>=&gt; <span class="prelude-val">Some</span>(Cntrl),
+            <span class="string">"digit" </span>=&gt; <span class="prelude-val">Some</span>(Digit),
+            <span class="string">"graph" </span>=&gt; <span class="prelude-val">Some</span>(Graph),
+            <span class="string">"lower" </span>=&gt; <span class="prelude-val">Some</span>(Lower),
+            <span class="string">"print" </span>=&gt; <span class="prelude-val">Some</span>(Print),
+            <span class="string">"punct" </span>=&gt; <span class="prelude-val">Some</span>(Punct),
+            <span class="string">"space" </span>=&gt; <span class="prelude-val">Some</span>(Space),
+            <span class="string">"upper" </span>=&gt; <span class="prelude-val">Some</span>(Upper),
+            <span class="string">"word" </span>=&gt; <span class="prelude-val">Some</span>(Word),
+            <span class="string">"xdigit" </span>=&gt; <span class="prelude-val">Some</span>(Xdigit),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
@@ -2347,7 +2348,7 @@ Defines an abstract syntax for regular expressions.
 <span class="kw">impl </span>ClassUnicode {
     <span class="doccomment">/// Returns true if this class has been negated.
     ///
-    /// Note that this takes the Unicode op into account, if it&#39;s present.
+    /// Note that this takes the Unicode op into account, if it's present.
     /// e.g., `is_negated` for `\P{scx!=Katakana}` will return `false`.
     </span><span class="kw">pub fn </span>is_negated(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="kw">match </span><span class="self">self</span>.kind {
@@ -2387,7 +2388,7 @@ Defines an abstract syntax for regular expressions.
     <span class="doccomment">/// A property set to a specific value using a colon, e.g.,
     /// `\p{scx:Katakana}`.
     </span>Colon,
-    <span class="doccomment">/// A property that isn&#39;t a particular value, e.g., `\p{scx!=Katakana}`.
+    <span class="doccomment">/// A property that isn't a particular value, e.g., `\p{scx!=Katakana}`.
     </span>NotEqual,
 }
 
@@ -2529,7 +2530,7 @@ Defines an abstract syntax for regular expressions.
 <span class="kw">impl </span>ClassSetUnion {
     <span class="doccomment">/// Push a new item in this union.
     ///
-    /// The ending position of this union&#39;s span is updated to the ending
+    /// The ending position of this union's span is updated to the ending
     /// position of the span of the item given. If the union is empty, then
     /// the starting position of this union is set to the starting position
     /// of this item.
@@ -2575,7 +2576,7 @@ Defines an abstract syntax for regular expressions.
 
 <span class="doccomment">/// The type of a Unicode character class set operation.
 ///
-/// Note that this doesn&#39;t explicitly represent union since there is no
+/// Note that this doesn't explicitly represent union since there is no
 /// explicit union operator. Concatenation inside a character class corresponds
 /// to the union operation.
 </span><span class="attr">#[derive(Clone, Copy, Debug, Eq, PartialEq)]

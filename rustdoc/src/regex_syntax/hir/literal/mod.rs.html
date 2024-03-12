@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/regex-syntax-0.6.25/src/hir/literal/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="regex_syntax" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0 (cc66ad468 2023-10-03)" data-channel="1.73.0" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-1596385f77d47ef2.css" data-theme-dark-css="dark-0a43001d3fc2282c.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../static.files/light-1596385f77d47ef2.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../static.files/dark-0a43001d3fc2282c.css"><link rel="stylesheet" href="../../../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../regex_syntax/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/regex-syntax-0.6.25/src/hir/literal/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-ac92e1bbe349e143.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="regex_syntax" data-themes="" data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../../../static.files/src-script-39ed315d46fb705f.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1830,7 +1831,7 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
         <span class="self">self</span>.lits.is_empty() || <span class="self">self</span>.lits.iter().all(|lit| lit.is_empty())
     }
 
-    <span class="doccomment">/// Returns a new empty set of literals using this set&#39;s limits.
+    <span class="doccomment">/// Returns a new empty set of literals using this set's limits.
     </span><span class="kw">pub fn </span>to_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Literals {
         <span class="kw">let </span><span class="kw-2">mut </span>lits = Literals::empty();
         lits.set_limit_size(<span class="self">self</span>.limit_size).set_limit_class(<span class="self">self</span>.limit_class);
@@ -1912,7 +1913,7 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
         }
         <span class="kw">let </span><span class="kw-2">mut </span>old: Vec&lt;Literal&gt; = <span class="self">self</span>.lits.iter().cloned().collect();
         <span class="kw">let </span><span class="kw-2">mut </span>new = <span class="self">self</span>.to_empty();
-        <span class="lifetime">&#39;OUTER</span>: <span class="kw">while let </span><span class="prelude-val">Some</span>(<span class="kw-2">mut </span>candidate) = old.pop() {
+        <span class="lifetime">'OUTER</span>: <span class="kw">while let </span><span class="prelude-val">Some</span>(<span class="kw-2">mut </span>candidate) = old.pop() {
             <span class="kw">if </span>candidate.is_empty() {
                 <span class="kw">continue</span>;
             }
@@ -1930,7 +1931,7 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
                     // infectious!
                     </span>candidate.cut = candidate.cut || lit2.cut;
                     lit2.cut = candidate.cut;
-                    <span class="kw">continue </span><span class="lifetime">&#39;OUTER</span>;
+                    <span class="kw">continue </span><span class="lifetime">'OUTER</span>;
                 }
                 <span class="kw">if </span>candidate.len() &lt; lit2.len() {
                     <span class="kw">if let </span><span class="prelude-val">Some</span>(i) = position(<span class="kw-2">&amp;</span>candidate, <span class="kw-2">&amp;</span>lit2) {
@@ -1953,7 +1954,7 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
                 }
                 <span class="comment">// Oops, the candidate is already represented in the set.
                 </span><span class="kw">if </span>candidate.is_empty() {
-                    <span class="kw">continue </span><span class="lifetime">&#39;OUTER</span>;
+                    <span class="kw">continue </span><span class="lifetime">'OUTER</span>;
                 }
             }
             new.lits.push(candidate);
@@ -2089,7 +2090,7 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
     </span><span class="kw">pub fn </span>cross_add(<span class="kw-2">&amp;mut </span><span class="self">self</span>, bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; bool {
         <span class="comment">// N.B. This could be implemented by simply calling cross_product with
         // a literal set containing just `bytes`, but we can be smarter about
-        // taking shorter prefixes of `bytes` if they&#39;ll fit.
+        // taking shorter prefixes of `bytes` if they'll fit.
         </span><span class="kw">if </span>bytes.is_empty() {
             <span class="kw">return </span><span class="bool-val">true</span>;
         }
@@ -2254,8 +2255,8 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
             <span class="self">self</span>.lits.iter().fold(<span class="number">0</span>, |accum, lit| {
                 accum
                     + <span class="kw">if </span>lit.is_cut() {
-                        <span class="comment">// If the literal is cut, then we&#39;ll never add
-                        // anything to it, so don&#39;t count it.
+                        <span class="comment">// If the literal is cut, then we'll never add
+                        // anything to it, so don't count it.
                         </span><span class="number">0
                     </span>} <span class="kw">else </span>{
                         (lit.len() + <span class="number">1</span>) * size
@@ -2324,8 +2325,8 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
                 <span class="kw">let </span><span class="kw-2">mut </span>lits2 = lits.to_empty();
                 prefixes(e, <span class="kw-2">&amp;mut </span>lits2);
                 <span class="kw">if </span>!lits.cross_product(<span class="kw-2">&amp;</span>lits2) || !lits2.any_complete() {
-                    <span class="comment">// If this expression couldn&#39;t yield any literal that
-                    // could be extended, then we need to quit. Since we&#39;re
+                    <span class="comment">// If this expression couldn't yield any literal that
+                    // could be extended, then we need to quit. Since we're
                     // short-circuiting, we also need to freeze every member.
                     </span>lits.cut();
                     <span class="kw">break</span>;
@@ -2400,8 +2401,8 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
                 <span class="kw">let </span><span class="kw-2">mut </span>lits2 = lits.to_empty();
                 suffixes(e, <span class="kw-2">&amp;mut </span>lits2);
                 <span class="kw">if </span>!lits.cross_product(<span class="kw-2">&amp;</span>lits2) || !lits2.any_complete() {
-                    <span class="comment">// If this expression couldn&#39;t yield any literal that
-                    // could be extended, then we need to quit. Since we&#39;re
+                    <span class="comment">// If this expression couldn't yield any literal that
+                    // could be extended, then we need to quit. Since we're
                     // short-circuiting, we also need to freeze every member.
                     </span>lits.cut();
                     <span class="kw">break</span>;
@@ -2509,10 +2510,10 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
         lits3.set_limit_size(lits.limit_size() / <span class="number">5</span>);
         f(e, <span class="kw-2">&amp;mut </span>lits3);
         <span class="kw">if </span>lits3.is_empty() || !lits2.union(lits3) {
-            <span class="comment">// If we couldn&#39;t find suffixes for *any* of the
+            <span class="comment">// If we couldn't find suffixes for *any* of the
             // alternates, then the entire alternation has to be thrown
             // away and any existing members must be frozen. Similarly,
-            // if the union couldn&#39;t complete, stop and freeze.
+            // if the union couldn't complete, stop and freeze.
             </span>lits.cut();
             <span class="kw">return</span>;
         }
@@ -2523,11 +2524,11 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Literals {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        f.debug_struct(<span class="string">&quot;Literals&quot;</span>)
-            .field(<span class="string">&quot;lits&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.lits)
-            .field(<span class="string">&quot;limit_size&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.limit_size)
-            .field(<span class="string">&quot;limit_class&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.limit_class)
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        f.debug_struct(<span class="string">"Literals"</span>)
+            .field(<span class="string">"lits"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.lits)
+            .field(<span class="string">"limit_size"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.limit_size)
+            .field(<span class="string">"limit_class"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.limit_class)
             .finish()
     }
 }
@@ -2543,7 +2544,7 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
         Literal { v: <span class="macro">vec!</span>[], cut: <span class="bool-val">false </span>}
     }
 
-    <span class="doccomment">/// Returns true if this literal was &quot;cut.&quot;
+    <span class="doccomment">/// Returns true if this literal was "cut."
     </span><span class="kw">pub fn </span>is_cut(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.cut
     }
@@ -2567,11 +2568,11 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Literal {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="kw">if </span><span class="self">self</span>.is_cut() {
-            <span class="macro">write!</span>(f, <span class="string">&quot;Cut({})&quot;</span>, escape_unicode(<span class="kw-2">&amp;</span><span class="self">self</span>.v))
+            <span class="macro">write!</span>(f, <span class="string">"Cut({})"</span>, escape_unicode(<span class="kw-2">&amp;</span><span class="self">self</span>.v))
         } <span class="kw">else </span>{
-            <span class="macro">write!</span>(f, <span class="string">&quot;Complete({})&quot;</span>, escape_unicode(<span class="kw-2">&amp;</span><span class="self">self</span>.v))
+            <span class="macro">write!</span>(f, <span class="string">"Complete({})"</span>, escape_unicode(<span class="kw-2">&amp;</span><span class="self">self</span>.v))
         }
     }
 }
@@ -2619,9 +2620,9 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
                 escape_byte(c <span class="kw">as </span>u8)
             } <span class="kw">else </span>{
                 <span class="kw">if </span>c <span class="kw">as </span>u32 &lt;= <span class="number">0xFFFF </span>{
-                    <span class="macro">format!</span>(<span class="string">r&quot;\u{{{:04x}}}&quot;</span>, c <span class="kw">as </span>u32)
+                    <span class="macro">format!</span>(<span class="string">r"\u{{{:04x}}}"</span>, c <span class="kw">as </span>u32)
                 } <span class="kw">else </span>{
-                    <span class="macro">format!</span>(<span class="string">r&quot;\U{{{:08x}}}&quot;</span>, c <span class="kw">as </span>u32)
+                    <span class="macro">format!</span>(<span class="string">r"\U{{{:08x}}}"</span>, c <span class="kw">as </span>u32)
                 }
             };
             space_escaped.push_str(<span class="kw-2">&amp;</span>escaped);
@@ -2702,11 +2703,11 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
     }
 
     <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>ULiteral {
-        <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
             <span class="kw">if </span><span class="self">self</span>.is_cut() {
-                <span class="macro">write!</span>(f, <span class="string">&quot;Cut({})&quot;</span>, <span class="self">self</span>.v)
+                <span class="macro">write!</span>(f, <span class="string">"Cut({})"</span>, <span class="self">self</span>.v)
             } <span class="kw">else </span>{
-                <span class="macro">write!</span>(f, <span class="string">&quot;Complete({})&quot;</span>, <span class="self">self</span>.v)
+                <span class="macro">write!</span>(f, <span class="string">"Complete({})"</span>, <span class="self">self</span>.v)
             }
         }
     }
@@ -2724,11 +2725,11 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
     }
 
     <span class="attr">#[allow(non_snake_case)]
-    </span><span class="kw">fn </span>C(s: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str) -&gt; ULiteral {
+    </span><span class="kw">fn </span>C(s: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str) -&gt; ULiteral {
         ULiteral { v: s.to_owned(), cut: <span class="bool-val">true </span>}
     }
     <span class="attr">#[allow(non_snake_case)]
-    </span><span class="kw">fn </span>M(s: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str) -&gt; ULiteral {
+    </span><span class="kw">fn </span>M(s: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str) -&gt; ULiteral {
         ULiteral { v: s.to_owned(), cut: <span class="bool-val">false </span>}
     }
 
@@ -2787,157 +2788,157 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
     // ************************************************************************
 
     // Elementary tests.
-    </span><span class="macro">test_lit!</span>(pfx_one_lit1, prefixes, <span class="string">&quot;a&quot;</span>, M(<span class="string">&quot;a&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_one_lit2, prefixes, <span class="string">&quot;abc&quot;</span>, M(<span class="string">&quot;abc&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_one_lit3, prefixes, <span class="string">&quot;(?u)☃&quot;</span>, M(<span class="string">&quot;\\xe2\\x98\\x83&quot;</span>));
-    <span class="attr">#[cfg(feature = <span class="string">&quot;unicode-case&quot;</span>)]
-    </span><span class="macro">test_lit!</span>(pfx_one_lit4, prefixes, <span class="string">&quot;(?ui)☃&quot;</span>, M(<span class="string">&quot;\\xe2\\x98\\x83&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_class1, prefixes, <span class="string">&quot;[1-4]&quot;</span>, M(<span class="string">&quot;1&quot;</span>), M(<span class="string">&quot;2&quot;</span>), M(<span class="string">&quot;3&quot;</span>), M(<span class="string">&quot;4&quot;</span>));
+    </span><span class="macro">test_lit!</span>(pfx_one_lit1, prefixes, <span class="string">"a"</span>, M(<span class="string">"a"</span>));
+    <span class="macro">test_lit!</span>(pfx_one_lit2, prefixes, <span class="string">"abc"</span>, M(<span class="string">"abc"</span>));
+    <span class="macro">test_lit!</span>(pfx_one_lit3, prefixes, <span class="string">"(?u)☃"</span>, M(<span class="string">"\\xe2\\x98\\x83"</span>));
+    <span class="attr">#[cfg(feature = <span class="string">"unicode-case"</span>)]
+    </span><span class="macro">test_lit!</span>(pfx_one_lit4, prefixes, <span class="string">"(?ui)☃"</span>, M(<span class="string">"\\xe2\\x98\\x83"</span>));
+    <span class="macro">test_lit!</span>(pfx_class1, prefixes, <span class="string">"[1-4]"</span>, M(<span class="string">"1"</span>), M(<span class="string">"2"</span>), M(<span class="string">"3"</span>), M(<span class="string">"4"</span>));
     <span class="macro">test_lit!</span>(
         pfx_class2,
         prefixes,
-        <span class="string">&quot;(?u)[☃Ⅰ]&quot;</span>,
-        M(<span class="string">&quot;\\xe2\\x85\\xa0&quot;</span>),
-        M(<span class="string">&quot;\\xe2\\x98\\x83&quot;</span>)
+        <span class="string">"(?u)[☃Ⅰ]"</span>,
+        M(<span class="string">"\\xe2\\x85\\xa0"</span>),
+        M(<span class="string">"\\xe2\\x98\\x83"</span>)
     );
-    <span class="attr">#[cfg(feature = <span class="string">&quot;unicode-case&quot;</span>)]
+    <span class="attr">#[cfg(feature = <span class="string">"unicode-case"</span>)]
     </span><span class="macro">test_lit!</span>(
         pfx_class3,
         prefixes,
-        <span class="string">&quot;(?ui)[☃Ⅰ]&quot;</span>,
-        M(<span class="string">&quot;\\xe2\\x85\\xa0&quot;</span>),
-        M(<span class="string">&quot;\\xe2\\x85\\xb0&quot;</span>),
-        M(<span class="string">&quot;\\xe2\\x98\\x83&quot;</span>)
+        <span class="string">"(?ui)[☃Ⅰ]"</span>,
+        M(<span class="string">"\\xe2\\x85\\xa0"</span>),
+        M(<span class="string">"\\xe2\\x85\\xb0"</span>),
+        M(<span class="string">"\\xe2\\x98\\x83"</span>)
     );
-    <span class="macro">test_lit!</span>(pfx_one_lit_casei1, prefixes, <span class="string">&quot;(?i-u)a&quot;</span>, M(<span class="string">&quot;A&quot;</span>), M(<span class="string">&quot;a&quot;</span>));
+    <span class="macro">test_lit!</span>(pfx_one_lit_casei1, prefixes, <span class="string">"(?i-u)a"</span>, M(<span class="string">"A"</span>), M(<span class="string">"a"</span>));
     <span class="macro">test_lit!</span>(
         pfx_one_lit_casei2,
         prefixes,
-        <span class="string">&quot;(?i-u)abc&quot;</span>,
-        M(<span class="string">&quot;ABC&quot;</span>),
-        M(<span class="string">&quot;aBC&quot;</span>),
-        M(<span class="string">&quot;AbC&quot;</span>),
-        M(<span class="string">&quot;abC&quot;</span>),
-        M(<span class="string">&quot;ABc&quot;</span>),
-        M(<span class="string">&quot;aBc&quot;</span>),
-        M(<span class="string">&quot;Abc&quot;</span>),
-        M(<span class="string">&quot;abc&quot;</span>)
+        <span class="string">"(?i-u)abc"</span>,
+        M(<span class="string">"ABC"</span>),
+        M(<span class="string">"aBC"</span>),
+        M(<span class="string">"AbC"</span>),
+        M(<span class="string">"abC"</span>),
+        M(<span class="string">"ABc"</span>),
+        M(<span class="string">"aBc"</span>),
+        M(<span class="string">"Abc"</span>),
+        M(<span class="string">"abc"</span>)
     );
-    <span class="macro">test_lit!</span>(pfx_group1, prefixes, <span class="string">&quot;(a)&quot;</span>, M(<span class="string">&quot;a&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_rep_zero_or_one1, prefixes, <span class="string">&quot;a?&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_rep_zero_or_one2, prefixes, <span class="string">&quot;(?:abc)?&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_rep_zero_or_more1, prefixes, <span class="string">&quot;a*&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_rep_zero_or_more2, prefixes, <span class="string">&quot;(?:abc)*&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_rep_one_or_more1, prefixes, <span class="string">&quot;a+&quot;</span>, C(<span class="string">&quot;a&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_rep_one_or_more2, prefixes, <span class="string">&quot;(?:abc)+&quot;</span>, C(<span class="string">&quot;abc&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_rep_nested_one_or_more, prefixes, <span class="string">&quot;(?:a+)+&quot;</span>, C(<span class="string">&quot;a&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_rep_range1, prefixes, <span class="string">&quot;a{0}&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_rep_range2, prefixes, <span class="string">&quot;a{0,}&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_rep_range3, prefixes, <span class="string">&quot;a{0,1}&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_rep_range4, prefixes, <span class="string">&quot;a{1}&quot;</span>, M(<span class="string">&quot;a&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_rep_range5, prefixes, <span class="string">&quot;a{2}&quot;</span>, M(<span class="string">&quot;aa&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_rep_range6, prefixes, <span class="string">&quot;a{1,2}&quot;</span>, C(<span class="string">&quot;a&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_rep_range7, prefixes, <span class="string">&quot;a{2,3}&quot;</span>, C(<span class="string">&quot;aa&quot;</span>));
+    <span class="macro">test_lit!</span>(pfx_group1, prefixes, <span class="string">"(a)"</span>, M(<span class="string">"a"</span>));
+    <span class="macro">test_lit!</span>(pfx_rep_zero_or_one1, prefixes, <span class="string">"a?"</span>);
+    <span class="macro">test_lit!</span>(pfx_rep_zero_or_one2, prefixes, <span class="string">"(?:abc)?"</span>);
+    <span class="macro">test_lit!</span>(pfx_rep_zero_or_more1, prefixes, <span class="string">"a*"</span>);
+    <span class="macro">test_lit!</span>(pfx_rep_zero_or_more2, prefixes, <span class="string">"(?:abc)*"</span>);
+    <span class="macro">test_lit!</span>(pfx_rep_one_or_more1, prefixes, <span class="string">"a+"</span>, C(<span class="string">"a"</span>));
+    <span class="macro">test_lit!</span>(pfx_rep_one_or_more2, prefixes, <span class="string">"(?:abc)+"</span>, C(<span class="string">"abc"</span>));
+    <span class="macro">test_lit!</span>(pfx_rep_nested_one_or_more, prefixes, <span class="string">"(?:a+)+"</span>, C(<span class="string">"a"</span>));
+    <span class="macro">test_lit!</span>(pfx_rep_range1, prefixes, <span class="string">"a{0}"</span>);
+    <span class="macro">test_lit!</span>(pfx_rep_range2, prefixes, <span class="string">"a{0,}"</span>);
+    <span class="macro">test_lit!</span>(pfx_rep_range3, prefixes, <span class="string">"a{0,1}"</span>);
+    <span class="macro">test_lit!</span>(pfx_rep_range4, prefixes, <span class="string">"a{1}"</span>, M(<span class="string">"a"</span>));
+    <span class="macro">test_lit!</span>(pfx_rep_range5, prefixes, <span class="string">"a{2}"</span>, M(<span class="string">"aa"</span>));
+    <span class="macro">test_lit!</span>(pfx_rep_range6, prefixes, <span class="string">"a{1,2}"</span>, C(<span class="string">"a"</span>));
+    <span class="macro">test_lit!</span>(pfx_rep_range7, prefixes, <span class="string">"a{2,3}"</span>, C(<span class="string">"aa"</span>));
 
     <span class="comment">// Test regexes with concatenations.
-    </span><span class="macro">test_lit!</span>(pfx_cat1, prefixes, <span class="string">&quot;(?:a)(?:b)&quot;</span>, M(<span class="string">&quot;ab&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_cat2, prefixes, <span class="string">&quot;[ab]z&quot;</span>, M(<span class="string">&quot;az&quot;</span>), M(<span class="string">&quot;bz&quot;</span>));
+    </span><span class="macro">test_lit!</span>(pfx_cat1, prefixes, <span class="string">"(?:a)(?:b)"</span>, M(<span class="string">"ab"</span>));
+    <span class="macro">test_lit!</span>(pfx_cat2, prefixes, <span class="string">"[ab]z"</span>, M(<span class="string">"az"</span>), M(<span class="string">"bz"</span>));
     <span class="macro">test_lit!</span>(
         pfx_cat3,
         prefixes,
-        <span class="string">&quot;(?i-u)[ab]z&quot;</span>,
-        M(<span class="string">&quot;AZ&quot;</span>),
-        M(<span class="string">&quot;BZ&quot;</span>),
-        M(<span class="string">&quot;aZ&quot;</span>),
-        M(<span class="string">&quot;bZ&quot;</span>),
-        M(<span class="string">&quot;Az&quot;</span>),
-        M(<span class="string">&quot;Bz&quot;</span>),
-        M(<span class="string">&quot;az&quot;</span>),
-        M(<span class="string">&quot;bz&quot;</span>)
+        <span class="string">"(?i-u)[ab]z"</span>,
+        M(<span class="string">"AZ"</span>),
+        M(<span class="string">"BZ"</span>),
+        M(<span class="string">"aZ"</span>),
+        M(<span class="string">"bZ"</span>),
+        M(<span class="string">"Az"</span>),
+        M(<span class="string">"Bz"</span>),
+        M(<span class="string">"az"</span>),
+        M(<span class="string">"bz"</span>)
     );
     <span class="macro">test_lit!</span>(
         pfx_cat4,
         prefixes,
-        <span class="string">&quot;[ab][yz]&quot;</span>,
-        M(<span class="string">&quot;ay&quot;</span>),
-        M(<span class="string">&quot;by&quot;</span>),
-        M(<span class="string">&quot;az&quot;</span>),
-        M(<span class="string">&quot;bz&quot;</span>)
+        <span class="string">"[ab][yz]"</span>,
+        M(<span class="string">"ay"</span>),
+        M(<span class="string">"by"</span>),
+        M(<span class="string">"az"</span>),
+        M(<span class="string">"bz"</span>)
     );
-    <span class="macro">test_lit!</span>(pfx_cat5, prefixes, <span class="string">&quot;a*b&quot;</span>, C(<span class="string">&quot;a&quot;</span>), M(<span class="string">&quot;b&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_cat6, prefixes, <span class="string">&quot;a*b*c&quot;</span>, C(<span class="string">&quot;a&quot;</span>), C(<span class="string">&quot;b&quot;</span>), M(<span class="string">&quot;c&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_cat7, prefixes, <span class="string">&quot;a*b*c+&quot;</span>, C(<span class="string">&quot;a&quot;</span>), C(<span class="string">&quot;b&quot;</span>), C(<span class="string">&quot;c&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_cat8, prefixes, <span class="string">&quot;a*b+c&quot;</span>, C(<span class="string">&quot;a&quot;</span>), C(<span class="string">&quot;b&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_cat9, prefixes, <span class="string">&quot;a*b+c*&quot;</span>, C(<span class="string">&quot;a&quot;</span>), C(<span class="string">&quot;b&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_cat10, prefixes, <span class="string">&quot;ab*&quot;</span>, C(<span class="string">&quot;ab&quot;</span>), M(<span class="string">&quot;a&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_cat11, prefixes, <span class="string">&quot;ab*c&quot;</span>, C(<span class="string">&quot;ab&quot;</span>), M(<span class="string">&quot;ac&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_cat12, prefixes, <span class="string">&quot;ab+&quot;</span>, C(<span class="string">&quot;ab&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_cat13, prefixes, <span class="string">&quot;ab+c&quot;</span>, C(<span class="string">&quot;ab&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_cat14, prefixes, <span class="string">&quot;a^&quot;</span>, C(<span class="string">&quot;a&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_cat15, prefixes, <span class="string">&quot;$a&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_cat16, prefixes, <span class="string">r&quot;ab*c&quot;</span>, C(<span class="string">&quot;ab&quot;</span>), M(<span class="string">&quot;ac&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_cat17, prefixes, <span class="string">r&quot;ab+c&quot;</span>, C(<span class="string">&quot;ab&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_cat18, prefixes, <span class="string">r&quot;z*azb&quot;</span>, C(<span class="string">&quot;z&quot;</span>), M(<span class="string">&quot;azb&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_cat19, prefixes, <span class="string">&quot;a.z&quot;</span>, C(<span class="string">&quot;a&quot;</span>));
+    <span class="macro">test_lit!</span>(pfx_cat5, prefixes, <span class="string">"a*b"</span>, C(<span class="string">"a"</span>), M(<span class="string">"b"</span>));
+    <span class="macro">test_lit!</span>(pfx_cat6, prefixes, <span class="string">"a*b*c"</span>, C(<span class="string">"a"</span>), C(<span class="string">"b"</span>), M(<span class="string">"c"</span>));
+    <span class="macro">test_lit!</span>(pfx_cat7, prefixes, <span class="string">"a*b*c+"</span>, C(<span class="string">"a"</span>), C(<span class="string">"b"</span>), C(<span class="string">"c"</span>));
+    <span class="macro">test_lit!</span>(pfx_cat8, prefixes, <span class="string">"a*b+c"</span>, C(<span class="string">"a"</span>), C(<span class="string">"b"</span>));
+    <span class="macro">test_lit!</span>(pfx_cat9, prefixes, <span class="string">"a*b+c*"</span>, C(<span class="string">"a"</span>), C(<span class="string">"b"</span>));
+    <span class="macro">test_lit!</span>(pfx_cat10, prefixes, <span class="string">"ab*"</span>, C(<span class="string">"ab"</span>), M(<span class="string">"a"</span>));
+    <span class="macro">test_lit!</span>(pfx_cat11, prefixes, <span class="string">"ab*c"</span>, C(<span class="string">"ab"</span>), M(<span class="string">"ac"</span>));
+    <span class="macro">test_lit!</span>(pfx_cat12, prefixes, <span class="string">"ab+"</span>, C(<span class="string">"ab"</span>));
+    <span class="macro">test_lit!</span>(pfx_cat13, prefixes, <span class="string">"ab+c"</span>, C(<span class="string">"ab"</span>));
+    <span class="macro">test_lit!</span>(pfx_cat14, prefixes, <span class="string">"a^"</span>, C(<span class="string">"a"</span>));
+    <span class="macro">test_lit!</span>(pfx_cat15, prefixes, <span class="string">"$a"</span>);
+    <span class="macro">test_lit!</span>(pfx_cat16, prefixes, <span class="string">r"ab*c"</span>, C(<span class="string">"ab"</span>), M(<span class="string">"ac"</span>));
+    <span class="macro">test_lit!</span>(pfx_cat17, prefixes, <span class="string">r"ab+c"</span>, C(<span class="string">"ab"</span>));
+    <span class="macro">test_lit!</span>(pfx_cat18, prefixes, <span class="string">r"z*azb"</span>, C(<span class="string">"z"</span>), M(<span class="string">"azb"</span>));
+    <span class="macro">test_lit!</span>(pfx_cat19, prefixes, <span class="string">"a.z"</span>, C(<span class="string">"a"</span>));
 
     <span class="comment">// Test regexes with alternations.
-    </span><span class="macro">test_lit!</span>(pfx_alt1, prefixes, <span class="string">&quot;a|b&quot;</span>, M(<span class="string">&quot;a&quot;</span>), M(<span class="string">&quot;b&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_alt2, prefixes, <span class="string">&quot;[1-3]|b&quot;</span>, M(<span class="string">&quot;1&quot;</span>), M(<span class="string">&quot;2&quot;</span>), M(<span class="string">&quot;3&quot;</span>), M(<span class="string">&quot;b&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_alt3, prefixes, <span class="string">&quot;y(?:a|b)z&quot;</span>, M(<span class="string">&quot;yaz&quot;</span>), M(<span class="string">&quot;ybz&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_alt4, prefixes, <span class="string">&quot;a|b*&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_alt5, prefixes, <span class="string">&quot;a|b+&quot;</span>, M(<span class="string">&quot;a&quot;</span>), C(<span class="string">&quot;b&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_alt6, prefixes, <span class="string">&quot;a|(?:b|c*)&quot;</span>);
+    </span><span class="macro">test_lit!</span>(pfx_alt1, prefixes, <span class="string">"a|b"</span>, M(<span class="string">"a"</span>), M(<span class="string">"b"</span>));
+    <span class="macro">test_lit!</span>(pfx_alt2, prefixes, <span class="string">"[1-3]|b"</span>, M(<span class="string">"1"</span>), M(<span class="string">"2"</span>), M(<span class="string">"3"</span>), M(<span class="string">"b"</span>));
+    <span class="macro">test_lit!</span>(pfx_alt3, prefixes, <span class="string">"y(?:a|b)z"</span>, M(<span class="string">"yaz"</span>), M(<span class="string">"ybz"</span>));
+    <span class="macro">test_lit!</span>(pfx_alt4, prefixes, <span class="string">"a|b*"</span>);
+    <span class="macro">test_lit!</span>(pfx_alt5, prefixes, <span class="string">"a|b+"</span>, M(<span class="string">"a"</span>), C(<span class="string">"b"</span>));
+    <span class="macro">test_lit!</span>(pfx_alt6, prefixes, <span class="string">"a|(?:b|c*)"</span>);
     <span class="macro">test_lit!</span>(
         pfx_alt7,
         prefixes,
-        <span class="string">&quot;(a|b)*c|(a|ab)*c&quot;</span>,
-        C(<span class="string">&quot;a&quot;</span>),
-        C(<span class="string">&quot;b&quot;</span>),
-        M(<span class="string">&quot;c&quot;</span>),
-        C(<span class="string">&quot;a&quot;</span>),
-        C(<span class="string">&quot;ab&quot;</span>),
-        M(<span class="string">&quot;c&quot;</span>)
+        <span class="string">"(a|b)*c|(a|ab)*c"</span>,
+        C(<span class="string">"a"</span>),
+        C(<span class="string">"b"</span>),
+        M(<span class="string">"c"</span>),
+        C(<span class="string">"a"</span>),
+        C(<span class="string">"ab"</span>),
+        M(<span class="string">"c"</span>)
     );
-    <span class="macro">test_lit!</span>(pfx_alt8, prefixes, <span class="string">&quot;a*b|c&quot;</span>, C(<span class="string">&quot;a&quot;</span>), M(<span class="string">&quot;b&quot;</span>), M(<span class="string">&quot;c&quot;</span>));
+    <span class="macro">test_lit!</span>(pfx_alt8, prefixes, <span class="string">"a*b|c"</span>, C(<span class="string">"a"</span>), M(<span class="string">"b"</span>), M(<span class="string">"c"</span>));
 
     <span class="comment">// Test regexes with empty assertions.
-    </span><span class="macro">test_lit!</span>(pfx_empty1, prefixes, <span class="string">&quot;^a&quot;</span>, M(<span class="string">&quot;a&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_empty2, prefixes, <span class="string">&quot;a${2}&quot;</span>, C(<span class="string">&quot;a&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_empty3, prefixes, <span class="string">&quot;^abc&quot;</span>, M(<span class="string">&quot;abc&quot;</span>));
-    <span class="macro">test_lit!</span>(pfx_empty4, prefixes, <span class="string">&quot;(?:^abc)|(?:^z)&quot;</span>, M(<span class="string">&quot;abc&quot;</span>), M(<span class="string">&quot;z&quot;</span>));
+    </span><span class="macro">test_lit!</span>(pfx_empty1, prefixes, <span class="string">"^a"</span>, M(<span class="string">"a"</span>));
+    <span class="macro">test_lit!</span>(pfx_empty2, prefixes, <span class="string">"a${2}"</span>, C(<span class="string">"a"</span>));
+    <span class="macro">test_lit!</span>(pfx_empty3, prefixes, <span class="string">"^abc"</span>, M(<span class="string">"abc"</span>));
+    <span class="macro">test_lit!</span>(pfx_empty4, prefixes, <span class="string">"(?:^abc)|(?:^z)"</span>, M(<span class="string">"abc"</span>), M(<span class="string">"z"</span>));
 
     <span class="comment">// Make sure some curious regexes have no prefixes.
-    </span><span class="macro">test_lit!</span>(pfx_nothing1, prefixes, <span class="string">&quot;.&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_nothing2, prefixes, <span class="string">&quot;(?s).&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_nothing3, prefixes, <span class="string">&quot;^&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_nothing4, prefixes, <span class="string">&quot;$&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_nothing6, prefixes, <span class="string">&quot;(?m)$&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_nothing7, prefixes, <span class="string">r&quot;\b&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_nothing8, prefixes, <span class="string">r&quot;\B&quot;</span>);
+    </span><span class="macro">test_lit!</span>(pfx_nothing1, prefixes, <span class="string">"."</span>);
+    <span class="macro">test_lit!</span>(pfx_nothing2, prefixes, <span class="string">"(?s)."</span>);
+    <span class="macro">test_lit!</span>(pfx_nothing3, prefixes, <span class="string">"^"</span>);
+    <span class="macro">test_lit!</span>(pfx_nothing4, prefixes, <span class="string">"$"</span>);
+    <span class="macro">test_lit!</span>(pfx_nothing6, prefixes, <span class="string">"(?m)$"</span>);
+    <span class="macro">test_lit!</span>(pfx_nothing7, prefixes, <span class="string">r"\b"</span>);
+    <span class="macro">test_lit!</span>(pfx_nothing8, prefixes, <span class="string">r"\B"</span>);
 
     <span class="comment">// Test a few regexes that defeat any prefix literal detection.
-    </span><span class="macro">test_lit!</span>(pfx_defeated1, prefixes, <span class="string">&quot;.a&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_defeated2, prefixes, <span class="string">&quot;(?s).a&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_defeated3, prefixes, <span class="string">&quot;a*b*c*&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_defeated4, prefixes, <span class="string">&quot;a|.&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_defeated5, prefixes, <span class="string">&quot;.|a&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_defeated6, prefixes, <span class="string">&quot;a|^&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_defeated7, prefixes, <span class="string">&quot;.(?:a(?:b)(?:c))&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_defeated8, prefixes, <span class="string">&quot;$a&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_defeated9, prefixes, <span class="string">&quot;(?m)$a&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_defeated10, prefixes, <span class="string">r&quot;\ba&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_defeated11, prefixes, <span class="string">r&quot;\Ba&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_defeated12, prefixes, <span class="string">&quot;^*a&quot;</span>);
-    <span class="macro">test_lit!</span>(pfx_defeated13, prefixes, <span class="string">&quot;^+a&quot;</span>);
+    </span><span class="macro">test_lit!</span>(pfx_defeated1, prefixes, <span class="string">".a"</span>);
+    <span class="macro">test_lit!</span>(pfx_defeated2, prefixes, <span class="string">"(?s).a"</span>);
+    <span class="macro">test_lit!</span>(pfx_defeated3, prefixes, <span class="string">"a*b*c*"</span>);
+    <span class="macro">test_lit!</span>(pfx_defeated4, prefixes, <span class="string">"a|."</span>);
+    <span class="macro">test_lit!</span>(pfx_defeated5, prefixes, <span class="string">".|a"</span>);
+    <span class="macro">test_lit!</span>(pfx_defeated6, prefixes, <span class="string">"a|^"</span>);
+    <span class="macro">test_lit!</span>(pfx_defeated7, prefixes, <span class="string">".(?:a(?:b)(?:c))"</span>);
+    <span class="macro">test_lit!</span>(pfx_defeated8, prefixes, <span class="string">"$a"</span>);
+    <span class="macro">test_lit!</span>(pfx_defeated9, prefixes, <span class="string">"(?m)$a"</span>);
+    <span class="macro">test_lit!</span>(pfx_defeated10, prefixes, <span class="string">r"\ba"</span>);
+    <span class="macro">test_lit!</span>(pfx_defeated11, prefixes, <span class="string">r"\Ba"</span>);
+    <span class="macro">test_lit!</span>(pfx_defeated12, prefixes, <span class="string">"^*a"</span>);
+    <span class="macro">test_lit!</span>(pfx_defeated13, prefixes, <span class="string">"^+a"</span>);
 
     <span class="macro">test_lit!</span>(
         pfx_crazy1,
         prefixes,
-        <span class="string">r&quot;M[ou]&#39;?am+[ae]r .*([AEae]l[- ])?[GKQ]h?[aeu]+([dtz][dhz]?)+af[iy]&quot;</span>,
-        C(<span class="string">&quot;Mo\\&#39;am&quot;</span>),
-        C(<span class="string">&quot;Mu\\&#39;am&quot;</span>),
-        C(<span class="string">&quot;Moam&quot;</span>),
-        C(<span class="string">&quot;Muam&quot;</span>)
+        <span class="string">r"M[ou]'?am+[ae]r .*([AEae]l[- ])?[GKQ]h?[aeu]+([dtz][dhz]?)+af[iy]"</span>,
+        C(<span class="string">"Mo\\'am"</span>),
+        C(<span class="string">"Mu\\'am"</span>),
+        C(<span class="string">"Moam"</span>),
+        C(<span class="string">"Muam"</span>)
     );
 
     <span class="comment">// ************************************************************************
@@ -2976,43 +2977,43 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
 
     <span class="comment">// These test use a much lower limit than the default so that we can
     // write test cases of reasonable size.
-    </span><span class="macro">test_exhausted!</span>(pfx_exhausted1, prefixes, <span class="string">&quot;[a-z]&quot;</span>);
-    <span class="macro">test_exhausted!</span>(pfx_exhausted2, prefixes, <span class="string">&quot;[a-z]*A&quot;</span>);
-    <span class="macro">test_exhausted!</span>(pfx_exhausted3, prefixes, <span class="string">&quot;A[a-z]Z&quot;</span>, C(<span class="string">&quot;A&quot;</span>));
+    </span><span class="macro">test_exhausted!</span>(pfx_exhausted1, prefixes, <span class="string">"[a-z]"</span>);
+    <span class="macro">test_exhausted!</span>(pfx_exhausted2, prefixes, <span class="string">"[a-z]*A"</span>);
+    <span class="macro">test_exhausted!</span>(pfx_exhausted3, prefixes, <span class="string">"A[a-z]Z"</span>, C(<span class="string">"A"</span>));
     <span class="macro">test_exhausted!</span>(
         pfx_exhausted4,
         prefixes,
-        <span class="string">&quot;(?i-u)foobar&quot;</span>,
-        C(<span class="string">&quot;FO&quot;</span>),
-        C(<span class="string">&quot;fO&quot;</span>),
-        C(<span class="string">&quot;Fo&quot;</span>),
-        C(<span class="string">&quot;fo&quot;</span>)
+        <span class="string">"(?i-u)foobar"</span>,
+        C(<span class="string">"FO"</span>),
+        C(<span class="string">"fO"</span>),
+        C(<span class="string">"Fo"</span>),
+        C(<span class="string">"fo"</span>)
     );
     <span class="macro">test_exhausted!</span>(
         pfx_exhausted5,
         prefixes,
-        <span class="string">&quot;(?:ab){100}&quot;</span>,
-        C(<span class="string">&quot;abababababababababab&quot;</span>)
+        <span class="string">"(?:ab){100}"</span>,
+        C(<span class="string">"abababababababababab"</span>)
     );
     <span class="macro">test_exhausted!</span>(
         pfx_exhausted6,
         prefixes,
-        <span class="string">&quot;(?:(?:ab){100})*cd&quot;</span>,
-        C(<span class="string">&quot;ababababab&quot;</span>),
-        M(<span class="string">&quot;cd&quot;</span>)
+        <span class="string">"(?:(?:ab){100})*cd"</span>,
+        C(<span class="string">"ababababab"</span>),
+        M(<span class="string">"cd"</span>)
     );
     <span class="macro">test_exhausted!</span>(
         pfx_exhausted7,
         prefixes,
-        <span class="string">&quot;z(?:(?:ab){100})*cd&quot;</span>,
-        C(<span class="string">&quot;zababababab&quot;</span>),
-        M(<span class="string">&quot;zcd&quot;</span>)
+        <span class="string">"z(?:(?:ab){100})*cd"</span>,
+        C(<span class="string">"zababababab"</span>),
+        M(<span class="string">"zcd"</span>)
     );
     <span class="macro">test_exhausted!</span>(
         pfx_exhausted8,
         prefixes,
-        <span class="string">&quot;aaaaaaaaaaaaaaaaaaaaz&quot;</span>,
-        C(<span class="string">&quot;aaaaaaaaaaaaaaaaaaaa&quot;</span>)
+        <span class="string">"aaaaaaaaaaaaaaaaaaaaz"</span>,
+        C(<span class="string">"aaaaaaaaaaaaaaaaaaaa"</span>)
     );
 
     <span class="comment">// ************************************************************************
@@ -3020,186 +3021,186 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
     // ************************************************************************
 
     // Elementary tests.
-    </span><span class="macro">test_lit!</span>(sfx_one_lit1, suffixes, <span class="string">&quot;a&quot;</span>, M(<span class="string">&quot;a&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_one_lit2, suffixes, <span class="string">&quot;abc&quot;</span>, M(<span class="string">&quot;abc&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_one_lit3, suffixes, <span class="string">&quot;(?u)☃&quot;</span>, M(<span class="string">&quot;\\xe2\\x98\\x83&quot;</span>));
-    <span class="attr">#[cfg(feature = <span class="string">&quot;unicode-case&quot;</span>)]
-    </span><span class="macro">test_lit!</span>(sfx_one_lit4, suffixes, <span class="string">&quot;(?ui)☃&quot;</span>, M(<span class="string">&quot;\\xe2\\x98\\x83&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_class1, suffixes, <span class="string">&quot;[1-4]&quot;</span>, M(<span class="string">&quot;1&quot;</span>), M(<span class="string">&quot;2&quot;</span>), M(<span class="string">&quot;3&quot;</span>), M(<span class="string">&quot;4&quot;</span>));
+    </span><span class="macro">test_lit!</span>(sfx_one_lit1, suffixes, <span class="string">"a"</span>, M(<span class="string">"a"</span>));
+    <span class="macro">test_lit!</span>(sfx_one_lit2, suffixes, <span class="string">"abc"</span>, M(<span class="string">"abc"</span>));
+    <span class="macro">test_lit!</span>(sfx_one_lit3, suffixes, <span class="string">"(?u)☃"</span>, M(<span class="string">"\\xe2\\x98\\x83"</span>));
+    <span class="attr">#[cfg(feature = <span class="string">"unicode-case"</span>)]
+    </span><span class="macro">test_lit!</span>(sfx_one_lit4, suffixes, <span class="string">"(?ui)☃"</span>, M(<span class="string">"\\xe2\\x98\\x83"</span>));
+    <span class="macro">test_lit!</span>(sfx_class1, suffixes, <span class="string">"[1-4]"</span>, M(<span class="string">"1"</span>), M(<span class="string">"2"</span>), M(<span class="string">"3"</span>), M(<span class="string">"4"</span>));
     <span class="macro">test_lit!</span>(
         sfx_class2,
         suffixes,
-        <span class="string">&quot;(?u)[☃Ⅰ]&quot;</span>,
-        M(<span class="string">&quot;\\xe2\\x85\\xa0&quot;</span>),
-        M(<span class="string">&quot;\\xe2\\x98\\x83&quot;</span>)
+        <span class="string">"(?u)[☃Ⅰ]"</span>,
+        M(<span class="string">"\\xe2\\x85\\xa0"</span>),
+        M(<span class="string">"\\xe2\\x98\\x83"</span>)
     );
-    <span class="attr">#[cfg(feature = <span class="string">&quot;unicode-case&quot;</span>)]
+    <span class="attr">#[cfg(feature = <span class="string">"unicode-case"</span>)]
     </span><span class="macro">test_lit!</span>(
         sfx_class3,
         suffixes,
-        <span class="string">&quot;(?ui)[☃Ⅰ]&quot;</span>,
-        M(<span class="string">&quot;\\xe2\\x85\\xa0&quot;</span>),
-        M(<span class="string">&quot;\\xe2\\x85\\xb0&quot;</span>),
-        M(<span class="string">&quot;\\xe2\\x98\\x83&quot;</span>)
+        <span class="string">"(?ui)[☃Ⅰ]"</span>,
+        M(<span class="string">"\\xe2\\x85\\xa0"</span>),
+        M(<span class="string">"\\xe2\\x85\\xb0"</span>),
+        M(<span class="string">"\\xe2\\x98\\x83"</span>)
     );
-    <span class="macro">test_lit!</span>(sfx_one_lit_casei1, suffixes, <span class="string">&quot;(?i-u)a&quot;</span>, M(<span class="string">&quot;A&quot;</span>), M(<span class="string">&quot;a&quot;</span>));
+    <span class="macro">test_lit!</span>(sfx_one_lit_casei1, suffixes, <span class="string">"(?i-u)a"</span>, M(<span class="string">"A"</span>), M(<span class="string">"a"</span>));
     <span class="macro">test_lit!</span>(
         sfx_one_lit_casei2,
         suffixes,
-        <span class="string">&quot;(?i-u)abc&quot;</span>,
-        M(<span class="string">&quot;ABC&quot;</span>),
-        M(<span class="string">&quot;ABc&quot;</span>),
-        M(<span class="string">&quot;AbC&quot;</span>),
-        M(<span class="string">&quot;Abc&quot;</span>),
-        M(<span class="string">&quot;aBC&quot;</span>),
-        M(<span class="string">&quot;aBc&quot;</span>),
-        M(<span class="string">&quot;abC&quot;</span>),
-        M(<span class="string">&quot;abc&quot;</span>)
+        <span class="string">"(?i-u)abc"</span>,
+        M(<span class="string">"ABC"</span>),
+        M(<span class="string">"ABc"</span>),
+        M(<span class="string">"AbC"</span>),
+        M(<span class="string">"Abc"</span>),
+        M(<span class="string">"aBC"</span>),
+        M(<span class="string">"aBc"</span>),
+        M(<span class="string">"abC"</span>),
+        M(<span class="string">"abc"</span>)
     );
-    <span class="macro">test_lit!</span>(sfx_group1, suffixes, <span class="string">&quot;(a)&quot;</span>, M(<span class="string">&quot;a&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_rep_zero_or_one1, suffixes, <span class="string">&quot;a?&quot;</span>);
-    <span class="macro">test_lit!</span>(sfx_rep_zero_or_one2, suffixes, <span class="string">&quot;(?:abc)?&quot;</span>);
-    <span class="macro">test_lit!</span>(sfx_rep_zero_or_more1, suffixes, <span class="string">&quot;a*&quot;</span>);
-    <span class="macro">test_lit!</span>(sfx_rep_zero_or_more2, suffixes, <span class="string">&quot;(?:abc)*&quot;</span>);
-    <span class="macro">test_lit!</span>(sfx_rep_one_or_more1, suffixes, <span class="string">&quot;a+&quot;</span>, C(<span class="string">&quot;a&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_rep_one_or_more2, suffixes, <span class="string">&quot;(?:abc)+&quot;</span>, C(<span class="string">&quot;abc&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_rep_nested_one_or_more, suffixes, <span class="string">&quot;(?:a+)+&quot;</span>, C(<span class="string">&quot;a&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_rep_range1, suffixes, <span class="string">&quot;a{0}&quot;</span>);
-    <span class="macro">test_lit!</span>(sfx_rep_range2, suffixes, <span class="string">&quot;a{0,}&quot;</span>);
-    <span class="macro">test_lit!</span>(sfx_rep_range3, suffixes, <span class="string">&quot;a{0,1}&quot;</span>);
-    <span class="macro">test_lit!</span>(sfx_rep_range4, suffixes, <span class="string">&quot;a{1}&quot;</span>, M(<span class="string">&quot;a&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_rep_range5, suffixes, <span class="string">&quot;a{2}&quot;</span>, M(<span class="string">&quot;aa&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_rep_range6, suffixes, <span class="string">&quot;a{1,2}&quot;</span>, C(<span class="string">&quot;a&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_rep_range7, suffixes, <span class="string">&quot;a{2,3}&quot;</span>, C(<span class="string">&quot;aa&quot;</span>));
+    <span class="macro">test_lit!</span>(sfx_group1, suffixes, <span class="string">"(a)"</span>, M(<span class="string">"a"</span>));
+    <span class="macro">test_lit!</span>(sfx_rep_zero_or_one1, suffixes, <span class="string">"a?"</span>);
+    <span class="macro">test_lit!</span>(sfx_rep_zero_or_one2, suffixes, <span class="string">"(?:abc)?"</span>);
+    <span class="macro">test_lit!</span>(sfx_rep_zero_or_more1, suffixes, <span class="string">"a*"</span>);
+    <span class="macro">test_lit!</span>(sfx_rep_zero_or_more2, suffixes, <span class="string">"(?:abc)*"</span>);
+    <span class="macro">test_lit!</span>(sfx_rep_one_or_more1, suffixes, <span class="string">"a+"</span>, C(<span class="string">"a"</span>));
+    <span class="macro">test_lit!</span>(sfx_rep_one_or_more2, suffixes, <span class="string">"(?:abc)+"</span>, C(<span class="string">"abc"</span>));
+    <span class="macro">test_lit!</span>(sfx_rep_nested_one_or_more, suffixes, <span class="string">"(?:a+)+"</span>, C(<span class="string">"a"</span>));
+    <span class="macro">test_lit!</span>(sfx_rep_range1, suffixes, <span class="string">"a{0}"</span>);
+    <span class="macro">test_lit!</span>(sfx_rep_range2, suffixes, <span class="string">"a{0,}"</span>);
+    <span class="macro">test_lit!</span>(sfx_rep_range3, suffixes, <span class="string">"a{0,1}"</span>);
+    <span class="macro">test_lit!</span>(sfx_rep_range4, suffixes, <span class="string">"a{1}"</span>, M(<span class="string">"a"</span>));
+    <span class="macro">test_lit!</span>(sfx_rep_range5, suffixes, <span class="string">"a{2}"</span>, M(<span class="string">"aa"</span>));
+    <span class="macro">test_lit!</span>(sfx_rep_range6, suffixes, <span class="string">"a{1,2}"</span>, C(<span class="string">"a"</span>));
+    <span class="macro">test_lit!</span>(sfx_rep_range7, suffixes, <span class="string">"a{2,3}"</span>, C(<span class="string">"aa"</span>));
 
     <span class="comment">// Test regexes with concatenations.
-    </span><span class="macro">test_lit!</span>(sfx_cat1, suffixes, <span class="string">&quot;(?:a)(?:b)&quot;</span>, M(<span class="string">&quot;ab&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_cat2, suffixes, <span class="string">&quot;[ab]z&quot;</span>, M(<span class="string">&quot;az&quot;</span>), M(<span class="string">&quot;bz&quot;</span>));
+    </span><span class="macro">test_lit!</span>(sfx_cat1, suffixes, <span class="string">"(?:a)(?:b)"</span>, M(<span class="string">"ab"</span>));
+    <span class="macro">test_lit!</span>(sfx_cat2, suffixes, <span class="string">"[ab]z"</span>, M(<span class="string">"az"</span>), M(<span class="string">"bz"</span>));
     <span class="macro">test_lit!</span>(
         sfx_cat3,
         suffixes,
-        <span class="string">&quot;(?i-u)[ab]z&quot;</span>,
-        M(<span class="string">&quot;AZ&quot;</span>),
-        M(<span class="string">&quot;Az&quot;</span>),
-        M(<span class="string">&quot;BZ&quot;</span>),
-        M(<span class="string">&quot;Bz&quot;</span>),
-        M(<span class="string">&quot;aZ&quot;</span>),
-        M(<span class="string">&quot;az&quot;</span>),
-        M(<span class="string">&quot;bZ&quot;</span>),
-        M(<span class="string">&quot;bz&quot;</span>)
+        <span class="string">"(?i-u)[ab]z"</span>,
+        M(<span class="string">"AZ"</span>),
+        M(<span class="string">"Az"</span>),
+        M(<span class="string">"BZ"</span>),
+        M(<span class="string">"Bz"</span>),
+        M(<span class="string">"aZ"</span>),
+        M(<span class="string">"az"</span>),
+        M(<span class="string">"bZ"</span>),
+        M(<span class="string">"bz"</span>)
     );
     <span class="macro">test_lit!</span>(
         sfx_cat4,
         suffixes,
-        <span class="string">&quot;[ab][yz]&quot;</span>,
-        M(<span class="string">&quot;ay&quot;</span>),
-        M(<span class="string">&quot;az&quot;</span>),
-        M(<span class="string">&quot;by&quot;</span>),
-        M(<span class="string">&quot;bz&quot;</span>)
+        <span class="string">"[ab][yz]"</span>,
+        M(<span class="string">"ay"</span>),
+        M(<span class="string">"az"</span>),
+        M(<span class="string">"by"</span>),
+        M(<span class="string">"bz"</span>)
     );
-    <span class="macro">test_lit!</span>(sfx_cat5, suffixes, <span class="string">&quot;a*b&quot;</span>, C(<span class="string">&quot;ab&quot;</span>), M(<span class="string">&quot;b&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_cat6, suffixes, <span class="string">&quot;a*b*c&quot;</span>, C(<span class="string">&quot;bc&quot;</span>), C(<span class="string">&quot;ac&quot;</span>), M(<span class="string">&quot;c&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_cat7, suffixes, <span class="string">&quot;a*b*c+&quot;</span>, C(<span class="string">&quot;c&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_cat8, suffixes, <span class="string">&quot;a*b+c&quot;</span>, C(<span class="string">&quot;bc&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_cat9, suffixes, <span class="string">&quot;a*b+c*&quot;</span>, C(<span class="string">&quot;c&quot;</span>), C(<span class="string">&quot;b&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_cat10, suffixes, <span class="string">&quot;ab*&quot;</span>, C(<span class="string">&quot;b&quot;</span>), M(<span class="string">&quot;a&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_cat11, suffixes, <span class="string">&quot;ab*c&quot;</span>, C(<span class="string">&quot;bc&quot;</span>), M(<span class="string">&quot;ac&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_cat12, suffixes, <span class="string">&quot;ab+&quot;</span>, C(<span class="string">&quot;b&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_cat13, suffixes, <span class="string">&quot;ab+c&quot;</span>, C(<span class="string">&quot;bc&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_cat14, suffixes, <span class="string">&quot;a^&quot;</span>);
-    <span class="macro">test_lit!</span>(sfx_cat15, suffixes, <span class="string">&quot;$a&quot;</span>, C(<span class="string">&quot;a&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_cat16, suffixes, <span class="string">r&quot;ab*c&quot;</span>, C(<span class="string">&quot;bc&quot;</span>), M(<span class="string">&quot;ac&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_cat17, suffixes, <span class="string">r&quot;ab+c&quot;</span>, C(<span class="string">&quot;bc&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_cat18, suffixes, <span class="string">r&quot;z*azb&quot;</span>, C(<span class="string">&quot;zazb&quot;</span>), M(<span class="string">&quot;azb&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_cat19, suffixes, <span class="string">&quot;a.z&quot;</span>, C(<span class="string">&quot;z&quot;</span>));
+    <span class="macro">test_lit!</span>(sfx_cat5, suffixes, <span class="string">"a*b"</span>, C(<span class="string">"ab"</span>), M(<span class="string">"b"</span>));
+    <span class="macro">test_lit!</span>(sfx_cat6, suffixes, <span class="string">"a*b*c"</span>, C(<span class="string">"bc"</span>), C(<span class="string">"ac"</span>), M(<span class="string">"c"</span>));
+    <span class="macro">test_lit!</span>(sfx_cat7, suffixes, <span class="string">"a*b*c+"</span>, C(<span class="string">"c"</span>));
+    <span class="macro">test_lit!</span>(sfx_cat8, suffixes, <span class="string">"a*b+c"</span>, C(<span class="string">"bc"</span>));
+    <span class="macro">test_lit!</span>(sfx_cat9, suffixes, <span class="string">"a*b+c*"</span>, C(<span class="string">"c"</span>), C(<span class="string">"b"</span>));
+    <span class="macro">test_lit!</span>(sfx_cat10, suffixes, <span class="string">"ab*"</span>, C(<span class="string">"b"</span>), M(<span class="string">"a"</span>));
+    <span class="macro">test_lit!</span>(sfx_cat11, suffixes, <span class="string">"ab*c"</span>, C(<span class="string">"bc"</span>), M(<span class="string">"ac"</span>));
+    <span class="macro">test_lit!</span>(sfx_cat12, suffixes, <span class="string">"ab+"</span>, C(<span class="string">"b"</span>));
+    <span class="macro">test_lit!</span>(sfx_cat13, suffixes, <span class="string">"ab+c"</span>, C(<span class="string">"bc"</span>));
+    <span class="macro">test_lit!</span>(sfx_cat14, suffixes, <span class="string">"a^"</span>);
+    <span class="macro">test_lit!</span>(sfx_cat15, suffixes, <span class="string">"$a"</span>, C(<span class="string">"a"</span>));
+    <span class="macro">test_lit!</span>(sfx_cat16, suffixes, <span class="string">r"ab*c"</span>, C(<span class="string">"bc"</span>), M(<span class="string">"ac"</span>));
+    <span class="macro">test_lit!</span>(sfx_cat17, suffixes, <span class="string">r"ab+c"</span>, C(<span class="string">"bc"</span>));
+    <span class="macro">test_lit!</span>(sfx_cat18, suffixes, <span class="string">r"z*azb"</span>, C(<span class="string">"zazb"</span>), M(<span class="string">"azb"</span>));
+    <span class="macro">test_lit!</span>(sfx_cat19, suffixes, <span class="string">"a.z"</span>, C(<span class="string">"z"</span>));
 
     <span class="comment">// Test regexes with alternations.
-    </span><span class="macro">test_lit!</span>(sfx_alt1, suffixes, <span class="string">&quot;a|b&quot;</span>, M(<span class="string">&quot;a&quot;</span>), M(<span class="string">&quot;b&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_alt2, suffixes, <span class="string">&quot;[1-3]|b&quot;</span>, M(<span class="string">&quot;1&quot;</span>), M(<span class="string">&quot;2&quot;</span>), M(<span class="string">&quot;3&quot;</span>), M(<span class="string">&quot;b&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_alt3, suffixes, <span class="string">&quot;y(?:a|b)z&quot;</span>, M(<span class="string">&quot;yaz&quot;</span>), M(<span class="string">&quot;ybz&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_alt4, suffixes, <span class="string">&quot;a|b*&quot;</span>);
-    <span class="macro">test_lit!</span>(sfx_alt5, suffixes, <span class="string">&quot;a|b+&quot;</span>, M(<span class="string">&quot;a&quot;</span>), C(<span class="string">&quot;b&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_alt6, suffixes, <span class="string">&quot;a|(?:b|c*)&quot;</span>);
+    </span><span class="macro">test_lit!</span>(sfx_alt1, suffixes, <span class="string">"a|b"</span>, M(<span class="string">"a"</span>), M(<span class="string">"b"</span>));
+    <span class="macro">test_lit!</span>(sfx_alt2, suffixes, <span class="string">"[1-3]|b"</span>, M(<span class="string">"1"</span>), M(<span class="string">"2"</span>), M(<span class="string">"3"</span>), M(<span class="string">"b"</span>));
+    <span class="macro">test_lit!</span>(sfx_alt3, suffixes, <span class="string">"y(?:a|b)z"</span>, M(<span class="string">"yaz"</span>), M(<span class="string">"ybz"</span>));
+    <span class="macro">test_lit!</span>(sfx_alt4, suffixes, <span class="string">"a|b*"</span>);
+    <span class="macro">test_lit!</span>(sfx_alt5, suffixes, <span class="string">"a|b+"</span>, M(<span class="string">"a"</span>), C(<span class="string">"b"</span>));
+    <span class="macro">test_lit!</span>(sfx_alt6, suffixes, <span class="string">"a|(?:b|c*)"</span>);
     <span class="macro">test_lit!</span>(
         sfx_alt7,
         suffixes,
-        <span class="string">&quot;(a|b)*c|(a|ab)*c&quot;</span>,
-        C(<span class="string">&quot;ac&quot;</span>),
-        C(<span class="string">&quot;bc&quot;</span>),
-        M(<span class="string">&quot;c&quot;</span>),
-        C(<span class="string">&quot;ac&quot;</span>),
-        C(<span class="string">&quot;abc&quot;</span>),
-        M(<span class="string">&quot;c&quot;</span>)
+        <span class="string">"(a|b)*c|(a|ab)*c"</span>,
+        C(<span class="string">"ac"</span>),
+        C(<span class="string">"bc"</span>),
+        M(<span class="string">"c"</span>),
+        C(<span class="string">"ac"</span>),
+        C(<span class="string">"abc"</span>),
+        M(<span class="string">"c"</span>)
     );
-    <span class="macro">test_lit!</span>(sfx_alt8, suffixes, <span class="string">&quot;a*b|c&quot;</span>, C(<span class="string">&quot;ab&quot;</span>), M(<span class="string">&quot;b&quot;</span>), M(<span class="string">&quot;c&quot;</span>));
+    <span class="macro">test_lit!</span>(sfx_alt8, suffixes, <span class="string">"a*b|c"</span>, C(<span class="string">"ab"</span>), M(<span class="string">"b"</span>), M(<span class="string">"c"</span>));
 
     <span class="comment">// Test regexes with empty assertions.
-    </span><span class="macro">test_lit!</span>(sfx_empty1, suffixes, <span class="string">&quot;a$&quot;</span>, M(<span class="string">&quot;a&quot;</span>));
-    <span class="macro">test_lit!</span>(sfx_empty2, suffixes, <span class="string">&quot;${2}a&quot;</span>, C(<span class="string">&quot;a&quot;</span>));
+    </span><span class="macro">test_lit!</span>(sfx_empty1, suffixes, <span class="string">"a$"</span>, M(<span class="string">"a"</span>));
+    <span class="macro">test_lit!</span>(sfx_empty2, suffixes, <span class="string">"${2}a"</span>, C(<span class="string">"a"</span>));
 
     <span class="comment">// Make sure some curious regexes have no suffixes.
-    </span><span class="macro">test_lit!</span>(sfx_nothing1, suffixes, <span class="string">&quot;.&quot;</span>);
-    <span class="macro">test_lit!</span>(sfx_nothing2, suffixes, <span class="string">&quot;(?s).&quot;</span>);
-    <span class="macro">test_lit!</span>(sfx_nothing3, suffixes, <span class="string">&quot;^&quot;</span>);
-    <span class="macro">test_lit!</span>(sfx_nothing4, suffixes, <span class="string">&quot;$&quot;</span>);
-    <span class="macro">test_lit!</span>(sfx_nothing6, suffixes, <span class="string">&quot;(?m)$&quot;</span>);
-    <span class="macro">test_lit!</span>(sfx_nothing7, suffixes, <span class="string">r&quot;\b&quot;</span>);
-    <span class="macro">test_lit!</span>(sfx_nothing8, suffixes, <span class="string">r&quot;\B&quot;</span>);
+    </span><span class="macro">test_lit!</span>(sfx_nothing1, suffixes, <span class="string">"."</span>);
+    <span class="macro">test_lit!</span>(sfx_nothing2, suffixes, <span class="string">"(?s)."</span>);
+    <span class="macro">test_lit!</span>(sfx_nothing3, suffixes, <span class="string">"^"</span>);
+    <span class="macro">test_lit!</span>(sfx_nothing4, suffixes, <span class="string">"$"</span>);
+    <span class="macro">test_lit!</span>(sfx_nothing6, suffixes, <span class="string">"(?m)$"</span>);
+    <span class="macro">test_lit!</span>(sfx_nothing7, suffixes, <span class="string">r"\b"</span>);
+    <span class="macro">test_lit!</span>(sfx_nothing8, suffixes, <span class="string">r"\B"</span>);
 
     <span class="comment">// Test a few regexes that defeat any suffix literal detection.
-    </span><span class="macro">test_lit!</span>(sfx_defeated1, suffixes, <span class="string">&quot;a.&quot;</span>);
-    <span class="macro">test_lit!</span>(sfx_defeated2, suffixes, <span class="string">&quot;(?s)a.&quot;</span>);
-    <span class="macro">test_lit!</span>(sfx_defeated3, suffixes, <span class="string">&quot;a*b*c*&quot;</span>);
-    <span class="macro">test_lit!</span>(sfx_defeated4, suffixes, <span class="string">&quot;a|.&quot;</span>);
-    <span class="macro">test_lit!</span>(sfx_defeated5, suffixes, <span class="string">&quot;.|a&quot;</span>);
-    <span class="macro">test_lit!</span>(sfx_defeated6, suffixes, <span class="string">&quot;a|^&quot;</span>);
-    <span class="macro">test_lit!</span>(sfx_defeated7, suffixes, <span class="string">&quot;(?:a(?:b)(?:c)).&quot;</span>);
-    <span class="macro">test_lit!</span>(sfx_defeated8, suffixes, <span class="string">&quot;a^&quot;</span>);
-    <span class="macro">test_lit!</span>(sfx_defeated9, suffixes, <span class="string">&quot;(?m)a$&quot;</span>);
-    <span class="macro">test_lit!</span>(sfx_defeated10, suffixes, <span class="string">r&quot;a\b&quot;</span>);
-    <span class="macro">test_lit!</span>(sfx_defeated11, suffixes, <span class="string">r&quot;a\B&quot;</span>);
-    <span class="macro">test_lit!</span>(sfx_defeated12, suffixes, <span class="string">&quot;a^*&quot;</span>);
-    <span class="macro">test_lit!</span>(sfx_defeated13, suffixes, <span class="string">&quot;a^+&quot;</span>);
+    </span><span class="macro">test_lit!</span>(sfx_defeated1, suffixes, <span class="string">"a."</span>);
+    <span class="macro">test_lit!</span>(sfx_defeated2, suffixes, <span class="string">"(?s)a."</span>);
+    <span class="macro">test_lit!</span>(sfx_defeated3, suffixes, <span class="string">"a*b*c*"</span>);
+    <span class="macro">test_lit!</span>(sfx_defeated4, suffixes, <span class="string">"a|."</span>);
+    <span class="macro">test_lit!</span>(sfx_defeated5, suffixes, <span class="string">".|a"</span>);
+    <span class="macro">test_lit!</span>(sfx_defeated6, suffixes, <span class="string">"a|^"</span>);
+    <span class="macro">test_lit!</span>(sfx_defeated7, suffixes, <span class="string">"(?:a(?:b)(?:c))."</span>);
+    <span class="macro">test_lit!</span>(sfx_defeated8, suffixes, <span class="string">"a^"</span>);
+    <span class="macro">test_lit!</span>(sfx_defeated9, suffixes, <span class="string">"(?m)a$"</span>);
+    <span class="macro">test_lit!</span>(sfx_defeated10, suffixes, <span class="string">r"a\b"</span>);
+    <span class="macro">test_lit!</span>(sfx_defeated11, suffixes, <span class="string">r"a\B"</span>);
+    <span class="macro">test_lit!</span>(sfx_defeated12, suffixes, <span class="string">"a^*"</span>);
+    <span class="macro">test_lit!</span>(sfx_defeated13, suffixes, <span class="string">"a^+"</span>);
 
     <span class="comment">// These test use a much lower limit than the default so that we can
     // write test cases of reasonable size.
-    </span><span class="macro">test_exhausted!</span>(sfx_exhausted1, suffixes, <span class="string">&quot;[a-z]&quot;</span>);
-    <span class="macro">test_exhausted!</span>(sfx_exhausted2, suffixes, <span class="string">&quot;A[a-z]*&quot;</span>);
-    <span class="macro">test_exhausted!</span>(sfx_exhausted3, suffixes, <span class="string">&quot;A[a-z]Z&quot;</span>, C(<span class="string">&quot;Z&quot;</span>));
+    </span><span class="macro">test_exhausted!</span>(sfx_exhausted1, suffixes, <span class="string">"[a-z]"</span>);
+    <span class="macro">test_exhausted!</span>(sfx_exhausted2, suffixes, <span class="string">"A[a-z]*"</span>);
+    <span class="macro">test_exhausted!</span>(sfx_exhausted3, suffixes, <span class="string">"A[a-z]Z"</span>, C(<span class="string">"Z"</span>));
     <span class="macro">test_exhausted!</span>(
         sfx_exhausted4,
         suffixes,
-        <span class="string">&quot;(?i-u)foobar&quot;</span>,
-        C(<span class="string">&quot;AR&quot;</span>),
-        C(<span class="string">&quot;Ar&quot;</span>),
-        C(<span class="string">&quot;aR&quot;</span>),
-        C(<span class="string">&quot;ar&quot;</span>)
+        <span class="string">"(?i-u)foobar"</span>,
+        C(<span class="string">"AR"</span>),
+        C(<span class="string">"Ar"</span>),
+        C(<span class="string">"aR"</span>),
+        C(<span class="string">"ar"</span>)
     );
     <span class="macro">test_exhausted!</span>(
         sfx_exhausted5,
         suffixes,
-        <span class="string">&quot;(?:ab){100}&quot;</span>,
-        C(<span class="string">&quot;abababababababababab&quot;</span>)
+        <span class="string">"(?:ab){100}"</span>,
+        C(<span class="string">"abababababababababab"</span>)
     );
     <span class="macro">test_exhausted!</span>(
         sfx_exhausted6,
         suffixes,
-        <span class="string">&quot;cd(?:(?:ab){100})*&quot;</span>,
-        C(<span class="string">&quot;ababababab&quot;</span>),
-        M(<span class="string">&quot;cd&quot;</span>)
+        <span class="string">"cd(?:(?:ab){100})*"</span>,
+        C(<span class="string">"ababababab"</span>),
+        M(<span class="string">"cd"</span>)
     );
     <span class="macro">test_exhausted!</span>(
         sfx_exhausted7,
         suffixes,
-        <span class="string">&quot;cd(?:(?:ab){100})*z&quot;</span>,
-        C(<span class="string">&quot;abababababz&quot;</span>),
-        M(<span class="string">&quot;cdz&quot;</span>)
+        <span class="string">"cd(?:(?:ab){100})*z"</span>,
+        C(<span class="string">"abababababz"</span>),
+        M(<span class="string">"cdz"</span>)
     );
     <span class="macro">test_exhausted!</span>(
         sfx_exhausted8,
         suffixes,
-        <span class="string">&quot;zaaaaaaaaaaaaaaaaaaaa&quot;</span>,
-        C(<span class="string">&quot;aaaaaaaaaaaaaaaaaaaa&quot;</span>)
+        <span class="string">"zaaaaaaaaaaaaaaaaaaaa"</span>,
+        C(<span class="string">"aaaaaaaaaaaaaaaaaaaa"</span>)
     );
 
     <span class="comment">// ************************************************************************
@@ -3224,52 +3225,52 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
         };
     }
 
-    <span class="macro">test_unamb!</span>(unambiguous1, <span class="macro">vec!</span>[M(<span class="string">&quot;z&quot;</span>), M(<span class="string">&quot;azb&quot;</span>)], <span class="macro">vec!</span>[C(<span class="string">&quot;a&quot;</span>), C(<span class="string">&quot;z&quot;</span>)]);
+    <span class="macro">test_unamb!</span>(unambiguous1, <span class="macro">vec!</span>[M(<span class="string">"z"</span>), M(<span class="string">"azb"</span>)], <span class="macro">vec!</span>[C(<span class="string">"a"</span>), C(<span class="string">"z"</span>)]);
     <span class="macro">test_unamb!</span>(
         unambiguous2,
-        <span class="macro">vec!</span>[M(<span class="string">&quot;zaaaaaa&quot;</span>), M(<span class="string">&quot;aa&quot;</span>)],
-        <span class="macro">vec!</span>[C(<span class="string">&quot;aa&quot;</span>), C(<span class="string">&quot;z&quot;</span>)]
+        <span class="macro">vec!</span>[M(<span class="string">"zaaaaaa"</span>), M(<span class="string">"aa"</span>)],
+        <span class="macro">vec!</span>[C(<span class="string">"aa"</span>), C(<span class="string">"z"</span>)]
     );
     <span class="macro">test_unamb!</span>(
         unambiguous3,
-        <span class="macro">vec!</span>[M(<span class="string">&quot;Sherlock&quot;</span>), M(<span class="string">&quot;Watson&quot;</span>)],
-        <span class="macro">vec!</span>[M(<span class="string">&quot;Sherlock&quot;</span>), M(<span class="string">&quot;Watson&quot;</span>)]
+        <span class="macro">vec!</span>[M(<span class="string">"Sherlock"</span>), M(<span class="string">"Watson"</span>)],
+        <span class="macro">vec!</span>[M(<span class="string">"Sherlock"</span>), M(<span class="string">"Watson"</span>)]
     );
-    <span class="macro">test_unamb!</span>(unambiguous4, <span class="macro">vec!</span>[M(<span class="string">&quot;abc&quot;</span>), M(<span class="string">&quot;bc&quot;</span>)], <span class="macro">vec!</span>[C(<span class="string">&quot;a&quot;</span>), C(<span class="string">&quot;bc&quot;</span>)]);
-    <span class="macro">test_unamb!</span>(unambiguous5, <span class="macro">vec!</span>[M(<span class="string">&quot;bc&quot;</span>), M(<span class="string">&quot;abc&quot;</span>)], <span class="macro">vec!</span>[C(<span class="string">&quot;a&quot;</span>), C(<span class="string">&quot;bc&quot;</span>)]);
-    <span class="macro">test_unamb!</span>(unambiguous6, <span class="macro">vec!</span>[M(<span class="string">&quot;a&quot;</span>), M(<span class="string">&quot;aa&quot;</span>)], <span class="macro">vec!</span>[C(<span class="string">&quot;a&quot;</span>)]);
-    <span class="macro">test_unamb!</span>(unambiguous7, <span class="macro">vec!</span>[M(<span class="string">&quot;aa&quot;</span>), M(<span class="string">&quot;a&quot;</span>)], <span class="macro">vec!</span>[C(<span class="string">&quot;a&quot;</span>)]);
-    <span class="macro">test_unamb!</span>(unambiguous8, <span class="macro">vec!</span>[M(<span class="string">&quot;ab&quot;</span>), M(<span class="string">&quot;a&quot;</span>)], <span class="macro">vec!</span>[C(<span class="string">&quot;a&quot;</span>)]);
+    <span class="macro">test_unamb!</span>(unambiguous4, <span class="macro">vec!</span>[M(<span class="string">"abc"</span>), M(<span class="string">"bc"</span>)], <span class="macro">vec!</span>[C(<span class="string">"a"</span>), C(<span class="string">"bc"</span>)]);
+    <span class="macro">test_unamb!</span>(unambiguous5, <span class="macro">vec!</span>[M(<span class="string">"bc"</span>), M(<span class="string">"abc"</span>)], <span class="macro">vec!</span>[C(<span class="string">"a"</span>), C(<span class="string">"bc"</span>)]);
+    <span class="macro">test_unamb!</span>(unambiguous6, <span class="macro">vec!</span>[M(<span class="string">"a"</span>), M(<span class="string">"aa"</span>)], <span class="macro">vec!</span>[C(<span class="string">"a"</span>)]);
+    <span class="macro">test_unamb!</span>(unambiguous7, <span class="macro">vec!</span>[M(<span class="string">"aa"</span>), M(<span class="string">"a"</span>)], <span class="macro">vec!</span>[C(<span class="string">"a"</span>)]);
+    <span class="macro">test_unamb!</span>(unambiguous8, <span class="macro">vec!</span>[M(<span class="string">"ab"</span>), M(<span class="string">"a"</span>)], <span class="macro">vec!</span>[C(<span class="string">"a"</span>)]);
     <span class="macro">test_unamb!</span>(
         unambiguous9,
-        <span class="macro">vec!</span>[M(<span class="string">&quot;ac&quot;</span>), M(<span class="string">&quot;bc&quot;</span>), M(<span class="string">&quot;c&quot;</span>), M(<span class="string">&quot;ac&quot;</span>), M(<span class="string">&quot;abc&quot;</span>), M(<span class="string">&quot;c&quot;</span>)],
-        <span class="macro">vec!</span>[C(<span class="string">&quot;a&quot;</span>), C(<span class="string">&quot;b&quot;</span>), C(<span class="string">&quot;c&quot;</span>)]
+        <span class="macro">vec!</span>[M(<span class="string">"ac"</span>), M(<span class="string">"bc"</span>), M(<span class="string">"c"</span>), M(<span class="string">"ac"</span>), M(<span class="string">"abc"</span>), M(<span class="string">"c"</span>)],
+        <span class="macro">vec!</span>[C(<span class="string">"a"</span>), C(<span class="string">"b"</span>), C(<span class="string">"c"</span>)]
     );
     <span class="macro">test_unamb!</span>(
         unambiguous10,
-        <span class="macro">vec!</span>[M(<span class="string">&quot;Mo&#39;&quot;</span>), M(<span class="string">&quot;Mu&#39;&quot;</span>), M(<span class="string">&quot;Mo&quot;</span>), M(<span class="string">&quot;Mu&quot;</span>)],
-        <span class="macro">vec!</span>[C(<span class="string">&quot;Mo&quot;</span>), C(<span class="string">&quot;Mu&quot;</span>)]
+        <span class="macro">vec!</span>[M(<span class="string">"Mo'"</span>), M(<span class="string">"Mu'"</span>), M(<span class="string">"Mo"</span>), M(<span class="string">"Mu"</span>)],
+        <span class="macro">vec!</span>[C(<span class="string">"Mo"</span>), C(<span class="string">"Mu"</span>)]
     );
     <span class="macro">test_unamb!</span>(
         unambiguous11,
-        <span class="macro">vec!</span>[M(<span class="string">&quot;zazb&quot;</span>), M(<span class="string">&quot;azb&quot;</span>)],
-        <span class="macro">vec!</span>[C(<span class="string">&quot;a&quot;</span>), C(<span class="string">&quot;z&quot;</span>)]
+        <span class="macro">vec!</span>[M(<span class="string">"zazb"</span>), M(<span class="string">"azb"</span>)],
+        <span class="macro">vec!</span>[C(<span class="string">"a"</span>), C(<span class="string">"z"</span>)]
     );
-    <span class="macro">test_unamb!</span>(unambiguous12, <span class="macro">vec!</span>[M(<span class="string">&quot;foo&quot;</span>), C(<span class="string">&quot;foo&quot;</span>)], <span class="macro">vec!</span>[C(<span class="string">&quot;foo&quot;</span>)]);
+    <span class="macro">test_unamb!</span>(unambiguous12, <span class="macro">vec!</span>[M(<span class="string">"foo"</span>), C(<span class="string">"foo"</span>)], <span class="macro">vec!</span>[C(<span class="string">"foo"</span>)]);
     <span class="macro">test_unamb!</span>(
         unambiguous13,
-        <span class="macro">vec!</span>[M(<span class="string">&quot;ABCX&quot;</span>), M(<span class="string">&quot;CDAX&quot;</span>), M(<span class="string">&quot;BCX&quot;</span>)],
-        <span class="macro">vec!</span>[C(<span class="string">&quot;A&quot;</span>), C(<span class="string">&quot;BCX&quot;</span>), C(<span class="string">&quot;CD&quot;</span>)]
+        <span class="macro">vec!</span>[M(<span class="string">"ABCX"</span>), M(<span class="string">"CDAX"</span>), M(<span class="string">"BCX"</span>)],
+        <span class="macro">vec!</span>[C(<span class="string">"A"</span>), C(<span class="string">"BCX"</span>), C(<span class="string">"CD"</span>)]
     );
     <span class="macro">test_unamb!</span>(
         unambiguous14,
-        <span class="macro">vec!</span>[M(<span class="string">&quot;IMGX&quot;</span>), M(<span class="string">&quot;MVIX&quot;</span>), M(<span class="string">&quot;MGX&quot;</span>), M(<span class="string">&quot;DSX&quot;</span>)],
-        <span class="macro">vec!</span>[M(<span class="string">&quot;DSX&quot;</span>), C(<span class="string">&quot;I&quot;</span>), C(<span class="string">&quot;MGX&quot;</span>), C(<span class="string">&quot;MV&quot;</span>)]
+        <span class="macro">vec!</span>[M(<span class="string">"IMGX"</span>), M(<span class="string">"MVIX"</span>), M(<span class="string">"MGX"</span>), M(<span class="string">"DSX"</span>)],
+        <span class="macro">vec!</span>[M(<span class="string">"DSX"</span>), C(<span class="string">"I"</span>), C(<span class="string">"MGX"</span>), C(<span class="string">"MV"</span>)]
     );
     <span class="macro">test_unamb!</span>(
         unambiguous15,
-        <span class="macro">vec!</span>[M(<span class="string">&quot;IMG_&quot;</span>), M(<span class="string">&quot;MG_&quot;</span>), M(<span class="string">&quot;CIMG&quot;</span>)],
-        <span class="macro">vec!</span>[C(<span class="string">&quot;C&quot;</span>), C(<span class="string">&quot;I&quot;</span>), C(<span class="string">&quot;MG_&quot;</span>)]
+        <span class="macro">vec!</span>[M(<span class="string">"IMG_"</span>), M(<span class="string">"MG_"</span>), M(<span class="string">"CIMG"</span>)],
+        <span class="macro">vec!</span>[C(<span class="string">"C"</span>), C(<span class="string">"I"</span>), C(<span class="string">"MG_"</span>)]
     );
 
     <span class="comment">// ************************************************************************
@@ -3293,10 +3294,10 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
         };
     }
 
-    <span class="macro">test_trim!</span>(trim1, <span class="number">1</span>, <span class="macro">vec!</span>[M(<span class="string">&quot;ab&quot;</span>), M(<span class="string">&quot;yz&quot;</span>)], <span class="macro">vec!</span>[C(<span class="string">&quot;a&quot;</span>), C(<span class="string">&quot;y&quot;</span>)]);
-    <span class="macro">test_trim!</span>(trim2, <span class="number">1</span>, <span class="macro">vec!</span>[M(<span class="string">&quot;abc&quot;</span>), M(<span class="string">&quot;abd&quot;</span>)], <span class="macro">vec!</span>[C(<span class="string">&quot;ab&quot;</span>)]);
-    <span class="macro">test_trim!</span>(trim3, <span class="number">2</span>, <span class="macro">vec!</span>[M(<span class="string">&quot;abc&quot;</span>), M(<span class="string">&quot;abd&quot;</span>)], <span class="macro">vec!</span>[C(<span class="string">&quot;a&quot;</span>)]);
-    <span class="macro">test_trim!</span>(trim4, <span class="number">2</span>, <span class="macro">vec!</span>[M(<span class="string">&quot;abc&quot;</span>), M(<span class="string">&quot;ghij&quot;</span>)], <span class="macro">vec!</span>[C(<span class="string">&quot;a&quot;</span>), C(<span class="string">&quot;gh&quot;</span>)]);
+    <span class="macro">test_trim!</span>(trim1, <span class="number">1</span>, <span class="macro">vec!</span>[M(<span class="string">"ab"</span>), M(<span class="string">"yz"</span>)], <span class="macro">vec!</span>[C(<span class="string">"a"</span>), C(<span class="string">"y"</span>)]);
+    <span class="macro">test_trim!</span>(trim2, <span class="number">1</span>, <span class="macro">vec!</span>[M(<span class="string">"abc"</span>), M(<span class="string">"abd"</span>)], <span class="macro">vec!</span>[C(<span class="string">"ab"</span>)]);
+    <span class="macro">test_trim!</span>(trim3, <span class="number">2</span>, <span class="macro">vec!</span>[M(<span class="string">"abc"</span>), M(<span class="string">"abd"</span>)], <span class="macro">vec!</span>[C(<span class="string">"a"</span>)]);
+    <span class="macro">test_trim!</span>(trim4, <span class="number">2</span>, <span class="macro">vec!</span>[M(<span class="string">"abc"</span>), M(<span class="string">"ghij"</span>)], <span class="macro">vec!</span>[C(<span class="string">"a"</span>), C(<span class="string">"gh"</span>)]);
 
     <span class="comment">// ************************************************************************
     // Tests for longest common prefix.
@@ -3320,18 +3321,18 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
         };
     }
 
-    <span class="macro">test_lcp!</span>(lcp1, <span class="macro">vec!</span>[<span class="string">&quot;a&quot;</span>], <span class="string">&quot;a&quot;</span>);
-    <span class="macro">test_lcp!</span>(lcp2, <span class="macro">vec!</span>[], <span class="string">&quot;&quot;</span>);
-    <span class="macro">test_lcp!</span>(lcp3, <span class="macro">vec!</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>], <span class="string">&quot;&quot;</span>);
-    <span class="macro">test_lcp!</span>(lcp4, <span class="macro">vec!</span>[<span class="string">&quot;ab&quot;</span>, <span class="string">&quot;ab&quot;</span>], <span class="string">&quot;ab&quot;</span>);
-    <span class="macro">test_lcp!</span>(lcp5, <span class="macro">vec!</span>[<span class="string">&quot;ab&quot;</span>, <span class="string">&quot;a&quot;</span>], <span class="string">&quot;a&quot;</span>);
-    <span class="macro">test_lcp!</span>(lcp6, <span class="macro">vec!</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;ab&quot;</span>], <span class="string">&quot;a&quot;</span>);
-    <span class="macro">test_lcp!</span>(lcp7, <span class="macro">vec!</span>[<span class="string">&quot;ab&quot;</span>, <span class="string">&quot;b&quot;</span>], <span class="string">&quot;&quot;</span>);
-    <span class="macro">test_lcp!</span>(lcp8, <span class="macro">vec!</span>[<span class="string">&quot;b&quot;</span>, <span class="string">&quot;ab&quot;</span>], <span class="string">&quot;&quot;</span>);
-    <span class="macro">test_lcp!</span>(lcp9, <span class="macro">vec!</span>[<span class="string">&quot;foobar&quot;</span>, <span class="string">&quot;foobaz&quot;</span>], <span class="string">&quot;fooba&quot;</span>);
-    <span class="macro">test_lcp!</span>(lcp10, <span class="macro">vec!</span>[<span class="string">&quot;foobar&quot;</span>, <span class="string">&quot;foobaz&quot;</span>, <span class="string">&quot;a&quot;</span>], <span class="string">&quot;&quot;</span>);
-    <span class="macro">test_lcp!</span>(lcp11, <span class="macro">vec!</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;foobar&quot;</span>, <span class="string">&quot;foobaz&quot;</span>], <span class="string">&quot;&quot;</span>);
-    <span class="macro">test_lcp!</span>(lcp12, <span class="macro">vec!</span>[<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;flub&quot;</span>, <span class="string">&quot;flab&quot;</span>, <span class="string">&quot;floo&quot;</span>], <span class="string">&quot;f&quot;</span>);
+    <span class="macro">test_lcp!</span>(lcp1, <span class="macro">vec!</span>[<span class="string">"a"</span>], <span class="string">"a"</span>);
+    <span class="macro">test_lcp!</span>(lcp2, <span class="macro">vec!</span>[], <span class="string">""</span>);
+    <span class="macro">test_lcp!</span>(lcp3, <span class="macro">vec!</span>[<span class="string">"a"</span>, <span class="string">"b"</span>], <span class="string">""</span>);
+    <span class="macro">test_lcp!</span>(lcp4, <span class="macro">vec!</span>[<span class="string">"ab"</span>, <span class="string">"ab"</span>], <span class="string">"ab"</span>);
+    <span class="macro">test_lcp!</span>(lcp5, <span class="macro">vec!</span>[<span class="string">"ab"</span>, <span class="string">"a"</span>], <span class="string">"a"</span>);
+    <span class="macro">test_lcp!</span>(lcp6, <span class="macro">vec!</span>[<span class="string">"a"</span>, <span class="string">"ab"</span>], <span class="string">"a"</span>);
+    <span class="macro">test_lcp!</span>(lcp7, <span class="macro">vec!</span>[<span class="string">"ab"</span>, <span class="string">"b"</span>], <span class="string">""</span>);
+    <span class="macro">test_lcp!</span>(lcp8, <span class="macro">vec!</span>[<span class="string">"b"</span>, <span class="string">"ab"</span>], <span class="string">""</span>);
+    <span class="macro">test_lcp!</span>(lcp9, <span class="macro">vec!</span>[<span class="string">"foobar"</span>, <span class="string">"foobaz"</span>], <span class="string">"fooba"</span>);
+    <span class="macro">test_lcp!</span>(lcp10, <span class="macro">vec!</span>[<span class="string">"foobar"</span>, <span class="string">"foobaz"</span>, <span class="string">"a"</span>], <span class="string">""</span>);
+    <span class="macro">test_lcp!</span>(lcp11, <span class="macro">vec!</span>[<span class="string">"a"</span>, <span class="string">"foobar"</span>, <span class="string">"foobaz"</span>], <span class="string">""</span>);
+    <span class="macro">test_lcp!</span>(lcp12, <span class="macro">vec!</span>[<span class="string">"foo"</span>, <span class="string">"flub"</span>, <span class="string">"flab"</span>, <span class="string">"floo"</span>], <span class="string">"f"</span>);
 
     <span class="comment">// ************************************************************************
     // Tests for longest common suffix.
@@ -3355,17 +3356,17 @@ Provides routines for extracting literal prefixes and suffixes from an `Hir`.
         };
     }
 
-    <span class="macro">test_lcs!</span>(lcs1, <span class="macro">vec!</span>[<span class="string">&quot;a&quot;</span>], <span class="string">&quot;a&quot;</span>);
-    <span class="macro">test_lcs!</span>(lcs2, <span class="macro">vec!</span>[], <span class="string">&quot;&quot;</span>);
-    <span class="macro">test_lcs!</span>(lcs3, <span class="macro">vec!</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>], <span class="string">&quot;&quot;</span>);
-    <span class="macro">test_lcs!</span>(lcs4, <span class="macro">vec!</span>[<span class="string">&quot;ab&quot;</span>, <span class="string">&quot;ab&quot;</span>], <span class="string">&quot;ab&quot;</span>);
-    <span class="macro">test_lcs!</span>(lcs5, <span class="macro">vec!</span>[<span class="string">&quot;ab&quot;</span>, <span class="string">&quot;a&quot;</span>], <span class="string">&quot;&quot;</span>);
-    <span class="macro">test_lcs!</span>(lcs6, <span class="macro">vec!</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;ab&quot;</span>], <span class="string">&quot;&quot;</span>);
-    <span class="macro">test_lcs!</span>(lcs7, <span class="macro">vec!</span>[<span class="string">&quot;ab&quot;</span>, <span class="string">&quot;b&quot;</span>], <span class="string">&quot;b&quot;</span>);
-    <span class="macro">test_lcs!</span>(lcs8, <span class="macro">vec!</span>[<span class="string">&quot;b&quot;</span>, <span class="string">&quot;ab&quot;</span>], <span class="string">&quot;b&quot;</span>);
-    <span class="macro">test_lcs!</span>(lcs9, <span class="macro">vec!</span>[<span class="string">&quot;barfoo&quot;</span>, <span class="string">&quot;bazfoo&quot;</span>], <span class="string">&quot;foo&quot;</span>);
-    <span class="macro">test_lcs!</span>(lcs10, <span class="macro">vec!</span>[<span class="string">&quot;barfoo&quot;</span>, <span class="string">&quot;bazfoo&quot;</span>, <span class="string">&quot;a&quot;</span>], <span class="string">&quot;&quot;</span>);
-    <span class="macro">test_lcs!</span>(lcs11, <span class="macro">vec!</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;barfoo&quot;</span>, <span class="string">&quot;bazfoo&quot;</span>], <span class="string">&quot;&quot;</span>);
-    <span class="macro">test_lcs!</span>(lcs12, <span class="macro">vec!</span>[<span class="string">&quot;flub&quot;</span>, <span class="string">&quot;bub&quot;</span>, <span class="string">&quot;boob&quot;</span>, <span class="string">&quot;dub&quot;</span>], <span class="string">&quot;b&quot;</span>);
+    <span class="macro">test_lcs!</span>(lcs1, <span class="macro">vec!</span>[<span class="string">"a"</span>], <span class="string">"a"</span>);
+    <span class="macro">test_lcs!</span>(lcs2, <span class="macro">vec!</span>[], <span class="string">""</span>);
+    <span class="macro">test_lcs!</span>(lcs3, <span class="macro">vec!</span>[<span class="string">"a"</span>, <span class="string">"b"</span>], <span class="string">""</span>);
+    <span class="macro">test_lcs!</span>(lcs4, <span class="macro">vec!</span>[<span class="string">"ab"</span>, <span class="string">"ab"</span>], <span class="string">"ab"</span>);
+    <span class="macro">test_lcs!</span>(lcs5, <span class="macro">vec!</span>[<span class="string">"ab"</span>, <span class="string">"a"</span>], <span class="string">""</span>);
+    <span class="macro">test_lcs!</span>(lcs6, <span class="macro">vec!</span>[<span class="string">"a"</span>, <span class="string">"ab"</span>], <span class="string">""</span>);
+    <span class="macro">test_lcs!</span>(lcs7, <span class="macro">vec!</span>[<span class="string">"ab"</span>, <span class="string">"b"</span>], <span class="string">"b"</span>);
+    <span class="macro">test_lcs!</span>(lcs8, <span class="macro">vec!</span>[<span class="string">"b"</span>, <span class="string">"ab"</span>], <span class="string">"b"</span>);
+    <span class="macro">test_lcs!</span>(lcs9, <span class="macro">vec!</span>[<span class="string">"barfoo"</span>, <span class="string">"bazfoo"</span>], <span class="string">"foo"</span>);
+    <span class="macro">test_lcs!</span>(lcs10, <span class="macro">vec!</span>[<span class="string">"barfoo"</span>, <span class="string">"bazfoo"</span>, <span class="string">"a"</span>], <span class="string">""</span>);
+    <span class="macro">test_lcs!</span>(lcs11, <span class="macro">vec!</span>[<span class="string">"a"</span>, <span class="string">"barfoo"</span>, <span class="string">"bazfoo"</span>], <span class="string">""</span>);
+    <span class="macro">test_lcs!</span>(lcs12, <span class="macro">vec!</span>[<span class="string">"flub"</span>, <span class="string">"bub"</span>, <span class="string">"boob"</span>, <span class="string">"dub"</span>], <span class="string">"b"</span>);
 }
 </code></pre></div></section></main></body></html>

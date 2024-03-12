@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro-error-1.0.4/src/diagnostic.rs`."><title>diagnostic.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="proc_macro_error" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0 (cc66ad468 2023-10-03)" data-channel="1.73.0" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-1596385f77d47ef2.css" data-theme-dark-css="dark-0a43001d3fc2282c.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-1596385f77d47ef2.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-0a43001d3fc2282c.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../proc_macro_error/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro-error-1.0.4/src/diagnostic.rs`."><title>diagnostic.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-ac92e1bbe349e143.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="proc_macro_error" data-themes="" data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../static.files/src-script-39ed315d46fb705f.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -394,24 +395,24 @@
     /// better error messages for multi-token spans on stable.
     </span><span class="kw">fn </span>span_range_error(<span class="self">self</span>, span_range: SpanRange, msg: String) -&gt; <span class="self">Self</span>;
 
-    <span class="doccomment">/// Attach a &quot;help&quot; note to your main message, the note will have it&#39;s own span on nightly.
+    <span class="doccomment">/// Attach a "help" note to your main message, the note will have it's own span on nightly.
     ///
     /// This function is the same as `Diagnostic::span_help` but produces considerably
     /// better error messages for multi-token spans on stable.
     ///
     /// # Span
     ///
-    /// The span is ignored on stable, the note effectively inherits its parent&#39;s (main message) span
+    /// The span is ignored on stable, the note effectively inherits its parent's (main message) span
     </span><span class="kw">fn </span>span_range_help(<span class="self">self</span>, span_range: SpanRange, msg: String) -&gt; <span class="self">Self</span>;
 
-    <span class="doccomment">/// Attach a note to your main message, the note will have it&#39;s own span on nightly.
+    <span class="doccomment">/// Attach a note to your main message, the note will have it's own span on nightly.
     ///
     /// This function is the same as `Diagnostic::span_note` but produces considerably
     /// better error messages for multi-token spans on stable.
     ///
     /// # Span
     ///
-    /// The span is ignored on stable, the note effectively inherits its parent&#39;s (main message) span
+    /// The span is ignored on stable, the note effectively inherits its parent's (main message) span
     </span><span class="kw">fn </span>span_range_note(<span class="self">self</span>, span_range: SpanRange, msg: String) -&gt; <span class="self">Self</span>;
 }
 
@@ -474,11 +475,11 @@
         )
     }
 
-    <span class="doccomment">/// Attach a &quot;help&quot; note to your main message, the note will have it&#39;s own span on nightly.
+    <span class="doccomment">/// Attach a "help" note to your main message, the note will have it's own span on nightly.
     ///
     /// # Span
     ///
-    /// The span is ignored on stable, the note effectively inherits its parent&#39;s (main message) span
+    /// The span is ignored on stable, the note effectively inherits its parent's (main message) span
     </span><span class="kw">pub fn </span>span_help(<span class="self">self</span>, span: Span, msg: String) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.span_range_help(
             SpanRange {
@@ -489,17 +490,17 @@
         )
     }
 
-    <span class="doccomment">/// Attach a &quot;help&quot; note to your main message.
+    <span class="doccomment">/// Attach a "help" note to your main message.
     </span><span class="kw">pub fn </span>help(<span class="kw-2">mut </span><span class="self">self</span>, msg: String) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.suggestions.push((SuggestionKind::Help, msg, <span class="prelude-val">None</span>));
         <span class="self">self
     </span>}
 
-    <span class="doccomment">/// Attach a note to your main message, the note will have it&#39;s own span on nightly.
+    <span class="doccomment">/// Attach a note to your main message, the note will have it's own span on nightly.
     ///
     /// # Span
     ///
-    /// The span is ignored on stable, the note effectively inherits its parent&#39;s (main message) span
+    /// The span is ignored on stable, the note effectively inherits its parent's (main message) span
     </span><span class="kw">pub fn </span>span_note(<span class="self">self</span>, span: Span, msg: String) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.span_range_note(
             SpanRange {
@@ -521,7 +522,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>.msg
     }
 
-    <span class="doccomment">/// Abort the proc-macro&#39;s execution and display the diagnostic.
+    <span class="doccomment">/// Abort the proc-macro's execution and display the diagnostic.
     ///
     /// # Warnings
     ///
@@ -547,14 +548,14 @@
 </span><span class="kw">impl </span>Diagnostic {
     <span class="kw">pub fn </span>span_suggestion(<span class="self">self</span>, span: Span, suggestion: <span class="kw-2">&amp;</span>str, msg: String) -&gt; <span class="self">Self </span>{
         <span class="kw">match </span>suggestion {
-            <span class="string">&quot;help&quot; </span>| <span class="string">&quot;hint&quot; </span>=&gt; <span class="self">self</span>.span_help(span, msg),
+            <span class="string">"help" </span>| <span class="string">"hint" </span>=&gt; <span class="self">self</span>.span_help(span, msg),
             <span class="kw">_ </span>=&gt; <span class="self">self</span>.span_note(span, msg),
         }
     }
 
     <span class="kw">pub fn </span>suggestion(<span class="self">self</span>, suggestion: <span class="kw-2">&amp;</span>str, msg: String) -&gt; <span class="self">Self </span>{
         <span class="kw">match </span>suggestion {
-            <span class="string">&quot;help&quot; </span>| <span class="string">&quot;hint&quot; </span>=&gt; <span class="self">self</span>.help(msg),
+            <span class="string">"help" </span>| <span class="string">"hint" </span>=&gt; <span class="self">self</span>.help(msg),
             <span class="kw">_ </span>=&gt; <span class="self">self</span>.note(msg),
         }
     }
@@ -565,11 +566,11 @@
         <span class="kw">use </span>std::borrow::Cow;
 
         <span class="kw">fn </span>ensure_lf(buf: <span class="kw-2">&amp;mut </span>String, s: <span class="kw-2">&amp;</span>str) {
-            <span class="kw">if </span>s.ends_with(<span class="string">&#39;\n&#39;</span>) {
+            <span class="kw">if </span>s.ends_with(<span class="string">'\n'</span>) {
                 buf.push_str(s);
             } <span class="kw">else </span>{
                 buf.push_str(s);
-                buf.push(<span class="string">&#39;\n&#39;</span>);
+                buf.push(<span class="string">'\n'</span>);
             }
         }
 
@@ -588,15 +589,15 @@
             } <span class="kw">else </span>{
                 <span class="kw">let </span><span class="kw-2">mut </span>message = String::new();
                 ensure_lf(<span class="kw-2">&amp;mut </span>message, msg);
-                message.push(<span class="string">&#39;\n&#39;</span>);
+                message.push(<span class="string">'\n'</span>);
 
                 <span class="kw">for </span>(kind, note, _span) <span class="kw">in </span>suggestions {
-                    message.push_str(<span class="string">&quot;  = &quot;</span>);
+                    message.push_str(<span class="string">"  = "</span>);
                     message.push_str(kind.name());
-                    message.push_str(<span class="string">&quot;: &quot;</span>);
+                    message.push_str(<span class="string">": "</span>);
                     ensure_lf(<span class="kw-2">&amp;mut </span>message, note);
                 }
-                message.push(<span class="string">&#39;\n&#39;</span>);
+                message.push(<span class="string">'\n'</span>);
 
                 Cow::Owned(message)
             };
@@ -628,15 +629,15 @@
 }
 
 <span class="kw">impl </span>SuggestionKind {
-    <span class="kw">fn </span>name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str {
+    <span class="kw">fn </span>name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
         <span class="kw">match </span><span class="self">self </span>{
-            SuggestionKind::Note =&gt; <span class="string">&quot;note&quot;</span>,
-            SuggestionKind::Help =&gt; <span class="string">&quot;help&quot;</span>,
+            SuggestionKind::Note =&gt; <span class="string">"note"</span>,
+            SuggestionKind::Help =&gt; <span class="string">"help"</span>,
         }
     }
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;syn-error&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">"syn-error"</span>)]
 </span><span class="kw">impl </span>From&lt;syn::Error&gt; <span class="kw">for </span>Diagnostic {
     <span class="kw">fn </span>from(err: syn::Error) -&gt; <span class="self">Self </span>{
         <span class="kw">use </span>proc_macro2::{Delimiter, TokenTree};
@@ -652,11 +653,11 @@
             </span><span class="kw">let </span>lit = <span class="kw">match </span>ts.next().unwrap() {
                 TokenTree::Group(group) =&gt; {
                     <span class="comment">// Currently `syn` builds `compile_error!` invocations
-                    // exclusively in `ident{&quot;...&quot;}` (braced) form which is not
+                    // exclusively in `ident{"..."}` (braced) form which is not
                     // followed by `;` (semicolon).
                     //
-                    // But if it changes to `ident(&quot;...&quot;);` (parenthesized)
-                    // or `ident[&quot;...&quot;];` (bracketed) form,
+                    // But if it changes to `ident("...");` (parenthesized)
+                    // or `ident["..."];` (bracketed) form,
                     // we will need to skip the `;` as well.
                     // Highly unlikely, but better safe than sorry.
 
@@ -677,7 +678,7 @@
             <span class="kw">let </span>last = lit.span();
             <span class="kw">let </span><span class="kw-2">mut </span>msg = lit.to_string();
 
-            <span class="comment">// &quot;abc&quot; =&gt; abc
+            <span class="comment">// "abc" =&gt; abc
             </span>msg.pop();
             msg.remove(<span class="number">0</span>);
 

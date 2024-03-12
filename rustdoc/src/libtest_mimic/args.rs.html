@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/libtest-mimic-0.6.1/src/args.rs`."><title>args.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="libtest_mimic" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0 (cc66ad468 2023-10-03)" data-channel="1.73.0" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-1596385f77d47ef2.css" data-theme-dark-css="dark-0a43001d3fc2282c.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-1596385f77d47ef2.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-0a43001d3fc2282c.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../libtest_mimic/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/libtest-mimic-0.6.1/src/args.rs`."><title>args.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-ac92e1bbe349e143.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="libtest_mimic" data-themes="" data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../static.files/src-script-39ed315d46fb705f.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -207,45 +208,45 @@
 /// the main use cases should work exactly like with the built-in harness.
 </span><span class="attr">#[derive(Parser, Debug, Clone, Default)]
 #[command(
-    help_template = <span class="string">&quot;USAGE: [OPTIONS] [FILTER]\n\n{all-args}\n\n\n{after-help}&quot;</span>,
+    help_template = <span class="string">"USAGE: [OPTIONS] [FILTER]\n\n{all-args}\n\n\n{after-help}"</span>,
     disable_version_flag = <span class="bool-val">true</span>,
-    after_help = <span class="string">&quot;By default, all tests are run in parallel. This can be altered with the \n\
-        --test-threads flag when running tests (set it to 1).&quot;</span>,
+    after_help = <span class="string">"By default, all tests are run in parallel. This can be altered with the \n\
+        --test-threads flag when running tests (set it to 1)."</span>,
 )]
 </span><span class="kw">pub struct </span>Arguments {
     <span class="comment">// ============== FLAGS ===================================================
     </span><span class="doccomment">/// Run ignored and non-ignored tests.
-    </span><span class="attr">#[arg(long = <span class="string">&quot;include-ignored&quot;</span>, help = <span class="string">&quot;Run ignored tests&quot;</span>)]
+    </span><span class="attr">#[arg(long = <span class="string">"include-ignored"</span>, help = <span class="string">"Run ignored tests"</span>)]
     </span><span class="kw">pub </span>include_ignored: bool,
 
     <span class="doccomment">/// Run only ignored tests.
-    </span><span class="attr">#[arg(long = <span class="string">&quot;ignored&quot;</span>, help = <span class="string">&quot;Run ignored tests&quot;</span>)]
+    </span><span class="attr">#[arg(long = <span class="string">"ignored"</span>, help = <span class="string">"Run ignored tests"</span>)]
     </span><span class="kw">pub </span>ignored: bool,
 
     <span class="doccomment">/// Run tests, but not benchmarks.
     </span><span class="attr">#[arg(
-        long = <span class="string">&quot;test&quot;</span>,
-        conflicts_with = <span class="string">&quot;bench&quot;</span>,
-        help = <span class="string">&quot;Run tests and not benchmarks&quot;</span>,
+        long = <span class="string">"test"</span>,
+        conflicts_with = <span class="string">"bench"</span>,
+        help = <span class="string">"Run tests and not benchmarks"</span>,
     )]
     </span><span class="kw">pub </span>test: bool,
 
     <span class="doccomment">/// Run benchmarks, but not tests.
-    </span><span class="attr">#[arg(long = <span class="string">&quot;bench&quot;</span>, help = <span class="string">&quot;Run benchmarks instead of tests&quot;</span>)]
+    </span><span class="attr">#[arg(long = <span class="string">"bench"</span>, help = <span class="string">"Run benchmarks instead of tests"</span>)]
     </span><span class="kw">pub </span>bench: bool,
 
     <span class="doccomment">/// Only list all tests and benchmarks.
-    </span><span class="attr">#[arg(long = <span class="string">&quot;list&quot;</span>, help = <span class="string">&quot;List all tests and benchmarks&quot;</span>)]
+    </span><span class="attr">#[arg(long = <span class="string">"list"</span>, help = <span class="string">"List all tests and benchmarks"</span>)]
     </span><span class="kw">pub </span>list: bool,
 
     <span class="doccomment">/// No-op, ignored (libtest-mimic always runs in no-capture mode)
-    </span><span class="attr">#[arg(long = <span class="string">&quot;nocapture&quot;</span>, help = <span class="string">&quot;No-op (libtest-mimic always runs in no-capture mode)&quot;</span>)]
+    </span><span class="attr">#[arg(long = <span class="string">"nocapture"</span>, help = <span class="string">"No-op (libtest-mimic always runs in no-capture mode)"</span>)]
     </span><span class="kw">pub </span>nocapture: bool,
 
     <span class="doccomment">/// If set, filters are matched exactly rather than by substring.
     </span><span class="attr">#[arg(
-        long = <span class="string">&quot;exact&quot;</span>,
-        help = <span class="string">&quot;Exactly match filters rather than by substring&quot;</span>,
+        long = <span class="string">"exact"</span>,
+        help = <span class="string">"Exactly match filters rather than by substring"</span>,
     )]
     </span><span class="kw">pub </span>exact: bool,
 
@@ -255,69 +256,69 @@
     /// This is an alias for `--format=terse`. If this is set, `format` is
     /// `None`.
     </span><span class="attr">#[arg(
-        short = <span class="string">&#39;q&#39;</span>,
-        long = <span class="string">&quot;quiet&quot;</span>,
-        conflicts_with = <span class="string">&quot;format&quot;</span>,
-        help = <span class="string">&quot;Display one character per test instead of one line. Alias to --format=terse&quot;</span>,
+        short = <span class="string">'q'</span>,
+        long = <span class="string">"quiet"</span>,
+        conflicts_with = <span class="string">"format"</span>,
+        help = <span class="string">"Display one character per test instead of one line. Alias to --format=terse"</span>,
     )]
     </span><span class="kw">pub </span>quiet: bool,
 
     <span class="comment">// ============== OPTIONS =================================================
     </span><span class="doccomment">/// Number of threads used for parallel testing.
     </span><span class="attr">#[arg(
-        long = <span class="string">&quot;test-threads&quot;</span>,
-        help = <span class="string">&quot;Number of threads used for running tests in parallel. If set to 1, \n\
-            all tests are run in the main thread.&quot;</span>,
+        long = <span class="string">"test-threads"</span>,
+        help = <span class="string">"Number of threads used for running tests in parallel. If set to 1, \n\
+            all tests are run in the main thread."</span>,
     )]
     </span><span class="kw">pub </span>test_threads: <span class="prelude-ty">Option</span>&lt;usize&gt;,
 
     <span class="doccomment">/// Path of the logfile. If specified, everything will be written into the
     /// file instead of stdout.
     </span><span class="attr">#[arg(
-        long = <span class="string">&quot;logfile&quot;</span>,
-        value_name = <span class="string">&quot;PATH&quot;</span>,
-        help = <span class="string">&quot;Write logs to the specified file instead of stdout&quot;</span>,
+        long = <span class="string">"logfile"</span>,
+        value_name = <span class="string">"PATH"</span>,
+        help = <span class="string">"Write logs to the specified file instead of stdout"</span>,
     )]
     </span><span class="kw">pub </span>logfile: <span class="prelude-ty">Option</span>&lt;String&gt;,
 
     <span class="doccomment">/// A list of filters. Tests whose names contain parts of any of these
     /// filters are skipped.
     </span><span class="attr">#[arg(
-        long = <span class="string">&quot;skip&quot;</span>,
-        value_name = <span class="string">&quot;FILTER&quot;</span>,
-        help = <span class="string">&quot;Skip tests whose names contain FILTER (this flag can be used multiple times)&quot;</span>,
+        long = <span class="string">"skip"</span>,
+        value_name = <span class="string">"FILTER"</span>,
+        help = <span class="string">"Skip tests whose names contain FILTER (this flag can be used multiple times)"</span>,
     )]
     </span><span class="kw">pub </span>skip: Vec&lt;String&gt;,
 
     <span class="doccomment">/// Specifies whether or not to color the output.
     </span><span class="attr">#[arg(
-        long = <span class="string">&quot;color&quot;</span>,
+        long = <span class="string">"color"</span>,
         value_enum,
-        value_name = <span class="string">&quot;auto|always|never&quot;</span>,
-        help = <span class="string">&quot;Configure coloring of output: \n\
+        value_name = <span class="string">"auto|always|never"</span>,
+        help = <span class="string">"Configure coloring of output: \n\
             - auto = colorize if stdout is a tty and tests are run on serially (default)\n\
             - always = always colorize output\n\
-            - never = never colorize output\n&quot;</span>,
+            - never = never colorize output\n"</span>,
     )]
     </span><span class="kw">pub </span>color: <span class="prelude-ty">Option</span>&lt;ColorSetting&gt;,
 
     <span class="doccomment">/// Specifies the format of the output.
     </span><span class="attr">#[arg(
-        long = <span class="string">&quot;format&quot;</span>,
+        long = <span class="string">"format"</span>,
         value_enum,
-        value_name = <span class="string">&quot;pretty|terse|json&quot;</span>,
-        help = <span class="string">&quot;Configure formatting of output: \n\
+        value_name = <span class="string">"pretty|terse|json"</span>,
+        help = <span class="string">"Configure formatting of output: \n\
             - pretty = Print verbose output\n\
-            - terse = Display one character per test\n&quot;</span>,
+            - terse = Display one character per test\n"</span>,
     )]
     </span><span class="kw">pub </span>format: <span class="prelude-ty">Option</span>&lt;FormatSetting&gt;,
 
     <span class="comment">// ============== POSITIONAL VALUES =======================================
     </span><span class="doccomment">/// Filter string. Only tests which contain this string are run.
     </span><span class="attr">#[arg(
-        value_name = <span class="string">&quot;FILTER&quot;</span>,
-        help = <span class="string">&quot;The FILTER string is tested against the name of all tests, and only those tests \
-                whose names contain the filter are run.&quot;</span>,
+        value_name = <span class="string">"FILTER"</span>,
+        help = <span class="string">"The FILTER string is tested against the name of all tests, and only those tests \
+                whose names contain the filter are run."</span>,
     )]
     </span><span class="kw">pub </span>filter: <span class="prelude-ty">Option</span>&lt;String&gt;,
 }

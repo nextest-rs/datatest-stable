@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/regex-1.5.5/src/compile.rs`."><title>compile.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="regex" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0 (cc66ad468 2023-10-03)" data-channel="1.73.0" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-1596385f77d47ef2.css" data-theme-dark-css="dark-0a43001d3fc2282c.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-1596385f77d47ef2.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-0a43001d3fc2282c.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../regex/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/regex-1.5.5/src/compile.rs`."><title>compile.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-ac92e1bbe349e143.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="regex" data-themes="" data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../static.files/src-script-39ed315d46fb705f.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1307,12 +1308,12 @@
     byte_classes: ByteClassSet,
     <span class="comment">// This keeps track of extra bytes allocated while compiling the regex
     // program. Currently, this corresponds to two things. First is the heap
-    // memory allocated by Unicode character classes (&#39;InstRanges&#39;). Second is
-    // a &quot;fake&quot; amount of memory used by empty sub-expressions, so that enough
+    // memory allocated by Unicode character classes ('InstRanges'). Second is
+    // a "fake" amount of memory used by empty sub-expressions, so that enough
     // empty sub-expressions will ultimately trigger the compiler to bail
-    // because of a size limit restriction. (That empty sub-expressions don&#39;t
+    // because of a size limit restriction. (That empty sub-expressions don't
     // add to heap memory usage is more-or-less an implementation detail.) In
-    // the second case, if we don&#39;t bail, then an excessively large repetition
+    // the second case, if we don't bail, then an excessively large repetition
     // on an empty sub-expression can result in the compiler using a very large
     // amount of CPU time.
     </span>extra_inst_bytes: usize,
@@ -1330,7 +1331,7 @@
             num_exprs: <span class="number">0</span>,
             size_limit: <span class="number">10 </span>* (<span class="number">1 </span>&lt;&lt; <span class="number">20</span>),
             suffix_cache: SuffixCache::new(<span class="number">1000</span>),
-            utf8_seqs: <span class="prelude-val">Some</span>(Utf8Sequences::new(<span class="string">&#39;\x00&#39;</span>, <span class="string">&#39;\x00&#39;</span>)),
+            utf8_seqs: <span class="prelude-val">Some</span>(Utf8Sequences::new(<span class="string">'\x00'</span>, <span class="string">'\x00'</span>)),
             byte_classes: ByteClassSet::new(),
             extra_inst_bytes: <span class="number">0</span>,
         }
@@ -1345,7 +1346,7 @@
     </span>}
 
     <span class="doccomment">/// If bytes is true, then the program is compiled as a byte based
-    /// automaton, which incorporates UTF-8 decoding into the machine. If it&#39;s
+    /// automaton, which incorporates UTF-8 decoding into the machine. If it's
     /// false, then the automaton is Unicode scalar value based, e.g., an
     /// engine utilizing such an automaton is responsible for UTF-8 decoding.
     ///
@@ -1404,7 +1405,7 @@
     }
 
     <span class="kw">fn </span>compile_one(<span class="kw-2">mut </span><span class="self">self</span>, expr: <span class="kw-2">&amp;</span>Hir) -&gt; result::Result&lt;Program, Error&gt; {
-        <span class="comment">// If we&#39;re compiling a forward DFA and we aren&#39;t anchored, then
+        <span class="comment">// If we're compiling a forward DFA and we aren't anchored, then
         // add a `.*?` before the first capture group.
         // Other matching engines handle this by baking the logic into the
         // matching engine itself.
@@ -1492,7 +1493,7 @@
     /// `entry` member of the patch refers to the first instruction
     /// (the entry point), while the `hole` member contains zero or
     /// more offsets to partial instructions that need to be backpatched.
-    /// The c_* routine can&#39;t know where its list of instructions are going to
+    /// The c_* routine can't know where its list of instructions are going to
     /// jump to after execution, so it is up to the caller to patch
     /// these jumps to point to the right place. So compiling some
     /// expression, e, we would end up with a situation that looked like:
@@ -1558,19 +1559,19 @@
                 }
             }
             Anchor(hir::Anchor::StartLine) <span class="kw">if </span><span class="self">self</span>.compiled.is_reverse =&gt; {
-                <span class="self">self</span>.byte_classes.set_range(<span class="string">b&#39;\n&#39;</span>, <span class="string">b&#39;\n&#39;</span>);
+                <span class="self">self</span>.byte_classes.set_range(<span class="string">b'\n'</span>, <span class="string">b'\n'</span>);
                 <span class="self">self</span>.c_empty_look(prog::EmptyLook::EndLine)
             }
             Anchor(hir::Anchor::StartLine) =&gt; {
-                <span class="self">self</span>.byte_classes.set_range(<span class="string">b&#39;\n&#39;</span>, <span class="string">b&#39;\n&#39;</span>);
+                <span class="self">self</span>.byte_classes.set_range(<span class="string">b'\n'</span>, <span class="string">b'\n'</span>);
                 <span class="self">self</span>.c_empty_look(prog::EmptyLook::StartLine)
             }
             Anchor(hir::Anchor::EndLine) <span class="kw">if </span><span class="self">self</span>.compiled.is_reverse =&gt; {
-                <span class="self">self</span>.byte_classes.set_range(<span class="string">b&#39;\n&#39;</span>, <span class="string">b&#39;\n&#39;</span>);
+                <span class="self">self</span>.byte_classes.set_range(<span class="string">b'\n'</span>, <span class="string">b'\n'</span>);
                 <span class="self">self</span>.c_empty_look(prog::EmptyLook::StartLine)
             }
             Anchor(hir::Anchor::EndLine) =&gt; {
-                <span class="self">self</span>.byte_classes.set_range(<span class="string">b&#39;\n&#39;</span>, <span class="string">b&#39;\n&#39;</span>);
+                <span class="self">self</span>.byte_classes.set_range(<span class="string">b'\n'</span>, <span class="string">b'\n'</span>);
                 <span class="self">self</span>.c_empty_look(prog::EmptyLook::EndLine)
             }
             Anchor(hir::Anchor::StartText) <span class="kw">if </span><span class="self">self</span>.compiled.is_reverse =&gt; {
@@ -1586,17 +1587,17 @@
                 <span class="self">self</span>.c_empty_look(prog::EmptyLook::EndText)
             }
             WordBoundary(hir::WordBoundary::Unicode) =&gt; {
-                <span class="kw">if </span>!<span class="macro">cfg!</span>(feature = <span class="string">&quot;unicode-perl&quot;</span>) {
+                <span class="kw">if </span>!<span class="macro">cfg!</span>(feature = <span class="string">"unicode-perl"</span>) {
                     <span class="kw">return </span><span class="prelude-val">Err</span>(Error::Syntax(
-                        <span class="string">&quot;Unicode word boundaries are unavailable when \
-                         the unicode-perl feature is disabled&quot;
+                        <span class="string">"Unicode word boundaries are unavailable when \
+                         the unicode-perl feature is disabled"
                             </span>.to_string(),
                     ));
                 }
                 <span class="self">self</span>.compiled.has_unicode_word_boundary = <span class="bool-val">true</span>;
                 <span class="self">self</span>.byte_classes.set_word_boundary();
                 <span class="comment">// We also make sure that all ASCII bytes are in a different
-                // class from non-ASCII bytes. Otherwise, it&#39;s possible for
+                // class from non-ASCII bytes. Otherwise, it's possible for
                 // ASCII bytes to get lumped into the same class as non-ASCII
                 // bytes. This in turn may cause the lazy DFA to falsely start
                 // when it sees an ASCII byte that maps to a byte class with
@@ -1605,10 +1606,10 @@
                 <span class="self">self</span>.c_empty_look(prog::EmptyLook::WordBoundary)
             }
             WordBoundary(hir::WordBoundary::UnicodeNegate) =&gt; {
-                <span class="kw">if </span>!<span class="macro">cfg!</span>(feature = <span class="string">&quot;unicode-perl&quot;</span>) {
+                <span class="kw">if </span>!<span class="macro">cfg!</span>(feature = <span class="string">"unicode-perl"</span>) {
                     <span class="kw">return </span><span class="prelude-val">Err</span>(Error::Syntax(
-                        <span class="string">&quot;Unicode word boundaries are unavailable when \
-                         the unicode-perl feature is disabled&quot;
+                        <span class="string">"Unicode word boundaries are unavailable when \
+                         the unicode-perl feature is disabled"
                             </span>.to_string(),
                     ));
                 }
@@ -1659,9 +1660,9 @@
         <span class="comment">// See: https://github.com/rust-lang/regex/security/advisories/GHSA-m5pq-gvj9-9vr8
         // See: CVE-2022-24713
         //
-        // Since &#39;empty&#39; sub-expressions don&#39;t increase the size of
-        // the actual compiled object, we &quot;fake&quot; an increase in its
-        // size so that our &#39;check_size_limit&#39; routine will eventually
+        // Since 'empty' sub-expressions don't increase the size of
+        // the actual compiled object, we "fake" an increase in its
+        // size so that our 'check_size_limit' routine will eventually
         // stop compilation if there are too many empty sub-expressions
         // (e.g., via a large repetition).
         </span><span class="self">self</span>.extra_inst_bytes += std::mem::size_of::&lt;Inst&gt;();
@@ -1670,9 +1671,9 @@
 
     <span class="kw">fn </span>c_capture(<span class="kw-2">&amp;mut </span><span class="self">self</span>, first_slot: usize, expr: <span class="kw-2">&amp;</span>Hir) -&gt; ResultOrEmpty {
         <span class="kw">if </span><span class="self">self</span>.num_exprs &gt; <span class="number">1 </span>|| <span class="self">self</span>.compiled.is_dfa {
-            <span class="comment">// Don&#39;t ever compile Save instructions for regex sets because
+            <span class="comment">// Don't ever compile Save instructions for regex sets because
             // they are never used. They are also never used in DFA programs
-            // because DFAs can&#39;t handle captures.
+            // because DFAs can't handle captures.
             </span><span class="self">self</span>.c(expr)
         } <span class="kw">else </span>{
             <span class="kw">let </span>entry = <span class="self">self</span>.insts.len();
@@ -1779,9 +1780,9 @@
         <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(Patch { hole: hole, entry: <span class="self">self</span>.insts.len() - <span class="number">1 </span>}))
     }
 
-    <span class="kw">fn </span>c_concat&lt;<span class="lifetime">&#39;a</span>, I&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, exprs: I) -&gt; ResultOrEmpty
+    <span class="kw">fn </span>c_concat&lt;<span class="lifetime">'a</span>, I&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, exprs: I) -&gt; ResultOrEmpty
     <span class="kw">where
-        </span>I: IntoIterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Hir&gt;,
+        </span>I: IntoIterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Hir&gt;,
     {
         <span class="kw">let </span><span class="kw-2">mut </span>exprs = exprs.into_iter();
         <span class="kw">let </span>Patch { <span class="kw-2">mut </span>hole, entry } = <span class="kw">loop </span>{
@@ -1806,7 +1807,7 @@
     <span class="kw">fn </span>c_alternate(<span class="kw-2">&amp;mut </span><span class="self">self</span>, exprs: <span class="kw-2">&amp;</span>[Hir]) -&gt; ResultOrEmpty {
         <span class="macro">debug_assert!</span>(
             exprs.len() &gt;= <span class="number">2</span>,
-            <span class="string">&quot;alternates must have at least 2 exprs&quot;
+            <span class="string">"alternates must have at least 2 exprs"
         </span>);
 
         <span class="comment">// Initial entry point is always the first split.
@@ -1844,7 +1845,7 @@
                 <span class="self">self</span>.fill(prev_hole.<span class="number">0</span>, entry);
             }
         } <span class="kw">else </span>{
-            <span class="comment">// We ignore prev_hole.1. When it&#39;s true, it means we have two
+            <span class="comment">// We ignore prev_hole.1. When it's true, it means we have two
             // empty branches both pushing prev_hole.0 into holes, so both
             // branches will go to the same place anyway.
             </span>holes.push(prev_hole.<span class="number">0</span>);
@@ -1938,7 +1939,7 @@
         min: u32,
     ) -&gt; ResultOrEmpty {
         <span class="kw">let </span>min = u32_to_usize(min);
-        <span class="comment">// Using next_inst() is ok, because we can&#39;t return it (concat would
+        <span class="comment">// Using next_inst() is ok, because we can't return it (concat would
         // have to return Some(_) while c_repeat_range_min_or_more returns
         // None).
         </span><span class="kw">let </span>patch_concat = <span class="self">self
@@ -1975,14 +1976,14 @@
         //
         // But you end up with a sequence of instructions like this:
         //
-        //     0: &#39;a&#39;
-        //     1: &#39;a&#39;,
+        //     0: 'a'
+        //     1: 'a',
         //     2: split(3, 4)
-        //     3: &#39;a&#39;
+        //     3: 'a'
         //     4: split(5, 6)
-        //     5: &#39;a&#39;
+        //     5: 'a'
         //     6: split(7, 8)
-        //     7: &#39;a&#39;
+        //     7: 'a'
         //     8: MATCH
         //
         // This is *incredibly* inefficient because the splits end
@@ -2056,8 +2057,8 @@
                     Hole::One(pc)
                 }
                 (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) =&gt; <span class="macro">unreachable!</span>(
-                    <span class="string">&quot;at least one of the split \
-                     holes must be filled&quot;
+                    <span class="string">"at least one of the split \
+                     holes must be filled"
                 </span>),
             },
             Hole::Many(holes) =&gt; {
@@ -2122,7 +2123,7 @@
         <span class="kw">match </span><span class="self">self </span>{
             Hole::One(pc) =&gt; (Hole::One(pc), Hole::One(pc)),
             Hole::None | Hole::Many(<span class="kw">_</span>) =&gt; {
-                <span class="macro">unreachable!</span>(<span class="string">&quot;must be called on single hole&quot;</span>)
+                <span class="macro">unreachable!</span>(<span class="string">"must be called on single hole"</span>)
             }
         }
     }
@@ -2157,8 +2158,8 @@
                 }))
             }
             <span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>(
-                <span class="string">&quot;not all instructions were compiled! \
-                 found uncompiled instruction: {:?}&quot;</span>,
+                <span class="string">"not all instructions were compiled! \
+                 found uncompiled instruction: {:?}"</span>,
                 <span class="self">self
             </span>),
         };
@@ -2171,8 +2172,8 @@
                 Inst::Split(InstSplit { goto1: goto1, goto2: goto2 })
             }
             <span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>(
-                <span class="string">&quot;must be called on Split instruction, \
-                 instead it was called on: {:?}&quot;</span>,
+                <span class="string">"must be called on Split instruction, \
+                 instead it was called on: {:?}"</span>,
                 <span class="self">self
             </span>),
         };
@@ -2183,8 +2184,8 @@
         <span class="kw">let </span>half_filled = <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
             MaybeInst::Split =&gt; goto1,
             <span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>(
-                <span class="string">&quot;must be called on Split instruction, \
-                 instead it was called on: {:?}&quot;</span>,
+                <span class="string">"must be called on Split instruction, \
+                 instead it was called on: {:?}"</span>,
                 <span class="self">self
             </span>),
         };
@@ -2195,8 +2196,8 @@
         <span class="kw">let </span>half_filled = <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
             MaybeInst::Split =&gt; goto2,
             <span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>(
-                <span class="string">&quot;must be called on Split instruction, \
-                 instead it was called on: {:?}&quot;</span>,
+                <span class="string">"must be called on Split instruction, \
+                 instead it was called on: {:?}"</span>,
                 <span class="self">self
             </span>),
         };
@@ -2207,8 +2208,8 @@
         <span class="kw">match </span><span class="self">self </span>{
             MaybeInst::Compiled(inst) =&gt; inst,
             <span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>(
-                <span class="string">&quot;must be called on a compiled instruction, \
-                 instead it was called on: {:?}&quot;</span>,
+                <span class="string">"must be called on a compiled instruction, \
+                 instead it was called on: {:?}"</span>,
                 <span class="self">self
             </span>),
         }
@@ -2245,12 +2246,12 @@
     }
 }
 
-<span class="kw">struct </span>CompileClass&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt; {
-    c: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>Compiler,
-    ranges: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>[hir::ClassUnicodeRange],
+<span class="kw">struct </span>CompileClass&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; {
+    c: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>Compiler,
+    ranges: <span class="kw-2">&amp;</span><span class="lifetime">'b </span>[hir::ClassUnicodeRange],
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt; CompileClass&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; CompileClass&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; {
     <span class="kw">fn </span>compile(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result </span>{
         <span class="kw">let </span><span class="kw-2">mut </span>holes = <span class="macro">vec!</span>[];
         <span class="kw">let </span><span class="kw-2">mut </span>initial_entry = <span class="prelude-val">None</span>;
@@ -2300,9 +2301,9 @@
         }
     }
 
-    <span class="kw">fn </span>c_utf8_seq_&lt;<span class="lifetime">&#39;r</span>, I&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, seq: I) -&gt; <span class="prelude-ty">Result
+    <span class="kw">fn </span>c_utf8_seq_&lt;<span class="lifetime">'r</span>, I&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, seq: I) -&gt; <span class="prelude-ty">Result
     </span><span class="kw">where
-        </span>I: IntoIterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Utf8Range&gt;,
+        </span>I: IntoIterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Utf8Range&gt;,
     {
         <span class="comment">// The initial instruction for each UTF-8 sequence should be the same.
         </span><span class="kw">let </span><span class="kw-2">mut </span>from_inst = ::std::usize::MAX;
@@ -2357,7 +2358,7 @@
 /// a waste of an instruction. The suffix cache facilitates reusing them across
 /// alternates.
 ///
-/// Note that a HashMap could be trivially used for this, but we don&#39;t need its
+/// Note that a HashMap could be trivially used for this, but we don't need its
 /// overhead. Some small bounded space (LRU style) is more than enough.
 ///
 /// This uses similar idea to [`SparseSet`](../sparse/struct.SparseSet.html),
@@ -2451,7 +2452,7 @@
     }
 
     <span class="kw">fn </span>byte_classes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;u8&gt; {
-        <span class="comment">// N.B. If you&#39;re debugging the DFA, it&#39;s useful to simply return
+        <span class="comment">// N.B. If you're debugging the DFA, it's useful to simply return
         // `(0..256).collect()`, which effectively removes the byte classes
         // and makes the transitions easier to read.
         // (0usize..256).map(|x| x as u8).collect()
@@ -2473,17 +2474,17 @@
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>ByteClassSet {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        f.debug_tuple(<span class="string">&quot;ByteClassSet&quot;</span>).field(&amp;&amp;<span class="self">self</span>.<span class="number">0</span>[..]).finish()
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        f.debug_tuple(<span class="string">"ByteClassSet"</span>).field(&amp;&amp;<span class="self">self</span>.<span class="number">0</span>[..]).finish()
     }
 }
 
 <span class="kw">fn </span>u32_to_usize(n: u32) -&gt; usize {
     <span class="comment">// In case usize is less than 32 bits, we need to guard against overflow.
     // On most platforms this compiles to nothing.
-    // TODO Use `std::convert::TryFrom` once it&#39;s stable.
+    // TODO Use `std::convert::TryFrom` once it's stable.
     </span><span class="kw">if </span>(n <span class="kw">as </span>u64) &gt; (::std::usize::MAX <span class="kw">as </span>u64) {
-        <span class="macro">panic!</span>(<span class="string">&quot;BUG: {} is too big to be pointer sized&quot;</span>, n)
+        <span class="macro">panic!</span>(<span class="string">"BUG: {} is too big to be pointer sized"</span>, n)
     }
     n <span class="kw">as </span>usize
 }
@@ -2495,16 +2496,16 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>byte_classes() {
         <span class="kw">let </span><span class="kw-2">mut </span>set = ByteClassSet::new();
-        set.set_range(<span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;z&#39;</span>);
+        set.set_range(<span class="string">b'a'</span>, <span class="string">b'z'</span>);
         <span class="kw">let </span>classes = set.byte_classes();
         <span class="macro">assert_eq!</span>(classes[<span class="number">0</span>], <span class="number">0</span>);
         <span class="macro">assert_eq!</span>(classes[<span class="number">1</span>], <span class="number">0</span>);
         <span class="macro">assert_eq!</span>(classes[<span class="number">2</span>], <span class="number">0</span>);
-        <span class="macro">assert_eq!</span>(classes[<span class="string">b&#39;a&#39; </span><span class="kw">as </span>usize - <span class="number">1</span>], <span class="number">0</span>);
-        <span class="macro">assert_eq!</span>(classes[<span class="string">b&#39;a&#39; </span><span class="kw">as </span>usize], <span class="number">1</span>);
-        <span class="macro">assert_eq!</span>(classes[<span class="string">b&#39;m&#39; </span><span class="kw">as </span>usize], <span class="number">1</span>);
-        <span class="macro">assert_eq!</span>(classes[<span class="string">b&#39;z&#39; </span><span class="kw">as </span>usize], <span class="number">1</span>);
-        <span class="macro">assert_eq!</span>(classes[<span class="string">b&#39;z&#39; </span><span class="kw">as </span>usize + <span class="number">1</span>], <span class="number">2</span>);
+        <span class="macro">assert_eq!</span>(classes[<span class="string">b'a' </span><span class="kw">as </span>usize - <span class="number">1</span>], <span class="number">0</span>);
+        <span class="macro">assert_eq!</span>(classes[<span class="string">b'a' </span><span class="kw">as </span>usize], <span class="number">1</span>);
+        <span class="macro">assert_eq!</span>(classes[<span class="string">b'm' </span><span class="kw">as </span>usize], <span class="number">1</span>);
+        <span class="macro">assert_eq!</span>(classes[<span class="string">b'z' </span><span class="kw">as </span>usize], <span class="number">1</span>);
+        <span class="macro">assert_eq!</span>(classes[<span class="string">b'z' </span><span class="kw">as </span>usize + <span class="number">1</span>], <span class="number">2</span>);
         <span class="macro">assert_eq!</span>(classes[<span class="number">254</span>], <span class="number">2</span>);
         <span class="macro">assert_eq!</span>(classes[<span class="number">255</span>], <span class="number">2</span>);
 

@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/os_str_bytes-6.0.1/src/raw_str.rs`."><title>raw_str.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="os_str_bytes" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0 (cc66ad468 2023-10-03)" data-channel="1.73.0" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-1596385f77d47ef2.css" data-theme-dark-css="dark-0a43001d3fc2282c.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-1596385f77d47ef2.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-0a43001d3fc2282c.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../os_str_bytes/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/os_str_bytes-6.0.1/src/raw_str.rs`."><title>raw_str.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-ac92e1bbe349e143.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="os_str_bytes" data-themes="" data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../static.files/src-script-39ed315d46fb705f.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1174,9 +1175,9 @@
 <span class="kw">use </span>std::ops::RangeToInclusive;
 <span class="kw">use </span>std::str;
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;memchr&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">"memchr"</span>)]
 </span><span class="kw">use </span>memchr::memmem::find;
-<span class="attr">#[cfg(feature = <span class="string">&quot;memchr&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">"memchr"</span>)]
 </span><span class="kw">use </span>memchr::memmem::rfind;
 
 <span class="kw">use </span><span class="kw">super</span>::imp::raw;
@@ -1186,7 +1187,7 @@
 <span class="kw">use </span><span class="kw">super</span>::OsStringBytes;
 <span class="kw">use </span><span class="kw">super</span>::Pattern;
 
-<span class="attr">#[cfg(not(feature = <span class="string">&quot;memchr&quot;</span>))]
+<span class="attr">#[cfg(not(feature = <span class="string">"memchr"</span>))]
 </span><span class="kw">fn </span>find(string: <span class="kw-2">&amp;</span>[u8], pat: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
     <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..=string.len().checked_sub(pat.len())<span class="question-mark">? </span>{
         <span class="kw">if </span>string[i..].starts_with(pat) {
@@ -1196,7 +1197,7 @@
     <span class="prelude-val">None
 </span>}
 
-<span class="attr">#[cfg(not(feature = <span class="string">&quot;memchr&quot;</span>))]
+<span class="attr">#[cfg(not(feature = <span class="string">"memchr"</span>))]
 </span><span class="kw">fn </span>rfind(string: <span class="kw-2">&amp;</span>[u8], pat: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
     <span class="kw">for </span>i <span class="kw">in </span>(pat.len()..=string.len()).rev() {
         <span class="kw">if </span>string[..i].ends_with(pat) {
@@ -1262,14 +1263,14 @@
 /// # Complexity
 ///
 /// All searching methods have worst-case multiplicative time complexity (i.e.,
-/// `O(self.raw_len() * pat.len())`). Enabling the &quot;memchr&quot; feature allows
+/// `O(self.raw_len() * pat.len())`). Enabling the "memchr" feature allows
 /// these methods to instead run in linear time in the worst case (documented
 /// for [`memchr::memmem::find`][memchr complexity]).
 ///
 /// [memchr complexity]: memchr::memmem::find#complexity
 /// [unspecified encoding]: super#encoding
 </span><span class="attr">#[derive(Eq, Hash, Ord, PartialEq, PartialOrd)]
-#[cfg_attr(os_str_bytes_docs_rs, doc(cfg(feature = <span class="string">&quot;raw_os_str&quot;</span>)))]
+#[cfg_attr(os_str_bytes_docs_rs, doc(cfg(feature = <span class="string">"raw_os_str"</span>)))]
 #[repr(transparent)]
 </span><span class="kw">pub struct </span>RawOsStr([u8]);
 
@@ -1296,13 +1297,13 @@
     /// use os_str_bytes::RawOsStr;
     ///
     /// let os_string = env::current_exe()?.into_os_string();
-    /// println!(&quot;{:?}&quot;, RawOsStr::new(&amp;os_string));
+    /// println!("{:?}", RawOsStr::new(&amp;os_string));
     /// #
     /// # Ok::&lt;_, io::Error&gt;(())
     /// ```
     </span><span class="attr">#[inline]
     #[must_use]
-    </span><span class="kw">pub fn </span>new(string: <span class="kw-2">&amp;</span>OsStr) -&gt; Cow&lt;<span class="lifetime">&#39;_</span>, <span class="self">Self</span>&gt; {
+    </span><span class="kw">pub fn </span>new(string: <span class="kw-2">&amp;</span>OsStr) -&gt; Cow&lt;<span class="lifetime">'_</span>, <span class="self">Self</span>&gt; {
         <span class="kw">match </span>string.to_raw_bytes() {
             Cow::Borrowed(string) =&gt; {
                 Cow::Borrowed(<span class="self">Self</span>::from_raw_bytes_unchecked(string))
@@ -1321,7 +1322,7 @@
     /// ```
     /// use os_str_bytes::RawOsStr;
     ///
-    /// let string = &quot;foobar&quot;;
+    /// let string = "foobar";
     /// let raw = RawOsStr::from_str(string);
     /// assert_eq!(string, raw);
     /// ```
@@ -1371,9 +1372,9 @@
     /// ```
     /// use os_str_bytes::RawOsStr;
     ///
-    /// let raw = RawOsStr::from_str(&quot;foobar&quot;);
-    /// assert!(raw.contains(&quot;oo&quot;));
-    /// assert!(!raw.contains(&quot;of&quot;));
+    /// let raw = RawOsStr::from_str("foobar");
+    /// assert!(raw.contains("oo"));
+    /// assert!(!raw.contains("of"));
     /// ```
     </span><span class="attr">#[inline]
     #[must_use]
@@ -1395,9 +1396,9 @@
     /// ```
     /// use os_str_bytes::RawOsStr;
     ///
-    /// let raw = RawOsStr::from_str(&quot;foobar&quot;);
-    /// assert!(raw.ends_with(&quot;bar&quot;));
-    /// assert!(!raw.ends_with(&quot;foo&quot;));
+    /// let raw = RawOsStr::from_str("foobar");
+    /// assert!(raw.ends_with("bar"));
+    /// assert!(!raw.ends_with("foo"));
     /// ```
     </span><span class="attr">#[inline]
     #[must_use]
@@ -1422,9 +1423,9 @@
     /// ```
     /// use os_str_bytes::RawOsStr;
     ///
-    /// let raw = RawOsStr::from_str(&quot;foobar&quot;);
-    /// assert!(raw.ends_with_os(RawOsStr::from_str(&quot;bar&quot;)));
-    /// assert!(!raw.ends_with_os(RawOsStr::from_str(&quot;foo&quot;)));
+    /// let raw = RawOsStr::from_str("foobar");
+    /// assert!(raw.ends_with_os(RawOsStr::from_str("bar")));
+    /// assert!(!raw.ends_with_os(RawOsStr::from_str("foo")));
     /// ```
     </span><span class="attr">#[inline]
     #[must_use]
@@ -1443,9 +1444,9 @@
     /// ```
     /// use os_str_bytes::RawOsStr;
     ///
-    /// let raw = RawOsStr::from_str(&quot;foobar&quot;);
-    /// assert_eq!(Some(1), raw.find(&quot;o&quot;));
-    /// assert_eq!(None, raw.find(&quot;of&quot;));
+    /// let raw = RawOsStr::from_str("foobar");
+    /// assert_eq!(Some(1), raw.find("o"));
+    /// assert_eq!(None, raw.find("of"));
     /// ```
     </span><span class="attr">#[inline]
     #[must_use]
@@ -1466,8 +1467,8 @@
     /// ```
     /// use os_str_bytes::RawOsStr;
     ///
-    /// assert!(RawOsStr::from_str(&quot;&quot;).is_empty());
-    /// assert!(!RawOsStr::from_str(&quot;foobar&quot;).is_empty());
+    /// assert!(RawOsStr::from_str("").is_empty());
+    /// assert!(!RawOsStr::from_str("foobar").is_empty());
     /// ```
     </span><span class="attr">#[inline]
     #[must_use]
@@ -1492,8 +1493,8 @@
     /// ```
     /// use os_str_bytes::RawOsStr;
     ///
-    /// assert_eq!(6, RawOsStr::from_str(&quot;foobar&quot;).raw_len());
-    /// assert_eq!(0, RawOsStr::from_str(&quot;&quot;).raw_len());
+    /// assert_eq!(6, RawOsStr::from_str("foobar").raw_len());
+    /// assert_eq!(0, RawOsStr::from_str("").raw_len());
     /// ```
     </span><span class="attr">#[inline]
     #[must_use]
@@ -1512,9 +1513,9 @@
     /// ```
     /// use os_str_bytes::RawOsStr;
     ///
-    /// let raw = RawOsStr::from_str(&quot;foobar&quot;);
-    /// assert_eq!(Some(2), raw.rfind(&quot;o&quot;));
-    /// assert_eq!(None, raw.rfind(&quot;of&quot;));
+    /// let raw = RawOsStr::from_str("foobar");
+    /// assert_eq!(Some(2), raw.rfind("o"));
+    /// assert_eq!(None, raw.rfind("of"));
     /// ```
     </span><span class="attr">#[inline]
     #[must_use]
@@ -1546,12 +1547,12 @@
     /// ```
     /// use os_str_bytes::RawOsStr;
     ///
-    /// let raw = RawOsStr::from_str(&quot;foobar&quot;);
+    /// let raw = RawOsStr::from_str("foobar");
     /// assert_eq!(
-    ///     Some((RawOsStr::from_str(&quot;fo&quot;), RawOsStr::from_str(&quot;bar&quot;))),
-    ///     raw.rsplit_once(&quot;o&quot;),
+    ///     Some((RawOsStr::from_str("fo"), RawOsStr::from_str("bar"))),
+    ///     raw.rsplit_once("o"),
     /// );
-    /// assert_eq!(None, raw.rsplit_once(&quot;of&quot;));
+    /// assert_eq!(None, raw.rsplit_once("of"));
     /// ```
     </span><span class="attr">#[inline]
     #[must_use]
@@ -1572,7 +1573,7 @@
         <span class="kw">let </span>start = <span class="self">self</span>.<span class="number">0</span>[..index]
             .iter()
             .rposition(|<span class="kw-2">&amp;</span>x| !raw::is_continuation(x))
-            .expect(<span class="string">&quot;invalid raw bytes&quot;</span>);
+            .expect(<span class="string">"invalid raw bytes"</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>end = index + <span class="number">1</span>;
         end += <span class="self">self</span>.<span class="number">0</span>[end..]
             .iter()
@@ -1580,8 +1581,8 @@
             .unwrap_or_else(|| <span class="self">self</span>.raw_len() - end);
         <span class="kw">let </span>code_point = raw::decode_code_point(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>[start..end]);
         <span class="macro">panic!</span>(
-            <span class="string">&quot;byte index {} is not a valid boundary; it is inside U+{:04X} \
-            (bytes {}..{})&quot;</span>,
+            <span class="string">"byte index {} is not a valid boundary; it is inside U+{:04X} \
+            (bytes {}..{})"</span>,
             index, code_point, start, end,
         );
     }
@@ -1606,12 +1607,12 @@
     /// ```
     /// use os_str_bytes::RawOsStr;
     ///
-    /// let raw = RawOsStr::from_str(&quot;foobar&quot;);
-    /// assert_eq!([&quot;f&quot;, &quot;&quot;, &quot;bar&quot;], *raw.split(&quot;o&quot;).collect::&lt;Vec&lt;_&gt;&gt;());
+    /// let raw = RawOsStr::from_str("foobar");
+    /// assert_eq!(["f", "", "bar"], *raw.split("o").collect::&lt;Vec&lt;_&gt;&gt;());
     /// ```
     </span><span class="attr">#[inline]
     #[must_use]
-    </span><span class="kw">pub fn </span>split&lt;P&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, pat: P) -&gt; Split&lt;<span class="lifetime">&#39;_</span>, P&gt;
+    </span><span class="kw">pub fn </span>split&lt;P&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, pat: P) -&gt; Split&lt;<span class="lifetime">'_</span>, P&gt;
     <span class="kw">where
         </span>P: Pattern,
     {
@@ -1629,9 +1630,9 @@
     /// ```
     /// use os_str_bytes::RawOsStr;
     ///
-    /// let raw = RawOsStr::from_str(&quot;foobar&quot;);
+    /// let raw = RawOsStr::from_str("foobar");
     /// assert_eq!(
-    ///     ((RawOsStr::from_str(&quot;fo&quot;), RawOsStr::from_str(&quot;obar&quot;))),
+    ///     ((RawOsStr::from_str("fo"), RawOsStr::from_str("obar"))),
     ///     raw.split_at(2),
     /// );
     /// ```
@@ -1667,12 +1668,12 @@
     /// ```
     /// use os_str_bytes::RawOsStr;
     ///
-    /// let raw = RawOsStr::from_str(&quot;foobar&quot;);
+    /// let raw = RawOsStr::from_str("foobar");
     /// assert_eq!(
-    ///     Some((RawOsStr::from_str(&quot;f&quot;), RawOsStr::from_str(&quot;obar&quot;))),
-    ///     raw.split_once(&quot;o&quot;),
+    ///     Some((RawOsStr::from_str("f"), RawOsStr::from_str("obar"))),
+    ///     raw.split_once("o"),
     /// );
-    /// assert_eq!(None, raw.split_once(&quot;of&quot;));
+    /// assert_eq!(None, raw.split_once("of"));
     /// ```
     </span><span class="attr">#[inline]
     #[must_use]
@@ -1694,9 +1695,9 @@
     /// ```
     /// use os_str_bytes::RawOsStr;
     ///
-    /// let raw = RawOsStr::from_str(&quot;foobar&quot;);
-    /// assert!(raw.starts_with(&quot;foo&quot;));
-    /// assert!(!raw.starts_with(&quot;bar&quot;));
+    /// let raw = RawOsStr::from_str("foobar");
+    /// assert!(raw.starts_with("foo"));
+    /// assert!(!raw.starts_with("bar"));
     /// ```
     </span><span class="attr">#[inline]
     #[must_use]
@@ -1722,9 +1723,9 @@
     /// ```
     /// use os_str_bytes::RawOsStr;
     ///
-    /// let raw = RawOsStr::from_str(&quot;foobar&quot;);
-    /// assert!(raw.starts_with_os(RawOsStr::from_str(&quot;foo&quot;)));
-    /// assert!(!raw.starts_with_os(RawOsStr::from_str(&quot;bar&quot;)));
+    /// let raw = RawOsStr::from_str("foobar");
+    /// assert!(raw.starts_with_os(RawOsStr::from_str("foo")));
+    /// assert!(!raw.starts_with_os(RawOsStr::from_str("bar")));
     /// ```
     </span><span class="attr">#[inline]
     #[must_use]
@@ -1743,12 +1744,12 @@
     /// ```
     /// use os_str_bytes::RawOsStr;
     ///
-    /// let raw = RawOsStr::from_str(&quot;111foo1bar111&quot;);
+    /// let raw = RawOsStr::from_str("111foo1bar111");
     /// assert_eq!(
-    ///     Some(RawOsStr::from_str(&quot;11foo1bar111&quot;)),
-    ///     raw.strip_prefix(&quot;1&quot;),
+    ///     Some(RawOsStr::from_str("11foo1bar111")),
+    ///     raw.strip_prefix("1"),
     /// );
-    /// assert_eq!(None, raw.strip_prefix(&quot;o&quot;));
+    /// assert_eq!(None, raw.strip_prefix("o"));
     /// ```
     </span><span class="attr">#[inline]
     #[must_use]
@@ -1773,12 +1774,12 @@
     /// ```
     /// use os_str_bytes::RawOsStr;
     ///
-    /// let raw = RawOsStr::from_str(&quot;111foo1bar111&quot;);
+    /// let raw = RawOsStr::from_str("111foo1bar111");
     /// assert_eq!(
-    ///     Some(RawOsStr::from_str(&quot;111foo1bar11&quot;)),
-    ///     raw.strip_suffix(&quot;1&quot;),
+    ///     Some(RawOsStr::from_str("111foo1bar11")),
+    ///     raw.strip_suffix("1"),
     /// );
-    /// assert_eq!(None, raw.strip_suffix(&quot;o&quot;));
+    /// assert_eq!(None, raw.strip_suffix("o"));
     /// ```
     </span><span class="attr">#[inline]
     #[must_use]
@@ -1810,8 +1811,8 @@
     /// ```
     </span><span class="attr">#[inline]
     #[must_use]
-    </span><span class="kw">pub fn </span>to_os_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">&#39;_</span>, OsStr&gt; {
-        OsStr::from_raw_bytes(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>).expect(<span class="string">&quot;invalid raw bytes&quot;</span>)
+    </span><span class="kw">pub fn </span>to_os_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">'_</span>, OsStr&gt; {
+        OsStr::from_raw_bytes(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>).expect(<span class="string">"invalid raw bytes"</span>)
     }
 
     <span class="doccomment">/// Equivalent to [`OsStr::to_str`].
@@ -1821,7 +1822,7 @@
     /// ```
     /// use os_str_bytes::RawOsStr;
     ///
-    /// let string = &quot;foobar&quot;;
+    /// let string = "foobar";
     /// let raw = RawOsStr::from_str(string);
     /// assert_eq!(Some(string), raw.to_str());
     /// ```
@@ -1850,13 +1851,13 @@
     ///
     /// let os_string = env::current_exe()?.into_os_string();
     /// let raw = RawOsStr::new(&amp;os_string);
-    /// println!(&quot;{}&quot;, raw.to_str_lossy());
+    /// println!("{}", raw.to_str_lossy());
     /// #
     /// # Ok::&lt;_, io::Error&gt;(())
     /// ```
     </span><span class="attr">#[inline]
     #[must_use]
-    </span><span class="kw">pub fn </span>to_str_lossy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">&#39;_</span>, str&gt; {
+    </span><span class="kw">pub fn </span>to_str_lossy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">'_</span>, str&gt; {
         String::from_utf8_lossy(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>)
     }
 
@@ -1871,9 +1872,9 @@
     /// ```
     /// use os_str_bytes::RawOsStr;
     ///
-    /// let raw = RawOsStr::from_str(&quot;111foo1bar111&quot;);
-    /// assert_eq!(&quot;111foo1bar&quot;, raw.trim_end_matches(&quot;1&quot;));
-    /// assert_eq!(&quot;111foo1bar111&quot;, raw.trim_end_matches(&quot;o&quot;));
+    /// let raw = RawOsStr::from_str("111foo1bar111");
+    /// assert_eq!("111foo1bar", raw.trim_end_matches("1"));
+    /// assert_eq!("111foo1bar111", raw.trim_end_matches("o"));
     /// ```
     </span><span class="attr">#[must_use]
     </span><span class="kw">pub fn </span>trim_end_matches&lt;P&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, pat: P) -&gt; <span class="kw-2">&amp;</span><span class="self">Self
@@ -1894,9 +1895,9 @@
     /// ```
     /// use os_str_bytes::RawOsStr;
     ///
-    /// let raw = RawOsStr::from_str(&quot;111foo1bar111&quot;);
-    /// assert_eq!(&quot;foo1bar111&quot;, raw.trim_start_matches(&quot;1&quot;));
-    /// assert_eq!(&quot;111foo1bar111&quot;, raw.trim_start_matches(&quot;o&quot;));
+    /// let raw = RawOsStr::from_str("111foo1bar111");
+    /// assert_eq!("foo1bar111", raw.trim_start_matches("1"));
+    /// assert_eq!("111foo1bar111", raw.trim_start_matches("o"));
     /// ```
     </span><span class="attr">#[must_use]
     </span><span class="kw">pub fn </span>trim_start_matches&lt;P&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, pat: P) -&gt; <span class="kw-2">&amp;</span><span class="self">Self
@@ -1931,13 +1932,13 @@
 <span class="kw">impl </span>Default <span class="kw">for </span><span class="kw-2">&amp;</span>RawOsStr {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
-        RawOsStr::from_str(<span class="string">&quot;&quot;</span>)
+        RawOsStr::from_str(<span class="string">""</span>)
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>RawOsStr&gt; <span class="kw">for </span>Cow&lt;<span class="lifetime">&#39;a</span>, RawOsStr&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>RawOsStr&gt; <span class="kw">for </span>Cow&lt;<span class="lifetime">'a</span>, RawOsStr&gt; {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>from(other: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>RawOsStr) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">fn </span>from(other: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>RawOsStr) -&gt; <span class="self">Self </span>{
         Cow::Borrowed(other)
     }
 }
@@ -1987,7 +1988,7 @@
 ///
 /// [unspecified encoding]: super#encoding
 </span><span class="attr">#[derive(Clone, Default, Eq, Hash, Ord, PartialEq, PartialOrd)]
-#[cfg_attr(os_str_bytes_docs_rs, doc(cfg(feature = <span class="string">&quot;raw_os_str&quot;</span>)))]
+#[cfg_attr(os_str_bytes_docs_rs, doc(cfg(feature = <span class="string">"raw_os_str"</span>)))]
 </span><span class="kw">pub struct </span>RawOsString(Vec&lt;u8&gt;);
 
 <span class="kw">impl </span>RawOsString {
@@ -2005,7 +2006,7 @@
     /// use os_str_bytes::RawOsString;
     ///
     /// let os_string = env::current_exe()?.into_os_string();
-    /// println!(&quot;{:?}&quot;, RawOsString::new(os_string));
+    /// println!("{:?}", RawOsString::new(os_string));
     /// #
     /// # Ok::&lt;_, io::Error&gt;(())
     /// ```
@@ -2025,7 +2026,7 @@
     /// ```
     /// use os_str_bytes::RawOsString;
     ///
-    /// let string = &quot;foobar&quot;.to_owned();
+    /// let string = "foobar".to_owned();
     /// let raw = RawOsString::from_string(string.clone());
     /// assert_eq!(string, raw);
     /// ```
@@ -2056,7 +2057,7 @@
     </span><span class="attr">#[inline]
     #[must_use]
     </span><span class="kw">pub fn </span>into_os_string(<span class="self">self</span>) -&gt; OsString {
-        OsString::from_raw_vec(<span class="self">self</span>.<span class="number">0</span>).expect(<span class="string">&quot;invalid raw bytes&quot;</span>)
+        OsString::from_raw_vec(<span class="self">self</span>.<span class="number">0</span>).expect(<span class="string">"invalid raw bytes"</span>)
     }
 
     <span class="doccomment">/// Returns the byte string stored by this container.
@@ -2092,7 +2093,7 @@
     /// ```
     /// use os_str_bytes::RawOsString;
     ///
-    /// let string = &quot;foobar&quot;.to_owned();
+    /// let string = "foobar".to_owned();
     /// let raw = RawOsString::from_string(string.clone());
     /// assert_eq!(Ok(string), raw.into_string());
     /// ```
@@ -2132,7 +2133,7 @@
     }
 }
 
-<span class="kw">impl </span>From&lt;RawOsString&gt; <span class="kw">for </span>Cow&lt;<span class="lifetime">&#39;_</span>, RawOsStr&gt; {
+<span class="kw">impl </span>From&lt;RawOsString&gt; <span class="kw">for </span>Cow&lt;<span class="lifetime">'_</span>, RawOsStr&gt; {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>from(other: RawOsString) -&gt; <span class="self">Self </span>{
         Cow::Owned(other)
@@ -2158,11 +2159,11 @@
 <span class="macro">r#impl!</span>(RangeTo&lt;usize&gt;);
 <span class="macro">r#impl!</span>(RangeToInclusive&lt;usize&gt;);
 
-<span class="kw">struct </span>Buffer&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8]);
+<span class="kw">struct </span>Buffer&lt;<span class="lifetime">'a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8]);
 
-<span class="kw">impl </span>Debug <span class="kw">for </span>Buffer&lt;<span class="lifetime">&#39;_</span>&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        f.write_str(<span class="string">&quot;\&quot;&quot;</span>)<span class="question-mark">?</span>;
+<span class="kw">impl </span>Debug <span class="kw">for </span>Buffer&lt;<span class="lifetime">'_</span>&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        f.write_str(<span class="string">"\""</span>)<span class="question-mark">?</span>;
 
         <span class="kw">let </span><span class="kw-2">mut </span>string = <span class="self">self</span>.<span class="number">0</span>;
         <span class="kw">let </span><span class="kw-2">mut </span>invalid_length = <span class="number">0</span>;
@@ -2196,7 +2197,7 @@
             Display::fmt(<span class="kw-2">&amp;</span>valid.escape_debug(), f)<span class="question-mark">?</span>;
         }
 
-        f.write_str(<span class="string">&quot;\&quot;&quot;</span>)
+        f.write_str(<span class="string">"\""</span>)
     }
 }
 
@@ -2204,7 +2205,7 @@
     ( <span class="macro-nonterminal">$</span><span class="kw">type</span>:<span class="macro-nonterminal">ty </span>) =&gt; {
         <span class="kw">impl </span>Debug <span class="kw">for </span><span class="macro-nonterminal">$</span><span class="kw">type </span>{
             <span class="attr">#[<span class="macro-nonterminal">inline</span>]
-            </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+            </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
                 f.debug_tuple(<span class="macro">stringify!</span>(<span class="macro-nonterminal">$</span><span class="kw">type</span>))
                     .<span class="macro-nonterminal">field</span>(<span class="kw-2">&amp;</span>Buffer(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>))
                     .finish()
@@ -2243,8 +2244,8 @@
 <span class="macro">r#impl!</span>(RawOsString, <span class="kw-2">&amp;</span>str);
 <span class="macro">r#impl!</span>(RawOsString, String);
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;print_bytes&quot;</span>)]
-#[cfg_attr(os_str_bytes_docs_rs, doc(cfg(feature = <span class="string">&quot;print_bytes&quot;</span>)))]
+<span class="attr">#[cfg(feature = <span class="string">"print_bytes"</span>)]
+#[cfg_attr(os_str_bytes_docs_rs, doc(cfg(feature = <span class="string">"print_bytes"</span>)))]
 </span><span class="kw">mod </span>print_bytes {
     <span class="kw">use </span>print_bytes::ByteStr;
     <span class="kw">use </span>print_bytes::ToBytes;
@@ -2259,7 +2260,7 @@
 
     <span class="kw">impl </span>ToBytes <span class="kw">for </span>RawOsStr {
         <span class="attr">#[inline]
-        </span><span class="kw">fn </span>to_bytes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; ByteStr&lt;<span class="lifetime">&#39;_</span>&gt; {
+        </span><span class="kw">fn </span>to_bytes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; ByteStr&lt;<span class="lifetime">'_</span>&gt; {
             <span class="self">self</span>.<span class="number">0</span>.to_bytes()
         }
 
@@ -2272,7 +2273,7 @@
 
     <span class="kw">impl </span>ToBytes <span class="kw">for </span>RawOsString {
         <span class="attr">#[inline]
-        </span><span class="kw">fn </span>to_bytes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; ByteStr&lt;<span class="lifetime">&#39;_</span>&gt; {
+        </span><span class="kw">fn </span>to_bytes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; ByteStr&lt;<span class="lifetime">'_</span>&gt; {
             (<span class="kw-2">**</span><span class="self">self</span>).to_bytes()
         }
 
@@ -2284,8 +2285,8 @@
     }
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;uniquote&quot;</span>)]
-#[cfg_attr(os_str_bytes_docs_rs, doc(cfg(feature = <span class="string">&quot;uniquote&quot;</span>)))]
+<span class="attr">#[cfg(feature = <span class="string">"uniquote"</span>)]
+#[cfg_attr(os_str_bytes_docs_rs, doc(cfg(feature = <span class="string">"uniquote"</span>)))]
 </span><span class="kw">mod </span>uniquote {
     <span class="kw">use </span>uniquote::Formatter;
     <span class="kw">use </span>uniquote::Quote;
@@ -2298,14 +2299,14 @@
 
     <span class="kw">impl </span>Quote <span class="kw">for </span>RawOsStr {
         <span class="attr">#[inline]
-        </span><span class="kw">fn </span>escape(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="prelude-ty">Result </span>{
+        </span><span class="kw">fn </span>escape(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; <span class="prelude-ty">Result </span>{
             raw::uniquote::escape(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>, f)
         }
     }
 
     <span class="kw">impl </span>Quote <span class="kw">for </span>RawOsString {
         <span class="attr">#[inline]
-        </span><span class="kw">fn </span>escape(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="prelude-ty">Result </span>{
+        </span><span class="kw">fn </span>escape(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; <span class="prelude-ty">Result </span>{
             (<span class="kw-2">**</span><span class="self">self</span>).escape(f)
         }
     }

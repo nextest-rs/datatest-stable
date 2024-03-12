@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/threadpool-1.8.1/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="threadpool" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0 (cc66ad468 2023-10-03)" data-channel="1.73.0" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-1596385f77d47ef2.css" data-theme-dark-css="dark-0a43001d3fc2282c.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-1596385f77d47ef2.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-0a43001d3fc2282c.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../threadpool/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/threadpool-1.8.1/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-ac92e1bbe349e143.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="threadpool" data-themes="" data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../static.files/src-script-39ed315d46fb705f.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1360,7 +1361,7 @@
 //! for _ in 0..n_jobs {
 //!     let tx = tx.clone();
 //!     pool.execute(move|| {
-//!         tx.send(1).expect(&quot;channel will be there waiting for the pool&quot;);
+//!         tx.send(1).expect("channel will be there waiting for the pool");
 //!     });
 //! }
 //!
@@ -1385,7 +1386,7 @@
 //! let pool = ThreadPool::new(n_workers);
 //! let an_atomic = Arc::new(AtomicUsize::new(0));
 //!
-//! assert!(n_jobs &lt;= n_workers, &quot;too many jobs, will deadlock&quot;);
+//! assert!(n_jobs &lt;= n_workers, "too many jobs, will deadlock");
 //!
 //! // create a barrier that waits for all jobs plus the starter thread
 //! let barrier = Arc::new(Barrier::new(n_jobs + 1));
@@ -1425,15 +1426,15 @@
     }
 }
 
-<span class="kw">type </span>Thunk&lt;<span class="lifetime">&#39;a</span>&gt; = Box&lt;FnBox + Send + <span class="lifetime">&#39;a</span>&gt;;
+<span class="kw">type </span>Thunk&lt;<span class="lifetime">'a</span>&gt; = Box&lt;FnBox + Send + <span class="lifetime">'a</span>&gt;;
 
-<span class="kw">struct </span>Sentinel&lt;<span class="lifetime">&#39;a</span>&gt; {
-    shared_data: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Arc&lt;ThreadPoolSharedData&gt;,
+<span class="kw">struct </span>Sentinel&lt;<span class="lifetime">'a</span>&gt; {
+    shared_data: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Arc&lt;ThreadPoolSharedData&gt;,
     active: bool,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Sentinel&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">fn </span>new(shared_data: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Arc&lt;ThreadPoolSharedData&gt;) -&gt; Sentinel&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Sentinel&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="kw">fn </span>new(shared_data: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Arc&lt;ThreadPoolSharedData&gt;) -&gt; Sentinel&lt;<span class="lifetime">'a</span>&gt; {
         Sentinel {
             shared_data: shared_data,
             active: <span class="bool-val">true</span>,
@@ -1446,7 +1447,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Drop <span class="kw">for </span>Sentinel&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Drop <span class="kw">for </span>Sentinel&lt;<span class="lifetime">'a</span>&gt; {
     <span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="kw">if </span><span class="self">self</span>.active {
             <span class="self">self</span>.shared_data.active_count.fetch_sub(<span class="number">1</span>, Ordering::SeqCst);
@@ -1530,7 +1531,7 @@
     ///
     /// for _ in 0..100 {
     ///     pool.execute(|| {
-    ///         println!(&quot;Hello from a worker thread!&quot;)
+    ///         println!("Hello from a worker thread!")
     ///     })
     /// }
     /// ```
@@ -1547,18 +1548,18 @@
     ///
     /// # Examples
     ///
-    /// Each thread spawned by this pool will have the name &quot;foo&quot;:
+    /// Each thread spawned by this pool will have the name "foo":
     ///
     /// ```
     /// use std::thread;
     ///
     /// let pool = threadpool::Builder::new()
-    ///     .thread_name(&quot;foo&quot;.into())
+    ///     .thread_name("foo".into())
     ///     .build();
     ///
     /// for _ in 0..100 {
     ///     pool.execute(|| {
-    ///         assert_eq!(thread::current().name(), Some(&quot;foo&quot;));
+    ///         assert_eq!(thread::current().name(), Some("foo"));
     ///     })
     /// }
     /// ```
@@ -1585,7 +1586,7 @@
     ///
     /// for _ in 0..100 {
     ///     pool.execute(|| {
-    ///         println!(&quot;This thread has a 4 MB stack size!&quot;);
+    ///         println!("This thread has a 4 MB stack size!");
     ///     })
     /// }
     /// ```
@@ -1608,7 +1609,7 @@
     ///     .build();
     /// ```
     </span><span class="kw">pub fn </span>build(<span class="self">self</span>) -&gt; ThreadPool {
-        <span class="kw">let </span>(tx, rx) = channel::&lt;Thunk&lt;<span class="lifetime">&#39;static</span>&gt;&gt;();
+        <span class="kw">let </span>(tx, rx) = channel::&lt;Thunk&lt;<span class="lifetime">'static</span>&gt;&gt;();
 
         <span class="kw">let </span>num_threads = <span class="self">self</span>.num_threads.unwrap_or_else(num_cpus::get);
 
@@ -1639,7 +1640,7 @@
 
 <span class="kw">struct </span>ThreadPoolSharedData {
     name: <span class="prelude-ty">Option</span>&lt;String&gt;,
-    job_receiver: Mutex&lt;Receiver&lt;Thunk&lt;<span class="lifetime">&#39;static</span>&gt;&gt;&gt;,
+    job_receiver: Mutex&lt;Receiver&lt;Thunk&lt;<span class="lifetime">'static</span>&gt;&gt;&gt;,
     empty_trigger: Mutex&lt;()&gt;,
     empty_condvar: Condvar,
     join_generation: AtomicUsize,
@@ -1661,7 +1662,7 @@
             <span class="kw-2">*</span><span class="self">self
                 </span>.empty_trigger
                 .lock()
-                .expect(<span class="string">&quot;Unable to notify all joining threads&quot;</span>);
+                .expect(<span class="string">"Unable to notify all joining threads"</span>);
             <span class="self">self</span>.empty_condvar.notify_all();
         }
     }
@@ -1673,7 +1674,7 @@
     //
     // This is the only such Sender, so when it is dropped all subthreads will
     // quit.
-    </span>jobs: Sender&lt;Thunk&lt;<span class="lifetime">&#39;static</span>&gt;&gt;,
+    </span>jobs: Sender&lt;Thunk&lt;<span class="lifetime">'static</span>&gt;&gt;,
     shared_data: Arc&lt;ThreadPoolSharedData&gt;,
 }
 
@@ -1710,12 +1711,12 @@
     /// use std::thread;
     /// use threadpool::ThreadPool;
     ///
-    /// let pool = ThreadPool::with_name(&quot;worker&quot;.into(), 2);
+    /// let pool = ThreadPool::with_name("worker".into(), 2);
     /// for _ in 0..2 {
     ///     pool.execute(|| {
     ///         assert_eq!(
     ///             thread::current().name(),
-    ///             Some(&quot;worker&quot;)
+    ///             Some("worker")
     ///         );
     ///     });
     /// }
@@ -1732,7 +1733,7 @@
 
     <span class="doccomment">/// **Deprecated: Use [`ThreadPool::with_name`](#method.with_name)**
     </span><span class="attr">#[inline(always)]
-    #[deprecated(since = <span class="string">&quot;1.4.0&quot;</span>, note = <span class="string">&quot;use ThreadPool::with_name&quot;</span>)]
+    #[deprecated(since = <span class="string">"1.4.0"</span>, note = <span class="string">"use ThreadPool::with_name"</span>)]
     </span><span class="kw">pub fn </span>new_with_name(name: String, num_threads: usize) -&gt; ThreadPool {
         <span class="self">Self</span>::with_name(name, num_threads)
     }
@@ -1747,20 +1748,20 @@
     /// use threadpool::ThreadPool;
     ///
     /// let pool = ThreadPool::new(2);
-    /// pool.execute(|| println!(&quot;hello&quot;));
-    /// pool.execute(|| println!(&quot;world&quot;));
-    /// pool.execute(|| println!(&quot;foo&quot;));
-    /// pool.execute(|| println!(&quot;bar&quot;));
+    /// pool.execute(|| println!("hello"));
+    /// pool.execute(|| println!("world"));
+    /// pool.execute(|| println!("foo"));
+    /// pool.execute(|| println!("bar"));
     /// pool.join();
     /// ```
     </span><span class="kw">pub fn </span>execute&lt;F&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, job: F)
     <span class="kw">where
-        </span>F: FnOnce() + Send + <span class="lifetime">&#39;static</span>,
+        </span>F: FnOnce() + Send + <span class="lifetime">'static</span>,
     {
         <span class="self">self</span>.shared_data.queued_count.fetch_add(<span class="number">1</span>, Ordering::SeqCst);
         <span class="self">self</span>.jobs
             .send(Box::new(job))
-            .expect(<span class="string">&quot;ThreadPool::execute unable to send job into queue.&quot;</span>);
+            .expect(<span class="string">"ThreadPool::execute unable to send job into queue."</span>);
     }
 
     <span class="doccomment">/// Returns the number of jobs waiting to executed in the pool.
@@ -1851,7 +1852,7 @@
     }
 
     <span class="doccomment">/// **Deprecated: Use [`ThreadPool::set_num_threads`](#method.set_num_threads)**
-    </span><span class="attr">#[deprecated(since = <span class="string">&quot;1.3.0&quot;</span>, note = <span class="string">&quot;use ThreadPool::set_num_threads&quot;</span>)]
+    </span><span class="attr">#[deprecated(since = <span class="string">"1.3.0"</span>, note = <span class="string">"use ThreadPool::set_num_threads"</span>)]
     </span><span class="kw">pub fn </span>set_threads(<span class="kw-2">&amp;mut </span><span class="self">self</span>, num_threads: usize) {
         <span class="self">self</span>.set_num_threads(num_threads)
     }
@@ -1976,7 +1977,7 @@
     /// use std::thread;
     /// use std::sync::mpsc::channel;
     ///
-    /// let pool = ThreadPool::with_name(&quot;clone example&quot;.into(), 2);
+    /// let pool = ThreadPool::with_name("clone example".into(), 2);
     ///
     /// let results = (0..2)
     ///     .map(|i| {
@@ -1986,7 +1987,7 @@
     ///             for i in 1..12 {
     ///                 let tx = tx.clone();
     ///                 pool.execute(move || {
-    ///                     tx.send(i).expect(&quot;channel will be waiting&quot;);
+    ///                     tx.send(i).expect("channel will be waiting");
     ///                 });
     ///             }
     ///             drop(tx);
@@ -1997,7 +1998,7 @@
     ///             }
     ///         })
     ///     })
-    ///     .map(|join_handle| join_handle.join().expect(&quot;collect results from threads&quot;))
+    ///     .map(|join_handle| join_handle.join().expect("collect results from threads"))
     ///     .collect::&lt;Vec&lt;usize&gt;&gt;();
     ///
     /// assert_eq!(vec![66, 39916800], results);
@@ -2021,11 +2022,11 @@
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>ThreadPool {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
-        f.debug_struct(<span class="string">&quot;ThreadPool&quot;</span>)
-            .field(<span class="string">&quot;name&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.shared_data.name)
-            .field(<span class="string">&quot;queued_count&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.queued_count())
-            .field(<span class="string">&quot;active_count&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.active_count())
-            .field(<span class="string">&quot;max_count&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.max_count())
+        f.debug_struct(<span class="string">"ThreadPool"</span>)
+            .field(<span class="string">"name"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.shared_data.name)
+            .field(<span class="string">"queued_count"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.queued_count())
+            .field(<span class="string">"active_count"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.active_count())
+            .field(<span class="string">"max_count"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.max_count())
             .finish()
     }
 }
@@ -2082,7 +2083,7 @@
                     </span><span class="kw">let </span>lock = shared_data
                         .job_receiver
                         .lock()
-                        .expect(<span class="string">&quot;Worker thread unable to lock job_receiver&quot;</span>);
+                        .expect(<span class="string">"Worker thread unable to lock job_receiver"</span>);
                     lock.recv()
                 };
 
@@ -2199,7 +2200,7 @@
 
         <span class="comment">// Panic all the existing threads.
         </span><span class="kw">for _ in </span><span class="number">0</span>..TEST_TASKS {
-            pool.execute(<span class="kw">move </span>|| <span class="macro">panic!</span>(<span class="string">&quot;Ignore this panic, it must!&quot;</span>));
+            pool.execute(<span class="kw">move </span>|| <span class="macro">panic!</span>(<span class="string">"Ignore this panic, it must!"</span>));
         }
         pool.join();
 
@@ -2227,7 +2228,7 @@
             <span class="kw">let </span>waiter = waiter.clone();
             pool.execute(<span class="kw">move </span>|| {
                 waiter.wait();
-                <span class="macro">panic!</span>(<span class="string">&quot;Ignore this panic, it should!&quot;</span>);
+                <span class="macro">panic!</span>(<span class="string">"Ignore this panic, it should!"</span>);
             });
         }
 
@@ -2273,7 +2274,7 @@
         <span class="kw">let </span>atomic_active_count = pool.active_count();
         <span class="macro">assert!</span>(
             atomic_active_count == <span class="number">0</span>,
-            <span class="string">&quot;atomic_active_count: {}&quot;</span>,
+            <span class="string">"atomic_active_count: {}"</span>,
             atomic_active_count
         );
     }
@@ -2318,11 +2319,11 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_name() {
-        <span class="kw">let </span>name = <span class="string">&quot;test&quot;</span>;
+        <span class="kw">let </span>name = <span class="string">"test"</span>;
         <span class="kw">let </span><span class="kw-2">mut </span>pool = ThreadPool::with_name(name.to_owned(), <span class="number">2</span>);
         <span class="kw">let </span>(tx, rx) = sync_channel(<span class="number">0</span>);
 
-        <span class="comment">// initial thread should share the name &quot;test&quot;
+        <span class="comment">// initial thread should share the name "test"
         </span><span class="kw">for _ in </span><span class="number">0</span>..<span class="number">2 </span>{
             <span class="kw">let </span>tx = tx.clone();
             pool.execute(<span class="kw">move </span>|| {
@@ -2331,7 +2332,7 @@
             });
         }
 
-        <span class="comment">// new spawn thread should share the name &quot;test&quot; too.
+        <span class="comment">// new spawn thread should share the name "test" too.
         </span>pool.set_num_threads(<span class="number">3</span>);
         <span class="kw">let </span>tx_clone = tx.clone();
         pool.execute(<span class="kw">move </span>|| {
@@ -2340,7 +2341,7 @@
             <span class="macro">panic!</span>();
         });
 
-        <span class="comment">// recover thread should share the name &quot;test&quot; too.
+        <span class="comment">// recover thread should share the name "test" too.
         </span>pool.execute(<span class="kw">move </span>|| {
             <span class="kw">let </span>name = thread::current().name().unwrap().to_owned();
             tx.send(name).unwrap();
@@ -2354,32 +2355,32 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_debug() {
         <span class="kw">let </span>pool = ThreadPool::new(<span class="number">4</span>);
-        <span class="kw">let </span>debug = <span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, pool);
+        <span class="kw">let </span>debug = <span class="macro">format!</span>(<span class="string">"{:?}"</span>, pool);
         <span class="macro">assert_eq!</span>(
             debug,
-            <span class="string">&quot;ThreadPool { name: None, queued_count: 0, active_count: 0, max_count: 4 }&quot;
+            <span class="string">"ThreadPool { name: None, queued_count: 0, active_count: 0, max_count: 4 }"
         </span>);
 
-        <span class="kw">let </span>pool = ThreadPool::with_name(<span class="string">&quot;hello&quot;</span>.into(), <span class="number">4</span>);
-        <span class="kw">let </span>debug = <span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, pool);
+        <span class="kw">let </span>pool = ThreadPool::with_name(<span class="string">"hello"</span>.into(), <span class="number">4</span>);
+        <span class="kw">let </span>debug = <span class="macro">format!</span>(<span class="string">"{:?}"</span>, pool);
         <span class="macro">assert_eq!</span>(
             debug,
-            <span class="string">&quot;ThreadPool { name: Some(\&quot;hello\&quot;), queued_count: 0, active_count: 0, max_count: 4 }&quot;
+            <span class="string">"ThreadPool { name: Some(\"hello\"), queued_count: 0, active_count: 0, max_count: 4 }"
         </span>);
 
         <span class="kw">let </span>pool = ThreadPool::new(<span class="number">4</span>);
         pool.execute(<span class="kw">move </span>|| sleep(Duration::from_secs(<span class="number">5</span>)));
         sleep(Duration::from_secs(<span class="number">1</span>));
-        <span class="kw">let </span>debug = <span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, pool);
+        <span class="kw">let </span>debug = <span class="macro">format!</span>(<span class="string">"{:?}"</span>, pool);
         <span class="macro">assert_eq!</span>(
             debug,
-            <span class="string">&quot;ThreadPool { name: None, queued_count: 0, active_count: 1, max_count: 4 }&quot;
+            <span class="string">"ThreadPool { name: None, queued_count: 0, active_count: 1, max_count: 4 }"
         </span>);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_repeate_join() {
-        <span class="kw">let </span>pool = ThreadPool::with_name(<span class="string">&quot;repeate join test&quot;</span>.into(), <span class="number">8</span>);
+        <span class="kw">let </span>pool = ThreadPool::with_name(<span class="string">"repeate join test"</span>.into(), <span class="number">8</span>);
         <span class="kw">let </span>test_count = Arc::new(AtomicUsize::new(<span class="number">0</span>));
 
         <span class="kw">for _ in </span><span class="number">0</span>..<span class="number">42 </span>{
@@ -2390,7 +2391,7 @@
             });
         }
 
-        <span class="macro">println!</span>(<span class="string">&quot;{:?}&quot;</span>, pool);
+        <span class="macro">println!</span>(<span class="string">"{:?}"</span>, pool);
         pool.join();
         <span class="macro">assert_eq!</span>(<span class="number">42</span>, test_count.load(Ordering::Acquire));
 
@@ -2417,8 +2418,8 @@
             //stderr.write(&amp;_s.as_bytes()).is_ok();
         </span>}
 
-        <span class="kw">let </span>pool0 = ThreadPool::with_name(<span class="string">&quot;multi join pool0&quot;</span>.into(), <span class="number">4</span>);
-        <span class="kw">let </span>pool1 = ThreadPool::with_name(<span class="string">&quot;multi join pool1&quot;</span>.into(), <span class="number">4</span>);
+        <span class="kw">let </span>pool0 = ThreadPool::with_name(<span class="string">"multi join pool0"</span>.into(), <span class="number">4</span>);
+        <span class="kw">let </span>pool1 = ThreadPool::with_name(<span class="string">"multi join pool1"</span>.into(), <span class="number">4</span>);
         <span class="kw">let </span>(tx, rx) = channel();
 
         <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="number">8 </span>{
@@ -2427,22 +2428,22 @@
             <span class="kw">let </span>tx = tx.clone();
             pool0.execute(<span class="kw">move </span>|| {
                 pool1.execute(<span class="kw">move </span>|| {
-                    error(<span class="macro">format!</span>(<span class="string">&quot;p1: {} -=- {:?}\n&quot;</span>, i, pool0_));
+                    error(<span class="macro">format!</span>(<span class="string">"p1: {} -=- {:?}\n"</span>, i, pool0_));
                     pool0_.join();
-                    error(<span class="macro">format!</span>(<span class="string">&quot;p1: send({})\n&quot;</span>, i));
-                    tx.send(i).expect(<span class="string">&quot;send i from pool1 -&gt; main&quot;</span>);
+                    error(<span class="macro">format!</span>(<span class="string">"p1: send({})\n"</span>, i));
+                    tx.send(i).expect(<span class="string">"send i from pool1 -&gt; main"</span>);
                 });
-                error(<span class="macro">format!</span>(<span class="string">&quot;p0: {}\n&quot;</span>, i));
+                error(<span class="macro">format!</span>(<span class="string">"p0: {}\n"</span>, i));
             });
         }
         drop(tx);
 
         <span class="macro">assert_eq!</span>(rx.try_recv(), <span class="prelude-val">Err</span>(Empty));
-        error(<span class="macro">format!</span>(<span class="string">&quot;{:?}\n{:?}\n&quot;</span>, pool0, pool1));
+        error(<span class="macro">format!</span>(<span class="string">"{:?}\n{:?}\n"</span>, pool0, pool1));
         pool0.join();
-        error(<span class="macro">format!</span>(<span class="string">&quot;pool0.join() complete =-= {:?}&quot;</span>, pool1));
+        error(<span class="macro">format!</span>(<span class="string">"pool0.join() complete =-= {:?}"</span>, pool1));
         pool1.join();
-        error(<span class="string">&quot;pool1.join() complete\n&quot;</span>.into());
+        error(<span class="string">"pool1.join() complete\n"</span>.into());
         <span class="macro">assert_eq!</span>(
             rx.iter().fold(<span class="number">0</span>, |acc, i| acc + i),
             <span class="number">0 </span>+ <span class="number">1 </span>+ <span class="number">2 </span>+ <span class="number">3 </span>+ <span class="number">4 </span>+ <span class="number">5 </span>+ <span class="number">6 </span>+ <span class="number">7
@@ -2467,7 +2468,7 @@
             sleep(Duration::from_secs(<span class="number">6</span>));
         }
 
-        <span class="kw">let </span>pool = ThreadPool::with_name(<span class="string">&quot;no fun or joy&quot;</span>.into(), <span class="number">8</span>);
+        <span class="kw">let </span>pool = ThreadPool::with_name(<span class="string">"no fun or joy"</span>.into(), <span class="number">8</span>);
 
         pool.execute(sleepy_function);
 
@@ -2481,7 +2482,7 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_clone() {
-        <span class="kw">let </span>pool = ThreadPool::with_name(<span class="string">&quot;clone example&quot;</span>.into(), <span class="number">2</span>);
+        <span class="kw">let </span>pool = ThreadPool::with_name(<span class="string">"clone example"</span>.into(), <span class="number">2</span>);
 
         <span class="comment">// This batch of jobs will occupy the pool for some time
         </span><span class="kw">for _ in </span><span class="number">0</span>..<span class="number">6 </span>{
@@ -2501,7 +2502,7 @@
                 <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="number">42 </span>{
                     <span class="kw">let </span>tx = tx.clone();
                     pool.execute(<span class="kw">move </span>|| {
-                        tx.send(i).expect(<span class="string">&quot;channel will be waiting&quot;</span>);
+                        tx.send(i).expect(<span class="string">"channel will be waiting"</span>);
                     });
                 }
                 drop(tx);
@@ -2519,7 +2520,7 @@
                 <span class="kw">for </span>i <span class="kw">in </span><span class="number">1</span>..<span class="number">12 </span>{
                     <span class="kw">let </span>tx = tx.clone();
                     pool.execute(<span class="kw">move </span>|| {
-                        tx.send(i).expect(<span class="string">&quot;channel will be waiting&quot;</span>);
+                        tx.send(i).expect(<span class="string">"channel will be waiting"</span>);
                     });
                 }
                 drop(tx);
@@ -2531,12 +2532,12 @@
         <span class="macro">assert_eq!</span>(
             <span class="number">861</span>,
             t0.join()
-                .expect(<span class="string">&quot;thread 0 will return after calculating additions&quot;</span>,)
+                .expect(<span class="string">"thread 0 will return after calculating additions"</span>,)
         );
         <span class="macro">assert_eq!</span>(
             <span class="number">39916800</span>,
             t1.join()
-                .expect(<span class="string">&quot;thread 1 will return after calculating multiplications&quot;</span>,)
+                .expect(<span class="string">"thread 1 will return after calculating multiplications"</span>,)
         );
     }
 
@@ -2580,7 +2581,7 @@
         <span class="kw">let </span>(tx, rx) = channel();
         <span class="kw">let </span>builder = Builder::new()
             .num_threads(n_workers)
-            .thread_name(<span class="string">&quot;join wavesurfer&quot;</span>.into());
+            .thread_name(<span class="string">"join wavesurfer"</span>.into());
         <span class="kw">let </span>p_waiter = builder.clone().build();
         <span class="kw">let </span>p_clock = builder.build();
 
@@ -2621,7 +2622,7 @@
                 tx.send((now, clock, i)).unwrap();
             });
         }
-        <span class="macro">println!</span>(<span class="string">&quot;all scheduled at {}&quot;</span>, wave_clock.load(Ordering::SeqCst));
+        <span class="macro">println!</span>(<span class="string">"all scheduled at {}"</span>, wave_clock.load(Ordering::SeqCst));
         barrier.wait();
 
         p_clock.join();
@@ -2641,10 +2642,10 @@
         }
         <span class="kw">for </span>(i, n) <span class="kw">in </span>hist.iter().enumerate() {
             <span class="macro">println!</span>(
-                <span class="string">&quot;\t{}: {} {}&quot;</span>,
+                <span class="string">"\t{}: {} {}"</span>,
                 i,
                 n,
-                <span class="kw-2">&amp;*</span>(<span class="number">0</span>..<span class="kw-2">*</span>n).fold(<span class="string">&quot;&quot;</span>.to_owned(), |s, <span class="kw">_</span>| s + <span class="string">&quot;*&quot;</span>)
+                <span class="kw-2">&amp;*</span>(<span class="number">0</span>..<span class="kw-2">*</span>n).fold(<span class="string">""</span>.to_owned(), |s, <span class="kw">_</span>| s + <span class="string">"*"</span>)
             );
         }
         <span class="macro">assert!</span>(data.iter().all(|<span class="kw-2">&amp;</span>(cycle, stop, i)| <span class="kw">if </span>i &lt; n_workers {
