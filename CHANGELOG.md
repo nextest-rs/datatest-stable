@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.4] - 2024-04-08
+
+This is a periodic maintenance release.
+
+- Update internal dependency versions, including libtest-mimic to 0.7.0.
+- Update "docs (main)" link to the new location at [https://datatest-stable.nexte.st](https://datatest-stable.nexte.st).
+- Update MSRV to Rust 1.65.
+
 ## [0.2.3] - 2023-08-29
 
 Updated README.
@@ -62,6 +70,7 @@ There are no functional changes in this release.
 
 (Version 0.1.0 was yanked because of a metadata issue.)
 
+[0.2.4]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.4
 [0.2.3]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.3
 [0.2.2]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.2
 [0.2.1]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.1
