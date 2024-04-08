@@ -8,24 +8,24 @@ name: Docs
 jobs:
   docs:
     name: Build and deploy documentation
+    concurrency: ci-${{ github.ref }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
-      - uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1
-        with:
-          toolchain: stable
-      - name: Build rustdoc
-        uses: actions-rs/cargo@844f36862e911db73fe0815f00a4a2602c279505 # v1
-        with:
-          command: doc
-          args: --all-features
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Build rustdocs
+        run: ./scripts/build-docs.sh
       - name: Organize
         run: |
+          rm -rf target/gh-pages
           mkdir target/gh-pages
+          mv target/doc/_redirects target/gh-pages
           mv target/doc target/gh-pages/rustdoc
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@releases/v3
+      - name: Publish
+        uses: cloudflare/pages-action@1
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: target/gh-pages
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: datatest-stable
+          directory: target/gh-pages
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}

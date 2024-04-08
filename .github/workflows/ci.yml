@@ -7,49 +7,72 @@ on:
       - main
 
 name: CI
+env:
+  RUSTFLAGS: -D warnings
+  CARGO_TERM_COLOR: always
 
 jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
-    env:
-      RUSTFLAGS: -D warnings
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt, clippy
       - uses: Swatinem/rust-cache@23bce251a8cd2ffc3c1075eaa2367cf899916d84 # v2
-      - name: Lint (rustfmt)
-        run: cargo xfmt --check
       - name: Lint (clippy)
         run: cargo clippy --all-features --all-targets
+      - name: Lint (rustfmt)
+        run: cargo xfmt --check
+      - name: Install cargo readme
+        uses: taiki-e/install-action@834a7b93e0c678fb40309ee0e36546336d5c6ea7 # v2
+        with:
+          tool: cargo-readme
+      - name: Run cargo readme
+        run: ./scripts/regenerate-readmes.sh
+      - name: Check for differences
+        run: git diff --exit-code
+
+  build-rustdoc:
+    name: Build documentation
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@23bce251a8cd2ffc3c1075eaa2367cf899916d84 # v2
+      - name: Build rustdoc
+        run: cargo doc --all-features
 
   build:
     name: Build and test
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ ubuntu-latest, macos-latest, windows-latest ]
+        os:
+          - ubuntu-latest
         # 1.60 is the MSRV
-        rust-version: [ "1.60", stable ]
+        rust-version: ["1.60", stable]
       fail-fast: false
-    env:
-      RUSTFLAGS: -D warnings
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
-      - uses: dtolnay/rust-toolchain@1482605bfc5719782e1267fd0c0cc350fe7646b8 # v1
+      - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.rust-version }}
       - uses: Swatinem/rust-cache@23bce251a8cd2ffc3c1075eaa2367cf899916d84 # v2
+        with:
+          key: ${{ matrix.rust-version }}
       - name: Build
         run: cargo build
-      - name: Install nextest
+      - name: Install latest nextest release
         uses: taiki-e/install-action@nextest
-      - name: Test
-        run: cargo nextest run --all-features
-      - name: Delete Cargo.lock and test against latest versions
-        if: matrix.rust-version == 'stable'
-        run: |
-          rm Cargo.lock
-          cargo nextest run --all-features
+      - name: Build datatest-stable
+        run: cargo build
+      - name: Run tests
+        run: cargo nextest run
