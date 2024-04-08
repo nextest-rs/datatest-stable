@@ -65,8 +65,8 @@
 //!
 //! # Minimum supported Rust version (MSRV)
 //!
-//! The minimum supported Rust version is **Rust 1.60**. MSRV bumps may be accompanied by a minor
-//! version update; at any time, at least the last 3 stable versions of Rust will be supported.
+//! The minimum supported Rust version is **Rust 1.65**. MSRV bumps may be accompanied by a minor
+//! version update; at any time, Rust versions from at least the last 6 months are supported.
 //!
 //! # See also
 //!

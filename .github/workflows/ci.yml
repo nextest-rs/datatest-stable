@@ -57,8 +57,8 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-        # 1.60 is the MSRV
-        rust-version: ["1.60", stable]
+        # 1.65 is the MSRV
+        rust-version: ["1.65", stable]
       fail-fast: false
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
