@@ -62,7 +62,7 @@ fn my_test_utf8(path: &Utf8Path) -> datatest_stable::Result<()> {
 
 datatest_stable::harness!(
     my_test, "path/to/fixtures", r"^.*/*",
-    my_test_utf8, "path/to/fixtures", r"^.*/*,
+    my_test_utf8, "path/to/fixtures", r"^.*/*",
 );
 ```
 
@@ -86,5 +86,5 @@ license](LICENSE-MIT).
 README.md is generated from README.tpl by cargo readme. To regenerate:
 
 cargo install cargo-readme
-cargo readme > README.md
+./scripts/regenerate-readmes.sh
 -->
