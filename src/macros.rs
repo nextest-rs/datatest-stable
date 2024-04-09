@@ -8,7 +8,7 @@
 #[macro_export]
 macro_rules! harness {
     ( $( $name:path, $root:expr, $pattern:expr ),+ $(,)* ) => {
-        fn main() {
+        fn main() -> ::std::process::ExitCode {
             let mut requirements = Vec::new();
 
             $(
@@ -22,7 +22,7 @@ macro_rules! harness {
                 );
             )+
 
-            $crate::runner(&requirements);
+            $crate::runner(&requirements)
         }
     };
 }

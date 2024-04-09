@@ -1,20 +1,26 @@
 // Copyright (c) The datatest-stable Contributors
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
-use std::path::Path;
+use std::{path::Path, process::ExitCode};
 
 use crate::{utils, Result};
 use camino::{Utf8Path, Utf8PathBuf};
 use libtest_mimic::{Arguments, Trial};
 
 #[doc(hidden)]
-pub fn runner(requirements: &[Requirements]) {
+pub fn runner(requirements: &[Requirements]) -> ExitCode {
     let args = Arguments::from_args();
 
     let mut tests: Vec<_> = requirements.iter().flat_map(|req| req.expand()).collect();
     tests.sort_unstable_by(|a, b| a.name().cmp(b.name()));
 
-    libtest_mimic::run(&args, tests).exit()
+    let conclusion = libtest_mimic::run(&args, tests);
+    if conclusion.has_failed() {
+        // libtest-mimic uses exit code 101 for test failures -- retain the same behavior.
+        101.into()
+    } else {
+        ExitCode::SUCCESS
+    }
 }
 
 #[doc(hidden)]
