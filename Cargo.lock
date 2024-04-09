@@ -163,9 +163,9 @@ checksum = "9c198f91728a82281a64e1f4f9eeb25d82cb32a5de251c6bd1b5154d63a8e7bd"
 
 [[package]]
 name = "libtest-mimic"
-version = "0.7.0"
+version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7f0f4c6f44ecfd52e8b443f2ad18f2b996540135771561283c2352ce56a1c70b"
+checksum = "af551aaf8c38095e6a139e1e8d1588881193b4931ad6f80aeb98fd33454758ef"
 dependencies = [
  "clap",
  "escape8259",
