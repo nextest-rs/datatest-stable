@@ -15,6 +15,13 @@ pub fn runner(requirements: &[Requirements]) -> ExitCode {
     tests.sort_unstable_by(|a, b| a.name().cmp(b.name()));
 
     let conclusion = libtest_mimic::run(&args, tests);
+
+    // This used to use `Conclusion::exit`, but that exits the process via `std::process::exit` as
+    // of libtest-mimic 0.7.0. This breaks some things, e.g. llvm-cov on Windows.
+    // https://github.com/nextest-rs/datatest-stable/issues/20
+    //
+    // Use `std::process::ExitCode` instead, and return it in main.
+
     if conclusion.has_failed() {
         // libtest-mimic uses exit code 101 for test failures -- retain the same behavior.
         101.into()

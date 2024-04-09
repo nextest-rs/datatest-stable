@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.2.5] - 2024-04-08
+
+- Exit main via `ExitCode` rather than `std::process::exit()`. This appears to fix coverage on
+  Windows.
+
 ## [0.2.4] - 2024-04-08
 
 This is a periodic maintenance release.
@@ -70,6 +75,7 @@ There are no functional changes in this release.
 
 (Version 0.1.0 was yanked because of a metadata issue.)
 
+[0.2.5]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.5
 [0.2.4]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.4
 [0.2.3]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.3
 [0.2.2]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.2
