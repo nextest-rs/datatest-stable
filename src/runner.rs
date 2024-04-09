@@ -22,12 +22,7 @@ pub fn runner(requirements: &[Requirements]) -> ExitCode {
     //
     // Use `std::process::ExitCode` instead, and return it in main.
 
-    if conclusion.has_failed() {
-        // libtest-mimic uses exit code 101 for test failures -- retain the same behavior.
-        101.into()
-    } else {
-        ExitCode::SUCCESS
-    }
+    conclusion.exit_code()
 }
 
 #[doc(hidden)]
