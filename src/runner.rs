@@ -58,7 +58,7 @@ impl Requirements {
         let tests: Vec<_> = utils::iterate_directory(&self.root)
             .filter_map(|path_res| {
                 let path = path_res.expect("error while iterating directory");
-                if re.is_match(path.as_str()) {
+                if re.is_match(path.as_str()).unwrap_or_else(|_| panic!("Problem with matching following pattern : '{}'", self.pattern)) {
                     let testfn = self.test;
                     let name = utils::derive_test_name(&self.root, &path, &self.test_name);
                     Some(Trial::test(name, move || {
