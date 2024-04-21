@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.2.7] - 2024-04-21
+
+### Changed
+
+- Switched to the `fancy-regex` crate, which allows for matching against regexes with
+  lookahead/behind and backreferences. Thanks [@webbdays](https://github.com/webbdays) for your
+  first contribution!
+- MSRV updated to Rust 1.66.
+
 ## [0.2.6] - 2024-04-09
 
 - Update to `libtest-mimic 0.7.2`, and use the upstream implementation of `ExitCode`.
@@ -79,6 +88,7 @@ There are no functional changes in this release.
 
 (Version 0.1.0 was yanked because of a metadata issue.)
 
+[0.2.7]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.7
 [0.2.6]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.6
 [0.2.5]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.5
 [0.2.4]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.4
