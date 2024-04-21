@@ -9,7 +9,7 @@ readme = "README.md"
 edition = "2021"
 categories = ["development-tools::testing"]
 keywords = ["datatest", "data-driven-tests", "test-harness"]
-rust-version = "1.65"
+rust-version = "1.66"
 
 [dependencies]
 camino = "1.1.6"
