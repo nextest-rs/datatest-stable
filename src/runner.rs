@@ -52,7 +52,7 @@ impl Requirements {
     /// Scans all files in a given directory, finds matching ones and generates a test descriptor
     /// for each of them.
     fn expand(&self) -> Vec<Trial> {
-        let re = regex::Regex::new(&self.pattern)
+        let re = fancy_regex::Regex::new(&self.pattern)
             .unwrap_or_else(|_| panic!("invalid regular expression: '{}'", self.pattern));
 
         let tests: Vec<_> = utils::iterate_directory(&self.root)
