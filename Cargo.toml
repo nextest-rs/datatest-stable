@@ -16,6 +16,7 @@ camino = "1.1.6"
 libtest-mimic = "0.7.2"
 regex = "1.10.4"
 walkdir = "2.5.0"
+fancy_regex = "0.13.0"
 
 [[test]]
 name = "example"
