@@ -33,3 +33,76 @@ pub fn derive_test_name(root: &Utf8Path, path: &Utf8Path, test_name: &str) -> St
 
     format!("{}::{}", test_name, relative)
 }
+
+pub fn derive_test_path(root: &Utf8Path, filter: &str, test_name: &str) -> Option<Utf8PathBuf> {
+    let relative = filter.strip_prefix(test_name)?.strip_prefix("::")?;
+    Some(root.join(relative))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    mod derive_path {
+        use super::*;
+
+        #[test]
+        fn missing_test_name() {
+            assert_eq!(derive_test_path("root".into(), "file", "test_name"), None);
+        }
+
+        #[test]
+        fn missing_colons() {
+            assert_eq!(
+                derive_test_path("root".into(), "test_name", "test_name"),
+                None
+            );
+        }
+
+        #[test]
+        fn is_relative_to_root() {
+            assert_eq!(
+                derive_test_path("root".into(), "test_name::file", "test_name"),
+                Some("root/file".into())
+            );
+            assert_eq!(
+                derive_test_path("root2".into(), "test_name::file", "test_name"),
+                Some("root2/file".into())
+            );
+        }
+
+        #[test]
+        fn nested_dirs() {
+            assert_eq!(
+                derive_test_path("root".into(), "test_name::dir/dir2/file", "test_name"),
+                Some("root/dir/dir2/file".into())
+            );
+        }
+
+        #[test]
+        fn subsequent_module_separators_remain() {
+            assert_eq!(
+                derive_test_path("root".into(), "test_name::mod::file", "test_name"),
+                Some("root/mod::file".into())
+            );
+        }
+
+        #[test]
+        fn inverse_of_derive_test_name() {
+            let root: Utf8PathBuf = "root".into();
+            for (path, test_name) in [
+                (root.join("foo/bar.txt"), "test_name"),
+                (root.join("foo::bar.txt"), "test_name"),
+                (root.join("foo/bar/baz"), "test_name"),
+                (root.join("foo"), "test_name::mod"),
+                (root.join("🦀"), "🚀::🚀"),
+            ] {
+                let derived_test_name = derive_test_name(&root, &path, test_name);
+                assert_eq!(
+                    derive_test_path(&root, &derived_test_name, test_name),
+                    Some(path)
+                );
+            }
+        }
+    }
+}

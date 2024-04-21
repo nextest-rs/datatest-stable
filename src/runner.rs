@@ -11,8 +11,7 @@ use libtest_mimic::{Arguments, Trial};
 pub fn runner(requirements: &[Requirements]) -> ExitCode {
     let args = Arguments::from_args();
 
-    let mut tests: Vec<_> = requirements.iter().flat_map(|req| req.expand()).collect();
-    tests.sort_unstable_by(|a, b| a.name().cmp(b.name()));
+    let tests = find_tests(&args, requirements);
 
     let conclusion = libtest_mimic::run(&args, tests);
 
@@ -23,6 +22,50 @@ pub fn runner(requirements: &[Requirements]) -> ExitCode {
     // Use `std::process::ExitCode` instead, and return it in main.
 
     conclusion.exit_code()
+}
+
+fn find_tests(args: &Arguments, requirements: &[Requirements]) -> Vec<Trial> {
+    let tests: Vec<_> = if let Some(exact_filter) = exact_filter(args) {
+        let exact_tests: Vec<_> = requirements
+            .iter()
+            .flat_map(|req| req.exact(exact_filter))
+            .collect();
+
+        if is_nextest() {
+            if exact_tests.is_empty() {
+                panic!("Failed to find exact match for filter {exact_filter}");
+            } else if exact_tests.len() > 1 {
+                panic!(
+                    "Only expected one but found {} exact matches for filter {exact_filter}",
+                    exact_tests.len()
+                );
+            }
+        }
+        exact_tests
+    } else if is_full_scan_forbidden(args) {
+        panic!("Exact filter was expected to be used");
+    } else {
+        let mut tests: Vec<_> = requirements.iter().flat_map(|req| req.expand()).collect();
+        tests.sort_unstable_by(|a, b| a.name().cmp(b.name()));
+        tests
+    };
+    tests
+}
+
+fn is_nextest() -> bool {
+    std::env::var("NEXTEST").as_deref() == Ok("1")
+}
+
+fn is_full_scan_forbidden(args: &Arguments) -> bool {
+    !args.list && std::env::var("__DATATEST_FULL_SCAN_FORBIDDEN").as_deref() == Ok("1")
+}
+
+fn exact_filter(args: &Arguments) -> Option<&str> {
+    if args.exact && args.skip.is_empty() {
+        args.filter.as_deref()
+    } else {
+        None
+    }
 }
 
 #[doc(hidden)]
@@ -49,6 +92,21 @@ impl Requirements {
         }
     }
 
+    fn trial(&self, path: Utf8PathBuf) -> Trial {
+        let testfn = self.test;
+        let name = utils::derive_test_name(&self.root, &path, &self.test_name);
+        Trial::test(name, move || {
+            testfn
+                .call(&path)
+                .map_err(|err| format!("{:?}", err).into())
+        })
+    }
+
+    fn exact(&self, filter: &str) -> Option<Trial> {
+        let path = utils::derive_test_path(&self.root, filter, &self.test_name)?;
+        path.exists().then(|| self.trial(path))
+    }
+
     /// Scans all files in a given directory, finds matching ones and generates a test descriptor
     /// for each of them.
     fn expand(&self) -> Vec<Trial> {
@@ -66,13 +124,7 @@ impl Requirements {
                         error
                     )
                 }) {
-                    let testfn = self.test;
-                    let name = utils::derive_test_name(&self.root, &path, &self.test_name);
-                    Some(Trial::test(name, move || {
-                        testfn
-                            .call(&path)
-                            .map_err(|err| format!("{:?}", err).into())
-                    }))
+                    Some(self.trial(path))
                 } else {
                     None
                 }
