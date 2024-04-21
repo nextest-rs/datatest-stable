@@ -9,12 +9,12 @@ readme = "README.md"
 edition = "2021"
 categories = ["development-tools::testing"]
 keywords = ["datatest", "data-driven-tests", "test-harness"]
-rust-version = "1.65"
+rust-version = "1.66"
 
 [dependencies]
 camino = "1.1.6"
+fancy-regex = "0.13.0"
 libtest-mimic = "0.7.2"
-regex = "1.10.4"
 walkdir = "2.5.0"
 
 [[test]]

@@ -52,13 +52,20 @@ impl Requirements {
     /// Scans all files in a given directory, finds matching ones and generates a test descriptor
     /// for each of them.
     fn expand(&self) -> Vec<Trial> {
-        let re = regex::Regex::new(&self.pattern)
+        let re = fancy_regex::Regex::new(&self.pattern)
             .unwrap_or_else(|_| panic!("invalid regular expression: '{}'", self.pattern));
 
         let tests: Vec<_> = utils::iterate_directory(&self.root)
             .filter_map(|path_res| {
                 let path = path_res.expect("error while iterating directory");
-                if re.is_match(path.as_str()) {
+                if re.is_match(path.as_str()).unwrap_or_else(|error| {
+                    panic!(
+                        "error matching pattern '{}' against path '{}' : {}",
+                        self.pattern,
+                        path.as_str(),
+                        error
+                    )
+                }) {
                     let testfn = self.test;
                     let name = utils::derive_test_name(&self.root, &path, &self.test_name);
                     Some(Trial::test(name, move || {

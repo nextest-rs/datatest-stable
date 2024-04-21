@@ -20,8 +20,8 @@ fn test_artifact_utf8(path: &Utf8Path) -> Result<()> {
 datatest_stable::harness!(
     test_artifact,
     "tests/files",
-    r"^.*/*",
+    r"^.*(?<!\.skip)\.txt$", // this regex pattern skips .skip.txt files
     test_artifact_utf8,
     "tests/files",
-    r"^.*/*",
+    r"^.*\.txt$", // this regexpattern matches all files
 );
