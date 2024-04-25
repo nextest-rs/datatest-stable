@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.8] - 2024-04-24
+
+### Fixed
+
+- Fixed quadratic performance issue with nextest, where datatest-stable would iterate over the
+  entire list of files for each test. Thanks [@zaneduffield](https://github.com/zaneduffield) for
+  your first contribution!
+
 ## [0.2.7] - 2024-04-21
 
 ### Changed
@@ -88,6 +96,7 @@ There are no functional changes in this release.
 
 (Version 0.1.0 was yanked because of a metadata issue.)
 
+[0.2.8]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.8
 [0.2.7]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.7
 [0.2.6]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.6
 [0.2.5]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.5

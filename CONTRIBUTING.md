@@ -1,3 +1,8 @@
+## Prerequisites
+
+datatest-stable is designed to work with both `cargo test` and `cargo nextest`. In either case,
+nextest is required for one of the tests. Install it via [the instructions here](https://get.nexte.st).
+
 ## Pull Requests
 
 If you have a new feature in mind, please discuss the feature in an issue to ensure that your

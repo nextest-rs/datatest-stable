@@ -76,3 +76,5 @@ jobs:
         run: cargo build
       - name: Run tests
         run: cargo nextest run
+      - name: Run tests with cargo test
+        run: cargo test
