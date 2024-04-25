@@ -9,7 +9,7 @@ use std::{path::Path, process::ExitCode};
 #[doc(hidden)]
 pub fn runner(requirements: &[Requirements]) -> ExitCode {
     if let Some(cwd) = custom_cwd() {
-        std::env::set_current_dir(&cwd).expect("set custom working directory");
+        std::env::set_current_dir(cwd).expect("set custom working directory");
     }
 
     let args = Arguments::from_args();
