@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.2.9] - 2024-04-25
+
+### Added
+
+Previously, the test functions supported were `fn(&Path) -> Result<()>` and `fn(&Utf8Path) -> Result<()>`. This release adds additional supported functions:
+
+- `fn(&P, String) -> datatest_stable::Result<()>` where `P` is `Path` or `Utf8Path`. If the
+  extra `String` parameter is specified, the contents of the file will be loaded and passed in
+  as a string (erroring out if that failed).
+- `fn(&P, Vec<u8>) -> datatest_stable::Result<()>` where `P` is `Path` or `Utf8Path`. If the
+  extra `Vec<u8>` parameter is specified, the contents of the file will be
+  loaded and passed in as a `Vec<u8>` (erroring out if that failed).
+
 ## [0.2.8] - 2024-04-24
 
 ### Fixed
@@ -96,6 +109,7 @@ There are no functional changes in this release.
 
 (Version 0.1.0 was yanked because of a metadata issue.)
 
+[0.2.9]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.9
 [0.2.8]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.8
 [0.2.7]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.7
 [0.2.6]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.6

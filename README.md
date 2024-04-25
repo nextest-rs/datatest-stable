@@ -42,14 +42,16 @@ parameters:
     extra `String` parameter is specified, the contents of the file will be loaded and passed in
     as a string (erroring out if that failed).
   * `fn(&P, Vec<u8>) -> datatest_stable::Result<()>` where `P` is `Path` or `Utf8Path`. If the
-    extra `Vec<u8>` parameter is specified, are specified, the contents of the file will be
-    loaded and passed in as a `Vec<u8>` (erroring out if that failed).
+    extra `Vec<u8>` parameter is specified, the contents of the file will be loaded and passed
+    in as a `Vec<u8>` (erroring out if that failed).
 * `root` - The path to the root directory where the input files (fixtures) live. This path is
-  relative to the root of the crate.
-* `pattern` - the regex used to match against and select each file to be tested.
+  relative to the root of the crate (the directory where the crate's `Cargo.toml` is located).
+* `pattern` - a regex used to match against and select each file to be tested. Extended regexes
+  with lookaround and backtracking are supported via the
+  [`fancy_regex`](https://docs.rs/fancy-regex) crate.
 
 The three parameters can be repeated if you have multiple sets of data-driven tests to be run:
-`datatest_stable::harness!(testfn1, root1, pattern1, testfn2, root2, pattern2)`
+`datatest_stable::harness!(testfn1, root1, pattern1, testfn2, root2, pattern2)`.
 
 ## Examples
 
@@ -85,7 +87,7 @@ version update; at any time, Rust versions from at least the last 6 months are s
 ## See also
 
 * [`datatest`](https://crates.io/crates/datatest): the original inspiration for this crate, with
-  a better UI and more features but targeting nightly Rust
+  more features but targeting nightly Rust.
 * [Data-driven testing](https://en.wikipedia.org/wiki/Data-driven_testing)
 
 ## License
