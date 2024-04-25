@@ -37,7 +37,7 @@ fn find_tests(args: &Arguments, requirements: &[Requirements]) -> Vec<Trial> {
     let tests: Vec<_> = if let Some(exact_filter) = exact_filter(args) {
         let exact_tests: Vec<_> = requirements
             .iter()
-            .flat_map(|req| req.exact(exact_filter))
+            .filter_map(|req| req.exact(exact_filter))
             .collect();
 
         match NextestKind::determine() {
