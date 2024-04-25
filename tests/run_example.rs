@@ -2,11 +2,23 @@
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
 static EXPECTED_LINES: &[&str] = &[
+    "datatest-stable::example test_artifact_bytes::a.txt",
+    "datatest-stable::example test_artifact_bytes::b.txt",
+    "datatest-stable::example test_artifact_bytes::c.skip.txt",
+    "datatest-stable::example test_artifact_string::a.txt",
+    "datatest-stable::example test_artifact_string::b.txt",
+    "datatest-stable::example test_artifact_string::c.skip.txt",
+    "datatest-stable::example test_artifact_utf8_bytes::a.txt",
+    "datatest-stable::example test_artifact_utf8_bytes::b.txt",
+    "datatest-stable::example test_artifact_utf8_bytes::c.skip.txt",
+    "datatest-stable::example test_artifact_utf8_string::a.txt",
+    "datatest-stable::example test_artifact_utf8_string::b.txt",
+    "datatest-stable::example test_artifact_utf8_string::c.skip.txt",
+    "datatest-stable::example test_artifact_utf8::a.txt",
+    "datatest-stable::example test_artifact_utf8::b.txt",
+    "datatest-stable::example test_artifact_utf8::c.skip.txt",
     "datatest-stable::example test_artifact::a.txt",
     "datatest-stable::example test_artifact::b.txt",
-    "datatest-stable::example test_artifact_utf8::a.txt",
-    "datatest-stable::example test_artifact_utf8::c.skip.txt",
-    "datatest-stable::example test_artifact_utf8::b.txt",
 ];
 
 #[test]
@@ -31,7 +43,7 @@ fn run_example() {
     for line in EXPECTED_LINES
         .iter()
         .copied()
-        .chain(std::iter::once("5 tests run: 5 passed, 0 skipped"))
+        .chain(std::iter::once("17 tests run: 17 passed, 0 skipped"))
     {
         assert!(
             stderr.contains(line),
@@ -46,10 +58,35 @@ mod unix {
     use camino_tempfile::Utf8TempDir;
 
     static EXPECTED_UNIX_LINES: &[&str] = &[
-        "datatest-stable::example test_artifact::::colon::dir/::.txt",
-        "datatest-stable::example test_artifact::::colon::dir/a.txt",
+        "datatest-stable::example test_artifact_bytes::::colon::dir/::.txt",
+        "datatest-stable::example test_artifact_bytes::::colon::dir/a.txt",
+        "datatest-stable::example test_artifact_bytes::a.txt",
+        "datatest-stable::example test_artifact_bytes::b.txt",
+        "datatest-stable::example test_artifact_bytes::c.skip.txt",
+        "datatest-stable::example test_artifact_string::::colon::dir/::.txt",
+        "datatest-stable::example test_artifact_string::::colon::dir/a.txt",
+        "datatest-stable::example test_artifact_string::a.txt",
+        "datatest-stable::example test_artifact_string::b.txt",
+        "datatest-stable::example test_artifact_string::c.skip.txt",
+        "datatest-stable::example test_artifact_utf8_bytes::::colon::dir/::.txt",
+        "datatest-stable::example test_artifact_utf8_bytes::::colon::dir/a.txt",
+        "datatest-stable::example test_artifact_utf8_bytes::a.txt",
+        "datatest-stable::example test_artifact_utf8_bytes::b.txt",
+        "datatest-stable::example test_artifact_utf8_bytes::c.skip.txt",
+        "datatest-stable::example test_artifact_utf8_string::::colon::dir/::.txt",
+        "datatest-stable::example test_artifact_utf8_string::::colon::dir/a.txt",
+        "datatest-stable::example test_artifact_utf8_string::a.txt",
+        "datatest-stable::example test_artifact_utf8_string::b.txt",
+        "datatest-stable::example test_artifact_utf8_string::c.skip.txt",
         "datatest-stable::example test_artifact_utf8::::colon::dir/::.txt",
         "datatest-stable::example test_artifact_utf8::::colon::dir/a.txt",
+        "datatest-stable::example test_artifact_utf8::a.txt",
+        "datatest-stable::example test_artifact_utf8::b.txt",
+        "datatest-stable::example test_artifact_utf8::c.skip.txt",
+        "datatest-stable::example test_artifact::::colon::dir/::.txt",
+        "datatest-stable::example test_artifact::::colon::dir/a.txt",
+        "datatest-stable::example test_artifact::a.txt",
+        "datatest-stable::example test_artifact::b.txt",
     ];
 
     #[test]
@@ -94,7 +131,7 @@ mod unix {
             .iter()
             .chain(EXPECTED_UNIX_LINES.iter())
             .copied()
-            .chain(std::iter::once("9 tests run: 9 passed, 0 skipped"))
+            .chain(std::iter::once("29 tests run: 29 passed, 0 skipped"))
         {
             assert!(
                 stderr.contains(line),
