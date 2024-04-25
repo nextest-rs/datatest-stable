@@ -31,16 +31,21 @@ fn find_tests(args: &Arguments, requirements: &[Requirements]) -> Vec<Trial> {
             .flat_map(|req| req.exact(exact_filter))
             .collect();
 
-        if is_nextest() {
-            if exact_tests.is_empty() {
-                panic!("Failed to find exact match for filter {exact_filter}");
-            } else if exact_tests.len() > 1 {
-                panic!(
-                    "Only expected one but found {} exact matches for filter {exact_filter}",
-                    exact_tests.len()
-                );
+        match NextestKind::determine() {
+            NextestKind::InUse { process_per_test } => {
+                if exact_tests.is_empty() {
+                    panic!("Failed to find exact match for filter {exact_filter}");
+                }
+                if process_per_test && exact_tests.len() > 1 {
+                    panic!(
+                        "Only expected one but found {} exact matches for filter {exact_filter}",
+                        exact_tests.len()
+                    );
+                }
             }
+            NextestKind::NotInUse => {}
         }
+
         exact_tests
     } else if is_full_scan_forbidden(args) {
         panic!("Exact filter was expected to be used");
@@ -52,8 +57,23 @@ fn find_tests(args: &Arguments, requirements: &[Requirements]) -> Vec<Trial> {
     tests
 }
 
-fn is_nextest() -> bool {
-    std::env::var("NEXTEST").as_deref() == Ok("1")
+#[derive(Clone, Copy, Debug)]
+enum NextestKind {
+    NotInUse,
+    InUse { process_per_test: bool },
+}
+
+impl NextestKind {
+    fn determine() -> Self {
+        if std::env::var("NEXTEST").as_deref() == Ok("1") {
+            // Process-per-test means that exactly one test should be run.
+            let process_per_test =
+                std::env::var("NEXTEST_EXECUTION_MODE").as_deref() == Ok("process-per-test");
+            Self::InUse { process_per_test }
+        } else {
+            Self::NotInUse
+        }
+    }
 }
 
 fn is_full_scan_forbidden(args: &Arguments) -> bool {

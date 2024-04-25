@@ -57,6 +57,7 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
+          - windows-latest
         rust-version: ["1.66", stable]
       fail-fast: false
     steps:
