@@ -8,6 +8,10 @@ use std::{path::Path, process::ExitCode};
 
 #[doc(hidden)]
 pub fn runner(requirements: &[Requirements]) -> ExitCode {
+    if let Some(cwd) = custom_cwd() {
+        std::env::set_current_dir(&cwd).expect("set custom working directory");
+    }
+
     let args = Arguments::from_args();
 
     let tests = find_tests(&args, requirements);
@@ -21,6 +25,12 @@ pub fn runner(requirements: &[Requirements]) -> ExitCode {
     // Use `std::process::ExitCode` instead, and return it in main.
 
     conclusion.exit_code()
+}
+
+/// One of our tests requires that a custom working directory be set. This function is used to do
+/// that.
+fn custom_cwd() -> Option<Utf8PathBuf> {
+    std::env::var("__DATATEST_CWD").ok().map(Utf8PathBuf::from)
 }
 
 fn find_tests(args: &Arguments, requirements: &[Requirements]) -> Vec<Trial> {

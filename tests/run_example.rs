@@ -1,13 +1,21 @@
 // Copyright (c) The datatest-stable Contributors
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
+static EXPECTED_LINES: &[&str] = &[
+    "datatest-stable::example test_artifact::a.txt",
+    "datatest-stable::example test_artifact::b.txt",
+    "datatest-stable::example test_artifact_utf8::a.txt",
+    "datatest-stable::example test_artifact_utf8::c.skip.txt",
+    "datatest-stable::example test_artifact_utf8::b.txt",
+];
+
 #[test]
 fn run_example() {
-    let output = std::process::Command::new("cargo")
+    let output = std::process::Command::new(cargo_bin())
         .args(["nextest", "run", "--test=example", "--color=never"])
         .env("__DATATEST_FULL_SCAN_FORBIDDEN", "1")
         .output()
-        .expect("Failed to run `cargo nextest`");
+        .expect("`cargo nextest` was successful");
 
     // It's a pain to make assertions on byte slices (even a subslice check isn't easy)
     // and it's also difficult to print nice error messages. So we just assume all
@@ -16,27 +24,86 @@ fn run_example() {
 
     assert!(
         output.status.success(),
-        "Command failed (exit status: {}, stderr: {stderr})",
+        "nextest exited with 0 (exit status: {}, stderr: {stderr})",
         output.status
     );
 
-    let lines: &[&str] = &[
-        "datatest-stable::example test_artifact::::colon::dir/::.txt",
-        "datatest-stable::example test_artifact::::colon::dir/a.txt",
-        "datatest-stable::example test_artifact::a.txt",
-        "datatest-stable::example test_artifact_utf8::::colon::dir/::.txt",
-        "datatest-stable::example test_artifact::b.txt",
-        "datatest-stable::example test_artifact_utf8::::colon::dir/a.txt",
-        "datatest-stable::example test_artifact_utf8::a.txt",
-        "datatest-stable::example test_artifact_utf8::c.skip.txt",
-        "datatest-stable::example test_artifact_utf8::b.txt",
-        "9 tests run: 9 passed, 0 skipped",
-    ];
-
-    for line in lines {
+    for line in EXPECTED_LINES
+        .iter()
+        .copied()
+        .chain(std::iter::once("5 tests run: 5 passed, 0 skipped"))
+    {
         assert!(
             stderr.contains(line),
             "Expected to find substring\n  {line}\nin stderr\n  {stderr}",
         );
     }
+}
+
+#[cfg(unix)]
+mod unix {
+    use super::*;
+    use camino_tempfile::Utf8TempDir;
+
+    static EXPECTED_UNIX_LINES: &[&str] = &[
+        "datatest-stable::example test_artifact::::colon::dir/::.txt",
+        "datatest-stable::example test_artifact::::colon::dir/a.txt",
+        "datatest-stable::example test_artifact_utf8::::colon::dir/::.txt",
+        "datatest-stable::example test_artifact_utf8::::colon::dir/a.txt",
+    ];
+
+    #[test]
+    fn run_example_with_colons() {
+        let temp_dir = Utf8TempDir::with_prefix("datatest-stable").expect("created temp dir");
+        std::fs::create_dir_all(temp_dir.path().join("tests")).expect("created dir");
+        let dest = temp_dir.path().join("tests/files");
+
+        // Make a copy of tests/files inside the temp dir.
+        fs_extra::dir::copy(
+            "tests/files",
+            temp_dir.path().join("tests"),
+            &fs_extra::dir::CopyOptions::new(),
+        )
+        .expect("copied files");
+
+        // Add some files with colons in their names. (They can't be checked into the repo because
+        // it needs to be cloned on Windows.)
+        let colon_dir = dest.join("::colon::dir");
+        std::fs::create_dir_all(&colon_dir).expect("created dir with colons");
+        std::fs::write(colon_dir.join("::.txt"), b"floop").expect("wrote file with colons");
+        std::fs::write(colon_dir.join("a.txt"), b"flarp").expect("wrote file with colons");
+
+        // Now run the tests.
+        let output = std::process::Command::new(cargo_bin())
+            .args(["nextest", "run", "--test=example", "--color=never"])
+            .env("__DATATEST_FULL_SCAN_FORBIDDEN", "1")
+            .env("__DATATEST_CWD", temp_dir.path())
+            .output()
+            .expect("`cargo nextest` was successful");
+
+        let stderr =
+            std::str::from_utf8(&output.stderr).expect("cargo nextest stderr should be utf-8");
+
+        assert!(
+            output.status.success(),
+            "nextest exited with 0 (exit status: {}, stderr: {stderr})",
+            output.status
+        );
+
+        for line in EXPECTED_LINES
+            .iter()
+            .chain(EXPECTED_UNIX_LINES.iter())
+            .copied()
+            .chain(std::iter::once("9 tests run: 9 passed, 0 skipped"))
+        {
+            assert!(
+                stderr.contains(line),
+                "Expected to find substring\n  {line}\nin stderr\n  {stderr}",
+            );
+        }
+    }
+}
+
+fn cargo_bin() -> String {
+    std::env::var("CARGO").unwrap_or_else(|_| "cargo".to_string())
 }
