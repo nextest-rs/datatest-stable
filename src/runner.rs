@@ -1,11 +1,10 @@
 // Copyright (c) The datatest-stable Contributors
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
-use std::{path::Path, process::ExitCode};
-
 use crate::{utils, Result};
 use camino::{Utf8Path, Utf8PathBuf};
 use libtest_mimic::{Arguments, Trial};
+use std::{path::Path, process::ExitCode};
 
 #[doc(hidden)]
 pub fn runner(requirements: &[Requirements]) -> ExitCode {

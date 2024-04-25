@@ -83,10 +83,9 @@ mod utils;
 /// The result type for `datatest-stable` tests.
 pub type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
 
-/// A re-export of this type from the `camino` crate, since it forms part of function signatures.
-#[doc(no_inline)]
-pub use camino::Utf8Path;
-
 /// Not part of the public API, just used for macros.
 #[doc(hidden)]
 pub use self::runner::{runner, Requirements, TestFn};
+/// A re-export of this type from the `camino` crate, since it forms part of function signatures.
+#[doc(no_inline)]
+pub use camino::Utf8Path;
