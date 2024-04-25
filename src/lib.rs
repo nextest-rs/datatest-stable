@@ -3,9 +3,12 @@
 
 #![forbid(unsafe_code)]
 
-//! `datatest-stable` is a very simple test harness intended to write data-driven tests, where
-//! individual test cases are specified as files and not as code. Given:
-//! * a test `my_test` that accepts a path as input
+//! `datatest-stable` is a test harness intended to write *file-driven* or *data-driven* tests,
+//! where individual test cases are specified as files and not as code.
+//!
+//! Given:
+//!
+//! * a test `my_test` that accepts a path, and optionally the contents as input
 //! * a directory to look for files in
 //! * a pattern to match files on
 //!
@@ -26,10 +29,18 @@
 //!
 //! 2. Call the `datatest_stable::harness!(testfn, root, pattern)` macro with the following
 //! parameters:
-//! * `testfn` - The test function to be executed on each matching input. This function can be one of:
+//!
+//! * `testfn` - The test function to be executed on each matching input. This function can be one
+//!   of:
 //!   * `fn(&Path) -> datatest_stable::Result<()>`
 //!   * `fn(&Utf8Path) -> datatest_stable::Result<()>` (`Utf8Path` is part of the
 //!      [`camino`](https://docs.rs/camino) library, and is re-exported here for convenience.)
+//!   * `fn(&P, String) -> datatest_stable::Result<()>` where `P` is `Path` or `Utf8Path`. If the
+//!     extra `String` parameter is specified, the contents of the file will be loaded and passed in
+//!     as a string (erroring out if that failed).
+//!   * `fn(&P, Vec<u8>) -> datatest_stable::Result<()>` where `P` is `Path` or `Utf8Path`. If the
+//!     extra `Vec<u8>` parameter is specified, are specified, the contents of the file will be
+//!     loaded and passed in as a `Vec<u8>` (erroring out if that failed).
 //! * `root` - The path to the root directory where the input files (fixtures) live. This path is
 //!   relative to the root of the crate.
 //! * `pattern` - the regex used to match against and select each file to be tested.
@@ -51,7 +62,7 @@
 //!     Ok(())
 //! }
 //!
-//! fn my_test_utf8(path: &Utf8Path) -> datatest_stable::Result<()> {
+//! fn my_test_utf8(path: &Utf8Path, contents: String) -> datatest_stable::Result<()> {
 //!     // ... write test here
 //!
 //!     Ok(())
@@ -85,7 +96,7 @@ pub type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
 
 /// Not part of the public API, just used for macros.
 #[doc(hidden)]
-pub use self::runner::{runner, Requirements, TestFn};
+pub use self::runner::{runner, test_kinds, Requirements, TestFn};
 /// A re-export of this type from the `camino` crate, since it forms part of function signatures.
 #[doc(no_inline)]
 pub use camino::Utf8Path;
