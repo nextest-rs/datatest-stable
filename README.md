@@ -31,7 +31,7 @@ harness = false
 ```
 
 2. Call the `datatest_stable::harness!(testfn, root, pattern)` macro with the following
-parameters:
+   parameters:
 
 * `testfn` - The test function to be executed on each matching input. This function can be one
   of:
