@@ -14,7 +14,7 @@ rust-version = "1.66"
 [dependencies]
 camino = "1.1.9"
 fancy-regex = "0.13.0"
-libtest-mimic = "0.7.3"
+libtest-mimic = "0.8.1"
 walkdir = "2.5.0"
 
 [target.'cfg(unix)'.dev-dependencies]
