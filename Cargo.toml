@@ -13,7 +13,7 @@ rust-version = "1.66"
 
 [dependencies]
 camino = "1.1.9"
-fancy-regex = "0.13.0"
+fancy-regex = "0.14.0"
 libtest-mimic = "0.7.3"
 walkdir = "2.5.0"
 
