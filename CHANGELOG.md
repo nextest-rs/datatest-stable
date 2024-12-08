@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.2.10] - 2024-12-08
+
+- Update to `libtest-mimic 0.8.1`.
+- Update MSRV to Rust 1.72.
+
 ## [0.2.9] - 2024-04-25
 
 ### Added
@@ -109,6 +114,7 @@ There are no functional changes in this release.
 
 (Version 0.1.0 was yanked because of a metadata issue.)
 
+[0.2.10]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.10
 [0.2.9]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.9
 [0.2.8]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.8
 [0.2.7]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.7

@@ -81,7 +81,7 @@ datatest_stable::harness!(
 
 ## Minimum supported Rust version (MSRV)
 
-The minimum supported Rust version is **Rust 1.66**. MSRV bumps may be accompanied by a minor
+The minimum supported Rust version is **Rust 1.72**. MSRV bumps may be accompanied by a minor
 version update; at any time, Rust versions from at least the last 6 months are supported.
 
 ## See also
