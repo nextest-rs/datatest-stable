@@ -1,6 +1,6 @@
 [package]
 name = "datatest-stable"
-version = "0.2.9"
+version = "0.2.10"
 description = "Data-driven tests that work on stable Rust"
 repository = "https://github.com/nextest-rs/datatest-stable"
 license = "MIT OR Apache-2.0"
