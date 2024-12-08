@@ -58,7 +58,7 @@ jobs:
         os:
           - ubuntu-latest
           - windows-latest
-        rust-version: ["1.66", stable]
+        rust-version: ["1.72", stable]
       fail-fast: false
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
@@ -77,4 +77,15 @@ jobs:
       - name: Run tests
         run: cargo nextest run
       - name: Run tests with cargo test
+        run: cargo test
+
+      # Remove Cargo.lock to ensure that building with the latest versions works on stable.
+      - name: Remove Cargo.lock and rebuild on stable
+        if: matrix.rust-version == 'stable'
+        run: rm Cargo.lock && cargo build
+      - name: Run tests on stable
+        if: matrix.rust-version == 'stable'
+        run: cargo nextest run
+      - name: Run tests with cargo test on stable
+        if: matrix.rust-version == 'stable'
         run: cargo test
