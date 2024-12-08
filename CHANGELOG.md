@@ -2,7 +2,7 @@
 
 ## [0.2.10] - 2024-12-08
 
-- Update to `libtest-mimic 0.8.1`.
+- Internal dependency updates: update `libtest-mimic` to 0.8.1, and `fancy-regex` to 0.14.0.
 - Update MSRV to Rust 1.72.
 
 ## [0.2.9] - 2024-04-25
