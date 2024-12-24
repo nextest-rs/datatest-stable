@@ -11,6 +11,16 @@ categories = ["development-tools::testing"]
 keywords = ["datatest", "data-driven-tests", "test-harness"]
 rust-version = "1.72"
 
+[badges]
+maintenance = { status = "passively-maintained" }
+
+[package.metadata.cargo-sync-rdme.badge.badges]
+maintenance = true
+license = true
+crates-io = true
+docs-rs = true
+rust-version = true
+
 [dependencies]
 camino = "1.1.9"
 fancy-regex = "0.14.0"
