@@ -1,7 +1,7 @@
 // Copyright (c) The datatest-stable Contributors
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
-use crate::{utils, Result};
+use crate::{data_source::TestEntry, DataSource, Result};
 use camino::{Utf8Path, Utf8PathBuf};
 use libtest_mimic::{Arguments, Trial};
 use std::{path::Path, process::ExitCode};
@@ -101,13 +101,23 @@ fn exact_filter(args: &Arguments) -> Option<&str> {
 pub struct Requirements {
     test: TestFn,
     test_name: String,
-    root: Utf8PathBuf,
+    root: DataSource,
     pattern: String,
 }
 
 impl Requirements {
     #[doc(hidden)]
-    pub fn new(test: TestFn, test_name: String, root: Utf8PathBuf, pattern: String) -> Self {
+    pub fn new(test: TestFn, test_name: String, root: DataSource, pattern: String) -> Self {
+        // include_dir data sources aren't compatible with test functions that
+        // don't accept the contents as an argument.
+        if !test.loads_data() && root.is_in_memory() {
+            panic!(
+                "test data for '{}' is stored in memory, so it \
+                must accept file contents as an argument",
+                test_name
+            );
+        }
+
         Self {
             test,
             test_name,
@@ -116,19 +126,19 @@ impl Requirements {
         }
     }
 
-    fn trial(&self, path: Utf8PathBuf) -> Trial {
+    fn trial(&self, entry: TestEntry) -> Trial {
         let testfn = self.test;
-        let name = utils::derive_test_name(&self.root, &path, &self.test_name);
+        let name = entry.derive_test_name(&self.test_name);
         Trial::test(name, move || {
             testfn
-                .call(&path)
+                .call(entry)
                 .map_err(|err| format!("{:?}", err).into())
         })
     }
 
     fn exact(&self, filter: &str) -> Option<Trial> {
-        let path = utils::derive_test_path(&self.root, filter, &self.test_name)?;
-        path.exists().then(|| self.trial(path))
+        let entry = self.root.derive_exact(filter, &self.test_name)?;
+        entry.exists().then(|| self.trial(entry))
     }
 
     /// Scans all files in a given directory, finds matching ones and generates a test descriptor
@@ -137,18 +147,19 @@ impl Requirements {
         let re = fancy_regex::Regex::new(&self.pattern)
             .unwrap_or_else(|_| panic!("invalid regular expression: '{}'", self.pattern));
 
-        let tests: Vec<_> = utils::iterate_directory(&self.root)
-            .filter_map(|path_res| {
-                let path = path_res.expect("error while iterating directory");
-                if re.is_match(path.as_str()).unwrap_or_else(|error| {
+        let tests: Vec<_> = self
+            .root
+            .walk_files()
+            .filter_map(|entry_res| {
+                let entry = entry_res.expect("error reading directory");
+                let path_str = entry.test_path().as_str();
+                if re.is_match(path_str).unwrap_or_else(|error| {
                     panic!(
                         "error matching pattern '{}' against path '{}' : {}",
-                        self.pattern,
-                        path.as_str(),
-                        error
+                        self.pattern, path_str, error
                     )
                 }) {
-                    Some(self.trial(path))
+                    Some(self.trial(entry))
                 } else {
                     None
                 }
@@ -158,8 +169,10 @@ impl Requirements {
         // We want to avoid silent fails due to typos in regexp!
         if tests.is_empty() {
             panic!(
-                "no test cases found for test '{}'. Scanned directory: '{}' with pattern '{}'",
-                self.test_name, self.root, self.pattern,
+                "no test cases found for test '{}' -- scanned {} with pattern '{}'",
+                self.test_name,
+                self.root.display(),
+                self.pattern,
             );
         }
 
@@ -181,11 +194,23 @@ pub enum TestFn {
 }
 
 impl TestFn {
-    fn call(&self, path: &Utf8Path) -> Result<()> {
+    fn loads_data(&self) -> bool {
         match self {
-            TestFn::Base(f) => f.call(path),
-            TestFn::LoadString(f) => f.call(path),
-            TestFn::LoadBinary(f) => f.call(path),
+            TestFn::Base(_) => false,
+            TestFn::LoadString(_) | TestFn::LoadBinary(_) => true,
+        }
+    }
+
+    fn call(&self, entry: TestEntry) -> Result<()> {
+        match self {
+            TestFn::Base(f) => {
+                let path = entry
+                    .disk_path()
+                    .expect("test entry being on disk was checked in the constructor");
+                f.call(path)
+            }
+            TestFn::LoadString(f) => f.call(entry),
+            TestFn::LoadBinary(f) => f.call(entry),
         }
     }
 }
@@ -214,12 +239,11 @@ pub enum TestFnLoadString {
 }
 
 impl TestFnLoadString {
-    fn call(&self, path: &Utf8Path) -> Result<()> {
-        let contents = std::fs::read_to_string(path)
-            .map_err(|err| format!("error reading file '{path}' as UTF-8: {err}"))?;
+    fn call(&self, entry: TestEntry) -> Result<()> {
+        let contents = entry.read_as_string()?;
         match self {
-            TestFnLoadString::Path(f) => f(path.as_ref(), contents),
-            TestFnLoadString::Utf8Path(f) => f(path, contents),
+            TestFnLoadString::Path(f) => f(entry.test_path().as_ref(), contents),
+            TestFnLoadString::Utf8Path(f) => f(entry.test_path(), contents),
         }
     }
 }
@@ -232,12 +256,11 @@ pub enum TestFnLoadBinary {
 }
 
 impl TestFnLoadBinary {
-    fn call(&self, path: &Utf8Path) -> Result<()> {
-        let contents =
-            std::fs::read(path).map_err(|err| format!("error reading file '{path}': {err}"))?;
+    fn call(&self, entry: TestEntry) -> Result<()> {
+        let contents = entry.read()?;
         match self {
-            TestFnLoadBinary::Path(f) => f(path.as_ref(), contents),
-            TestFnLoadBinary::Utf8Path(f) => f(path, contents),
+            TestFnLoadBinary::Path(f) => f(entry.test_path().as_ref(), contents),
+            TestFnLoadBinary::Utf8Path(f) => f(entry.test_path(), contents),
         }
     }
 }
@@ -439,4 +462,26 @@ pub mod test_kinds {
 
     impl<F: Fn(&Utf8Path, Vec<u8>) -> Result<()>> private::Utf8PathBytesSealed for F {}
     impl<F: Fn(&Utf8Path, Vec<u8>) -> Result<()>> Utf8PathBytesKind for F {}
+}
+
+#[cfg(all(test, feature = "include-dir"))]
+mod include_dir_tests {
+    use super::*;
+    use std::borrow::Cow;
+
+    #[test]
+    #[should_panic = "test data for 'my_test' is stored in memory, \
+                      so it must accept file contents as an argument"]
+    fn include_dir_without_arg() {
+        fn my_test(_: &Path) -> Result<()> {
+            Ok(())
+        }
+
+        Requirements::new(
+            TestFn::Base(TestFnBase::Path(my_test)),
+            "my_test".to_owned(),
+            DataSource::IncludeDir(Cow::Owned(include_dir::include_dir!("tests/files"))),
+            "xxx".to_owned(),
+        );
+    }
 }

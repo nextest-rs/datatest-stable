@@ -10,15 +10,16 @@
 <!-- cargo-sync-rdme ]] -->
 <!-- cargo-sync-rdme rustdoc [[ -->
 `datatest-stable` is a test harness intended to write *file-driven* or *data-driven* tests,
-where individual test cases are specified as files and not as code.
+where individual test case fixtures are specified as files and not as code.
 
 Given:
 
 * a test `my_test` that accepts a path, and optionally the contents as input
-* a directory to look for files in
+* a directory to look for files (test fixtures) in
 * a pattern to match files on
 
-`datatest-stable` will call the `my_test` function once per matching file in the directory.
+`datatest-stable` will call the `my_test` function once per matching file in
+the directory. Directory traversals are recursive.
 
 `datatest-stable` works with [cargo nextest](https://nexte.st/), and is part of the [nextest-rs
 organization](https://github.com/nextest-rs/) on GitHub.
@@ -38,6 +39,7 @@ harness = false
 
 * `testfn` - The test function to be executed on each matching input. This function can be one
   of:
+  
   * `fn(&Path) -> datatest_stable::Result<()>`
   * `fn(&Utf8Path) -> datatest_stable::Result<()>` (`Utf8Path` is part of the
     [`camino`](https://docs.rs/camino) library, and is re-exported here for convenience.)
@@ -49,14 +51,23 @@ harness = false
     in as a `Vec<u8>` (erroring out if that failed).
 * `root` - The path to the root directory where the input files (fixtures) live. This path is
   relative to the root of the crate (the directory where the crate’s `Cargo.toml` is located).
+  
+  `root` is an arbitrary expression that implements `Display`, such as `&str`, or a
+  function call that returns a `Utf8PathBuf`.
+
 * `pattern` - a regex used to match against and select each file to be tested. Extended regexes
   with lookaround and backtracking are supported via the
   [`fancy_regex`](https://docs.rs/fancy-regex) crate.
+  
+  `pattern` is an arbitrary expression that implements `Display`, such as
+  `&str`, or a function call that returns a `String`.
+
+The passed-in `Path` and `Utf8Path` are **absolute** paths to the files to be tested.
 
 The three parameters can be repeated if you have multiple sets of data-driven tests to be run:
 `datatest_stable::harness!(testfn1, root1, pattern1, testfn2, root2, pattern2)`.
 
-## Examples
+### Examples
 
 This is an example test. Use it with `harness = false`.
 
@@ -81,6 +92,92 @@ datatest_stable::harness!(
     my_test_utf8, "path/to/fixtures", r"^.*/*",
 );
 ````
+
+### Embedding directories at compile time
+
+With the `include-dir` feature enabled, you can use the
+[`include_dir`](https://docs.rs/include_dir) crate’s [`include_dir!`](https://docs.rs/include_dir_macros/0.7.4/include_dir_macros/macro.include_dir.html) macro.
+This allows you to embed directories into the binary at compile time.
+
+This is generally not recommended for rapidly-changing test data, since each
+change will force a rebuild. But it can be useful for relatively-unchanging
+data suites distributed separately, e.g. on crates.io.
+
+With the `include-dir` feature enabled, you can use:
+
+````rust
+// The `include_dir!` macro is re-exported for convenience.
+use datatest_stable::include_dir;
+use std::path::Path;
+
+fn my_test(path: &Path, contents: Vec<u8>) -> datatest_stable::Result<()> {
+    // ... write test here
+    Ok(())
+}
+
+datatest_stable::harness!(
+    my_test, include_dir!("tests/files"), r"^.*/*",
+);
+````
+
+You can also use directories published as `static` items in upstream crates:
+
+````rust
+use datatest_stable::{include_dir, Utf8Path};
+
+// In the upstream crate:
+pub static FIXTURES: include_dir::Dir<'static> = include_dir!("tests/files");
+
+// In your test:
+fn my_test(path: &Utf8Path, contents: String) -> datatest_stable::Result<()> {
+    // ... write test here
+    Ok(())
+}
+
+datatest_stable::harness!(
+    my_test, &FIXTURES, r"^.*/*",
+);
+````
+
+In this case, the passed-in `Path` and `Utf8Path` are **relative** to the
+root of the included directory.
+
+Because the files don’t exist on disk, the test functions must accept their
+contents as either a `String` or a `Vec<u8>`. If the argument is not
+provided, the harness will panic at runtime.
+
+### Conditionally embedding directories
+
+It is also possible to conditionally include directories at compile time via
+a feature flag. For example, you might have an internal-only `testing`
+feature that you turn on locally, but users don’t on crates.io. In that
+case, you can use:
+
+````rust
+use datatest_stable::Utf8Path;
+
+static FIXTURES: &str = "tests/files";
+
+static FIXTURES: include_dir::Dir<'static> = datatest_stable::include_dir!("tests/files");
+
+fn my_test(path: &Utf8Path, contents: String) -> datatest_stable::Result<()> {
+    // ... write test here
+    Ok(())
+}
+
+datatest_stable::harness!(
+    my_test, &FIXTURES, r"^.*/*",
+);
+````
+
+In this case, note that `path` will be absolute if `FIXTURES` is a string,
+and relative if `FIXTURES` is a `Dir`. Your test should be prepared to
+handle either case.
+
+## Features
+
+* `include-dir`: Enables the `include_dir!` macro, which allows embedding
+  directories at compile time. This feature is disabled by default.
 
 ## Minimum supported Rust version (MSRV)
 

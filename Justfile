@@ -2,6 +2,11 @@
 help:
     just --list
 
+
+# Run `cargo hack --feature-powerset` with the given arguments.
+powerset *args:
+    cargo hack --feature-powerset {{args}}
+
 # Build docs for crates and direct dependencies
 rustdoc:
     @cargo tree --depth 1 -e normal --prefix none --workspace \
@@ -11,4 +16,4 @@ rustdoc:
 
 # Generate README.md files using `cargo-sync-rdme`.
 generate-readmes:
-    cargo sync-rdme --toolchain nightly
+    cargo sync-rdme --toolchain nightly --all-features
