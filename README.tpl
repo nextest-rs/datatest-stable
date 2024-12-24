@@ -17,5 +17,5 @@ license](LICENSE-MIT).
 README.md is generated from README.tpl by cargo readme. To regenerate:
 
 cargo install cargo-readme
-./scripts/regenerate-readmes.sh
+just generate-readmes
 -->
