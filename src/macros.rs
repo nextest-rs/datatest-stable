@@ -10,6 +10,7 @@ macro_rules! harness {
     ( $( $name:path, $root:expr, $pattern:expr ),+ $(,)* ) => {
         fn main() -> ::std::process::ExitCode {
             let mut requirements = Vec::new();
+            use $crate::data_source_kinds::*;
             use $crate::test_kinds::*;
 
             $(
@@ -17,7 +18,7 @@ macro_rules! harness {
                     $crate::Requirements::new(
                         $name.kind().resolve($name),
                         stringify!($name).to_string(),
-                        $root.to_string().into(),
+                        $root.resolve_data_source(),
                         $pattern.to_string()
                     )
                 );

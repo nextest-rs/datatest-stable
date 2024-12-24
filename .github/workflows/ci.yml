@@ -29,6 +29,8 @@ jobs:
         uses: taiki-e/install-action@8484225d9734e230a8bf38421a4ffec1cc249372 # v2
         with:
           tool: cargo-sync-rdme,just
+      - name: Install nightly toolchain for cargo-sync-rdme
+        uses: dtolnay/rust-toolchain@nightly
       - name: Generate readmes
         run: just generate-readmes
       - name: Check for differences
@@ -68,24 +70,29 @@ jobs:
       - uses: Swatinem/rust-cache@23bce251a8cd2ffc3c1075eaa2367cf899916d84 # v2
         with:
           key: ${{ matrix.rust-version }}
+      - name: Install tools
+        uses: taiki-e/install-action@8484225d9734e230a8bf38421a4ffec1cc249372 # v2
+        with:
+          tool: cargo-hack,just,nextest
       - name: Build
-        run: cargo build
-      - name: Install latest nextest release
-        uses: taiki-e/install-action@nextest
-      - name: Build datatest-stable
-        run: cargo build
+        run: just powerset build
+      - name: Build with all targets
+        run: just powerset build --all-targets
       - name: Run tests
-        run: cargo nextest run
+        run: just powerset nextest run
       - name: Run tests with cargo test
-        run: cargo test
+        run: just powerset test
 
       # Remove Cargo.lock to ensure that building with the latest versions works on stable.
       - name: Remove Cargo.lock and rebuild on stable
         if: matrix.rust-version == 'stable'
         run: rm Cargo.lock && cargo build
+      - name: Build with all targets
+        if: matrix.rust-version == 'stable'
+        run: just powerset build --all-targets
       - name: Run tests on stable
         if: matrix.rust-version == 'stable'
-        run: cargo nextest run
+        run: just powerset nextest run
       - name: Run tests with cargo test on stable
         if: matrix.rust-version == 'stable'
-        run: cargo test
+        run: just powerset test
