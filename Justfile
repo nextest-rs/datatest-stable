@@ -9,15 +9,6 @@ rustdoc:
         | xargs printf -- '-p %s\n' \
         | RUSTC_BOOTSTRAP=1 RUSTDOCFLAGS='--cfg=doc_cfg' xargs cargo doc --no-deps --lib --all-features
 
-# Generate README.md files from README.tpl and lib.rs files
+# Generate README.md files using `cargo-sync-rdme`.
 generate-readmes:
-    #!/usr/bin/env bash
-    set -eo pipefail
-
-    git ls-files | grep README.tpl$ | while read -r readme; do
-        echo "Generating README for $readme"
-        dir=$(dirname "$readme")
-        cargo readme --project-root "$dir" > "$dir/README.md.tmp"
-        gawk -f "scripts/fix-readmes.awk" "$dir/README.md.tmp" > "$dir/README.md"
-        rm "$dir/README.md.tmp"
-    done
+    cargo sync-rdme --toolchain nightly

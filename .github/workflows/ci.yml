@@ -25,10 +25,10 @@ jobs:
         run: cargo clippy --all-features --all-targets
       - name: Lint (rustfmt)
         run: cargo xfmt --check
-      - name: Install cargo readme and just
+      - name: Install cargo-sync-rdme and just
         uses: taiki-e/install-action@8484225d9734e230a8bf38421a4ffec1cc249372 # v2
         with:
-          tool: cargo-readme,just
+          tool: cargo-sync-rdme,just
       - name: Generate readmes
         run: just generate-readmes
       - name: Check for differences

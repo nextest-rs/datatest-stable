@@ -1,11 +1,14 @@
+<!-- cargo-sync-rdme title [[ -->
 # datatest-stable
-
-[![datatest-stable on crates.io](https://img.shields.io/crates/v/datatest-stable)](https://crates.io/crates/datatest-stable)
-[![Documentation (latest release)](https://img.shields.io/badge/docs-latest-brightgreen)](https://docs.rs/datatest-stable/)
-[![Documentation (main)](https://img.shields.io/badge/docs-main-purple)](https://datatest-stable.nexte.st/)
-[![License](https://img.shields.io/badge/license-Apache-green.svg)](../LICENSE-APACHE)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](../LICENSE-MIT)
-
+<!-- cargo-sync-rdme ]] -->
+<!-- cargo-sync-rdme badge [[ -->
+[![Maintenance: passively-maintained](https://img.shields.io/badge/maintenance-passively--maintained-yellowgreen.svg?)](https://doc.rust-lang.org/cargo/reference/manifest.html#the-badges-section)
+![License: MIT OR Apache-2.0](https://img.shields.io/crates/l/datatest-stable.svg?)
+[![crates.io](https://img.shields.io/crates/v/datatest-stable.svg?logo=rust)](https://crates.io/crates/datatest-stable)
+[![docs.rs](https://img.shields.io/docsrs/datatest-stable.svg?logo=docs.rs)](https://docs.rs/datatest-stable)
+[![Rust: ^1.72.0](https://img.shields.io/badge/rust-^1.72.0-93450a.svg?logo=rust)](https://doc.rust-lang.org/cargo/reference/manifest.html#the-rust-version-field)
+<!-- cargo-sync-rdme ]] -->
+<!-- cargo-sync-rdme rustdoc [[ -->
 `datatest-stable` is a test harness intended to write *file-driven* or *data-driven* tests,
 where individual test cases are specified as files and not as code.
 
@@ -24,11 +27,11 @@ organization](https://github.com/nextest-rs/) on GitHub.
 
 1. Configure the test target by setting `harness = false` in `Cargo.toml`:
 
-```toml
+````toml
 [[test]]
 name = "<test target name>"
 harness = false
-```
+````
 
 2. Call the `datatest_stable::harness!(testfn, root, pattern)` macro with the following
    parameters:
@@ -37,7 +40,7 @@ harness = false
   of:
   * `fn(&Path) -> datatest_stable::Result<()>`
   * `fn(&Utf8Path) -> datatest_stable::Result<()>` (`Utf8Path` is part of the
-     [`camino`](https://docs.rs/camino) library, and is re-exported here for convenience.)
+    [`camino`](https://docs.rs/camino) library, and is re-exported here for convenience.)
   * `fn(&P, String) -> datatest_stable::Result<()>` where `P` is `Path` or `Utf8Path`. If the
     extra `String` parameter is specified, the contents of the file will be loaded and passed in
     as a string (erroring out if that failed).
@@ -45,7 +48,7 @@ harness = false
     extra `Vec<u8>` parameter is specified, the contents of the file will be loaded and passed
     in as a `Vec<u8>` (erroring out if that failed).
 * `root` - The path to the root directory where the input files (fixtures) live. This path is
-  relative to the root of the crate (the directory where the crate's `Cargo.toml` is located).
+  relative to the root of the crate (the directory where the crate’s `Cargo.toml` is located).
 * `pattern` - a regex used to match against and select each file to be tested. Extended regexes
   with lookaround and backtracking are supported via the
   [`fancy_regex`](https://docs.rs/fancy-regex) crate.
@@ -57,7 +60,7 @@ The three parameters can be repeated if you have multiple sets of data-driven te
 
 This is an example test. Use it with `harness = false`.
 
-```rust
+````rust
 use datatest_stable::Utf8Path;
 use std::path::Path;
 
@@ -77,7 +80,7 @@ datatest_stable::harness!(
     my_test, "path/to/fixtures", r"^.*/*",
     my_test_utf8, "path/to/fixtures", r"^.*/*",
 );
-```
+````
 
 ## Minimum supported Rust version (MSRV)
 
@@ -89,15 +92,9 @@ version update; at any time, Rust versions from at least the last 6 months are s
 * [`datatest`](https://crates.io/crates/datatest): the original inspiration for this crate, with
   more features but targeting nightly Rust.
 * [Data-driven testing](https://en.wikipedia.org/wiki/Data-driven_testing)
+<!-- cargo-sync-rdme ]] -->
 
 ## License
 
 This project is available under the terms of either the [Apache 2.0 license](LICENSE-APACHE) or the [MIT
 license](LICENSE-MIT).
-
-<!--
-README.md is generated from README.tpl by cargo readme. To regenerate:
-
-cargo install cargo-readme
-./scripts/regenerate-readmes.sh
--->
