@@ -25,17 +25,14 @@ jobs:
           components: llvm-tools-preview
       - uses: Swatinem/rust-cache@23bce251a8cd2ffc3c1075eaa2367cf899916d84 # v2
 
-      - name: Install latest nextest release
-        uses: taiki-e/install-action@nextest
-      - name: Install cargo-llvm-cov
-        uses: taiki-e/install-action@cargo-llvm-cov
+      - name: Install tools
+        uses: taiki-e/install-action@8484225d9734e230a8bf38421a4ffec1cc249372 # v2
+        with:
+          tool: cargo-llvm-cov,just,nextest
 
       - name: Collect coverage data
-        # Generate separate reports for nextest and doctests, and combine them.
         run: |
-          cargo llvm-cov --no-report nextest
-          cargo llvm-cov --no-report --doc
-          cargo llvm-cov report --doctests --lcov --output-path lcov.info
+          just coverage --lcov --output-path lcov.info
       - name: Upload coverage data to codecov
         uses: codecov/codecov-action@7f8b4b4bde536c465e797be725718b88c5d95e0e # v5
         env:
