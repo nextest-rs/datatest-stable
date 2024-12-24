@@ -1,11 +1,12 @@
 // Copyright (c) The datatest-stable Contributors
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
-use camino::{Utf8Path, Utf8PathBuf};
+use camino::{Utf8Component, Utf8Path, Utf8PathBuf};
 
 #[derive(Debug)]
 #[doc(hidden)]
 pub enum DataSource {
+    // This is relative to the crate root, and stored with forward slashes.
     Directory(Utf8PathBuf),
     #[cfg(feature = "include-dir")]
     IncludeDir(std::borrow::Cow<'static, include_dir::Dir<'static>>),
@@ -31,18 +32,23 @@ impl DataSource {
     ///
     /// Used for `--exact` matches.
     pub(crate) fn derive_exact(&self, filter: &str, test_name: &str) -> Option<TestEntry> {
-        let rel_path = filter.strip_prefix(test_name)?.strip_prefix("::")?;
+        // include_dir 0.7.4 returns paths with forward slashes, including on
+        // Windows. But that isn't part of the stable API it seems, so we call
+        // `rel_path_to_forward_slashes` anyway.
+        let rel_path = rel_path_to_forward_slashes(
+            filter.strip_prefix(test_name)?.strip_prefix("::")?.as_ref(),
+        );
         match self {
             DataSource::Directory(path) => Some(TestEntry {
-                source: TestSource::Path(path.join(rel_path)),
-                rel_path: rel_path.into(),
+                source: TestSource::Path(rel_path_to_forward_slashes(&path.join(&rel_path))),
+                rel_path,
             }),
             #[cfg(feature = "include-dir")]
             DataSource::IncludeDir(dir) => {
-                let file = dir.get_file(rel_path)?;
+                let file = dir.get_file(&rel_path)?;
                 Some(TestEntry {
                     source: TestSource::IncludeDir(file),
-                    rel_path: rel_path.into(),
+                    rel_path,
                 })
             }
         }
@@ -122,8 +128,15 @@ fn iter_include_dir<'a>(
         stack: dir.entries().iter().collect(),
     }
     .map(|file| {
-        let rel_path = Utf8PathBuf::try_from(file.path().to_path_buf())
-            .map_err(|error| error.into_io_error())?;
+        // include_dir 0.7.4 returns paths with forward slashes, including on
+        // Windows. But that isn't part of the stable API it seems, so we call
+        // `rel_path_to_forward_slashes` anyway.
+        let rel_path = match file.path().try_into() {
+            Ok(path) => rel_path_to_forward_slashes(path),
+            Err(error) => {
+                return Err(error.into_io_error());
+            }
+        };
         Ok(TestEntry {
             source: TestSource::IncludeDir(file),
             rel_path,
@@ -139,10 +152,11 @@ pub(crate) struct TestEntry {
 
 impl TestEntry {
     pub(crate) fn from_full_path(root: &Utf8Path, path: Utf8PathBuf) -> Self {
-        let rel_path = path
-            .strip_prefix(root)
-            .unwrap_or_else(|_| panic!("failed to strip root '{}' from path '{}'", root, path))
-            .to_owned();
+        let path = rel_path_to_forward_slashes(&path);
+        let rel_path =
+            rel_path_to_forward_slashes(path.strip_prefix(root).unwrap_or_else(|_| {
+                panic!("failed to strip root '{}' from path '{}'", root, path)
+            }));
         Self {
             source: TestSource::Path(path),
             rel_path,
@@ -180,10 +194,18 @@ impl TestEntry {
         }
     }
 
-    /// Returns the path to the test data.
+    /// Returns the path to match regexes against.
     ///
-    /// For directories on disk, this is the absolute path. For `include_dir`
-    /// sources, this is the path relative to the root of the include directory.
+    /// This is always the relative path to the file from the include directory.
+    pub(crate) fn match_path(&self) -> &Utf8Path {
+        &self.rel_path
+    }
+
+    /// Returns the path to the test data, as passed into the test function.
+    ///
+    /// For directories on disk, this is the relative path after being joined
+    /// with the include directory. For `include_dir` sources, this is the path
+    /// relative to the root of the include directory.
     pub(crate) fn test_path(&self) -> &Utf8Path {
         match &self.source {
             TestSource::Path(path) => path,
@@ -219,9 +241,37 @@ impl TestEntry {
     }
 }
 
+#[cfg(windows)]
+#[track_caller]
+fn rel_path_to_forward_slashes(path: &Utf8Path) -> Utf8PathBuf {
+    assert!(is_truly_relative(path), "path {path} must be relative");
+    path.as_str().replace('\\', "/").into()
+}
+
+#[cfg(not(windows))]
+#[track_caller]
+fn rel_path_to_forward_slashes(path: &Utf8Path) -> Utf8PathBuf {
+    assert!(is_truly_relative(path), "path {path} must be relative");
+    path.to_owned()
+}
+
+/// Returns true if this is a path with no root-dir or prefix components.
+///
+/// On Windows, unlike `path.is_relative()`, this rejects paths like "C:temp"
+/// and "\temp".
+#[track_caller]
+fn is_truly_relative(path: &Utf8Path) -> bool {
+    path.components().all(|c| match c {
+        Utf8Component::Normal(_) | Utf8Component::CurDir | Utf8Component::ParentDir => true,
+        Utf8Component::RootDir | Utf8Component::Prefix(_) => false,
+    })
+}
+
 #[derive(Debug)]
 #[doc(hidden)]
 pub(crate) enum TestSource {
+    /// A data source on disk, with the path being the relative path to the file
+    /// from the crate root.
     Path(Utf8PathBuf),
     #[cfg(feature = "include-dir")]
     IncludeDir(&'static include_dir::File<'static>),
@@ -256,7 +306,14 @@ pub mod data_source_kinds {
 
     impl<T: ToString> AsDirectory for T {
         fn resolve_data_source(self) -> DataSource {
-            DataSource::Directory(self.to_string().into())
+            let s = self.to_string();
+            let path = Utf8Path::new(&s);
+
+            if !is_truly_relative(path) {
+                panic!("data source path must be relative: '{}'", s);
+            }
+
+            DataSource::Directory(rel_path_to_forward_slashes(path))
         }
     }
 
@@ -289,6 +346,12 @@ pub mod data_source_kinds {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    #[should_panic = "data source path must be relative: '/absolute/path'"]
+    fn data_source_absolute_path_panics() {
+        data_source_kinds::AsDirectory::resolve_data_source("/absolute/path");
+    }
 
     #[test]
     fn missing_test_name() {

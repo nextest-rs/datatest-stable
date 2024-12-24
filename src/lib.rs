@@ -15,8 +15,10 @@
 //! `datatest-stable` will call the `my_test` function once per matching file in
 //! the directory. Directory traversals are recursive.
 //!
-//! `datatest-stable` works with [cargo nextest](https://nexte.st/), and is part of the [nextest-rs
-//! organization](https://github.com/nextest-rs/) on GitHub.
+//! `datatest-stable` works with [cargo nextest](https://nexte.st/), and is part
+//! of the [nextest-rs organization](https://github.com/nextest-rs/) on GitHub.
+//! With nextest, each test case is represented as a separate test, and is run
+//! as a separate process in parallel.
 //!
 //! # Usage
 //!
@@ -43,8 +45,10 @@
 //!     extra `Vec<u8>` parameter is specified, the contents of the file will be loaded and passed
 //!     in as a `Vec<u8>` (erroring out if that failed).
 //!
-//! * `root` - The path to the root directory where the input files (fixtures) live. This path is
-//!   relative to the root of the crate (the directory where the crate's `Cargo.toml` is located).
+//! * `root` - The path to the root directory where the input files (fixtures)
+//!   live. This path is relative to the root of the crate (the directory where
+//!   the crate's `Cargo.toml` is located). Absolute paths are not supported, and
+//!   will panic at runtime.
 //!
 //!   `root` is an arbitrary expression that implements `Display`, such as `&str`, or a
 //!   function call that returns a `Utf8PathBuf`.
@@ -56,10 +60,20 @@
 //!   `pattern` is an arbitrary expression that implements `Display`, such as
 //!   `&str`, or a function call that returns a `String`.
 //!
-//! The passed-in `Path` and `Utf8Path` are **absolute** paths to the files to be tested.
-//!
 //! The three parameters can be repeated if you have multiple sets of data-driven tests to be run:
 //! `datatest_stable::harness!(testfn1, root1, pattern1, testfn2, root2, pattern2)`.
+//!
+//! ## Relative paths
+//!
+//! The `pattern` argument is tested against the **relative** path of each file,
+//! **excluding** the `root` prefix -- not the absolute path.
+//!
+//! The `Path` and `Utf8Path` passed into the test functions are **relative** to
+//! the root of the crate, obtained by joining `root` to the relative path of
+//! the file.
+//!
+//! For universality, all relative paths use `/` as the path separator,
+//! including on Windows.
 //!
 //! ## Examples
 //!
@@ -86,6 +100,11 @@
 //!     my_test_utf8, "path/to/fixtures", r"^.*/*",
 //! );
 //! ```
+//!
+//! If `path/to/fixtures` contains a file `foo/bar.txt`, then:
+//!
+//! * The pattern `r"^.*/*"` will match `foo/bar.txt`.
+//! * `my_test` and `my_test_utf8` will be called with `"path/to/fixtures/foo/bar.txt"`.
 //!
 //! ## Embedding directories at compile time
 //!
@@ -136,7 +155,9 @@
 //! ```
 //!
 //! In this case, the passed-in `Path` and `Utf8Path` are **relative** to the
-//! root of the included directory.
+//! root of the included directory. Like elsewhere in `datatest-stable`, these
+//! relative paths always use forward slashes as separators, including on
+//! Windows.
 //!
 //! Because the files don't exist on disk, the test functions must accept their
 //! contents as either a `String` or a `Vec<u8>`. If the argument is not
@@ -169,9 +190,11 @@
 //! );
 //! ```
 //!
-//! In this case, note that `path` will be absolute if `FIXTURES` is a string,
-//! and relative if `FIXTURES` is a `Dir`. Your test should be prepared to
-//! handle either case.
+//! In this case, note that `path` will be relative to the **crate directory**
+//! (e.g. `tests/files/foo/bar.txt`) if `FIXTURES` is a string, and relative to
+//! the **include directory** (e.g. `foo/bar.txt`) if `FIXTURES` is a
+//! [`Dir`](include_dir::Dir). Your test should be prepared to handle either
+//! case.
 //!
 //! # Features
 //!

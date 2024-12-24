@@ -34,30 +34,34 @@ mod with_contents {
         include_dir::include_dir!("tests/files");
 
     pub(crate) fn test_artifact_string(path: &Path, contents: String) -> Result<()> {
-        // In general we can't verify the contents, but in this case we can do
-        // so because the contents are known.
-        compare_include_dir_contents(path, contents.as_bytes())
+        compare_contents(path, contents.as_bytes())
     }
 
     pub(crate) fn test_artifact_utf8_string(path: &Utf8Path, contents: String) -> Result<()> {
-        compare_include_dir_contents(path.as_std_path(), contents.as_bytes())
+        compare_contents(path.as_std_path(), contents.as_bytes())
     }
 
     pub(crate) fn test_artifact_bytes(path: &Path, contents: Vec<u8>) -> Result<()> {
-        compare_include_dir_contents(path, &contents)
+        compare_contents(path, &contents)
     }
 
     pub(crate) fn test_artifact_utf8_bytes(path: &Utf8Path, contents: Vec<u8>) -> Result<()> {
-        compare_include_dir_contents(path.as_std_path(), &contents)
+        compare_contents(path.as_std_path(), &contents)
     }
 
-    fn compare_include_dir_contents(path: &Path, expected: &[u8]) -> Result<()> {
-        // The path must be relative.
-        assert!(path.is_relative(), "path must be relative: {:?}", path);
+    fn compare_contents(path: &Path, expected: &[u8]) -> Result<()> {
+        // The path must not begin with "tests/files".
+        assert!(
+            !path.to_string_lossy().starts_with("tests/files"),
+            "path must not start with 'tests/files': {:?}",
+            path
+        );
 
-        // Prepend tests/files to the path to get the expected contents.
-        let path = Path::new("tests/files").join(path);
-        compare_contents(&path, expected)
+        // Prepend tests/files to the path to get the expected contents. In
+        // general we can't verify the contents, but in this case we can do so
+        // because the paths are also available on disk.
+        let path = format!("tests/files/{}", path.to_str().unwrap());
+        compare(path.as_ref(), expected)
     }
 }
 
@@ -91,9 +95,29 @@ mod with_contents {
     pub(crate) fn test_artifact_utf8_bytes(path: &Utf8Path, contents: Vec<u8>) -> Result<()> {
         compare_contents(path.as_std_path(), &contents)
     }
+
+    fn compare_contents(path: &Path, expected: &[u8]) -> Result<()> {
+        // The path must begin with "tests/files".
+        assert!(
+            path.to_string_lossy().starts_with("tests/files"),
+            "path must start with 'tests/files': {:?}",
+            path
+        );
+        compare(&path, expected)
+    }
 }
 
-fn compare_contents(path: &Path, expected: &[u8]) -> Result<()> {
+fn compare(path: &Path, expected: &[u8]) -> Result<()> {
+    // The path must be relative.
+    assert!(path.is_relative(), "path must be relative: {:?}", path);
+
+    // The path must not have any backslashes on Windows.
+    assert!(
+        !path.to_string_lossy().contains('\\'),
+        "path must not contain backslashes: {:?}",
+        path
+    );
+
     let actual =
         std::fs::read(path).map_err(|error| format!("failed to read file: {:?}: {error}", path))?;
 
@@ -102,22 +126,35 @@ fn compare_contents(path: &Path, expected: &[u8]) -> Result<()> {
     Ok(())
 }
 
+#[cfg(windows)]
+static TESTS_FILES_MAIN_SEP: &str = "tests\\files";
+
+#[cfg(not(windows))]
+static TESTS_FILES_MAIN_SEP: &str = "tests/files";
+
 datatest_stable::harness!(
     test_artifact,
     "tests/files",
     r"^.*(?<!\.skip)\.txt$", // this regex pattern skips .skip.txt files
+    // ---
     test_artifact_utf8,
-    "tests/files",
-    r"^.*\.txt$", // this regex pattern matches all files
+    TESTS_FILES_MAIN_SEP, // ensure that tests\files is normalized to tests/files on Windows
+    r"^.*\.txt$",         // this regex pattern matches all files
+    // ---
     with_contents::test_artifact_string,
     maybe_include_dir!(),
-    r"^.*\.txt$",
+    // This regex matches exactly a.txt, b.txt, and c.skip.txt -- this ensures
+    // that patterns are relative to the include dir and not the crate root
+    r"^(a|b|c\.skip)\.txt$",
+    // ---
     with_contents::test_artifact_utf8_string,
     &with_contents::MAYBE_INCLUDE_STATIC, // Test out some combinations with &'static include_dir::Dir.
     r"^.*\.txt$",
+    // ---
     with_contents::test_artifact_bytes,
     &with_contents::MAYBE_INCLUDE_STATIC,
     r"^.*\.txt$",
+    // ---
     with_contents::test_artifact_utf8_bytes,
     maybe_include_dir!(),
     r"^.*\.txt$",
