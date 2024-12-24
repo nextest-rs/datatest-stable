@@ -143,9 +143,10 @@ datatest_stable::harness!(
     // ---
     with_contents::test_artifact_string,
     maybe_include_dir!(),
-    // This regex matches exactly a.txt, b.txt, and c.skip.txt -- this ensures
-    // that patterns are relative to the include dir and not the crate root
-    r"^(a|b|c\.skip)\.txt$",
+    // This regex matches exactly dir/a.txt, b.txt, and c.skip.txt -- this
+    // ensures that patterns are relative to the include dir and not the crate
+    // root
+    r"^(dir/a|b|c\.skip)\.txt$",
     // ---
     with_contents::test_artifact_utf8_string,
     &with_contents::MAYBE_INCLUDE_STATIC, // Test out some combinations with &'static include_dir::Dir.
