@@ -152,7 +152,7 @@ impl Requirements {
             .walk_files()
             .filter_map(|entry_res| {
                 let entry = entry_res.expect("error reading directory");
-                let path_str = entry.test_path().as_str();
+                let path_str = entry.match_path().as_str();
                 if re.is_match(path_str).unwrap_or_else(|error| {
                     panic!(
                         "error matching pattern '{}' against path '{}' : {}",

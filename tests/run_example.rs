@@ -72,8 +72,6 @@ mod unix {
         "datatest-stable::example with_contents::test_artifact_bytes::a.txt",
         "datatest-stable::example with_contents::test_artifact_bytes::b.txt",
         "datatest-stable::example with_contents::test_artifact_bytes::c.skip.txt",
-        "datatest-stable::example with_contents::test_artifact_string::::colon::dir/::.txt",
-        "datatest-stable::example with_contents::test_artifact_string::::colon::dir/a.txt",
         "datatest-stable::example with_contents::test_artifact_string::a.txt",
         "datatest-stable::example with_contents::test_artifact_string::b.txt",
         "datatest-stable::example with_contents::test_artifact_string::c.skip.txt",
@@ -131,7 +129,7 @@ mod unix {
             .iter()
             .chain(EXPECTED_UNIX_LINES.iter())
             .copied()
-            .chain(std::iter::once("29 tests run: 29 passed, 0 skipped"))
+            .chain(std::iter::once("27 tests run: 27 passed, 0 skipped"))
         {
             assert!(
                 stderr.contains(line),
