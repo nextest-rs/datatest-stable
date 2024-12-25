@@ -14,6 +14,8 @@ rustdoc:
         | xargs printf -- '-p %s\n' \
         | RUSTC_BOOTSTRAP=1 RUSTDOCFLAGS='--cfg=doc_cfg' xargs cargo doc --no-deps --lib --all-features
 
+    echo "/ /rustdoc/datatest_stable/ 301" > target/doc/_redirects
+
 # Generate README.md files using `cargo-sync-rdme`.
 generate-readmes:
     cargo sync-rdme --toolchain nightly --all-features
