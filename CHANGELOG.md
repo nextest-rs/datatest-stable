@@ -1,5 +1,34 @@
 # Changelog
 
+## [0.3.0] - 2024-12-24
+
+### Added
+
+- Support for embedding data into the test binary via an optional `include-dir`
+  feature. For more information and recommendations for when to use this, see [the
+  readme](https://crates.io/crates/datatest-stable).
+
+### Changed
+
+- The macro call format has changed to:
+
+  ```rust
+  datatest_stable::harness! {
+      { test = fn_name, path = &include_dir!("path/to/data"), pattern = r"^.*$" },
+      // ...
+  }
+  ```
+
+  This is both a nicer format for expressing multiple tests, and a signal to
+  indicate the other breaking changes in this release.
+
+- Regex patterns now match against the path relative to the *include directory*, rather
+  than paths with respect to the crate root. This change was made for uniformity with the
+  `include_dir` implementation.
+
+- On Windows, paths are now universally normalized to use forward slashes. This change
+  was made to ensure that test names and paths are consistent across platforms.
+
 ## [0.2.10] - 2024-12-08
 
 - Internal dependency updates: update `libtest-mimic` to 0.8.1, and `fancy-regex` to 0.14.0.
@@ -114,6 +143,7 @@ There are no functional changes in this release.
 
 (Version 0.1.0 was yanked because of a metadata issue.)
 
+[0.3.0]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.3.0
 [0.2.10]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.10
 [0.2.9]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.9
 [0.2.8]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.8
