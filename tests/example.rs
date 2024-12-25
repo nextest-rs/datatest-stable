@@ -132,31 +132,42 @@ static TESTS_FILES_MAIN_SEP: &str = "tests\\files";
 #[cfg(not(windows))]
 static TESTS_FILES_MAIN_SEP: &str = "tests/files";
 
-datatest_stable::harness!(
-    test_artifact,
-    "tests/files",
-    r"^.*(?<!\.skip)\.txt$", // this regex pattern skips .skip.txt files
-    // ---
-    test_artifact_utf8,
-    TESTS_FILES_MAIN_SEP, // ensure that tests\files is normalized to tests/files on Windows
-    r"^.*\.txt$",         // this regex pattern matches all files
-    // ---
-    with_contents::test_artifact_string,
-    maybe_include_dir!(),
-    // This regex matches exactly dir/a.txt, b.txt, and c.skip.txt -- this
-    // ensures that patterns are relative to the include dir and not the crate
-    // root
-    r"^(dir/a|b|c\.skip)\.txt$",
-    // ---
-    with_contents::test_artifact_utf8_string,
-    &with_contents::MAYBE_INCLUDE_STATIC, // Test out some combinations with &'static include_dir::Dir.
-    r"^.*\.txt$",
-    // ---
-    with_contents::test_artifact_bytes,
-    &with_contents::MAYBE_INCLUDE_STATIC,
-    r"^.*\.txt$",
-    // ---
-    with_contents::test_artifact_utf8_bytes,
-    maybe_include_dir!(),
-    r"^.*\.txt$",
-);
+datatest_stable::harness! {
+    {
+        test = test_artifact,
+        root = "tests/files",
+        // This regex pattern skips .skip.txt files.
+        pattern = r"^.*(?<!\.skip)\.txt$",
+    },
+    {
+        test = test_artifact_utf8,
+        // Ensure that tests\files is normalized to tests/files on Windows.
+        root = TESTS_FILES_MAIN_SEP,
+        // This regex pattern matches all files.
+        pattern = r"^.*\.txt$",
+    },
+    {
+        test = with_contents::test_artifact_string,
+        root = maybe_include_dir!(),
+        // This regex matches exactly dir/a.txt, b.txt, and c.skip.txt -- this
+        // ensures that patterns are relative to the include dir and not the
+        // crate root.
+        pattern = r"^(dir/a|b|c\.skip)\.txt$",
+    },
+    {
+        test = with_contents::test_artifact_utf8_string,
+        // Test out some combinations with &'static include_dir::Dir.
+        root = &with_contents::MAYBE_INCLUDE_STATIC,
+        pattern = r"^.*\.txt$",
+    },
+    {
+        test = with_contents::test_artifact_bytes,
+        root = &with_contents::MAYBE_INCLUDE_STATIC,
+        pattern = r"^.*\.txt$",
+    },
+    {
+        test = with_contents::test_artifact_utf8_bytes,
+        root = maybe_include_dir!(),
+        pattern = r"^.*\.txt$",
+    },
+}

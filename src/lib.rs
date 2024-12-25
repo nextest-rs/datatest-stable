@@ -30,10 +30,15 @@
 //! harness = false
 //! ```
 //!
-//! 2. Call the `datatest_stable::harness!(testfn, root, pattern)` macro with the following
-//!    parameters:
+//! 2. Call the `datatest_stable::harness!` macro as:
 //!
-//! * `testfn` - The test function to be executed on each matching input. This function can be one
+//!   ```rust,ignore
+//!   datatest_stable::harness! {
+//!       { test = my_test, root = "path/to/fixtures", pattern = r"^.*/*" },
+//!   }
+//!   ```
+//!
+//! * `test` - The test function to be executed on each matching input. This function can be one
 //!   of:
 //!   * `fn(&Path) -> datatest_stable::Result<()>`
 //!   * `fn(&Utf8Path) -> datatest_stable::Result<()>` (`Utf8Path` is part of the
@@ -61,7 +66,13 @@
 //!   `&str`, or a function call that returns a `String`.
 //!
 //! The three parameters can be repeated if you have multiple sets of data-driven tests to be run:
-//! `datatest_stable::harness!(testfn1, root1, pattern1, testfn2, root2, pattern2)`.
+//!
+//! ```rust,ignore
+//! datatest_stable::harness! {
+//!     { test = testfn1, root = root1, pattern = pattern1 },
+//!     { test = testfn2, root = root2, pattern = pattern2 },
+//! }
+//! ```
 //!
 //! ## Relative paths
 //!
@@ -95,10 +106,10 @@
 //!     Ok(())
 //! }
 //!
-//! datatest_stable::harness!(
-//!     my_test, "path/to/fixtures", r"^.*/*",
-//!     my_test_utf8, "path/to/fixtures", r"^.*/*",
-//! );
+//! datatest_stable::harness! {
+//!     { test = my_test, root = "path/to/fixtures", pattern = r"^.*/*" },
+//!     { test = my_test_utf8, root = "path/to/fixtures", pattern = r"^.*/*" },
+//! }
 //! ```
 //!
 //! If `path/to/fixtures` contains a file `foo/bar.txt`, then:
@@ -129,9 +140,9 @@
 //!     Ok(())
 //! }
 //!
-//! datatest_stable::harness!(
-//!     my_test, include_dir!("tests/files"), r"^.*/*",
-//! );
+//! datatest_stable::harness! {
+//!     { test = my_test, root = include_dir!("tests/files"), pattern = r"^.*/*" },
+//! }
 //! ```
 //!
 //! You can also use directories published as `static` items in upstream crates:
@@ -149,9 +160,9 @@
 //!     Ok(())
 //! }
 //!
-//! datatest_stable::harness!(
-//!     my_test, &FIXTURES, r"^.*/*",
-//! );
+//! datatest_stable::harness! {
+//!     { test = my_test, root = &FIXTURES, pattern = r"^.*/*" },
+//! }
 //! ```
 //!
 //! In this case, the passed-in `Path` and `Utf8Path` are **relative** to the
@@ -185,9 +196,9 @@
 //!     Ok(())
 //! }
 //!
-//! datatest_stable::harness!(
-//!     my_test, &FIXTURES, r"^.*/*",
-//! );
+//! datatest_stable::harness! {
+//!     { test = my_test, root = &FIXTURES, pattern = r"^.*/*" },
+//! }
 //! ```
 //!
 //! In this case, note that `path` will be relative to the **crate directory**

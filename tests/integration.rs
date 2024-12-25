@@ -52,6 +52,12 @@ fn run_example() {
     }
 }
 
+#[test]
+fn ui() {
+    let t = trybuild::TestCases::new();
+    t.compile_fail("tests/compile-fail/*.rs");
+}
+
 #[cfg(unix)]
 mod unix {
     use super::*;
