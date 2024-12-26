@@ -40,7 +40,7 @@ harness = false
 
 ````rust,ignore
 datatest_stable::harness! {
-    { test = my_test, root = "path/to/fixtures", pattern = r"^.*/*" },
+    { test = my_test, root = "path/to/fixtures", pattern = r".*" },
 }
 ````
 
@@ -113,8 +113,8 @@ fn my_test_utf8(path: &Utf8Path, contents: String) -> datatest_stable::Result<()
 }
 
 datatest_stable::harness! {
-    { test = my_test, root = "path/to/fixtures", pattern = r"^.*/*" },
-    { test = my_test_utf8, root = "path/to/fixtures", pattern = r"^.*/*" },
+    { test = my_test, root = "path/to/fixtures", pattern = r"^.*\.txt$" },
+    { test = my_test_utf8, root = "path/to/fixtures", pattern = r"^.*\.txt$" },
 }
 ````
 
@@ -146,7 +146,7 @@ fn my_test(path: &Path, contents: Vec<u8>) -> datatest_stable::Result<()> {
 }
 
 datatest_stable::harness! {
-    { test = my_test, root = include_dir!("tests/files"), pattern = r"^.*/*" },
+    { test = my_test, root = include_dir!("tests/files"), pattern = r"^.*\.json$" },
 }
 ````
 
@@ -166,7 +166,7 @@ fn my_test(path: &Utf8Path, contents: String) -> datatest_stable::Result<()> {
 }
 
 datatest_stable::harness! {
-    { test = my_test, root = &FIXTURES, pattern = r"^.*/*" },
+    { test = my_test, root = &FIXTURES, pattern = r"^.*\.json$" },
 }
 ````
 
@@ -206,7 +206,7 @@ fn my_test(path: &Utf8Path, contents: String) -> datatest_stable::Result<()> {
 }
 
 datatest_stable::harness! {
-    { test = my_test, root = &fixtures::FIXTURES, pattern = r"^.*/*" },
+    { test = my_test, root = &fixtures::FIXTURES, pattern = r"^inputs/.*$" },
 }
 ````
 

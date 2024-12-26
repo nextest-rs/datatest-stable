@@ -34,7 +34,7 @@
 //!
 //!   ```rust,ignore
 //!   datatest_stable::harness! {
-//!       { test = my_test, root = "path/to/fixtures", pattern = r"^.*/*" },
+//!       { test = my_test, root = "path/to/fixtures", pattern = r".*" },
 //!   }
 //!   ```
 //!
@@ -107,8 +107,8 @@
 //! }
 //!
 //! datatest_stable::harness! {
-//!     { test = my_test, root = "path/to/fixtures", pattern = r"^.*/*" },
-//!     { test = my_test_utf8, root = "path/to/fixtures", pattern = r"^.*/*" },
+//!     { test = my_test, root = "path/to/fixtures", pattern = r"^.*\.txt$" },
+//!     { test = my_test_utf8, root = "path/to/fixtures", pattern = r"^.*\.txt$" },
 //! }
 //! ```
 //!
@@ -141,7 +141,7 @@
 //! }
 //!
 //! datatest_stable::harness! {
-//!     { test = my_test, root = include_dir!("tests/files"), pattern = r"^.*/*" },
+//!     { test = my_test, root = include_dir!("tests/files"), pattern = r"^.*\.json$" },
 //! }
 //! ```
 //!
@@ -162,7 +162,7 @@
 //! }
 //!
 //! datatest_stable::harness! {
-//!     { test = my_test, root = &FIXTURES, pattern = r"^.*/*" },
+//!     { test = my_test, root = &FIXTURES, pattern = r"^.*\.json$" },
 //! }
 //! ```
 //!
@@ -203,7 +203,7 @@
 //! }
 //!
 //! datatest_stable::harness! {
-//!     { test = my_test, root = &fixtures::FIXTURES, pattern = r"^.*/*" },
+//!     { test = my_test, root = &fixtures::FIXTURES, pattern = r"^inputs/.*$" },
 //! }
 //! ```
 //!
