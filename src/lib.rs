@@ -186,20 +186,24 @@
 #![cfg_attr(not(feature = "include-dir"), doc = "```rust,ignore")]
 //! use datatest_stable::Utf8Path;
 //!
-//! #[cfg(feature = "testing")]
-//! static FIXTURES: &str = "tests/files";
+//! // In the library itself:
+//! pub mod fixtures {
+//!     #[cfg(feature = "testing")]
+//!     pub static FIXTURES: &str = "tests/files";
 //!
-//! #[cfg(not(feature = "testing"))]
-//! static FIXTURES: include_dir::Dir<'static> =
-//!     datatest_stable::include_dir!("$CARGO_MANIFEST_DIR/tests/files");
+//!     #[cfg(not(feature = "testing"))]
+//!     pub static FIXTURES: include_dir::Dir<'static> =
+//!         datatest_stable::include_dir!("$CARGO_MANIFEST_DIR/tests/files");
+//! }
 //!
+//! // In the test:
 //! fn my_test(path: &Utf8Path, contents: String) -> datatest_stable::Result<()> {
 //!     // ... write test here
 //!     Ok(())
 //! }
 //!
 //! datatest_stable::harness! {
-//!     { test = my_test, root = &FIXTURES, pattern = r"^.*/*" },
+//!     { test = my_test, root = &fixtures::FIXTURES, pattern = r"^.*/*" },
 //! }
 //! ```
 //!
