@@ -196,7 +196,7 @@ pub mod fixtures {
 
     #[cfg(not(feature = "testing"))]
     pub static FIXTURES: include_dir::Dir<'static> =
-        datatest_stable::include_dir!("$CARGO_MANIFEST_DIR/tests/files");
+        include_dir::include_dir!("$CARGO_MANIFEST_DIR/tests/files");
 }
 
 // In the test:
