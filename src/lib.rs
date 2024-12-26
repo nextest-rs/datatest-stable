@@ -152,7 +152,8 @@
 //! use datatest_stable::{include_dir, Utf8Path};
 //!
 //! // In the upstream crate:
-//! pub static FIXTURES: include_dir::Dir<'static> = include_dir!("tests/files");
+//! pub static FIXTURES: include_dir::Dir<'static> =
+//!     include_dir!("$CARGO_MANIFEST_DIR/tests/files");
 //!
 //! // In your test:
 //! fn my_test(path: &Utf8Path, contents: String) -> datatest_stable::Result<()> {
@@ -189,7 +190,8 @@
 //! static FIXTURES: &str = "tests/files";
 //!
 //! #[cfg(not(feature = "testing"))]
-//! static FIXTURES: include_dir::Dir<'static> = datatest_stable::include_dir!("tests/files");
+//! static FIXTURES: include_dir::Dir<'static> =
+//!     datatest_stable::include_dir!("$CARGO_MANIFEST_DIR/tests/files");
 //!
 //! fn my_test(path: &Utf8Path, contents: String) -> datatest_stable::Result<()> {
 //!     // ... write test here

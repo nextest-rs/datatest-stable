@@ -25,13 +25,13 @@ mod with_contents {
     /// Returns an `include_dir::Dir` instance.
     macro_rules! maybe_include_dir {
         () => {
-            include_dir::include_dir!("tests/files")
+            include_dir::include_dir!("$CARGO_MANIFEST_DIR/tests/files")
         };
     }
 
     /// A `&'static include_dir::Dir` instance.
     pub(crate) static MAYBE_INCLUDE_STATIC: include_dir::Dir =
-        include_dir::include_dir!("tests/files");
+        include_dir::include_dir!("$CARGO_MANIFEST_DIR/tests/files");
 
     pub(crate) fn test_artifact_string(path: &Path, contents: String) -> Result<()> {
         compare_contents(path, contents.as_bytes())

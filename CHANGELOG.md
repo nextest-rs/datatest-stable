@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1] - 2024-12-25
+
+### Fixed
+
+Fixed documentation for `include_dir` invocations. They must typically be called
+via `include_dir!("$CARGO_MANIFEST_DIR/path/to/data")`.
+
 ## [0.3.0] - 2024-12-24
 
 ### Added
@@ -62,6 +69,7 @@ Previously, the test functions supported were `fn(&Path) -> Result<()>` and `fn(
 - Switched to the `fancy-regex` crate, which allows for matching against regexes with
   lookahead/behind and backreferences. Thanks [@webbdays](https://github.com/webbdays) for your
   first contribution!
+  
 - MSRV updated to Rust 1.66.
 
 ## [0.2.6] - 2024-04-09
@@ -143,6 +151,7 @@ There are no functional changes in this release.
 
 (Version 0.1.0 was yanked because of a metadata issue.)
 
+[0.3.1]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.3.1
 [0.3.0]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.3.0
 [0.2.10]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.10
 [0.2.9]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.9
