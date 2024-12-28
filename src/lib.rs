@@ -64,14 +64,18 @@
 //!   `pattern` is an arbitrary expression that implements [`Display`](std::fmt::Display), such as
 //!   `&str`, or a function call that returns a `String`.
 //!
+//!   `pattern` is optional, and defaults to `r".*"` (match all files).
+//!
 //! The three parameters can be repeated if you have multiple sets of data-driven tests to be run:
 //!
 //! ```rust,ignore
 //! datatest_stable::harness! {
 //!     { test = testfn1, root = root1, pattern = pattern1 },
-//!     { test = testfn2, root = root2, pattern = pattern2 },
+//!     { test = testfn2, root = root2 },
 //! }
 //! ```
+//!
+//! Trailing commas are optional.
 //!
 //! ## Relative and absolute paths
 //!
@@ -109,8 +113,12 @@
 //! }
 //!
 //! datatest_stable::harness! {
-//!     { test = my_test, root = "path/to/fixtures", pattern = r"^.*\.txt$" },
-//!     { test = my_test_utf8, root = "path/to/fixtures", pattern = r"^.*\.txt$" },
+//!     { test = my_test, root = "path/to/fixtures" },
+//!     {
+//!         test = my_test_utf8,
+//!         root = "path/to/fixtures",
+//!         pattern = r"^.*\.txt$",
+//!     },
 //! }
 //! ```
 //!
@@ -164,7 +172,7 @@
 //! }
 //!
 //! datatest_stable::harness! {
-//!     { test = my_test, root = &FIXTURES, pattern = r"^.*\.json$" },
+//!     { test = my_test, root = &FIXTURES },
 //! }
 //! ```
 //!

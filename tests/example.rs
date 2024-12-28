@@ -168,7 +168,7 @@ datatest_stable::harness! {
         test = test_artifact_utf8,
         // Ensure that tests\files is normalized to tests/files on Windows.
         root = TESTS_FILES_MAIN_SEP,
-        // This regex pattern matches all files.
+        // This regex pattern matches all .txt files.
         pattern = r"^.*\.txt$",
     },
     {
@@ -198,7 +198,8 @@ datatest_stable::harness! {
     {
         test = with_contents::test_artifact_bytes,
         root = &with_contents::MAYBE_INCLUDE_STATIC,
-        pattern = r"^.*\.txt$",
+        // No pattern specified, so all files are included, including non-.txt
+        // files.
     },
     {
         test = with_contents::test_artifact_utf8_bytes,
