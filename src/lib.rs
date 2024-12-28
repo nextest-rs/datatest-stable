@@ -51,9 +51,8 @@
 //!     in as a `Vec<u8>` (erroring out if that failed).
 //!
 //! * `root` - The path to the root directory where the input files (fixtures)
-//!   live. This path is relative to the root of the crate (the directory where
-//!   the crate's `Cargo.toml` is located). Absolute paths are not supported, and
-//!   will panic at runtime.
+//!   live. Relative paths are resolved relative to the crate root (the directory where the crate's
+//!   `Cargo.toml` is located).
 //!
 //!   `root` is an arbitrary expression that implements
 //!   [`Display`](std::fmt::Display), such as `&str`, or a function call that
@@ -74,17 +73,20 @@
 //! }
 //! ```
 //!
-//! ## Relative paths
+//! ## Relative and absolute paths
 //!
 //! The `pattern` argument is tested against the **relative** path of each file,
 //! **excluding** the `root` prefix -- not the absolute path.
 //!
-//! The `Path` and `Utf8Path` passed into the test functions are **relative** to
-//! the root of the crate, obtained by joining `root` to the relative path of
-//! the file.
+//! The `Path` and `Utf8Path` passed into the test functions are created by
+//! joining `root` to the relative path of the file.
 //!
-//! For universality, all relative paths use `/` as the path separator,
-//! including on Windows.
+//! * If `root` is **relative**, the paths passed in are relative to the crate root.
+//! * If `root` is **absolute**, the paths passed in are absolute.
+//!
+//! For uniformity, all relative paths use `/` as the path separator,
+//! including on Windows, and all absolute paths use the platform's native
+//! separator throughout.
 //!
 //! ## Examples
 //!
@@ -166,9 +168,9 @@
 //! }
 //! ```
 //!
-//! In this case, the passed-in `Path` and `Utf8Path` are **relative** to the
-//! root of the included directory. Like elsewhere in `datatest-stable`, these
-//! relative paths always use forward slashes as separators, including on
+//! In this case, the passed-in `Path` and `Utf8Path` are always **relative** to
+//! the root of the included directory. Like elsewhere in `datatest-stable`,
+//! these relative paths always use forward slashes as separators, including on
 //! Windows.
 //!
 //! Because the files don't exist on disk, the test functions must accept their

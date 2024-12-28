@@ -17,6 +17,23 @@ fn test_artifact_utf8(path: &Utf8Path) -> Result<()> {
     test_artifact(path.as_ref())
 }
 
+fn test_artifact_utf8_abs(path: &Utf8Path) -> Result<()> {
+    // path must be absolute
+    assert!(path.is_absolute(), "path must be absolute: {:?}", path);
+
+    // On Windows, the path must be normalized to use backslashes.
+    #[cfg(windows)]
+    {
+        assert!(
+            !path.as_str().contains('/'),
+            "path must not contain forward slashes: {:?}",
+            path
+        );
+    }
+
+    test_artifact(path.as_ref())
+}
+
 #[cfg(feature = "include-dir")]
 #[macro_use]
 mod with_contents {
@@ -132,6 +149,14 @@ static TESTS_FILES_MAIN_SEP: &str = "tests\\files";
 #[cfg(not(windows))]
 static TESTS_FILES_MAIN_SEP: &str = "tests/files";
 
+fn tests_files_abs() -> String {
+    std::env::current_dir()
+        .expect("current dir obtained")
+        .join("tests/files")
+        .to_string_lossy()
+        .into_owned()
+}
+
 datatest_stable::harness! {
     {
         test = test_artifact,
@@ -145,6 +170,16 @@ datatest_stable::harness! {
         root = TESTS_FILES_MAIN_SEP,
         // This regex pattern matches all files.
         pattern = r"^.*\.txt$",
+    },
+    {
+        test = test_artifact_utf8_abs,
+        // Ensure that tests/files in an absolute path is normalized to
+        // tests\files on Windows.
+        root = tests_files_abs(),
+        // This regex matches exactly dir/a.txt, b.txt, and c.skip.txt -- this
+        // ensures that patterns are relative to the include dir and not the
+        // crate root.
+        pattern = r"^(dir/a|b|c\.skip)\.txt$",
     },
     {
         test = with_contents::test_artifact_string,

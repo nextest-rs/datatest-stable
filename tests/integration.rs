@@ -5,6 +5,9 @@ static EXPECTED_LINES: &[&str] = &[
     "datatest-stable::example test_artifact_utf8::dir/a.txt",
     "datatest-stable::example test_artifact_utf8::b.txt",
     "datatest-stable::example test_artifact_utf8::c.skip.txt",
+    "datatest-stable::example test_artifact_utf8_abs::dir/a.txt",
+    "datatest-stable::example test_artifact_utf8_abs::b.txt",
+    "datatest-stable::example test_artifact_utf8_abs::c.skip.txt",
     "datatest-stable::example test_artifact::dir/a.txt",
     "datatest-stable::example test_artifact::b.txt",
     "datatest-stable::example with_contents::test_artifact_bytes::dir/a.txt",
@@ -43,7 +46,7 @@ fn run_example() {
     for line in EXPECTED_LINES
         .iter()
         .copied()
-        .chain(std::iter::once("17 tests run: 17 passed, 0 skipped"))
+        .chain(std::iter::once("20 tests run: 20 passed, 0 skipped"))
     {
         assert!(
             stderr.contains(line),
@@ -69,6 +72,9 @@ mod unix {
         "datatest-stable::example test_artifact_utf8::dir/a.txt",
         "datatest-stable::example test_artifact_utf8::b.txt",
         "datatest-stable::example test_artifact_utf8::c.skip.txt",
+        "datatest-stable::example test_artifact_utf8_abs::dir/a.txt",
+        "datatest-stable::example test_artifact_utf8_abs::b.txt",
+        "datatest-stable::example test_artifact_utf8_abs::c.skip.txt",
         "datatest-stable::example test_artifact::::colon::dir/::.txt",
         "datatest-stable::example test_artifact::::colon::dir/a.txt",
         "datatest-stable::example test_artifact::dir/a.txt",
@@ -135,7 +141,7 @@ mod unix {
             .iter()
             .chain(EXPECTED_UNIX_LINES.iter())
             .copied()
-            .chain(std::iter::once("27 tests run: 27 passed, 0 skipped"))
+            .chain(std::iter::once("30 tests run: 30 passed, 0 skipped"))
         {
             assert!(
                 stderr.contains(line),

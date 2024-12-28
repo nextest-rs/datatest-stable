@@ -6,7 +6,7 @@ use camino::{Utf8Component, Utf8Path, Utf8PathBuf};
 #[derive(Debug)]
 #[doc(hidden)]
 pub enum DataSource {
-    // This is relative to the crate root, and stored with forward slashes.
+    // The path has had normalize_slashes applied to it.
     Directory(Utf8PathBuf),
     #[cfg(feature = "include-dir")]
     IncludeDir(std::borrow::Cow<'static, include_dir::Dir<'static>>),
@@ -40,7 +40,7 @@ impl DataSource {
         );
         match self {
             DataSource::Directory(path) => Some(TestEntry {
-                source: TestSource::Path(rel_path_to_forward_slashes(&path.join(&rel_path))),
+                source: TestSource::Path(normalize_slashes(&path.join(&rel_path))),
                 rel_path,
             }),
             #[cfg(feature = "include-dir")]
@@ -152,7 +152,7 @@ pub(crate) struct TestEntry {
 
 impl TestEntry {
     pub(crate) fn from_full_path(root: &Utf8Path, path: Utf8PathBuf) -> Self {
-        let path = rel_path_to_forward_slashes(&path);
+        let path = normalize_slashes(&path);
         let rel_path =
             rel_path_to_forward_slashes(path.strip_prefix(root).unwrap_or_else(|_| {
                 panic!("failed to strip root '{}' from path '{}'", root, path)
@@ -243,9 +243,25 @@ impl TestEntry {
 
 #[cfg(windows)]
 #[track_caller]
+fn normalize_slashes(path: &Utf8Path) -> Utf8PathBuf {
+    if is_truly_relative(path) {
+        rel_path_to_forward_slashes(path)
+    } else {
+        path.as_str().replace('/', "\\").into()
+    }
+}
+
+#[cfg(windows)]
+#[track_caller]
 fn rel_path_to_forward_slashes(path: &Utf8Path) -> Utf8PathBuf {
     assert!(is_truly_relative(path), "path {path} must be relative");
     path.as_str().replace('\\', "/").into()
+}
+
+#[cfg(not(windows))]
+#[track_caller]
+fn normalize_slashes(path: &Utf8Path) -> Utf8PathBuf {
+    path.to_owned()
 }
 
 #[cfg(not(windows))]
@@ -309,11 +325,7 @@ pub mod data_source_kinds {
             let s = self.to_string();
             let path = Utf8Path::new(&s);
 
-            if !is_truly_relative(path) {
-                panic!("data source path must be relative: '{}'", s);
-            }
-
-            DataSource::Directory(rel_path_to_forward_slashes(path))
+            DataSource::Directory(normalize_slashes(path))
         }
     }
 
@@ -346,12 +358,6 @@ pub mod data_source_kinds {
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    #[test]
-    #[should_panic = "data source path must be relative: '/absolute/path'"]
-    fn data_source_absolute_path_panics() {
-        data_source_kinds::AsDirectory::resolve_data_source("/absolute/path");
-    }
 
     #[test]
     fn missing_test_name() {
