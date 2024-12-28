@@ -19,6 +19,7 @@ static EXPECTED_LINES: &[&str] = &[
     "datatest-stable::example with_contents::test_artifact_utf8_bytes::dir/a.txt",
     "datatest-stable::example with_contents::test_artifact_utf8_bytes::b.txt",
     "datatest-stable::example with_contents::test_artifact_utf8_bytes::c.skip.txt",
+    "datatest-stable::example with_contents::test_artifact_bytes::other.json",
     "datatest-stable::example with_contents::test_artifact_utf8_string::dir/a.txt",
     "datatest-stable::example with_contents::test_artifact_utf8_string::b.txt",
     "datatest-stable::example with_contents::test_artifact_utf8_string::c.skip.txt",
@@ -46,7 +47,7 @@ fn run_example() {
     for line in EXPECTED_LINES
         .iter()
         .copied()
-        .chain(std::iter::once("20 tests run: 20 passed, 0 skipped"))
+        .chain(std::iter::once("21 tests run: 21 passed, 0 skipped"))
     {
         assert!(
             stderr.contains(line),
@@ -92,6 +93,7 @@ mod unix {
         "datatest-stable::example with_contents::test_artifact_utf8_bytes::dir/a.txt",
         "datatest-stable::example with_contents::test_artifact_utf8_bytes::b.txt",
         "datatest-stable::example with_contents::test_artifact_utf8_bytes::c.skip.txt",
+        "datatest-stable::example with_contents::test_artifact_bytes::other.json",
         "datatest-stable::example with_contents::test_artifact_utf8_string::::colon::dir/::.txt",
         "datatest-stable::example with_contents::test_artifact_utf8_string::::colon::dir/a.txt",
         "datatest-stable::example with_contents::test_artifact_utf8_string::dir/a.txt",
@@ -141,7 +143,7 @@ mod unix {
             .iter()
             .chain(EXPECTED_UNIX_LINES.iter())
             .copied()
-            .chain(std::iter::once("30 tests run: 30 passed, 0 skipped"))
+            .chain(std::iter::once("31 tests run: 31 passed, 0 skipped"))
         {
             assert!(
                 stderr.contains(line),
