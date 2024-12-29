@@ -162,6 +162,7 @@ There are no functional changes in this release.
 
 (Version 0.1.0 was yanked because of a metadata issue.)
 
+[0.3.2]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.3.2
 [0.3.1]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.3.1
 [0.3.0]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.3.0
 [0.2.10]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.2.10
