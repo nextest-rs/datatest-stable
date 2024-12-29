@@ -189,6 +189,32 @@ Because the files don’t exist on disk, the test functions must accept their
 contents as either a `String` or a `Vec<u8>`. If the argument is not
 provided, the harness will panic at runtime.
 
+### Optional Setup and Teardown
+
+The harness macro supports optional setup and teardown functions that run before and after all tests:
+
+```rust
+fn setup() -> datatest_stable::Result<()> {
+    // Setup code here - runs before all tests.
+    Ok(())
+}
+
+fn teardown(exit_code: std::process::ExitCode) -> datatest_stable::Result<()> {
+    // Teardown code here - runs after all tests.
+    Ok(())
+}
+
+datatest_stable::harness! {
+    setup = setup,
+    teardown = teardown,
+    { test = my_test, root = "path/to/fixtures" },
+}
+```
+
+The setup function can be used to prepare test environment.
+The teardown function receives the exit code from test execution and can be used for cleanup.
+Both functions are optional and can be used independently.
+
 ### Conditionally embedding directories
 
 It is also possible to conditionally include directories at compile time via

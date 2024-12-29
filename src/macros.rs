@@ -7,7 +7,11 @@
 /// a target](https://doc.rust-lang.org/cargo/reference/manifest.html#configuring-a-target)).
 #[macro_export]
 macro_rules! harness {
-    ( $( { $($args:tt)* } ),+ $(,)* ) => {
+    (
+        $(setup = $setup:path,)?
+        $(teardown = $teardown:path,)?
+        $( { $($args:tt)* } ),+ $(,)*
+    ) => {
         fn main() -> ::std::process::ExitCode {
             let mut requirements = Vec::new();
             use $crate::data_source_kinds::*;
@@ -17,7 +21,27 @@ macro_rules! harness {
                 $crate::harness_collect!(@gather_test requirements, { $($args)*, } => { });
             )+
 
-            $crate::runner(&requirements)
+            if !requirements.is_empty() {
+                $(
+                    if let Err(e) = $setup() {
+                        eprintln!("Setup failed: {}", e);
+                        return ::std::process::ExitCode::FAILURE;
+                    }
+                )?
+
+                let exit_code = $crate::runner(&requirements);
+
+                $(
+                    if let Err(e) = $teardown(exit_code) {
+                        eprintln!("Teardown failed: {}", e);
+                        return ::std::process::ExitCode::FAILURE;
+                    }
+                )?
+
+                exit_code
+            } else {
+                ::std::process::ExitCode::SUCCESS
+            }
         }
     };
     ( $( $name:path, $root:expr, $pattern:expr ),+ $(,)* ) => {

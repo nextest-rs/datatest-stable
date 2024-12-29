@@ -50,5 +50,9 @@ harness = false
 name = "integration"
 harness = true
 
+[[test]]
+name = "setup_teardown"
+harness = false
+
 [features]
 include-dir = ["dep:include_dir"]
