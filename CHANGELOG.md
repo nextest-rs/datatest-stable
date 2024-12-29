@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.3.2] - 2024-12-28
+
+### Added
+
+- `pattern` is now optional in the `harness!` macro. If not specified, the default pattern is
+  `r".*"` (match all files).
+
+### Fixed
+
+- Restored the ability to use absolute paths as the `root` argument.
+
 ## [0.3.1] - 2024-12-25
 
 ### Fixed
@@ -69,7 +80,7 @@ Previously, the test functions supported were `fn(&Path) -> Result<()>` and `fn(
 - Switched to the `fancy-regex` crate, which allows for matching against regexes with
   lookahead/behind and backreferences. Thanks [@webbdays](https://github.com/webbdays) for your
   first contribution!
-  
+
 - MSRV updated to Rust 1.66.
 
 ## [0.2.6] - 2024-04-09
