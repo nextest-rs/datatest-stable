@@ -83,7 +83,7 @@ fn iter_directory(root: &Utf8Path) -> impl Iterator<Item = std::io::Result<TestE
                     && entry
                         .file_name()
                         .to_str()
-                        .map_or(false, |s| !s.starts_with('.')) // Skip hidden files
+                        .is_some_and(|s| !s.starts_with('.')) // Skip hidden files
             })
         })
         .map(move |res| match res {
