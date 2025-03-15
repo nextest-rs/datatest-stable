@@ -26,7 +26,7 @@ jobs:
       - name: Lint (rustfmt)
         run: cargo xfmt --check
       - name: Install cargo-sync-rdme and just
-        uses: taiki-e/install-action@0f58b6a196e0d71c72fd459ab8fd8b228f85f669 # v2
+        uses: taiki-e/install-action@b0dede94e8c623ccff37313309e79b38166901c5 # v2
         with:
           tool: cargo-sync-rdme,just
       - name: Install nightly toolchain for cargo-sync-rdme
@@ -71,7 +71,7 @@ jobs:
         with:
           key: ${{ matrix.rust-version }}
       - name: Install tools
-        uses: taiki-e/install-action@0f58b6a196e0d71c72fd459ab8fd8b228f85f669 # v2
+        uses: taiki-e/install-action@b0dede94e8c623ccff37313309e79b38166901c5 # v2
         with:
           tool: cargo-hack,just,nextest
       - name: Build
