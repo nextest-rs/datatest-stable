@@ -26,7 +26,7 @@ jobs:
       - uses: Swatinem/rust-cache@720f7e45ccee46c12a7b1d7bed2ab733be9be5a1 # v2
 
       - name: Install tools
-        uses: taiki-e/install-action@7b20dfd705618832f20d29066e34aa2f2f6194c2 # v2
+        uses: taiki-e/install-action@cfe1303741c2e620e5f7daa667105e0da1316db9 # v2
         with:
           tool: cargo-llvm-cov,just,nextest
 
