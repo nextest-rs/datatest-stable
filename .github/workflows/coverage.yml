@@ -23,7 +23,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@nightly
         with:
           components: llvm-tools-preview
-      - uses: Swatinem/rust-cache@720f7e45ccee46c12a7b1d7bed2ab733be9be5a1 # v2
+      - uses: Swatinem/rust-cache@98c8021b550208e191a6a3145459bfc9fb29c4c0 # v2
 
       - name: Install tools
         uses: taiki-e/install-action@d12e869b89167df346dd0ff65da342d1fb1202fb # v2
