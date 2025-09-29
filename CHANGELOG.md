@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.3.3] - 2025-09-29
+
+### Fixed
+
+Replaced obsolete `doc_auto_cfg` with `doc_cfg`, to fix Rust nightly builds with the `doc_cfg` flag enabled.
+
 ## [0.3.2] - 2024-12-28
 
 ### Added
@@ -162,6 +168,7 @@ There are no functional changes in this release.
 
 (Version 0.1.0 was yanked because of a metadata issue.)
 
+[0.3.3]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.3.3
 [0.3.2]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.3.2
 [0.3.1]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.3.1
 [0.3.0]: https://github.com/nextest-rs/datatest-stable/releases/tag/datatest-stable-0.3.0
