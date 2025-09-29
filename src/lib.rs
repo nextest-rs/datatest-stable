@@ -240,7 +240,7 @@
 //! * [Data-driven testing](https://en.wikipedia.org/wiki/Data-driven_testing)
 
 #![warn(missing_docs)]
-#![cfg_attr(doc_cfg, feature(doc_cfg, doc_auto_cfg))]
+#![cfg_attr(doc_cfg, feature(doc_cfg))]
 
 mod data_source;
 mod macros;
