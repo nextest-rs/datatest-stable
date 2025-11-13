@@ -22,6 +22,7 @@ generate-readmes:
 
 # Collect coverage, pass in `--html` to get an HTML report
 coverage *args:
-    cargo +nightly llvm-cov --no-report nextest --all-features
+    # Disable ui tests since nightly might have slightly different output from stable.
+    cargo +nightly llvm-cov --no-report nextest --all-features -E 'not test(=ui)'
     cargo +nightly llvm-cov --no-report --doc --all-features
     cargo +nightly llvm-cov report --doctests {{args}}

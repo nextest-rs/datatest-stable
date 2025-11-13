@@ -8,7 +8,7 @@
 #[macro_export]
 macro_rules! harness {
     ( $( { $($args:tt)* } ),+ $(,)* ) => {
-        fn main() -> ::std::process::ExitCode {
+        fn main() -> $crate::Result<()> {
             let mut requirements = Vec::new();
             use $crate::data_source_kinds::*;
             use $crate::test_kinds::*;
@@ -17,7 +17,8 @@ macro_rules! harness {
                 $crate::harness_collect!(@gather_test requirements, { $($args)*, } => { });
             )+
 
-            $crate::runner(&requirements)
+            $crate::runner(&requirements);
+            Ok(())
         }
     };
     ( $( $name:path, $root:expr, $pattern:expr ),+ $(,)* ) => {
