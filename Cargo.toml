@@ -29,7 +29,7 @@ rustdoc-args = ["--cfg=doc_cfg"]
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(doc_cfg)'] }
 
 [dependencies]
-camino = "1.1.9"
+camino = "1.2.2"
 fancy-regex = "0.14.0"
 include_dir = { version = "0.7.4", optional = true }
 libtest-mimic = "0.8.1"
