@@ -10,6 +10,14 @@ edition = "2021"
 categories = ["development-tools::testing"]
 keywords = ["datatest", "data-driven-tests", "test-harness"]
 rust-version = "1.72"
+exclude = [
+    ".cargo/**",
+    ".github/**",
+    ".gitignore",
+    "Justfile",
+    "release.toml",
+    "scripts/**",
+]
 
 [badges]
 maintenance = { status = "passively-maintained" }
