@@ -10,13 +10,12 @@ edition = "2021"
 categories = ["development-tools::testing"]
 keywords = ["datatest", "data-driven-tests", "test-harness"]
 rust-version = "1.72"
-exclude = [
-    ".cargo/**",
-    ".github/**",
-    ".gitignore",
-    "Justfile",
-    "release.toml",
-    "scripts/**",
+include = [
+    "CHANGELOG.md",
+    "LICENSE*",
+    "README.md",
+    "src/**",
+    "tests/**",
 ]
 
 [badges]
