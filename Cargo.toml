@@ -30,7 +30,7 @@ unexpected_cfgs = { level = "warn", check-cfg = ['cfg(doc_cfg)'] }
 
 [dependencies]
 camino = "1.1.9"
-fancy-regex = "0.14.0"
+fancy-regex = "0.17.0"
 include_dir = { version = "0.7.4", optional = true }
 libtest-mimic = "0.8.1"
 walkdir = "2.5.0"
