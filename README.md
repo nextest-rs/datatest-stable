@@ -48,8 +48,8 @@ datatest_stable::harness! {
   of:
   
   * `fn(&Path) -> datatest_stable::Result<()>`
-  * `fn(&Utf8Path) -> datatest_stable::Result<()>` ([`Utf8Path`](https://docs.rs/camino/1.1.9/camino/struct.Utf8Path.html) is part of the
-    [`camino`](https://docs.rs/camino/1.1.9/camino/index.html) library, and is re-exported here for convenience.)
+  * `fn(&Utf8Path) -> datatest_stable::Result<()>` ([`Utf8Path`](https://docs.rs/camino/1.2.2/camino/struct.Utf8Path.html) is part of the
+    [`camino`](https://docs.rs/camino/1.2.2/camino/index.html) library, and is re-exported here for convenience.)
   * `fn(&P, String) -> datatest_stable::Result<()>` where `P` is `Path` or `Utf8Path`. If the
     extra `String` parameter is specified, the contents of the file will be loaded and passed in
     as a string (erroring out if that failed).
@@ -62,7 +62,7 @@ datatest_stable::harness! {
   
   `root` is an arbitrary expression that implements
   [`Display`](https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html), such as `&str`, or a function call that
-  returns a [`Utf8PathBuf`](https://docs.rs/camino/1.1.9/camino/struct.Utf8PathBuf.html).
+  returns a [`Utf8PathBuf`](https://docs.rs/camino/1.2.2/camino/struct.Utf8PathBuf.html).
 
 * `pattern` - a regex used to match against and select each file to be tested. Extended regexes
   with lookaround and backtracking are supported via the [`fancy_regex`](https://docs.rs/fancy-regex/0.14.0/fancy_regex/index.html) crate.
