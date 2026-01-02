@@ -20,7 +20,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt, clippy
-      - uses: Swatinem/rust-cache@720f7e45ccee46c12a7b1d7bed2ab733be9be5a1 # v2
+      - uses: Swatinem/rust-cache@779680da715d629ac1d338a641029a2f4372abb5 # v2
       - name: Lint (clippy)
         run: cargo clippy --all-features --all-targets
       - name: Lint (rustfmt)
@@ -48,7 +48,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt, clippy
-      - uses: Swatinem/rust-cache@720f7e45ccee46c12a7b1d7bed2ab733be9be5a1 # v2
+      - uses: Swatinem/rust-cache@779680da715d629ac1d338a641029a2f4372abb5 # v2
       - name: Build rustdoc
         run: cargo doc --all-features
 
@@ -67,7 +67,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.rust-version }}
-      - uses: Swatinem/rust-cache@720f7e45ccee46c12a7b1d7bed2ab733be9be5a1 # v2
+      - uses: Swatinem/rust-cache@779680da715d629ac1d338a641029a2f4372abb5 # v2
         with:
           key: ${{ matrix.rust-version }}
       - name: Install tools
