@@ -10,6 +10,13 @@ edition = "2021"
 categories = ["development-tools::testing"]
 keywords = ["datatest", "data-driven-tests", "test-harness"]
 rust-version = "1.72"
+include = [
+    "CHANGELOG.md",
+    "LICENSE*",
+    "README.md",
+    "src/**",
+    "tests/**",
+]
 
 [badges]
 maintenance = { status = "passively-maintained" }
