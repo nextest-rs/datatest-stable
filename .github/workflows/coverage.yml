@@ -34,7 +34,7 @@ jobs:
         run: |
           just coverage --lcov --output-path lcov.info
       - name: Upload coverage data to codecov
-        uses: codecov/codecov-action@1e68e06f1dbfde0e4cefc87efeba9e4643565303 # v5
+        uses: codecov/codecov-action@75cd11691c0faa626561e295848008c8a7dddffe # v5
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         with:
