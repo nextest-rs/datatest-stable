@@ -79,9 +79,12 @@ jobs:
       - name: Build with all targets
         run: just powerset build --all-targets
       - name: Run tests
-        run: just powerset nextest run
+        run: just powerset nextest run -E 'not test(ui)'
       - name: Run tests with cargo test
-        run: just powerset test
+        run: just powerset test -- --skip ui
+      - name: Run UI tests (only on stable)
+        if: matrix.rust-version == 'stable'
+        run: cargo nextest run --all-features -E 'test(ui)'
 
       # Remove Cargo.lock to ensure that building with the latest versions works on stable.
       - name: Remove Cargo.lock and rebuild on stable
