@@ -1,11 +1,12 @@
+set positional-arguments
+
 # Print a help message.
 help:
     just --list
 
-
 # Run `cargo hack --feature-powerset` with the given arguments.
 powerset *args:
-    cargo hack --feature-powerset {{args}}
+    cargo hack --feature-powerset "$@"
 
 # Build docs for crates and direct dependencies
 rustdoc:
