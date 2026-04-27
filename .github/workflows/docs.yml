@@ -12,8 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-      - uses: dtolnay/rust-toolchain@stable
-      - uses: taiki-e/install-action@just
+      - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+      - uses: taiki-e/install-action@e0475f5c1b710607c5f74c0e9f71a9d5f0b62aa5 # just
       - name: Build rustdoc
         run: just rustdoc
       - name: Organize
@@ -23,7 +23,7 @@ jobs:
           mv target/doc/_redirects target/gh-pages
           mv target/doc target/gh-pages/rustdoc
       - name: Publish
-        uses: cloudflare/pages-action@1
+        uses: cloudflare/pages-action@f0a1cd58cd66095dee69bfa18fa5efd1dde93bca # 1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
