@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
       - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
-      - uses: taiki-e/install-action@1848b81ddf53de5018e0e1aa008fde1bce4f76d6 # just
+      - uses: taiki-e/install-action@6a261c38c1898767a7cff8783e3c1cee9a57af97 # just
       - name: Build rustdoc
         run: just rustdoc
       - name: Organize
