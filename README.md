@@ -48,8 +48,8 @@ datatest_stable::harness! {
   of:
   
   * `fn(&Path) -> datatest_stable::Result<()>`
-  * `fn(&Utf8Path) -> datatest_stable::Result<()>` ([`Utf8Path`](https://docs.rs/camino/1.2.2/camino/struct.Utf8Path.html) is part of the
-    [`camino`](https://docs.rs/camino/1.2.2/camino/index.html) library, and is re-exported here for convenience.)
+  * `fn(&Utf8Path) -> datatest_stable::Result<()>` ([`Utf8Path`][camino::Utf8Path] is part of the
+    [`camino`] library, and is re-exported here for convenience.)
   * `fn(&P, String) -> datatest_stable::Result<()>` where `P` is `Path` or `Utf8Path`. If the
     extra `String` parameter is specified, the contents of the file will be loaded and passed in
     as a string (erroring out if that failed).
@@ -61,13 +61,13 @@ datatest_stable::harness! {
   `Cargo.toml` is located).
   
   `root` is an arbitrary expression that implements
-  [`Display`](https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html), such as `&str`, or a function call that
-  returns a [`Utf8PathBuf`](https://docs.rs/camino/1.2.2/camino/struct.Utf8PathBuf.html).
+  [`Display`][std::fmt::Display], such as `&str`, or a function call that
+  returns a [`Utf8PathBuf`][camino::Utf8PathBuf].
 
 * `pattern` - a regex used to match against and select each file to be tested. Extended regexes
-  with lookaround and backtracking are supported via the [`fancy_regex`](https://docs.rs/fancy-regex/0.14.0/fancy_regex/index.html) crate.
+  with lookaround and backtracking are supported via the [`fancy_regex`] crate.
   
-  `pattern` is an arbitrary expression that implements [`Display`](https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html), such as
+  `pattern` is an arbitrary expression that implements [`Display`][std::fmt::Display], such as
   `&str`, or a function call that returns a `String`.
   
   `pattern` is optional, and defaults to `r".*"` (match all files).
@@ -136,7 +136,7 @@ If `path/to/fixtures` contains a file `foo/bar.txt`, then:
 ### Embedding directories at compile time
 
 With the `include-dir` feature enabled, you can use the
-[`include_dir`](https://docs.rs/include_dir) crate’s [`include_dir!`](https://docs.rs/include_dir_macros/0.7.4/include_dir_macros/macro.include_dir.html) macro.
+[`include_dir`](https://docs.rs/include_dir) crate’s [`include_dir!`] macro.
 This allows you to embed directories into the binary at compile time.
 
 This is generally not recommended for rapidly-changing test data, since each
@@ -223,7 +223,7 @@ datatest_stable::harness! {
 In this case, note that `path` will be relative to the **crate directory**
 (e.g. `tests/files/foo/bar.txt`) if `FIXTURES` is a string, and relative to
 the **include directory** (e.g. `foo/bar.txt`) if `FIXTURES` is a
-[`Dir`](https://docs.rs/include_dir/0.7.4/include_dir/dir/struct.Dir.html). Your test should be prepared to handle either
+[`Dir`][include_dir::Dir]. Your test should be prepared to handle either
 case.
 
 ## Features
@@ -241,6 +241,14 @@ version update; at any time, Rust versions from at least the last 6 months are s
 * [`datatest`](https://crates.io/crates/datatest): the original inspiration for this crate, with
   more features but targeting nightly Rust.
 * [Data-driven testing](https://en.wikipedia.org/wiki/Data-driven_testing)
+
+[camino::Utf8Path]: https://docs.rs/camino/1.2.2/camino/struct.Utf8Path.html "struct camino::Utf8Path"
+[`camino`]: https://docs.rs/camino/1.2.2/camino/index.html "module camino"
+[std::fmt::Display]: https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html "trait core::fmt::Display"
+[camino::Utf8PathBuf]: https://docs.rs/camino/1.2.2/camino/struct.Utf8PathBuf.html "struct camino::Utf8PathBuf"
+[`fancy_regex`]: https://docs.rs/fancy-regex/0.14.0/fancy_regex/index.html "module fancy_regex"
+[`include_dir!`]: https://docs.rs/include_dir_macros/0.7.4/include_dir_macros/macro.include_dir.html "macro include_dir_macros::include_dir"
+[include_dir::Dir]: https://docs.rs/include_dir/0.7.4/include_dir/dir/struct.Dir.html "struct include_dir::dir::Dir"
 <!-- cargo-sync-rdme ]] -->
 
 ## License

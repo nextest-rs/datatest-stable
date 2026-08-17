@@ -19,7 +19,7 @@ rustdoc:
 
 # Generate README.md files using `cargo-sync-rdme`.
 generate-readmes:
-    cargo sync-rdme --toolchain nightly --all-features
+    cargo sync-rdme --toolchain nightly-2026-04-30 --all-features
 
 # Collect coverage, pass in `--html` to get an HTML report
 coverage *args:
