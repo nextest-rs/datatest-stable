@@ -29,8 +29,11 @@ jobs:
         uses: taiki-e/install-action@7f4eb899022d8fe70b20c4f3de697aa85c309026 # v2
         with:
           tool: cargo-sync-rdme,just
+      # Pin to a specific nightly for compatibility with cargo-sync-rdme.
       - name: Install nightly toolchain for cargo-sync-rdme
-        uses: dtolnay/rust-toolchain@5b842231ba77f5c045dba54ac5560fed2db780e2 # nightly
+        uses: dtolnay/rust-toolchain@3c5f7ea28cd621ae0bf5283f0e981fb97b8a7af9 # master
+        with:
+          toolchain: nightly-2026-04-30
       - name: Generate readmes
         run: just generate-readmes
       - name: Check for differences
